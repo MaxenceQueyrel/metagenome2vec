@@ -1,18 +1,12 @@
 */pytools
-Pipeline/TMP/
 *.err
 
-inputs/hg38/
-results/
 *.tar.gz
 *.w2v
 *.fastq
 *.fa
 *.zip
-dna2vec/log.txt
-testData/test/
-Misc
-*/TMP*
+
 
 
 # Byte-compiled / optimized / DLL files
@@ -239,12 +233,6 @@ sympy-plots-for-*.tex/
 *.bak
 *.sav
 
-Pipeline/deepGene/pytools
-
-
-Pipeline/deepGene/Checkpoints/
-Pipeline/Checkpoints/
-
 Man/_build/doctrees/
 
 Man/_build/html/_sources/
@@ -253,7 +241,6 @@ Man/_build/html/_static/
 
 Man/_build/html/
 
-Pipeline/analyse/*weights
 *.png
 *.jpg
 *.pdf
