@@ -49,3 +49,5 @@ count_name = "count"
 genome_name = "genome"
 control_category = "Control"
 read_formatted_name = "read_formatted"
+
+m2v_zip_name = "metagenome2vec.zip"

@@ -37,8 +37,8 @@ sys.path.insert(0, os.path.join(root_folder, "utils"))
 import parser_creator
 import hdfs_functions as hdfs
 import logger
-#from torchtext.nn import MultiheadAttentionContainer, InProjContainer, ScaledDotProduct
-from torchtext_module import MultiheadAttentionContainer, InProjContainer, ScaledDotProduct
+from torchtext.nn import MultiheadAttentionContainer, InProjContainer, ScaledDotProduct
+#from torchtext_module import MultiheadAttentionContainer, InProjContainer, ScaledDotProduct
 
 
 SEED = 1234

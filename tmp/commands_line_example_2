@@ -1,0 +1,295 @@
+## metagenome cleaning
+
+/home/queyrelm/metagenome2vec/script/data_processing/metagenome/clean_raw_data_beta_run.sh --path-data /scratchbeta/queyrelm/data/metagenome/cirrhosis_small --path-save /scratchbeta/queyrelm/data/metagenome/cirrhosis_small_prepro_res
+
+
+## metagenome bok
+/home/queyrelm/metagenome2vec/script/data_processing/metagenome/bok_split_beta_run.sh -k 6 --path-data /scratchbeta/queyrelm/data/metagenome/cirrhosis_small_prepro_res --path-save /scratchbeta/queyrelm/data/metagenome/cirrhosis_small_bok
+
+qsub -v k=6,path_data=/scratchbeta/queyrelm/data/metagenome/cirrhosis_small_prepro_res,path_save=/scratchbeta/queyrelm/data/metagenome/cirrhosis_small_bok /home/queyrelm/metagenome2vec/script/data_processing/metagenome/bok_merge_beta.sh
+
+
+
+
+
+
+
+
+
+
+
+
+
+###################" TTTEEEESSSTTT ######################
+
+
+bash $DEEPGENE/script_test/simulation/run_sim_test.sh
+bash $DEEPGENE/script_test/simulation/clean_data_for_read2genome.sh
+bash $DEEPGENE/script_test/simulation/clean_data_for_metagenome2vec.sh
+bash $DEEPGENE/script_test/data_processing/metagenome/clean_raw_data.sh
+bash $DEEPGENE/script_test/data_processing/metagenome/bok_split.sh
+bash $DEEPGENE/script_test/data_processing/metagenome/bok_merge.sh
+# Change group in the metadata file + create path_metagenome_cut_analysis.json
+bash $DEEPGENE/script_test/data_processing/genome/kmerization.sh
+bash $DEEPGENE/script_test/kmer2vec/fasttext.sh
+bash $DEEPGENE/script_test/read2genome/fastdna.sh
+bash $DEEPGENE/script_test/read2genome/h2o_model.sh
+bash $DEEPGENE/script_test/metagenome2vec/metagenome2vec.sh
+bash $DEEPGENE/script_test/metagenome2vec/bok.sh
+bash $DEEPGENE/script_test/deepsets/deepsets.sh
+bash $DEEPGENE/script_test/deepsets/vae.sh
+bash $DEEPGENE/script_test/analyse/benchmark_classif.sh
+bash $DEEPGENE/script_test/analyse/analyse_embeddings.sh
+bash $DEEPGENE/script_test/analyse/analyse_genome_projection.sh
+bash $DEEPGENE/script_test/analyse/analyse_read2genome.sh
+bash $DEEPGENE/script_test/analyse/cluster_map.sh
+
+################ GENCI ####################################
+
+
+  559  ccc_msub -Q test -e ~/test.err -o ~/test.out -T 600 -n 12 -N 2 test.sh
+  560  vim test.py 
+  561  vim get_ip_nslookup.py 
+  562  ls
+  563  cd Docker/
+  564  ls
+  565  mv ../metagenome2vec.tar .
+  566  ls
+  567  pcocc image --help
+  568  pcocc image delete metagenome2vec
+  569  pcocc image import docker-archive:metagenome2vec.tar metagenome2vec
+  570  cd ..
+  571  ls
+  572  vim test.py 
+  573  vim test2.sh 
+  574  cat test2.sh
+  575  vim test2.sh 
+  576  cat set_env_spark.sh 
+  577  ls
+  578  tar xvzf jdk-11.0.8_linux-x64_bin.tar 
+  579  tar -xvzf jdk-11.0.8_linux-x64_bin.tar 
+  580  mv jdk-11.0.8_linux-x64_bin.tar jdk-11.0.8_linux-x64_bin.tar.gz
+  581  tar -xvzf jdk-11.0.8_linux-x64_bin.tar 
+  582  tar xvzf jdk-11.0.8_linux-x64_bin.tar 
+  583  ls
+  584  rm jdk-11.0.8_linux-x64_bin.tar.gz 
+  585  cd jdk-11.0.8/
+  586  cd bin/
+  587  pwd
+  588  cd ..
+  589  vim set_env_spark.sh 
+  590  vim test2.sh 
+  591  cat set_env_spark.sh 
+  592  cat $SLURM_JOB_NODELIST 
+  593  exit
+  594  . $CCCSCRATCHDIR/set_env_spark.sh 
+  595  exit
+  596  ccc_mprun -p knl -m scratch,work -n 2 -c 8 -N 2 -T 3600 -K
+  597  ls
+  598  ccc_msub -Q test -e ~/test.err -o ~/test.out -T 600 -n 12 -N 2 test.sh
+  599  vim test.sh
+  600  ccc_mpp -u mqueyrel
+  601  ccc_msub -Q test -e ~/test.err -o ~/test.out -T 600 test.sh
+  602  ccc_mpp -u mqueyrel
+  603  ll
+  604  cat test.err 
+  605  cat test.out 
+  606  ccc_mpp -u mqueyrel
+  607  ccc_mpp -u queyrelm
+  608  ccc_mdel 5961556
+  609  ccc_mdel 5961847
+  610  pwd
+  611  cat test.sh
+  612  cd $CCCSCRATCHDIR/
+  613  ls
+  614  mv test2.sh test_spark.sh
+  615  mv test_spark.py
+  616  mv test.py test_spark.py
+  617  mv test_spark.py 
+  618  vim test_spark.py 
+  619  vim test_spark.sh 
+  620  cat set_env_spark.sh 
+  621  cat set_env_container_spark.sh 
+  622  vim set_env_container_spark.sh 
+  623  cd $CCCSCRATCHDIR/
+  624  ls
+  625  cd spark-3.0.1-bin-hadoop2.7/
+  626  ls
+  627  cd sbin/
+  628  ls
+  629  car start-slave
+  630  car start-slave.sh 
+  631  cat start-slave.sh 
+  632  cat start-slave.sh | grep ssh
+  633  cat spark-daemon.sh 
+  634  cat spark-daemon.sh | grep ssh
+  635  pcocc template list
+  636  pcocc alloc -A metagenome2vec@skylake -t 3:00:00 -c 12 ccc-compute-ib:2
+  637  envs
+  638  env
+  639  echo $CCCSCRATCHDIR/
+  640  pcocc alloc -A gen11561@skylake -t 3:00:00 -c 12 ccc-compute-ib:2
+  641  pcocc alloc -A gen11561@skylake -p skylake -t 3:00:00 -c 12 ccc-compute-ib:2
+  642  pcocc template list
+  643  ls
+  644  cat test.sh 
+  645  pcocc alloc -A gen11561@knl -p knl -t 3:00:00 -c 12 ccc-compute-ib:2
+  646  pcocc alloc -A test@knl -p knl -t 3:00:00 -c 12 ccc-compute-ib:2
+  647  pcocc alloc -A gen11561@knl -p knl -t 3:00:00 -c 12 ccc-compute-ib:2
+  648  pcocc alloc -A gen11561@knl -p knl -t 3:00:00 -c 2 ccc-compute-ib:1
+  649  pcocc alloc -A gen11561@knl -p knl -t 3:00:00 -c 2 ccc-compute:1
+  650  pcocc alloc -A gen11561@knl -p knl -t 3:00:00 -c 12 ccc-compute:2
+  651  pcocc console vm0
+  652  pcocc ssh vm0
+  653  pcocc alloc -A gen11561@knl -p knl -t 3:00:00 -c 2 ccc-compute:1
+  654  pcocc alloc -A gen11561@knl -p knl -t 3:00:00 -c 2 ccc-compute:2
+  655  pcocc alloc -A gen11561@knl -p knl -t 3:00:00 -c 2 ccc-compute:1
+  656  cat test.sh
+  657  ssh-keygen -t rsa -b 4096
+  658  cat .ssh/id_rsa.pub >> .ssh/authorized_keys 
+  659  pcocc alloc -A gen11561@knl -p knl -t 3:00:00 -c 2 ccc-compute
+  660  pcocc alloc -A gen11561@knl -p knl -t 3:00:00 -c 2 ccc-compute-ib:1
+  661  pcocc alloc -A gen11561@skylake -p skylake -t 3:00:00 -c 2 ccc-compute:1
+  662  ls
+  663  cat test.out 
+  664  cat test.sh 
+  665  vim test.sh 
+  666  cp test.sh test2.sh
+  667  cat test.txt 
+  668  rm test.txt 
+  669  ls
+  670  cat test.out 
+  671  cat test2.py 
+  672  vim test2.sh 
+  673  cd $CCCSCRATCHDIR/
+
+
+
+
+
+
+docker run --name camisim_nanopore_cirrhosis -dt --memory="20g" --memory-swap="20g" --cpus="20.0" -e CAMISIM=/data/projects/deepgene/CAMISIM -e NANOSIM=/data/projects/deepgene/NanoSim -v /data/projects/deepgene/:/data/projects/deepgene/ camisim /bin/sh -c "bash /data/projects/deepgene/metagenome2vec/script/simulation/run_camisim.sh /data/projects/deepgene/illumina_abundance_balanced.ini"
+
+
+
+docker run --name camisim_nanopore_cirrhosis --privileged -dt --memory="20g" --memory-swap="20g" --cpus="10.0" -e CAMISIM=/data/projects/deepgene/CAMISIM -e NANOSIM=/data/projects/deepgene/NanoSim -v /data/projects/deepgene/:/data/projects/deepgene/ -v /data/db/deepgene/:/data/db/deepgene/ -v /export/sas7/ummisco/data/projects/deepgene:/export/sas7/ummisco/data/projects/deepgene --user $(id -u):$(id -g) camisim bash
+
+docker exec -i camisim_nanopore_cirrhosis bash -c "rm -r /data/projects/deepgene/data/simulated/nanosim_from_cirrhosis/*; /data/projects/deepgene/metagenome2vec/script/simulation/run_camisim.sh /data/projects/deepgene/data/simulated/nanosim_from_cirrhosis.ini"
+
+docker run --name camisim_nanopore_holistic --privileged -dt --memory="20g" --memory-swap="20g" --cpus="10.0" -e CAMISIM=/data/projects/deepgene/CAMISIM -e NANOSIM=/data/projects/deepgene/NanoSim -v /data/projects/deepgene/:/data/projects/deepgene/ -v /data/db/deepgene/:/data/db/deepgene/ -v /export/sas7/ummisco/data/projects/deepgene:/export/sas7/ummisco/data/projects/deepgene --user $(id -u):$(id -g) camisim bash
+
+docker exec -i camisim_nanopore_cirrhosis bash -c "rm -r /data/projects/deepgene/data/simulated/nanosim_holistic/*; /data/projects/deepgene/metagenome2vec/script/simulation/run_camisim.sh /data/projects/deepgene/data/simulated/nanosim_holistic.ini"
+
+
+
+
+docker run --name camisim_from_cirrhosis -dt --memory="4g" --memory-swap="10g" --cpus="4.0" -e CAMISIM=/home/maxence/Documents/these/CAMISIM -e NANOSIM=/home/maxence/Documents/these/NanoSim -v /home/maxence/:/home/maxence/ --user $(id -u):$(id -g) camisim
+
+docker run --name camisim_holistic -dt --memory="4g" --memory-swap="10g" --cpus="4.0" -e CAMISIM=/home/maxence/Documents/these/CAMISIM -e NANOSIM=/home/maxence/Documents/these/NanoSim -v /home/maxence/:/home/maxence/ --user $(id -u):$(id -g) camisim
+
+
+docker exec -i camisim_from_cirrhosis bash /home/maxence/Documents/these/metagenome2vec/script/simulation/run_camisim.sh /home/maxence/Documents/these/tests/res_simulated_profile/nanosim_from_cirrhosis_small_local.ini
+
+docker exec -i camisim_holistic bash /home/maxence/Documents/these/metagenome2vec/script/simulation/run_camisim.sh /home/maxence/Documents/these/tests/res_simulated_profile/nanosim_from_cirrhosis_local.ini
+
+docker exec -d camisim_test2 bash /home/maxence/Documents/these/metagenome2vec/script/simulation/run_camisim.sh /home/maxence/Documents/these/tests/res_simulated_profile/nanosim_holistic_small.ini
+
+
+
+
+
+
+
+echo "Create camisim config file"
+python $DEEPGENE/Pipeline/data_processing/simulated/create_camisim_config_file.py -pd $TMP/test_camisim -nc 3 -nsc 1 -ct both -pt $TMP -go 3.0 -pap $TMP/test_camisim/camisim/abundance_balanced_species_V2.tsv
+
+echo "Run simulatation"
+docker run -d -e CAMISIM=/home/maxence/Documents/these/CAMISIM -e NANOSIM=/home/maxence/Documents/these/NanoSim -v /home/maxence/:/home/maxence/ camisim /bin/sh -c "bash /home/maxence/Documents/these/metagenome2vec/script/simulation/run_camisim.sh /home/maxence/tmp/test_camisim/camisim/config_files/illumina_abundance_balanced_species_V2.ini"
+
+docker run -d -e CAMISIM=/home/maxence/Documents/these/CAMISIM -e NANOSIM=/home/maxence/Documents/these/NanoSim -v /home/maxence/:/home/maxence/ camisim /bin/sh -c "bash /home/maxence/Documents/these/metagenome2vec/script/simulation/run_camisim.sh /home/maxence/tmp/test_camisim/camisim/config_files/nanosim_abundance_balanced_species_V2.ini"
+
+
+bash $DEEPGENE/Pipeline/data_processing/simulated/clean_output_simulation.sh $TMP/test_camisim/camisim/dataset/illumina_abundance_balanced_species_V2_1/2021.02.04_22.20.33_sample_0/reads/anonymous_reads.fq.gz $TMP/test_camisim/camisim/dataset/illumina_abundance_balanced_species_V2_1/2021.02.04_22.20.33_sample_0/reads/reads_mapping.tsv.gz $TMP/test_camisim/camisim/dataset/illumina_abundance_balanced_species_V2_1_read2genome $TMP/test_camisim/fasta_metadata.csv
+
+python $DEEPGENE/Pipeline/data_processing/simulated/create_simulated_read2genome_dataset.py -pd $TMP/test_camisim/camisim/dataset/illumina_abundance_balanced_species_V2_1_read2genome -nsl -1 -vs 0.3 -o -pmd $TMP/test_camisim/fasta_metadata.csv
+
+
+bash $DEEPGENE/Pipeline/data_processing/simulated/clean_output_simulation.sh $TMP/test_camisim/camisim/dataset/nanosim_abundance_balanced_species_V2_1/2021.02.04_22.20.33_sample_0/reads/anonymous_reads.fq.gz $TMP/test_camisim/camisim/dataset/nanosim_abundance_balanced_species_V2_1/2021.02.04_22.20.33_sample_0/reads/reads_mapping.tsv.gz $TMP/test_camisim/camisim/dataset/nanosim_abundance_balanced_species_V2_1_read2genome $TMP/test_camisim/fasta_metadata.csv
+
+python $DEEPGENE/Pipeline/data_processing/simulated/create_simulated_read2genome_dataset.py -pd $TMP/test_camisim/camisim/dataset/nanosim_abundance_balanced_species_V2_1_read2genome -nsl -1 -vs 0.3 -o -pmd $TMP/test_camisim/fasta_metadata.csv
+
+
+
+
+
+
+bash $DEEPGENE/script/metagenome2vec/metagenome2vec_beta_run.sh -k 14 --path-data $DATAB/repo_public/cirrhosis_clean --path-save $ANALYSEB/metagenome2vec/cirrhosis --path-model $ANALYSEB/read2genome/fastdna_k_14_emb_50_epoch_10_noise_0_illumina.bin --threshold 0.05 --read2genome fastDNA --read2vec fastDNA --path-read2vec $ANALYSEB/read2genome/fastdna_k_14_emb_50_epoch_10_noise_0_illumina.bin --path-metadata $DEEPGENE/data/cirrhosis/metadata_paper.csv --n-sample-load -1 -n 2
+
+bash $DEEPGENE/script/metagenome2vec/metagenome2vec_beta_run.sh -k 14 --path-data $DATAB/simulated/nanosim_from_cirrhosis_clean --path-save $ANALYSEB/metagenome2vec/nanosim_from_cirrhosis --path-model $ANALYSEB/read2genome/fastdna_k_14_emb_50_epoch_200_noise_4_nanosim.bin --threshold 0.0 --read2genome fastDNA --read2vec fastDNA --path-read2vec $ANALYSEB/read2genome/fastdna_k_14_emb_50_epoch_200_noise_4_nanosim.bin --path-metadata $DEEPGENE/data/nanosim_from_cirrhosis/metadata.csv --n-sample-load -1 -n 60
+
+
+
+
+
+if [ $cpt -eq 1 ]
+then
+    qsub -e $TMP/metagenome2vec.err -o $TMP/metagenome2vec.out -N metagenome2vec -v k=$k,step=$s,path_save=$path_save,path_data=$path_data,path_model=$path_model,thresholds=$thresholds,read2vec=$read2vec,path_read2vec=$path_read2vec,computation_type=3,read2genome=$read2genome,path_folder_save_read2genome=$path_folder_save_read2genome,path_tmp_folder=$path_tmp_folder $DEEPGENE/script/metagenome2vec/metagenome2vec_beta.sh
+fi
+
+
+qsub -v path_data=$ANALYSEB/metagenome2vec/cirrhosis/mil.csv#$ANALYSEB/metagenome2vec/colorectal/mil.csv#$ANALYSEB/metagenome2vec/obesity/mil.csv,path_model=$ANALYSEB/vae,path_metadata=$DEEPGENE/data/cirrhosis/metadata_paper.csv#$DEEPGENE/data/colorectal/metadata_paper.csv#$DEEPGENE/data/obesity/metadata_paper.csv,dataset_name=vae_k_14_fastdna_cirr_col_obe,ressources=cpu:2#gpu:0#worker:6,id_gpu=-1,n_iterations=100 $DEEPGENE/script/NN/vae_gamma.sh
+
+
+
+docker run --memory="4g" --memory-swap="10g" --cpus="4.0" --privileged -v /mnt/Projects/:/out -it bigquery bash
+gcloud init
+gcloud iam service-accounts keys create "/KEY.json" --iam-account=service-maxence@longitudinal-data-analysis.iam.gserviceaccount.com
+export GOOGLE_APPLICATION_CREDENTIALS="/KEY.json"
+python /out/R\&D\ -\ Parcours\ client/supervised_sequence_analysis/0_raw_data/script/cms_synthetic_patient_data_omop.py -ps /out/R\&D\ -\ Parcours\ client/supervised_sequence_analysis/0_raw_data/cms_synthetic_patient_data_omop/
+
+
+
+
+
+python $DEEPGENE/Pipeline/analyse/benchmark_classif.py -pd $ANALYSE/metagenome2vec/cirrhosis/tabular.csv -pmd $DEEPGENE/data/cirrhosis/metadata_paper.csv  -ps $ANALYSE/benchmark_classif/results.csv -dn cirrhosis_fastdna_k_14 -nc 4 -I 100 -TS 0.2 -cv 10 -d cirrhosis
+
+python $DEEPGENE/Pipeline/analyse/benchmark_classif.py -pd $ANALYSE/metagenome2vec/T2D/tabular.csv -pmd $DEEPGENE/data/T2D/metadata_paper.csv -ps $ANALYSE/benchmark_classif/results_t2d.csv -dn t2d_fastdna_k_14 -nc 4 -I 100 -TS 0.2 -cv 10 -d t2d
+
+
+
+
+docker run -v /home/maxence/Documents/these/:/home/maxence/Documents/these -it --net=host --gpus=all --memory="6g" --memory-swap="10g" --cpus="4.0" --env DEEPGENE=$DEEPGENE --env ANALYSE=$ANALYSE maxence27/metagenome2vec:1.0 bash
+
+
+
+python $DEEPGENE/Pipeline/analyse/benchmark_classif.py -pd $ANALYSE/metagenome2vec/cirrhosis/mil.csv -ps $ANALYSE/benchmark_classif/results_cirrhosis.csv -nc 6 -I 100 -dn fastdna_k14_vae -pmd $DEEPGENE/data/cirrhosis/metadata_paper.csv -pm $ANALYSE/vae/vae_k14 -ig 0 -d cirrhosis
+
+python $DEEPGENE/Pipeline/analyse/benchmark_classif.py -pd $ANALYSE/metagenome2vec/nanosim_from_cirrhosis/mil.csv -ps $ANALYSE/benchmark_classif/results_nanosim_from_cirrhosis.csv -nc 6 -I 100 -dn fastdna_k14_vae -pmd $DEEPGENE/data/nanosim_from_cirrhosis/metadata_paper.csv -pm $ANALYSE/vae/vae_k14_nanosim -ig 0 -d 1 -TU
+
+
+python $DEEPGENE/Pipeline/NN/vae.py -pd $ANALYSE/metagenome2vec/cirrhosis/mil.csv,$ANALYSE/metagenome2vec/colorectal/mil.csv,$ANALYSE/metagenome2vec/obesity/mil.csv,$ANALYSE/metagenome2vec/T2D/mil.csv -pmd $DEEPGENE/data/cirrhosis/metadata_paper.csv,$DEEPGENE/data/colorectal/metadata_paper.csv,$DEEPGENE/data/obesity/metadata_paper.csv,$DEEPGENE/data/T2D/metadata_paper.csv -pm $ANALYSE/vae -dn vae_k14 -ig 0 -nm 4 -I 40 -r cpu:2,gpu:0.45,worker:2 -cv 3 -TS 0.3 -d cirrhosis,cancer,obesity,t2d -TU
+
+
+python $DEEPGENE/Pipeline/NN/deepsets.py -pd $ANALYSE/metagenome2vec/cirrhosis/mil.csv,$ANALYSE/metagenome2vec/colorectal/mil.csv,$ANALYSE/metagenome2vec/obesity/mil.csv,$ANALYSE/metagenome2vec/T2D/mil.csv -pmd $DEEPGENE/data/cirrhosis/metadata_paper.csv,$DEEPGENE/data/colorectal/metadata_paper.csv,$DEEPGENE/data/obesity/metadata_paper.csv,$DEEPGENE/data/T2D/metadata_paper.csv -pm $ANALYSE/vae -dn deepsets_k14 -ig 0 -nm 4 -I 50 -r cpu:2,gpu:0.45,worker:2 -cv 3 -TS 0.3 -d cirrhosis,cancer,obesity,t2d -TU
+
+python $DEEPGENE/Pipeline/NN/deepsets.py -pd $ANALYSE/metagenome2vec/cirrhosis/mil.csv -pmd $DEEPGENE/data/cirrhosis/metadata_paper.csv -pm $ANALYSE/deepsets/cirrhosis -dn fastdna_k14 -ig 0 -nm 4 -I 50 -r cpu:2,gpu:0.45,worker:2 -cv 3 -TS 0.3 -d cirrhosis,cancer,obesity,t2d -ps $ANALYSE/benchmark_classif/results_cirrhosis.csv -TU
+
+
+python $DEEPGENE/Pipeline/NN/deepsets.py -pd $ANALYSE/metagenome2vec/nanosim_from_cirrhosis/mil.csv -pmd $DEEPGENE/data/nanosim_from_cirrhosis/metadata_paper.csv -pm $ANALYSE/deepsets/nanosim_from_cirrhosis -dn fastdna_k14_nanosim_deepsets -ig 0 -nm 4 -I 20 -r cpu:2,gpu:0.45,worker:2 -cv 3 -TS 0.3 -d 1 -ps $ANALYSE/benchmark_classif/results_nanosim_from_cirrhosis_final.csv -TU
+
+python $DEEPGENE/Pipeline/NN/vae.py -pd $ANALYSE/metagenome2vec/nanosim_from_cirrhosis/mil.csv -pmd $DEEPGENE/data/nanosim_from_cirrhosis/metadata_paper.csv -pm $ANALYSE/vae -dn vae_k14_nanosim -ig 0 -nm 4 -I 100 -r cpu:2,gpu:0.45,worker:2 -cv 3 -TS 0.3 -d 1 -ct vae -TU
+
+python $DEEPGENE/Pipeline/NN/snn.py -pd $ANALYSE/metagenome2vec/nanosim_from_cirrhosis/mil.csv -pmd $DEEPGENE/data/nanosim_from_cirrhosis/metadata_paper.csv -pm $ANALYSE/snn -dn snn_k14_nanosim -ig 0 -nm 4 -I 50 -r cpu:2,gpu:0.45,worker:2 -cv 3 -TS 0.3 -d 1 -TU
+
+python $DEEPGENE/Pipeline/NN/vae.py -pd $ANALYSE/metagenome2vec/nanosim_holistic/mil.csv -pmd $DEEPGENE/data/nanosim_holistic/metadata_paper.csv -pm $ANALYSE/vae -dn vae_k14_nanosim_holistic -ig 0 -nm 4 -I 100 -r cpu:2,gpu:0.45,worker:2 -cv 3 -TS 0.3 -d 1 -ct vae -TU
+
+python $DEEPGENE/Pipeline/analyse/benchmark_classif.py -pd $ANALYSE/metagenome2vec/cirrhosis/mil.csv -ps $ANALYSE/benchmark_classif/results_cirrhosis.csv -nc 6 -I 100 -dn fastdna_k14_vae_retrained_fine_tuned -pmd $DEEPGENE/data/cirrhosis/metadata_paper.csv -pm $ANALYSE/vae/vae_k14 -ig 0 -d cirrhosis -ct vae -FT -TU
+
+python $DEEPGENE/Pipeline/analyse/benchmark_classif.py -pd $ANALYSE/metagenome2vec/colorectal/mil.csv -ps $ANALYSE/benchmark_classif/results_colorectal.csv -nc 6 -I 100 -dn fastdna_k14_vae_fine_tuned -pmd $DEEPGENE/data/colorectal/metadata_paper.csv -pm $ANALYSE/vae/vae_k14 -ig 0 -d cancer -ct vae -FT
+
+python $DEEPGENE/Pipeline/analyse/benchmark_classif.py -pd $ANALYSE/metagenome2vec/obesity/mil.csv -ps $ANALYSE/benchmark_classif/results_obesity.csv -nc 6 -I 100 -dn fastdna_k14_vae_fine_tuned -pmd $DEEPGENE/data/obesity/metadata_paper.csv -pm $ANALYSE/vae/vae_k14 -ig 0 -d obesity -ct vae -FT
+
+python $DEEPGENE/Pipeline/analyse/benchmark_classif.py -pd $ANALYSE/metagenome2vec/T2D/mil.csv -ps $ANALYSE/benchmark_classif/results_t2d.csv -nc 6 -I 100 -dn fastdna_k14_vae_fine_tuned -pmd $DEEPGENE/data/T2D/metadata_paper.csv -pm $ANALYSE/vae/vae_k14 -ig 0 -d t2d -ct vae -FT
+ 
+
+

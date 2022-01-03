@@ -416,11 +416,11 @@ class ParserCreator(object):
                                                               "type": str,
                                                               "default": None,
                                                               "help": "Comma separated id like id.fasta,group. If given compute only one element and path_metadata is not required."}}
-        self.D_parser["-ftd"] = {"name": "--file_to_del", "arg": {"metavar": "file_to_del",
-                                                                  "type": str,
-                                                                  "default": None,
-                                                                  "required": False,
-                                                                  "help": "Comma separated name of file within path_data that we don't want to process."}}
+        self.D_parser["-ftd"] = {"name": "--list_file_to_del", "arg": {"metavar": "list_file_to_del",
+                                                                       "type": str,
+                                                                       "default": None,
+                                                                       "required": False,
+                                                                       "help": "Comma separated name of file within path_data that we don't want to process."}}
         self.D_parser["-bi"] = {"name": "--bowtie_index", "arg": {"metavar": "bowtie_index",
                                                                   "type": str,
                                                                   "default": None,

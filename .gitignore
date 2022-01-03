@@ -245,13 +245,13 @@ Pipeline/deepGene/pytools
 Pipeline/deepGene/Checkpoints/
 Pipeline/Checkpoints/
 
-Man/_build/doctrees/
+tmp/Man/_build/doctrees/
 
-Man/_build/html/_sources/
+tmp/Man/_build/html/_sources/
 
-Man/_build/html/_static/
+tmp/Man/_build/html/_static/
 
-Man/_build/html/
+tmp/Man/_build/html/
 
 Pipeline/analyse/*weights
 *.png
