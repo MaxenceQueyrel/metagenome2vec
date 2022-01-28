@@ -206,7 +206,7 @@ def df_to_df_word_count(df, k, s, num_partitions=None):
     df = df.withColumn(length_col, F.length(df[read_col]))
     df = df.filter(df[length_col] >= k).drop(length_col).persist()
     df.count()
-    udfKmer = F.udf(lambda x: transformation_ADN.cut_word(str(x), k, s, True).tolist(), T.ArrayType(T.StringType()))
+    udfKmer = F.udf(lambda x: transformation_ADN.cut_word(x, k, s, True).tolist(), T.ArrayType(T.StringType()))
     df_word_count = df.select(read_col).withColumn(kmer_col, F.explode(udfKmer(df.read))).drop(read_col).groupBy(kmer_col).count()
     df_word_count = df_word_count.repartition(num_partitions, kmer_col) if num_partitions is not None else df_word_count
     return df_word_count

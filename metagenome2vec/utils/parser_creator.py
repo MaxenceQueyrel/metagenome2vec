@@ -204,7 +204,7 @@ class ParserCreator(object):
         self.D_parser["-nsc"] = {"name": "--n_sample_by_class", "arg": {"metavar": "n_sample_by_class",
                                                                         "type": int,
                                                                         "default": 10000,
-                                                                        "help": "Number of samples by class when structuring simulated data."}}
+                                                                        "help": "Number of samples by class when structuring simulation data."}}
         self.D_parser["-nc"] = {"name": "--n_cpus", "arg": {"metavar": "n_cpus",
                                                             "type": int,
                                                             "default": 16,
@@ -403,13 +403,13 @@ class ParserCreator(object):
         self.D_parser["-go"] = {"name": "--giga_octet", "arg": {"metavar": "giga_octet",
                                                                 "type": float,
                                                                 "default": 1.,
-                                                                "help": "Giga octet simulated by sample"}}
+                                                                "help": "Giga octet simulation by sample"}}
         self.D_parser['-pap'] = {"name": "--path_abundance_profile", "arg": {"metavar": "path_abundance_profile",
                                                                              "type": str,
                                                                              "required": True,
                                                                               "help": "If the abundance profile is a file then this profile is replicated n_sample times, if it is a folder then n_sample is replaced by the total number of abundance profiles."}}
         self.D_parser['-sa'] = {"name": "--simulate_abundance", "arg": {"action": "store_true",
-                                                                       "help": "If true create a simulated abundance, else only compute abundance balanced"}}
+                                                                       "help": "If true create a simulation abundance, else only compute abundance balanced"}}
         self.D_parser['-im'] = {"name": "--in_memory", "arg": {"action": "store_true",
                                                                         "help": "Compute in memory (pandas instead of h2o pysparkling or spark"}}
         self.D_parser["-il"] = {"name": "--id_label", "arg": {"metavar": "id_label",
@@ -875,7 +875,7 @@ class ParserCreator(object):
             if k == "-ps":
                 self.D_parser[k]["arg"]["required"] = True
                 self.D_parser[k]["arg"][
-                    "help"] = "Path were is save the parquet file after reads transformation of simulated data"
+                    "help"] = "Path were is save the parquet file after reads transformation of simulation data"
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
         return parser.parse_args()
 
@@ -897,21 +897,21 @@ class ParserCreator(object):
         return parser.parse_args()
 
     def parser_create_simulated_read2genome_dataset(self):
-        parser = argparse.ArgumentParser(description="Arguments for create simulated dataset")
+        parser = argparse.ArgumentParser(description="Arguments for create simulation dataset")
         for k in ['-pd', '-nsl', '-o', '-vs', '-pmd']:
             if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "Path to the simulated data"
+                self.D_parser[k]["arg"]["help"] = "Path to the simulation data"
             if k == '-nsl':
-                self.D_parser[k]["arg"]["help"] = "Number of reads taken in the simulated dataset"
+                self.D_parser[k]["arg"]["help"] = "Number of reads taken in the simulation dataset"
                 self.D_parser[k]["arg"]["default"] = -1
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
         return parser.parse_args()
 
     def parser_create_simulated_metagenome2vec_dataset(self):
-        parser = argparse.ArgumentParser(description="Arguments for create simulated dataset")
+        parser = argparse.ArgumentParser(description="Arguments for create simulation dataset")
         for k in ['-pd', '-ps', '-o', '-tm']:
             if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "Comma separated path to the folders containing the simulated data. One folder corresponds to a class of samples."
+                self.D_parser[k]["arg"]["help"] = "Comma separated path to the folders containing the simulation data. One folder corresponds to a class of samples."
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
         return parser.parse_args()
 
@@ -994,7 +994,7 @@ class ParserCreator(object):
 
     def parser_create_camisi_config_file(self):
         parser = argparse.ArgumentParser(description="Arguments for the creation of camisim config file")
-        for k in ['-pd', '-nc', '-nsc', '-ct', '-pt', '-go', '-pap']:
+        for k in ['-ps', '-nc', '-nsc', '-ct', '-pt', '-go', '-pap']:
             if k == '-ct':
                 self.D_parser[k]["arg"]["choices"] = ["illumina", "nanosim", "both"]
                 self.D_parser[k]["arg"]["type"] = str

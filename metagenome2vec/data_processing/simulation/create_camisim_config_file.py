@@ -15,28 +15,33 @@ if __name__ == "__main__":
     computation_type = args.computation_type
     size = args.giga_octet
     path_tmp_folder = os.path.abspath(args.path_tmp_folder)
-    path_data = os.path.abspath(args.path_data)
+    path_save = os.path.abspath(args.path_save)
     path_abundance_profile = os.path.abspath(args.path_abundance_profile)
     name_config_folder = "config_files"
     name_camisim_folder = "camisim"
     name_abundance_profile = "abundance_profile"
-    path_save = os.path.abspath(os.path.join(path_data, name_camisim_folder, name_config_folder))
+    path_save_config = os.path.abspath(os.path.join(path_save, name_camisim_folder, name_config_folder))
 
     file_name_metadata = "metadata.tsv"
     file_name_genome_to_id = "genome_to_id.tsv"
 
     try:
         path_camisim = os.path.abspath(os.environ["CAMISIM"])
-        path_nanosim = os.path.abspath(os.environ["NANOSIM"])
     except KeyError as error:
-        raise KeyError("You must define the global variables: CAMISIM and NANOSIM")
+        raise KeyError("You must define the global variables: CAMISIM")
+
+    if computation_type == "both" or computation_type == "nanosim":
+        try:
+            path_nanosim = os.path.abspath(os.environ["NANOSIM"])
+        except KeyError as error:
+            raise KeyError("You must define the global variables: NANOSIM")
 
     if os.path.isdir(path_abundance_profile):
         L_file_abundance = os.listdir(path_abundance_profile)
     else:
         L_file_abundance = []
-    os.makedirs(path_save, exist_ok=True)
-    n_genomes = sum(1 for line in open(os.path.join(path_data, name_camisim_folder, file_name_genome_to_id)))
+    os.makedirs(path_save_config, exist_ok=True)
+    n_genomes = sum(1 for line in open(os.path.join(path_save, name_camisim_folder, file_name_genome_to_id)))
 
     L_computation_type = ["illumina"]
     if computation_type == "both":
@@ -47,10 +52,9 @@ if __name__ == "__main__":
         name_abundance = path_abundance_profile.split("/")[-1]
         if not L_file_abundance:  # Change name_abundance if path_abundance_profile is a file
             name_abundance = name_abundance.rsplit(".", 1)[0]
-        with open(os.path.join(path_save, "%s_%s.ini" % (computation_type, name_abundance)), "w") as f_res:
+        with open(os.path.join(path_save_config, "%s_%s.ini" % (computation_type, name_abundance)), "w") as f_res:
             name_simulation = computation_type + "_" + name_abundance + "_" + str(n_sample_by_class)
-            path_save_simulation = os.path.abspath(os.path.join(path_data, name_camisim_folder, "dataset", name_simulation))
-            print(path_save_simulation)
+            path_save_simulation = os.path.abspath(os.path.join(path_save, name_camisim_folder, "dataset", name_simulation))
             if os.path.exists(path_save_simulation):
                 shutil.rmtree(path_save_simulation)
             os.makedirs(path_save_simulation)
@@ -88,8 +92,8 @@ if __name__ == "__main__":
             s += "number_of_samples=%s\n" % (n_sample_by_class if not L_file_abundance else len(L_file_abundance))
             s += "\n"
             s += "[community0]\n"
-            s += "metadata=%s\n" % os.path.join(path_data, name_camisim_folder, file_name_metadata)
-            s += "id_to_genome_file=%s\n" % os.path.join(path_data, name_camisim_folder, file_name_genome_to_id)
+            s += "metadata=%s\n" % os.path.join(path_save, name_camisim_folder, file_name_metadata)
+            s += "id_to_genome_file=%s\n" % os.path.join(path_save, name_camisim_folder, file_name_genome_to_id)
             s += "id_to_gff_file=\n"
             s += "genomes_total=%s\n" % n_genomes
             s += "genomes_real=%s\n" % n_genomes

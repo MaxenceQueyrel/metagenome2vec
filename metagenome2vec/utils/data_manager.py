@@ -204,10 +204,10 @@ def balance_data(df, name_col, n_sample_by_class=1000, mode="both"):
 
 def load_simulated_data(path_data, name_simulated_data, name_matrix_save):
     """
-    Load or create the simulated data matrix
+    Load or create the simulation data matrix
     :param path_data: String, Path to folder, assuming that it exists a file named reads and a file
     named mapping_read_genome
-    :param name_simulated_data: str, name of the simulated data loaded
+    :param name_simulated_data: str, name of the simulation data loaded
     :param name_matrix_save: str, name of the matrix that is saved
     :return: Matrix, numpy 2D array, first column is read second is class
     """

@@ -2,27 +2,26 @@
 
 import os
 import logging
-
 from metagenome2vec.utils import file_manager
 from metagenome2vec.utils import spark_manager
 from metagenome2vec.utils import parser_creator
 
 
-def bok_split(spark, path_data, k_mer_size, step, mode="local", num_partitions=50, nb_metagenome=-1, overwrite=False):
+def bok_split(spark, path_data, path_save, k_mer_size, step, mode="local", num_partitions=50, overwrite=False):
     """
     Compute the transformation for each metagenome and save it
     :param spark: SparkSession
     :param L_df_name: List, contains list of all files name that we want to compute
-            format : ((folder_name_1, (file_1, file_2...), (folder_name_2, (file_1, file_2,..)))
+            format : ((folder_name_1, (file_1, file_2...),  (folder_name_2, (file_1, file_2,..)))
     :param mode: String, hdfs, s3 or local
     """
     saving_mode = "overwrite" if overwrite else None
-    path_save = os.path.join(args.path_save, "k_%s_s_%s" % (k_mer_size, step))
+    path_save = os.path.join(path_save, "k_%s_s_%s" % (k_mer_size, step))
     file_manager.create_dir(path_save, mode)
     # We compute the first folder containing the first metagenome which will be merged with the
     # result of the other folder to create a big database
     # All computation are saved for each folder
-    logging.info("Computing file %s\n" % path_data)
+    logging.info("Computing BoK for file %s\n" % path_data)
     path_bok = os.path.join(path_save, os.path.basename(path_data))
     # Check if files already exists, if overwrite is False return the already computed files
     if overwrite is False:
@@ -45,6 +44,6 @@ if __name__ == "__main__":
     spark = spark_manager.createSparkSession("BoK split")
 
     logging.info("Start computing")
-    bok_split(spark, args.path_data, args.k_mer_size, args.step, args.mode, args.num_partitions,
-              args.nb_metagenome, args.is_file, args.overwrite)
+    bok_split(spark, args.path_data, args.path_save, args.k_mer_size, args.step, args.mode,
+              args.num_partitions, args.overwrite)
     logging.info("End computing")

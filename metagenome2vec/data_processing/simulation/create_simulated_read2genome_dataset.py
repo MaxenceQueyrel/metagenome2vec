@@ -42,7 +42,7 @@ def dataframe_to_fastdna_input(path_data, name_matrix, name_reads_fastdna, name_
 
 def create_simulated_dataset(path_data, valid_size=None, n_sample_load=-1, overwrite=False):
     """
-    Load or create the simulated data matrix
+    Load or create the simulation data matrix
     :param path_data: String, Path to folder, assuming that it exists a file named reads and a file
     named mapping_read_genome
     :param valid_size, float, percentage for the validation datase
@@ -98,7 +98,7 @@ if __name__ == "__main__":
     name_matrix_save_valid = reads_genomes_file_name + "_valid"
     df_taxonomy_ref = pd.read_csv(path_metadata)
     D_taxonomy_mapping = df_taxonomy_ref[[ncbi_id_name, species_name, genus_name, family_name]].astype(str).set_index(ncbi_id_name).to_dict()
-    # Create simulated datasets for train and valid
+    # Create simulation datasets for train and valid
     create_simulated_dataset(path_data, valid_size, n_sample_load, overwrite=overwrite)
 
     # Create fastdna inputs

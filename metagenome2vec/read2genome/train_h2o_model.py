@@ -27,9 +27,9 @@ SEED = 42
 
 def run_read2vec(spark, path_matrix, df_metadata, path_save_read2vec, num_partitions=None, overwrite=False):
     """
-    Runs read2vec algorithm on simulated reads and creates/saves the final data frame for read2genome
+    Runs read2vec algorithm on simulation reads and creates/saves the final data frame for read2genome
     :param spark: SQL spark context
-    :param path_matrix: str, name of the simulated data to transform
+    :param path_matrix: str, name of the simulation data to transform
     :param df_metadata: Spark Dataframe, contains the reference for all taxonomy level
     :param path_save_read2vec: String, path where are saved the final dataframe
     :param num_partitions: Number of partition of the dataframe

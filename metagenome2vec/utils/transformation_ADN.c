@@ -4,12 +4,12 @@
 {
     "distutils": {
         "depends": [],
-        "name": "metagenome2vec.metagenome2vec.utils.transformation_ADN",
+        "name": "metagenome2vec.utils.transformation_ADN",
         "sources": [
             "transformation_ADN.pyx"
         ]
     },
-    "module_name": "metagenome2vec.metagenome2vec.utils.transformation_ADN"
+    "module_name": "metagenome2vec.utils.transformation_ADN"
 }
 END: Cython Metadata */
 
@@ -625,8 +625,8 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__metagenome2vec__metagenome2vec__utils__transformation_ADN
-#define __PYX_HAVE_API__metagenome2vec__metagenome2vec__utils__transformation_ADN
+#define __PYX_HAVE__metagenome2vec__utils__transformation_ADN
+#define __PYX_HAVE_API__metagenome2vec__utils__transformation_ADN
 /* Early includes */
 #include <string.h>
 #include <stdio.h>
@@ -1159,85 +1159,85 @@ typedef npy_clongdouble __pyx_t_5numpy_clongdouble_t;
  * cdef inline object PyArray_MultiIterNew1(a):
  */
 typedef npy_cdouble __pyx_t_5numpy_complex_t;
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_complement;
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_reverse_complement;
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_word_in_c;
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str;
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads_str;
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read;
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads;
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read;
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_reads;
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_complement;
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_reverse_complement;
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_cut_word_in_c;
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str;
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads_str;
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_read;
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads;
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read;
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_reads;
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":39
+/* "metagenome2vec/utils/transformation_ADN.pyx":39
  * 
  * 
  * cpdef str complement(str s, int not_AC=False):             # <<<<<<<<<<<<<<
  *     """
  *     Complement of a DNA sequence
  */
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_complement {
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_complement {
   int __pyx_n;
   int not_AC;
 };
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":57
+/* "metagenome2vec/utils/transformation_ADN.pyx":57
  * 
  * 
  * cpdef str reverse_complement(str s, int not_AC=False):             # <<<<<<<<<<<<<<
  *     """
  *     Reverse complement of a DNA sequence
  */
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_reverse_complement {
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_reverse_complement {
   int __pyx_n;
   int not_AC;
 };
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":88
+/* "metagenome2vec/utils/transformation_ADN.pyx":88
  * 
  * 
  * cdef np.ndarray[np.str, ndim=1] cut_word_in_c(str x, int k, int s=1, int remove_unk=0):             # <<<<<<<<<<<<<<
  *     """
  *     Convert a sequence of nucleotides into a list of k nucleotides spaced by s nucleotides
  */
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_word_in_c {
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_cut_word_in_c {
   int __pyx_n;
   int s;
   int remove_unk;
 };
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":108
+/* "metagenome2vec/utils/transformation_ADN.pyx":111
  * 
  * 
  * cpdef str preprocess_read_str(str read, int k, int max_length=-1):             # <<<<<<<<<<<<<<
  *     """
  *     Create all 'sentences' of feasible kmers with read
  */
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str {
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str {
   int __pyx_n;
   int max_length;
 };
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":123
+/* "metagenome2vec/utils/transformation_ADN.pyx":126
  * 
  * 
  * cpdef np.ndarray[np.str, ndim=1] preprocess_several_reads_str(list L_read, int k, int max_length=-1):             # <<<<<<<<<<<<<<
  *     """
  *     Create all 'sentences' of feasible kmer with the list of reads L_read
  */
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads_str {
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads_str {
   int __pyx_n;
   int max_length;
 };
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":132
+/* "metagenome2vec/utils/transformation_ADN.pyx":135
  * 
  * 
  * cpdef np.ndarray[np.int_t, ndim=1] preprocess_read(str read, int k, dict dico_index,             # <<<<<<<<<<<<<<
  *                                                    int index_unk=-1, int index_pad=-2,
  *                                                    int max_length=-1, int min_length=-1):
  */
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read {
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_read {
   int __pyx_n;
   int index_unk;
   int index_pad;
@@ -1245,14 +1245,14 @@ struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_
   int min_length;
 };
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":169
+/* "metagenome2vec/utils/transformation_ADN.pyx":172
  * 
  * 
  * cpdef np.ndarray[np.int_t, ndim=2] preprocess_several_reads(list L_read, int k, dict dico_index,             # <<<<<<<<<<<<<<
  *                                                             int index_unk=-1, int index_pad=-2,
  *                                                             int max_length=-1, int min_length=-1):
  */
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads {
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads {
   int __pyx_n;
   int index_unk;
   int index_pad;
@@ -1260,27 +1260,27 @@ struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_
   int min_length;
 };
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":207
+/* "metagenome2vec/utils/transformation_ADN.pyx":210
  * 
  * 
  * cpdef cut_and_write_read(f, str read, int k, int s, str mode="c", int remove_unk=0):             # <<<<<<<<<<<<<<
  *     cdef:
  *         int i, unk_seen=0, cpt_remove=0
  */
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read {
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read {
   int __pyx_n;
   PyObject *mode;
   int remove_unk;
 };
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":239
+/* "metagenome2vec/utils/transformation_ADN.pyx":242
  * 
  * 
  * cpdef cut_and_write_reads(list L_reads, f, int k, int s=1, str mode="c", remove_unk=False):             # <<<<<<<<<<<<<<
  *     cdef:
  *         int i
  */
-struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_reads {
+struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_reads {
   int __pyx_n;
   int s;
   PyObject *mode;
@@ -2028,34 +2028,34 @@ static PyTypeObject *__pyx_ptype_5numpy_flexible = 0;
 static PyTypeObject *__pyx_ptype_5numpy_character = 0;
 static PyTypeObject *__pyx_ptype_5numpy_ufunc = 0;
 
-/* Module declarations from 'metagenome2vec.metagenome2vec.utils.transformation_ADN' */
-static PyObject *__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_dico_nucleotide_to_int = 0;
-static PyObject *__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_dico_int_to_nucleotide = 0;
-static PyObject *__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt = 0;
-static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_kmer_to_int(PyObject *, int __pyx_skip_dispatch); /*proto*/
-static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_int_to_kmer(int, int, int __pyx_skip_dispatch); /*proto*/
-static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_complement(PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_complement *__pyx_optional_args); /*proto*/
-static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_reverse_complement(PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_reverse_complement *__pyx_optional_args); /*proto*/
-static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_word_in_c(PyObject *, int, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_word_in_c *__pyx_optional_args); /*proto*/
-static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str(PyObject *, int, int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str *__pyx_optional_args); /*proto*/
-static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads_str(PyObject *, int, int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads_str *__pyx_optional_args); /*proto*/
-static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read(PyObject *, int, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read *__pyx_optional_args); /*proto*/
-static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads(PyObject *, int, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads *__pyx_optional_args); /*proto*/
-static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_remove_unk_kmer(PyArrayObject *, int __pyx_skip_dispatch); /*proto*/
-static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read(PyObject *, PyObject *, int, int, int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read *__pyx_optional_args); /*proto*/
-static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_reads(PyObject *, PyObject *, int, int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_reads *__pyx_optional_args); /*proto*/
-static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_mch(PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
-static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_needle(PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
-static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_ED(PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
-static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_create_distance(PyObject *, PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
+/* Module declarations from 'metagenome2vec.utils.transformation_ADN' */
+static PyObject *__pyx_v_14metagenome2vec_5utils_18transformation_ADN_dico_nucleotide_to_int = 0;
+static PyObject *__pyx_v_14metagenome2vec_5utils_18transformation_ADN_dico_int_to_nucleotide = 0;
+static PyObject *__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt = 0;
+static int __pyx_f_14metagenome2vec_5utils_18transformation_ADN_kmer_to_int(PyObject *, int __pyx_skip_dispatch); /*proto*/
+static PyObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_int_to_kmer(int, int, int __pyx_skip_dispatch); /*proto*/
+static PyObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_complement(PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_complement *__pyx_optional_args); /*proto*/
+static PyObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_reverse_complement(PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_reverse_complement *__pyx_optional_args); /*proto*/
+static PyArrayObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_cut_word_in_c(PyObject *, int, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_cut_word_in_c *__pyx_optional_args); /*proto*/
+static PyObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str(PyObject *, int, int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str *__pyx_optional_args); /*proto*/
+static PyArrayObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads_str(PyObject *, int, int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads_str *__pyx_optional_args); /*proto*/
+static PyArrayObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_preprocess_read(PyObject *, int, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_read *__pyx_optional_args); /*proto*/
+static PyArrayObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads(PyObject *, int, PyObject *, int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads *__pyx_optional_args); /*proto*/
+static PyArrayObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_remove_unk_kmer(PyArrayObject *, int __pyx_skip_dispatch); /*proto*/
+static PyObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read(PyObject *, PyObject *, int, int, int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read *__pyx_optional_args); /*proto*/
+static PyObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_reads(PyObject *, PyObject *, int, int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_reads *__pyx_optional_args); /*proto*/
+static int __pyx_f_14metagenome2vec_5utils_18transformation_ADN_mch(PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
+static int __pyx_f_14metagenome2vec_5utils_18transformation_ADN_needle(PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
+static int __pyx_f_14metagenome2vec_5utils_18transformation_ADN_ED(PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
+static PyObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_create_distance(PyObject *, PyObject *, PyObject *, int __pyx_skip_dispatch); /*proto*/
 static __Pyx_TypeInfo __Pyx_TypeInfo_object = { "str object", NULL, sizeof(PyObject *), { 0 }, 0, 'O', 0, 0 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_nn___pyx_t_5numpy_int_t = { "int_t", NULL, sizeof(__pyx_t_5numpy_int_t), { 0 }, 0, IS_UNSIGNED(__pyx_t_5numpy_int_t) ? 'U' : 'I', IS_UNSIGNED(__pyx_t_5numpy_int_t), 0 };
 static __Pyx_TypeInfo __Pyx_TypeInfo_nn___pyx_t_5numpy_float_t = { "float_t", NULL, sizeof(__pyx_t_5numpy_float_t), { 0 }, 0, 'R', 0, 0 };
-#define __Pyx_MODULE_NAME "metagenome2vec.metagenome2vec.utils.transformation_ADN"
-extern int __pyx_module_is_main_metagenome2vec__metagenome2vec__utils__transformation_ADN;
-int __pyx_module_is_main_metagenome2vec__metagenome2vec__utils__transformation_ADN = 0;
+#define __Pyx_MODULE_NAME "metagenome2vec.utils.transformation_ADN"
+extern int __pyx_module_is_main_metagenome2vec__utils__transformation_ADN;
+int __pyx_module_is_main_metagenome2vec__utils__transformation_ADN = 0;
 
-/* Implementation of 'metagenome2vec.metagenome2vec.utils.transformation_ADN' */
+/* Implementation of 'metagenome2vec.utils.transformation_ADN' */
 static PyObject *__pyx_builtin_range;
 static PyObject *__pyx_builtin_object;
 static PyObject *__pyx_builtin_KeyError;
@@ -2113,6 +2113,7 @@ static const char __pyx_k_zeros[] = "zeros";
 static const char __pyx_k_L_read[] = "L_read";
 static const char __pyx_k_append[] = "append";
 static const char __pyx_k_arange[] = "arange";
+static const char __pyx_k_decode[] = "decode";
 static const char __pyx_k_import[] = "__import__";
 static const char __pyx_k_not_AC[] = "not_AC";
 static const char __pyx_k_object[] = "object";
@@ -2139,7 +2140,7 @@ static const char __pyx_k_reverse_complement[] = "reverse_complement";
 static const char __pyx_k_transformation_ADN_pyx[] = "transformation_ADN.pyx";
 static const char __pyx_k_Created_on_Wed_Sep_20_17_00_57[] = "\nCreated on Wed Sep 20 17:00:57 2017\n\n@author: maxence\n";
 static const char __pyx_k_numpy_core_multiarray_failed_to[] = "numpy.core.multiarray failed to import";
-static const char __pyx_k_metagenome2vec_metagenome2vec_ut[] = "metagenome2vec.metagenome2vec.utils.transformation_ADN";
+static const char __pyx_k_metagenome2vec_utils_transformat[] = "metagenome2vec.utils.transformation_ADN";
 static const char __pyx_k_numpy_core_umath_failed_to_impor[] = "numpy.core.umath failed to import";
 static PyObject *__pyx_kp_s_;
 static PyObject *__pyx_n_s_A;
@@ -2172,6 +2173,7 @@ static PyObject *__pyx_n_s_complement;
 static PyObject *__pyx_n_s_concatenate;
 static PyObject *__pyx_n_s_cut_word;
 static PyObject *__pyx_n_s_data;
+static PyObject *__pyx_n_s_decode;
 static PyObject *__pyx_n_s_dico_index;
 static PyObject *__pyx_n_s_dtype;
 static PyObject *__pyx_n_s_e;
@@ -2187,7 +2189,7 @@ static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_match;
 static PyObject *__pyx_n_s_max;
 static PyObject *__pyx_n_s_max_length;
-static PyObject *__pyx_n_s_metagenome2vec_metagenome2vec_ut;
+static PyObject *__pyx_n_s_metagenome2vec_utils_transformat;
 static PyObject *__pyx_n_s_min_length;
 static PyObject *__pyx_n_s_mismatch;
 static PyObject *__pyx_n_s_mode;
@@ -2220,22 +2222,22 @@ static PyObject *__pyx_kp_s_unk;
 static PyObject *__pyx_n_s_write;
 static PyObject *__pyx_n_s_x;
 static PyObject *__pyx_n_s_zeros;
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_kmer_to_int(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_kmer); /* proto */
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_2int_to_kmer(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_num, int __pyx_v_nb_nucleotide); /* proto */
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_4complement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s, int __pyx_v_not_AC); /* proto */
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_6reverse_complement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s, int __pyx_v_not_AC); /* proto */
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_8cut_word(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, int __pyx_v_k, int __pyx_v_s, int __pyx_v_remove_unk); /* proto */
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_10preprocess_read_str(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_read, int __pyx_v_k, int __pyx_v_max_length); /* proto */
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_12preprocess_several_reads_str(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_L_read, int __pyx_v_k, int __pyx_v_max_length); /* proto */
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_14preprocess_read(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_read, int __pyx_v_k, PyObject *__pyx_v_dico_index, int __pyx_v_index_unk, int __pyx_v_index_pad, int __pyx_v_max_length, int __pyx_v_min_length); /* proto */
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_16preprocess_several_reads(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_L_read, int __pyx_v_k, PyObject *__pyx_v_dico_index, int __pyx_v_index_unk, int __pyx_v_index_pad, int __pyx_v_max_length, int __pyx_v_min_length); /* proto */
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_18remove_unk_kmer(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_kmer_array); /* proto */
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_20cut_and_write_read(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_f, PyObject *__pyx_v_read, int __pyx_v_k, int __pyx_v_s, PyObject *__pyx_v_mode, int __pyx_v_remove_unk); /* proto */
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_22cut_and_write_reads(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_L_reads, PyObject *__pyx_v_f, int __pyx_v_k, int __pyx_v_s, PyObject *__pyx_v_mode, PyObject *__pyx_v_remove_unk); /* proto */
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_24mch(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_alpha, PyObject *__pyx_v_beta); /* proto */
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_26needle(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s1, PyObject *__pyx_v_s2); /* proto */
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_28ED(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s, PyObject *__pyx_v_t); /* proto */
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_30create_distance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_similarities, PyObject *__pyx_v_algo, PyObject *__pyx_v_reverse_index); /* proto */
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_kmer_to_int(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_kmer); /* proto */
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_2int_to_kmer(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_num, int __pyx_v_nb_nucleotide); /* proto */
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_4complement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s, int __pyx_v_not_AC); /* proto */
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_6reverse_complement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s, int __pyx_v_not_AC); /* proto */
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_8cut_word(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, int __pyx_v_k, int __pyx_v_s, int __pyx_v_remove_unk); /* proto */
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_10preprocess_read_str(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_read, int __pyx_v_k, int __pyx_v_max_length); /* proto */
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_12preprocess_several_reads_str(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_L_read, int __pyx_v_k, int __pyx_v_max_length); /* proto */
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_14preprocess_read(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_read, int __pyx_v_k, PyObject *__pyx_v_dico_index, int __pyx_v_index_unk, int __pyx_v_index_pad, int __pyx_v_max_length, int __pyx_v_min_length); /* proto */
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_16preprocess_several_reads(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_L_read, int __pyx_v_k, PyObject *__pyx_v_dico_index, int __pyx_v_index_unk, int __pyx_v_index_pad, int __pyx_v_max_length, int __pyx_v_min_length); /* proto */
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_18remove_unk_kmer(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_kmer_array); /* proto */
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_20cut_and_write_read(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_f, PyObject *__pyx_v_read, int __pyx_v_k, int __pyx_v_s, PyObject *__pyx_v_mode, int __pyx_v_remove_unk); /* proto */
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_22cut_and_write_reads(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_L_reads, PyObject *__pyx_v_f, int __pyx_v_k, int __pyx_v_s, PyObject *__pyx_v_mode, PyObject *__pyx_v_remove_unk); /* proto */
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_24mch(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_alpha, PyObject *__pyx_v_beta); /* proto */
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_26needle(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s1, PyObject *__pyx_v_s2); /* proto */
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_28ED(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s, PyObject *__pyx_v_t); /* proto */
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_30create_distance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_similarities, PyObject *__pyx_v_algo, PyObject *__pyx_v_reverse_index); /* proto */
 static __Pyx_CachedCFunction __pyx_umethod_PyString_Type_strip = {0, &__pyx_n_s_strip, 0, 0, 0};
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
@@ -2251,7 +2253,7 @@ static PyObject *__pyx_tuple__10;
 static PyObject *__pyx_codeobj__11;
 /* Late includes */
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":21
+/* "metagenome2vec/utils/transformation_ADN.pyx":21
  * 
  * 
  * cpdef int kmer_to_int(str kmer):             # <<<<<<<<<<<<<<
@@ -2259,8 +2261,8 @@ static PyObject *__pyx_codeobj__11;
  *         int res = 0
  */
 
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_1kmer_to_int(PyObject *__pyx_self, PyObject *__pyx_v_kmer); /*proto*/
-static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_kmer_to_int(PyObject *__pyx_v_kmer, CYTHON_UNUSED int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_1kmer_to_int(PyObject *__pyx_self, PyObject *__pyx_v_kmer); /*proto*/
+static int __pyx_f_14metagenome2vec_5utils_18transformation_ADN_kmer_to_int(PyObject *__pyx_v_kmer, CYTHON_UNUSED int __pyx_skip_dispatch) {
   int __pyx_v_res;
   int __pyx_v_i;
   int __pyx_r;
@@ -2278,7 +2280,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("kmer_to_int", 0);
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":23
+  /* "metagenome2vec/utils/transformation_ADN.pyx":23
  * cpdef int kmer_to_int(str kmer):
  *     cdef:
  *         int res = 0             # <<<<<<<<<<<<<<
@@ -2287,7 +2289,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  */
   __pyx_v_res = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":25
+  /* "metagenome2vec/utils/transformation_ADN.pyx":25
  *         int res = 0
  *         int i
  *     for i in range(len(kmer)):             # <<<<<<<<<<<<<<
@@ -2299,7 +2301,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":26
+    /* "metagenome2vec/utils/transformation_ADN.pyx":26
  *         int i
  *     for i in range(len(kmer)):
  *         res += 4**i * dico_nucleotide_to_int[kmer[i]]             # <<<<<<<<<<<<<<
@@ -2310,13 +2312,13 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_t_5 = __Pyx_PyInt_From_long(__Pyx_pow_long(4, ((long)__pyx_v_i))); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 26, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_dico_nucleotide_to_int == Py_None)) {
+    if (unlikely(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_dico_nucleotide_to_int == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(0, 26, __pyx_L1_error)
     }
     __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_kmer, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 26, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_dico_nucleotide_to_int, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 26, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_dico_nucleotide_to_int, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 26, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_t_6 = PyNumber_Multiply(__pyx_t_5, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 26, __pyx_L1_error)
@@ -2332,7 +2334,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
     __pyx_v_res = __pyx_t_8;
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":27
+  /* "metagenome2vec/utils/transformation_ADN.pyx":27
  *     for i in range(len(kmer)):
  *         res += 4**i * dico_nucleotide_to_int[kmer[i]]
  *     return res             # <<<<<<<<<<<<<<
@@ -2342,7 +2344,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   __pyx_r = __pyx_v_res;
   goto __pyx_L0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":21
+  /* "metagenome2vec/utils/transformation_ADN.pyx":21
  * 
  * 
  * cpdef int kmer_to_int(str kmer):             # <<<<<<<<<<<<<<
@@ -2356,7 +2358,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_WriteUnraisable("metagenome2vec.metagenome2vec.utils.transformation_ADN.kmer_to_int", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("metagenome2vec.utils.transformation_ADN.kmer_to_int", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -2364,8 +2366,8 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_1kmer_to_int(PyObject *__pyx_self, PyObject *__pyx_v_kmer); /*proto*/
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_1kmer_to_int(PyObject *__pyx_self, PyObject *__pyx_v_kmer) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_1kmer_to_int(PyObject *__pyx_self, PyObject *__pyx_v_kmer); /*proto*/
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_1kmer_to_int(PyObject *__pyx_self, PyObject *__pyx_v_kmer) {
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2373,7 +2375,7 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("kmer_to_int (wrapper)", 0);
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kmer), (&PyString_Type), 1, "kmer", 1))) __PYX_ERR(0, 21, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_kmer_to_int(__pyx_self, ((PyObject*)__pyx_v_kmer));
+  __pyx_r = __pyx_pf_14metagenome2vec_5utils_18transformation_ADN_kmer_to_int(__pyx_self, ((PyObject*)__pyx_v_kmer));
 
   /* function exit code */
   goto __pyx_L0;
@@ -2384,7 +2386,7 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_kmer_to_int(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_kmer) {
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_kmer_to_int(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_kmer) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2393,7 +2395,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("kmer_to_int", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_kmer_to_int(__pyx_v_kmer, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_14metagenome2vec_5utils_18transformation_ADN_kmer_to_int(__pyx_v_kmer, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 21, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2402,7 +2404,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.kmer_to_int", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.kmer_to_int", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2410,7 +2412,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":29
+/* "metagenome2vec/utils/transformation_ADN.pyx":29
  *     return res
  * 
  * cpdef str int_to_kmer(int num, int nb_nucleotide):             # <<<<<<<<<<<<<<
@@ -2418,8 +2420,8 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
  *         str res = ""
  */
 
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_3int_to_kmer(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_int_to_kmer(int __pyx_v_num, int __pyx_v_nb_nucleotide, CYTHON_UNUSED int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_3int_to_kmer(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_int_to_kmer(int __pyx_v_num, int __pyx_v_nb_nucleotide, CYTHON_UNUSED int __pyx_skip_dispatch) {
   PyObject *__pyx_v_res = 0;
   CYTHON_UNUSED int __pyx_v_i;
   PyObject *__pyx_r = NULL;
@@ -2432,7 +2434,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("int_to_kmer", 0);
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":31
+  /* "metagenome2vec/utils/transformation_ADN.pyx":31
  * cpdef str int_to_kmer(int num, int nb_nucleotide):
  *     cdef:
  *         str res = ""             # <<<<<<<<<<<<<<
@@ -2442,7 +2444,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __Pyx_INCREF(__pyx_kp_s_);
   __pyx_v_res = __pyx_kp_s_;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":33
+  /* "metagenome2vec/utils/transformation_ADN.pyx":33
  *         str res = ""
  *         int i
  *     for i in range(nb_nucleotide, 0, -1):             # <<<<<<<<<<<<<<
@@ -2452,20 +2454,20 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   for (__pyx_t_1 = __pyx_v_nb_nucleotide; __pyx_t_1 > 0; __pyx_t_1-=1) {
     __pyx_v_i = __pyx_t_1;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":34
+    /* "metagenome2vec/utils/transformation_ADN.pyx":34
  *         int i
  *     for i in range(nb_nucleotide, 0, -1):
  *         res += dico_int_to_nucleotide[num % 4]             # <<<<<<<<<<<<<<
  *         num /= 4
  *     return res
  */
-    if (unlikely(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_dico_int_to_nucleotide == Py_None)) {
+    if (unlikely(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_dico_int_to_nucleotide == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
       __PYX_ERR(0, 34, __pyx_L1_error)
     }
     __pyx_t_2 = __Pyx_PyInt_From_long(__Pyx_mod_long(__pyx_v_num, 4)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_dico_int_to_nucleotide, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_dico_int_to_nucleotide, __pyx_t_2); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 34, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __pyx_t_2 = PyNumber_InPlaceAdd(__pyx_v_res, __pyx_t_3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 34, __pyx_L1_error)
@@ -2475,7 +2477,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     __Pyx_DECREF_SET(__pyx_v_res, ((PyObject*)__pyx_t_2));
     __pyx_t_2 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":35
+    /* "metagenome2vec/utils/transformation_ADN.pyx":35
  *     for i in range(nb_nucleotide, 0, -1):
  *         res += dico_int_to_nucleotide[num % 4]
  *         num /= 4             # <<<<<<<<<<<<<<
@@ -2485,7 +2487,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     __pyx_v_num = __Pyx_div_long(__pyx_v_num, 4);
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":36
+  /* "metagenome2vec/utils/transformation_ADN.pyx":36
  *         res += dico_int_to_nucleotide[num % 4]
  *         num /= 4
  *     return res             # <<<<<<<<<<<<<<
@@ -2497,7 +2499,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __pyx_r = __pyx_v_res;
   goto __pyx_L0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":29
+  /* "metagenome2vec/utils/transformation_ADN.pyx":29
  *     return res
  * 
  * cpdef str int_to_kmer(int num, int nb_nucleotide):             # <<<<<<<<<<<<<<
@@ -2509,7 +2511,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.int_to_kmer", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.int_to_kmer", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_res);
@@ -2519,8 +2521,8 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_3int_to_kmer(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_3int_to_kmer(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_3int_to_kmer(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_3int_to_kmer(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   int __pyx_v_num;
   int __pyx_v_nb_nucleotide;
   int __pyx_lineno = 0;
@@ -2571,18 +2573,18 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("int_to_kmer", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 29, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.int_to_kmer", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.int_to_kmer", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_2int_to_kmer(__pyx_self, __pyx_v_num, __pyx_v_nb_nucleotide);
+  __pyx_r = __pyx_pf_14metagenome2vec_5utils_18transformation_ADN_2int_to_kmer(__pyx_self, __pyx_v_num, __pyx_v_nb_nucleotide);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_2int_to_kmer(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_num, int __pyx_v_nb_nucleotide) {
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_2int_to_kmer(CYTHON_UNUSED PyObject *__pyx_self, int __pyx_v_num, int __pyx_v_nb_nucleotide) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -2591,7 +2593,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("int_to_kmer", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_int_to_kmer(__pyx_v_num, __pyx_v_nb_nucleotide, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_14metagenome2vec_5utils_18transformation_ADN_int_to_kmer(__pyx_v_num, __pyx_v_nb_nucleotide, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 29, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2600,7 +2602,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.int_to_kmer", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.int_to_kmer", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2608,7 +2610,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":39
+/* "metagenome2vec/utils/transformation_ADN.pyx":39
  * 
  * 
  * cpdef str complement(str s, int not_AC=False):             # <<<<<<<<<<<<<<
@@ -2616,8 +2618,8 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
  *     Complement of a DNA sequence
  */
 
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_5complement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_complement(PyObject *__pyx_v_s, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_complement *__pyx_optional_args) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_5complement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_complement(PyObject *__pyx_v_s, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_complement *__pyx_optional_args) {
   int __pyx_v_not_AC = ((int)0);
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -2627,6 +2629,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2637,7 +2640,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     }
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":50
+  /* "metagenome2vec/utils/transformation_ADN.pyx":50
  *         complement("TGA") => "ACT"
  *     """
  *     if not_AC:             # <<<<<<<<<<<<<<
@@ -2647,12 +2650,12 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __pyx_t_1 = (__pyx_v_not_AC != 0);
   if (__pyx_t_1) {
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":51
+    /* "metagenome2vec/utils/transformation_ADN.pyx":51
  *     """
  *     if not_AC:
  *         if s[0] in "AC":             # <<<<<<<<<<<<<<
  *             return s
- *         return Seq(s).complement()._data
+ *         return Seq(s).complement()._data.decode()
  */
     __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_s, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 51, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -2661,79 +2664,97 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     __pyx_t_3 = (__pyx_t_1 != 0);
     if (__pyx_t_3) {
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":52
+      /* "metagenome2vec/utils/transformation_ADN.pyx":52
  *     if not_AC:
  *         if s[0] in "AC":
  *             return s             # <<<<<<<<<<<<<<
- *         return Seq(s).complement()._data
- *     return Seq(s).complement()._data
+ *         return Seq(s).complement()._data.decode()
+ *     return Seq(s).complement()._data.decode()
  */
       __Pyx_XDECREF(__pyx_r);
       __Pyx_INCREF(__pyx_v_s);
       __pyx_r = __pyx_v_s;
       goto __pyx_L0;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":51
+      /* "metagenome2vec/utils/transformation_ADN.pyx":51
  *     """
  *     if not_AC:
  *         if s[0] in "AC":             # <<<<<<<<<<<<<<
  *             return s
- *         return Seq(s).complement()._data
+ *         return Seq(s).complement()._data.decode()
  */
     }
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":53
+    /* "metagenome2vec/utils/transformation_ADN.pyx":53
  *         if s[0] in "AC":
  *             return s
- *         return Seq(s).complement()._data             # <<<<<<<<<<<<<<
- *     return Seq(s).complement()._data
+ *         return Seq(s).complement()._data.decode()             # <<<<<<<<<<<<<<
+ *     return Seq(s).complement()._data.decode()
  * 
  */
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_Seq); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = NULL;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
-      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
-      if (likely(__pyx_t_6)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-        __Pyx_INCREF(__pyx_t_6);
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_Seq); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_7 = NULL;
+    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_5, function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
       }
     }
-    __pyx_t_4 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_6, __pyx_v_s) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_s);
-    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_5 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_v_s) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_s);
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_complement); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_5)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_5);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
+      }
+    }
+    __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_complement); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_data); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-        __Pyx_INCREF(__pyx_t_4);
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_decode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 53, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+        __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_5, function);
+        __Pyx_DECREF_SET(__pyx_t_4, function);
       }
     }
-    __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 53, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_data); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 53, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (!(likely(PyString_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 53, __pyx_L1_error)
-    __pyx_r = ((PyObject*)__pyx_t_5);
-    __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 53, __pyx_L1_error)
+    __pyx_r = ((PyObject*)__pyx_t_2);
+    __pyx_t_2 = 0;
     goto __pyx_L0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":50
+    /* "metagenome2vec/utils/transformation_ADN.pyx":50
  *         complement("TGA") => "ACT"
  *     """
  *     if not_AC:             # <<<<<<<<<<<<<<
@@ -2742,58 +2763,76 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  */
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":54
+  /* "metagenome2vec/utils/transformation_ADN.pyx":54
  *             return s
- *         return Seq(s).complement()._data
- *     return Seq(s).complement()._data             # <<<<<<<<<<<<<<
+ *         return Seq(s).complement()._data.decode()
+ *     return Seq(s).complement()._data.decode()             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Seq); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_Seq); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_7, __pyx_v_s) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_s);
+  __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_complement); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
     if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  __pyx_t_4 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_data); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_decode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_4, function);
     }
   }
-  __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_v_s) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_s);
-  __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
   if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 54, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_complement); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  __pyx_t_5 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 54, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_data); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 54, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (!(likely(PyString_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_4)->tp_name), 0))) __PYX_ERR(0, 54, __pyx_L1_error)
-  __pyx_r = ((PyObject*)__pyx_t_4);
-  __pyx_t_4 = 0;
+  if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 54, __pyx_L1_error)
+  __pyx_r = ((PyObject*)__pyx_t_2);
+  __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":39
+  /* "metagenome2vec/utils/transformation_ADN.pyx":39
  * 
  * 
  * cpdef str complement(str s, int not_AC=False):             # <<<<<<<<<<<<<<
@@ -2807,7 +2846,8 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.complement", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.complement", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2816,9 +2856,9 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_5complement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_4complement[] = "\n    Complement of a DNA sequence\n\n    :param s:  String, Chain of nucleotides\n    :return: s inversed\n\n    Example :\n        complement(\"GTT\") => \"CAA\"\n        complement(\"TGA\") => \"ACT\"\n    ";
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_5complement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_5complement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_14metagenome2vec_5utils_18transformation_ADN_4complement[] = "\n    Complement of a DNA sequence\n\n    :param s:  String, Chain of nucleotides\n    :return: s inversed\n\n    Example :\n        complement(\"GTT\") => \"CAA\"\n        complement(\"TGA\") => \"ACT\"\n    ";
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_5complement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_s = 0;
   int __pyx_v_not_AC;
   int __pyx_lineno = 0;
@@ -2876,12 +2916,12 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("complement", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 39, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.complement", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.complement", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s), (&PyString_Type), 1, "s", 1))) __PYX_ERR(0, 39, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_4complement(__pyx_self, __pyx_v_s, __pyx_v_not_AC);
+  __pyx_r = __pyx_pf_14metagenome2vec_5utils_18transformation_ADN_4complement(__pyx_self, __pyx_v_s, __pyx_v_not_AC);
 
   /* function exit code */
   goto __pyx_L0;
@@ -2892,11 +2932,11 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_4complement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s, int __pyx_v_not_AC) {
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_4complement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s, int __pyx_v_not_AC) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_complement __pyx_t_2;
+  struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_complement __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2904,7 +2944,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.not_AC = __pyx_v_not_AC;
-  __pyx_t_1 = __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_complement(__pyx_v_s, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_14metagenome2vec_5utils_18transformation_ADN_complement(__pyx_v_s, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 39, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -2913,7 +2953,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.complement", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.complement", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -2921,7 +2961,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":57
+/* "metagenome2vec/utils/transformation_ADN.pyx":57
  * 
  * 
  * cpdef str reverse_complement(str s, int not_AC=False):             # <<<<<<<<<<<<<<
@@ -2929,8 +2969,8 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
  *     Reverse complement of a DNA sequence
  */
 
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_7reverse_complement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_reverse_complement(PyObject *__pyx_v_s, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_reverse_complement *__pyx_optional_args) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_7reverse_complement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_reverse_complement(PyObject *__pyx_v_s, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_reverse_complement *__pyx_optional_args) {
   int __pyx_v_not_AC = ((int)0);
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
@@ -2940,6 +2980,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   PyObject *__pyx_t_4 = NULL;
   PyObject *__pyx_t_5 = NULL;
   PyObject *__pyx_t_6 = NULL;
+  PyObject *__pyx_t_7 = NULL;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -2950,7 +2991,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     }
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":68
+  /* "metagenome2vec/utils/transformation_ADN.pyx":68
  *         reverse_complement("TGA") => "TCA"
  *     """
  *     if not_AC:             # <<<<<<<<<<<<<<
@@ -2960,12 +3001,12 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __pyx_t_1 = (__pyx_v_not_AC != 0);
   if (__pyx_t_1) {
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":69
+    /* "metagenome2vec/utils/transformation_ADN.pyx":69
  *     """
  *     if not_AC:
  *         if s[0] in "AC":             # <<<<<<<<<<<<<<
  *             return s
- *         return Seq(s).reverse_complement()._data
+ *         return Seq(s).reverse_complement()._data.decode()
  */
     __pyx_t_2 = __Pyx_GetItemInt(__pyx_v_s, 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 69, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
@@ -2974,79 +3015,97 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     __pyx_t_3 = (__pyx_t_1 != 0);
     if (__pyx_t_3) {
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":70
+      /* "metagenome2vec/utils/transformation_ADN.pyx":70
  *     if not_AC:
  *         if s[0] in "AC":
  *             return s             # <<<<<<<<<<<<<<
- *         return Seq(s).reverse_complement()._data
- *     return Seq(s).reverse_complement()._data
+ *         return Seq(s).reverse_complement()._data.decode()
+ *     return Seq(s).reverse_complement()._data.decode()
  */
       __Pyx_XDECREF(__pyx_r);
       __Pyx_INCREF(__pyx_v_s);
       __pyx_r = __pyx_v_s;
       goto __pyx_L0;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":69
+      /* "metagenome2vec/utils/transformation_ADN.pyx":69
  *     """
  *     if not_AC:
  *         if s[0] in "AC":             # <<<<<<<<<<<<<<
  *             return s
- *         return Seq(s).reverse_complement()._data
+ *         return Seq(s).reverse_complement()._data.decode()
  */
     }
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":71
+    /* "metagenome2vec/utils/transformation_ADN.pyx":71
  *         if s[0] in "AC":
  *             return s
- *         return Seq(s).reverse_complement()._data             # <<<<<<<<<<<<<<
- *     return Seq(s).reverse_complement()._data
+ *         return Seq(s).reverse_complement()._data.decode()             # <<<<<<<<<<<<<<
+ *     return Seq(s).reverse_complement()._data.decode()
  * 
  */
     __Pyx_XDECREF(__pyx_r);
-    __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_Seq); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 71, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = NULL;
-    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
-      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
-      if (likely(__pyx_t_6)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-        __Pyx_INCREF(__pyx_t_6);
+    __Pyx_GetModuleGlobalName(__pyx_t_6, __pyx_n_s_Seq); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 71, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __pyx_t_7 = NULL;
+    if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_7)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_7);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_5, function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
       }
     }
-    __pyx_t_4 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_6, __pyx_v_s) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_s);
-    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_5 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_6, __pyx_t_7, __pyx_v_s) : __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_v_s);
+    __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+    if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 71, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_reverse_complement); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 71, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
+    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+    __pyx_t_5 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_6))) {
+      __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_6);
+      if (likely(__pyx_t_5)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_6);
+        __Pyx_INCREF(__pyx_t_5);
+        __Pyx_INCREF(function);
+        __Pyx_DECREF_SET(__pyx_t_6, function);
+      }
+    }
+    __pyx_t_4 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_6, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_6);
+    __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_reverse_complement); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 71, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_data); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 71, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-    __pyx_t_4 = NULL;
-    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
-      __pyx_t_4 = PyMethod_GET_SELF(__pyx_t_5);
-      if (likely(__pyx_t_4)) {
-        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
-        __Pyx_INCREF(__pyx_t_4);
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_decode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 71, __pyx_L1_error)
+    __Pyx_GOTREF(__pyx_t_4);
+    __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
+    __pyx_t_6 = NULL;
+    if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+      __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
+      if (likely(__pyx_t_6)) {
+        PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+        __Pyx_INCREF(__pyx_t_6);
         __Pyx_INCREF(function);
-        __Pyx_DECREF_SET(__pyx_t_5, function);
+        __Pyx_DECREF_SET(__pyx_t_4, function);
       }
     }
-    __pyx_t_2 = (__pyx_t_4) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_4) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
-    __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
+    __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
+    __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 71, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
-    __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_data); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 71, __pyx_L1_error)
-    __Pyx_GOTREF(__pyx_t_5);
-    __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    if (!(likely(PyString_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 71, __pyx_L1_error)
-    __pyx_r = ((PyObject*)__pyx_t_5);
-    __pyx_t_5 = 0;
+    __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+    if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 71, __pyx_L1_error)
+    __pyx_r = ((PyObject*)__pyx_t_2);
+    __pyx_t_2 = 0;
     goto __pyx_L0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":68
+    /* "metagenome2vec/utils/transformation_ADN.pyx":68
  *         reverse_complement("TGA") => "TCA"
  *     """
  *     if not_AC:             # <<<<<<<<<<<<<<
@@ -3055,58 +3114,76 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  */
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":72
+  /* "metagenome2vec/utils/transformation_ADN.pyx":72
  *             return s
- *         return Seq(s).reverse_complement()._data
- *     return Seq(s).reverse_complement()._data             # <<<<<<<<<<<<<<
+ *         return Seq(s).reverse_complement()._data.decode()
+ *     return Seq(s).reverse_complement()._data.decode()             # <<<<<<<<<<<<<<
  * 
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_Seq); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_Seq); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __pyx_t_7 = NULL;
+  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_7 = PyMethod_GET_SELF(__pyx_t_5);
+    if (likely(__pyx_t_7)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
+      __Pyx_INCREF(__pyx_t_7);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  __pyx_t_6 = (__pyx_t_7) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_7, __pyx_v_s) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_v_s);
+  __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
+  if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_6);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_6, __pyx_n_s_reverse_complement); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   __pyx_t_6 = NULL;
-  if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_4);
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_5))) {
+    __pyx_t_6 = PyMethod_GET_SELF(__pyx_t_5);
     if (likely(__pyx_t_6)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_5);
       __Pyx_INCREF(__pyx_t_6);
+      __Pyx_INCREF(function);
+      __Pyx_DECREF_SET(__pyx_t_5, function);
+    }
+  }
+  __pyx_t_4 = (__pyx_t_6) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_6) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
+  __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_data); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_5);
+  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_decode); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
+  __Pyx_GOTREF(__pyx_t_4);
+  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
+  __pyx_t_5 = NULL;
+  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
+    __pyx_t_5 = PyMethod_GET_SELF(__pyx_t_4);
+    if (likely(__pyx_t_5)) {
+      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
+      __Pyx_INCREF(__pyx_t_5);
       __Pyx_INCREF(function);
       __Pyx_DECREF_SET(__pyx_t_4, function);
     }
   }
-  __pyx_t_2 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_6, __pyx_v_s) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_s);
-  __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
+  __pyx_t_2 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
+  __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
   if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 72, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_reverse_complement); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = NULL;
-  if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_4))) {
-    __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_4);
-    if (likely(__pyx_t_2)) {
-      PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_4);
-      __Pyx_INCREF(__pyx_t_2);
-      __Pyx_INCREF(function);
-      __Pyx_DECREF_SET(__pyx_t_4, function);
-    }
-  }
-  __pyx_t_5 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_4);
-  __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 72, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_5);
-  __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_data); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 72, __pyx_L1_error)
-  __Pyx_GOTREF(__pyx_t_4);
-  __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (!(likely(PyString_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_4)->tp_name), 0))) __PYX_ERR(0, 72, __pyx_L1_error)
-  __pyx_r = ((PyObject*)__pyx_t_4);
-  __pyx_t_4 = 0;
+  if (!(likely(PyString_CheckExact(__pyx_t_2))||((__pyx_t_2) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_2)->tp_name), 0))) __PYX_ERR(0, 72, __pyx_L1_error)
+  __pyx_r = ((PyObject*)__pyx_t_2);
+  __pyx_t_2 = 0;
   goto __pyx_L0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":57
+  /* "metagenome2vec/utils/transformation_ADN.pyx":57
  * 
  * 
  * cpdef str reverse_complement(str s, int not_AC=False):             # <<<<<<<<<<<<<<
@@ -3120,7 +3197,8 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.reverse_complement", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_XDECREF(__pyx_t_7);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.reverse_complement", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3129,9 +3207,9 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_7reverse_complement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_6reverse_complement[] = "\n    Reverse complement of a DNA sequence\n\n    :param s:  String, Chain of nucleotides\n    :return: s inversed\n\n    Example :\n        reverse_complement(\"GTT\") => \"AAC\"\n        reverse_complement(\"TGA\") => \"TCA\"\n    ";
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_7reverse_complement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_7reverse_complement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_14metagenome2vec_5utils_18transformation_ADN_6reverse_complement[] = "\n    Reverse complement of a DNA sequence\n\n    :param s:  String, Chain of nucleotides\n    :return: s inversed\n\n    Example :\n        reverse_complement(\"GTT\") => \"AAC\"\n        reverse_complement(\"TGA\") => \"TCA\"\n    ";
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_7reverse_complement(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_s = 0;
   int __pyx_v_not_AC;
   int __pyx_lineno = 0;
@@ -3189,12 +3267,12 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("reverse_complement", 0, 1, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 57, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.reverse_complement", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.reverse_complement", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s), (&PyString_Type), 1, "s", 1))) __PYX_ERR(0, 57, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_6reverse_complement(__pyx_self, __pyx_v_s, __pyx_v_not_AC);
+  __pyx_r = __pyx_pf_14metagenome2vec_5utils_18transformation_ADN_6reverse_complement(__pyx_self, __pyx_v_s, __pyx_v_not_AC);
 
   /* function exit code */
   goto __pyx_L0;
@@ -3205,11 +3283,11 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_6reverse_complement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s, int __pyx_v_not_AC) {
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_6reverse_complement(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s, int __pyx_v_not_AC) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_reverse_complement __pyx_t_2;
+  struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_reverse_complement __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3217,7 +3295,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.not_AC = __pyx_v_not_AC;
-  __pyx_t_1 = __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_reverse_complement(__pyx_v_s, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_14metagenome2vec_5utils_18transformation_ADN_reverse_complement(__pyx_v_s, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 57, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -3226,7 +3304,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.reverse_complement", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.reverse_complement", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3234,7 +3312,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":75
+/* "metagenome2vec/utils/transformation_ADN.pyx":75
  * 
  * 
  * def cut_word(str x, int k, int s=1, int remove_unk=0):             # <<<<<<<<<<<<<<
@@ -3243,10 +3321,10 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_9cut_word(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_8cut_word[] = "\n    Convert a sequence of nucleotides into a list of k nucleotides spaced by s nucleotides\n\n    :param x: String, nucleotide chain\n    :param k: int, number of nucleotides by chain\n    :param s: int (default=1), The step between each sequences\n    :param remove_unk, int (default=0), if 1 remove unk kmer\n    :return: l : List, list of String where one element corresponds to k nucleotides.\n    ";
-static PyMethodDef __pyx_mdef_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_9cut_word = {"cut_word", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_9cut_word, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_8cut_word};
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_9cut_word(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_9cut_word(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_14metagenome2vec_5utils_18transformation_ADN_8cut_word[] = "\n    Convert a sequence of nucleotides into a list of k nucleotides spaced by s nucleotides\n\n    :param x: String, nucleotide chain\n    :param k: int, number of nucleotides by chain\n    :param s: int (default=1), The step between each sequences\n    :param remove_unk, int (default=0), if 1 remove unk kmer\n    :return: l : List, list of String where one element corresponds to k nucleotides.\n    ";
+static PyMethodDef __pyx_mdef_14metagenome2vec_5utils_18transformation_ADN_9cut_word = {"cut_word", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_9cut_word, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14metagenome2vec_5utils_18transformation_ADN_8cut_word};
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_9cut_word(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_x = 0;
   int __pyx_v_k;
   int __pyx_v_s;
@@ -3331,12 +3409,12 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   __pyx_L5_argtuple_error:;
   __Pyx_RaiseArgtupleInvalid("cut_word", 0, 2, 4, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 75, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.cut_word", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.cut_word", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
   if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_x), (&PyString_Type), 1, "x", 1))) __PYX_ERR(0, 75, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_8cut_word(__pyx_self, __pyx_v_x, __pyx_v_k, __pyx_v_s, __pyx_v_remove_unk);
+  __pyx_r = __pyx_pf_14metagenome2vec_5utils_18transformation_ADN_8cut_word(__pyx_self, __pyx_v_x, __pyx_v_k, __pyx_v_s, __pyx_v_remove_unk);
 
   /* function exit code */
   goto __pyx_L0;
@@ -3347,17 +3425,17 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_8cut_word(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, int __pyx_v_k, int __pyx_v_s, int __pyx_v_remove_unk) {
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_8cut_word(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_x, int __pyx_v_k, int __pyx_v_s, int __pyx_v_remove_unk) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_word_in_c __pyx_t_2;
+  struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_cut_word_in_c __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("cut_word", 0);
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":85
+  /* "metagenome2vec/utils/transformation_ADN.pyx":85
  *     :return: l : List, list of String where one element corresponds to k nucleotides.
  *     """
  *     return cut_word_in_c(x, k, s, remove_unk)             # <<<<<<<<<<<<<<
@@ -3368,13 +3446,13 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   __pyx_t_2.__pyx_n = 2;
   __pyx_t_2.s = __pyx_v_s;
   __pyx_t_2.remove_unk = __pyx_v_remove_unk;
-  __pyx_t_1 = ((PyObject *)__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_word_in_c(__pyx_v_x, __pyx_v_k, &__pyx_t_2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_14metagenome2vec_5utils_18transformation_ADN_cut_word_in_c(__pyx_v_x, __pyx_v_k, &__pyx_t_2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 85, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":75
+  /* "metagenome2vec/utils/transformation_ADN.pyx":75
  * 
  * 
  * def cut_word(str x, int k, int s=1, int remove_unk=0):             # <<<<<<<<<<<<<<
@@ -3385,7 +3463,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.cut_word", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.cut_word", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -3393,7 +3471,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":88
+/* "metagenome2vec/utils/transformation_ADN.pyx":88
  * 
  * 
  * cdef np.ndarray[np.str, ndim=1] cut_word_in_c(str x, int k, int s=1, int remove_unk=0):             # <<<<<<<<<<<<<<
@@ -3401,11 +3479,12 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
  *     Convert a sequence of nucleotides into a list of k nucleotides spaced by s nucleotides
  */
 
-static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_word_in_c(PyObject *__pyx_v_x, int __pyx_v_k, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_word_in_c *__pyx_optional_args) {
+static PyArrayObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_cut_word_in_c(PyObject *__pyx_v_x, int __pyx_v_k, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_cut_word_in_c *__pyx_optional_args) {
   int __pyx_v_s = ((int)1);
   int __pyx_v_remove_unk = ((int)0);
   int __pyx_v_i;
   PyArrayObject *__pyx_v_res = 0;
+  PyObject *__pyx_v_kmer = NULL;
   __Pyx_LocalBuf_ND __pyx_pybuffernd_res;
   __Pyx_Buffer __pyx_pybuffer_res;
   PyArrayObject *__pyx_r = NULL;
@@ -3422,10 +3501,10 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   PyArrayObject *__pyx_t_10 = NULL;
   PyObject *(*__pyx_t_11)(PyObject *);
   int __pyx_t_12;
-  struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_reverse_complement __pyx_t_13;
-  Py_ssize_t __pyx_t_14;
-  PyObject **__pyx_t_15;
-  int __pyx_t_16;
+  struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_reverse_complement __pyx_t_13;
+  int __pyx_t_14;
+  Py_ssize_t __pyx_t_15;
+  PyObject **__pyx_t_16;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3443,12 +3522,12 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_pybuffernd_res.data = NULL;
   __pyx_pybuffernd_res.rcbuffer = &__pyx_pybuffer_res;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":100
+  /* "metagenome2vec/utils/transformation_ADN.pyx":100
  *     cdef:
  *         int i
  *         np.ndarray[np.str, ndim=1] res = np.zeros(np.int(np.ceil((len(x) - k + 1) / s)), dtype=object)             # <<<<<<<<<<<<<<
  *     for i in range(0, len(res), s):
- *         res[i] = reverse_complement(x[i:i + k], not_AC=True)
+ *         kmer = reverse_complement(x[i:i + k], not_AC=True)
  */
   __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 100, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -3536,12 +3615,12 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_v_res = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":101
+  /* "metagenome2vec/utils/transformation_ADN.pyx":101
  *         int i
  *         np.ndarray[np.str, ndim=1] res = np.zeros(np.int(np.ceil((len(x) - k + 1) / s)), dtype=object)
  *     for i in range(0, len(res), s):             # <<<<<<<<<<<<<<
- *         res[i] = reverse_complement(x[i:i + k], not_AC=True)
- *     if remove_unk:
+ *         kmer = reverse_complement(x[i:i + k], not_AC=True)
+ *         if type(kmer) == bytes:
  */
   __pyx_t_8 = PyObject_Length(((PyObject *)__pyx_v_res)); if (unlikely(__pyx_t_8 == ((Py_ssize_t)-1))) __PYX_ERR(0, 101, __pyx_L1_error)
   __pyx_t_3 = PyInt_FromSsize_t(__pyx_t_8); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 101, __pyx_L1_error)
@@ -3606,12 +3685,12 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
     __pyx_v_i = __pyx_t_12;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":102
+    /* "metagenome2vec/utils/transformation_ADN.pyx":102
  *         np.ndarray[np.str, ndim=1] res = np.zeros(np.int(np.ceil((len(x) - k + 1) / s)), dtype=object)
  *     for i in range(0, len(res), s):
- *         res[i] = reverse_complement(x[i:i + k], not_AC=True)             # <<<<<<<<<<<<<<
- *     if remove_unk:
- *         return remove_unk_kmer(res)
+ *         kmer = reverse_complement(x[i:i + k], not_AC=True)             # <<<<<<<<<<<<<<
+ *         if type(kmer) == bytes:
+ *             kmer = kmer.decode()
  */
     if (unlikely(__pyx_v_x == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
@@ -3621,70 +3700,131 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
     __Pyx_GOTREF(__pyx_t_1);
     __pyx_t_13.__pyx_n = 1;
     __pyx_t_13.not_AC = 1;
-    __pyx_t_3 = __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_reverse_complement(((PyObject*)__pyx_t_1), 0, &__pyx_t_13); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 102, __pyx_L1_error)
+    __pyx_t_3 = __pyx_f_14metagenome2vec_5utils_18transformation_ADN_reverse_complement(((PyObject*)__pyx_t_1), 0, &__pyx_t_13); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 102, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-    __pyx_t_14 = __pyx_v_i;
+    __Pyx_XDECREF_SET(__pyx_v_kmer, __pyx_t_3);
+    __pyx_t_3 = 0;
+
+    /* "metagenome2vec/utils/transformation_ADN.pyx":103
+ *     for i in range(0, len(res), s):
+ *         kmer = reverse_complement(x[i:i + k], not_AC=True)
+ *         if type(kmer) == bytes:             # <<<<<<<<<<<<<<
+ *             kmer = kmer.decode()
+ *         res[i] = kmer
+ */
+    __pyx_t_3 = PyObject_RichCompare(((PyObject *)Py_TYPE(__pyx_v_kmer)), ((PyObject *)(&PyBytes_Type)), Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __pyx_t_14 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_14 < 0)) __PYX_ERR(0, 103, __pyx_L1_error)
+    __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
+    if (__pyx_t_14) {
+
+      /* "metagenome2vec/utils/transformation_ADN.pyx":104
+ *         kmer = reverse_complement(x[i:i + k], not_AC=True)
+ *         if type(kmer) == bytes:
+ *             kmer = kmer.decode()             # <<<<<<<<<<<<<<
+ *         res[i] = kmer
+ *     if remove_unk:
+ */
+      __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_v_kmer, __pyx_n_s_decode); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 104, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_1);
+      __pyx_t_2 = NULL;
+      if (CYTHON_UNPACK_METHODS && likely(PyMethod_Check(__pyx_t_1))) {
+        __pyx_t_2 = PyMethod_GET_SELF(__pyx_t_1);
+        if (likely(__pyx_t_2)) {
+          PyObject* function = PyMethod_GET_FUNCTION(__pyx_t_1);
+          __Pyx_INCREF(__pyx_t_2);
+          __Pyx_INCREF(function);
+          __Pyx_DECREF_SET(__pyx_t_1, function);
+        }
+      }
+      __pyx_t_3 = (__pyx_t_2) ? __Pyx_PyObject_CallOneArg(__pyx_t_1, __pyx_t_2) : __Pyx_PyObject_CallNoArg(__pyx_t_1);
+      __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
+      if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 104, __pyx_L1_error)
+      __Pyx_GOTREF(__pyx_t_3);
+      __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
+      __Pyx_DECREF_SET(__pyx_v_kmer, __pyx_t_3);
+      __pyx_t_3 = 0;
+
+      /* "metagenome2vec/utils/transformation_ADN.pyx":103
+ *     for i in range(0, len(res), s):
+ *         kmer = reverse_complement(x[i:i + k], not_AC=True)
+ *         if type(kmer) == bytes:             # <<<<<<<<<<<<<<
+ *             kmer = kmer.decode()
+ *         res[i] = kmer
+ */
+    }
+
+    /* "metagenome2vec/utils/transformation_ADN.pyx":105
+ *         if type(kmer) == bytes:
+ *             kmer = kmer.decode()
+ *         res[i] = kmer             # <<<<<<<<<<<<<<
+ *     if remove_unk:
+ *         return remove_unk_kmer(res)
+ */
+    if (!(likely(PyString_CheckExact(__pyx_v_kmer))||((__pyx_v_kmer) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_kmer)->tp_name), 0))) __PYX_ERR(0, 105, __pyx_L1_error)
+    __pyx_t_3 = __pyx_v_kmer;
+    __Pyx_INCREF(__pyx_t_3);
+    __pyx_t_15 = __pyx_v_i;
     __pyx_t_12 = -1;
-    if (__pyx_t_14 < 0) {
-      __pyx_t_14 += __pyx_pybuffernd_res.diminfo[0].shape;
-      if (unlikely(__pyx_t_14 < 0)) __pyx_t_12 = 0;
-    } else if (unlikely(__pyx_t_14 >= __pyx_pybuffernd_res.diminfo[0].shape)) __pyx_t_12 = 0;
+    if (__pyx_t_15 < 0) {
+      __pyx_t_15 += __pyx_pybuffernd_res.diminfo[0].shape;
+      if (unlikely(__pyx_t_15 < 0)) __pyx_t_12 = 0;
+    } else if (unlikely(__pyx_t_15 >= __pyx_pybuffernd_res.diminfo[0].shape)) __pyx_t_12 = 0;
     if (unlikely(__pyx_t_12 != -1)) {
       __Pyx_RaiseBufferIndexError(__pyx_t_12);
-      __PYX_ERR(0, 102, __pyx_L1_error)
+      __PYX_ERR(0, 105, __pyx_L1_error)
     }
-    __pyx_t_15 = __Pyx_BufPtrStrided1d(PyObject **, __pyx_pybuffernd_res.rcbuffer->pybuffer.buf, __pyx_t_14, __pyx_pybuffernd_res.diminfo[0].strides);
-    __Pyx_GOTREF(*__pyx_t_15);
-    __Pyx_INCREF(__pyx_t_3); __Pyx_DECREF(*__pyx_t_15);
-    *__pyx_t_15 = __pyx_t_3;
-    __Pyx_GIVEREF(*__pyx_t_15);
+    __pyx_t_16 = __Pyx_BufPtrStrided1d(PyObject **, __pyx_pybuffernd_res.rcbuffer->pybuffer.buf, __pyx_t_15, __pyx_pybuffernd_res.diminfo[0].strides);
+    __Pyx_GOTREF(*__pyx_t_16);
+    __Pyx_INCREF(__pyx_t_3); __Pyx_DECREF(*__pyx_t_16);
+    *__pyx_t_16 = __pyx_t_3;
+    __Pyx_GIVEREF(*__pyx_t_16);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":101
+    /* "metagenome2vec/utils/transformation_ADN.pyx":101
  *         int i
  *         np.ndarray[np.str, ndim=1] res = np.zeros(np.int(np.ceil((len(x) - k + 1) / s)), dtype=object)
  *     for i in range(0, len(res), s):             # <<<<<<<<<<<<<<
- *         res[i] = reverse_complement(x[i:i + k], not_AC=True)
- *     if remove_unk:
+ *         kmer = reverse_complement(x[i:i + k], not_AC=True)
+ *         if type(kmer) == bytes:
  */
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":103
- *     for i in range(0, len(res), s):
- *         res[i] = reverse_complement(x[i:i + k], not_AC=True)
+  /* "metagenome2vec/utils/transformation_ADN.pyx":106
+ *             kmer = kmer.decode()
+ *         res[i] = kmer
  *     if remove_unk:             # <<<<<<<<<<<<<<
  *         return remove_unk_kmer(res)
  *     return res
  */
-  __pyx_t_16 = (__pyx_v_remove_unk != 0);
-  if (__pyx_t_16) {
+  __pyx_t_14 = (__pyx_v_remove_unk != 0);
+  if (__pyx_t_14) {
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":104
- *         res[i] = reverse_complement(x[i:i + k], not_AC=True)
+    /* "metagenome2vec/utils/transformation_ADN.pyx":107
+ *         res[i] = kmer
  *     if remove_unk:
  *         return remove_unk_kmer(res)             # <<<<<<<<<<<<<<
  *     return res
  * 
  */
     __Pyx_XDECREF(((PyObject *)__pyx_r));
-    __pyx_t_4 = ((PyObject *)__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_remove_unk_kmer(((PyArrayObject *)__pyx_v_res), 0)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 104, __pyx_L1_error)
+    __pyx_t_4 = ((PyObject *)__pyx_f_14metagenome2vec_5utils_18transformation_ADN_remove_unk_kmer(((PyArrayObject *)__pyx_v_res), 0)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 107, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __pyx_r = ((PyArrayObject *)__pyx_t_4);
     __pyx_t_4 = 0;
     goto __pyx_L0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":103
- *     for i in range(0, len(res), s):
- *         res[i] = reverse_complement(x[i:i + k], not_AC=True)
+    /* "metagenome2vec/utils/transformation_ADN.pyx":106
+ *             kmer = kmer.decode()
+ *         res[i] = kmer
  *     if remove_unk:             # <<<<<<<<<<<<<<
  *         return remove_unk_kmer(res)
  *     return res
  */
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":105
+  /* "metagenome2vec/utils/transformation_ADN.pyx":108
  *     if remove_unk:
  *         return remove_unk_kmer(res)
  *     return res             # <<<<<<<<<<<<<<
@@ -3696,7 +3836,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_r = ((PyArrayObject *)__pyx_v_res);
   goto __pyx_L0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":88
+  /* "metagenome2vec/utils/transformation_ADN.pyx":88
  * 
  * 
  * cdef np.ndarray[np.str, ndim=1] cut_word_in_c(str x, int k, int s=1, int remove_unk=0):             # <<<<<<<<<<<<<<
@@ -3719,19 +3859,20 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
     __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_res.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.cut_word_in_c", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.cut_word_in_c", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   goto __pyx_L2;
   __pyx_L0:;
   __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_res.rcbuffer->pybuffer);
   __pyx_L2:;
   __Pyx_XDECREF((PyObject *)__pyx_v_res);
+  __Pyx_XDECREF(__pyx_v_kmer);
   __Pyx_XGIVEREF((PyObject *)__pyx_r);
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":108
+/* "metagenome2vec/utils/transformation_ADN.pyx":111
  * 
  * 
  * cpdef str preprocess_read_str(str read, int k, int max_length=-1):             # <<<<<<<<<<<<<<
@@ -3739,8 +3880,8 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
  *     Create all 'sentences' of feasible kmers with read
  */
 
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_11preprocess_read_str(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str(PyObject *__pyx_v_read, int __pyx_v_k, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str *__pyx_optional_args) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_11preprocess_read_str(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str(PyObject *__pyx_v_read, int __pyx_v_k, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str *__pyx_optional_args) {
   int __pyx_v_max_length = ((int)-1);
   int __pyx_v_i;
   PyObject *__pyx_v_res = 0;
@@ -3752,7 +3893,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   Py_ssize_t __pyx_t_4;
   int __pyx_t_5;
   PyObject *__pyx_t_6 = NULL;
-  struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_reverse_complement __pyx_t_7;
+  struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_reverse_complement __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3764,7 +3905,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   }
   __Pyx_INCREF(__pyx_v_read);
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":114
+  /* "metagenome2vec/utils/transformation_ADN.pyx":117
  *     """
  *     cdef:
  *         int i=0             # <<<<<<<<<<<<<<
@@ -3773,7 +3914,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  */
   __pyx_v_i = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":115
+  /* "metagenome2vec/utils/transformation_ADN.pyx":118
  *     cdef:
  *         int i=0
  *     if max_length > 0:             # <<<<<<<<<<<<<<
@@ -3783,7 +3924,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __pyx_t_1 = ((__pyx_v_max_length > 0) != 0);
   if (__pyx_t_1) {
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":116
+    /* "metagenome2vec/utils/transformation_ADN.pyx":119
  *         int i=0
  *     if max_length > 0:
  *         read = read[:max_length]             # <<<<<<<<<<<<<<
@@ -3792,14 +3933,14 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  */
     if (unlikely(__pyx_v_read == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 116, __pyx_L1_error)
+      __PYX_ERR(0, 119, __pyx_L1_error)
     }
-    __pyx_t_2 = PySequence_GetSlice(__pyx_v_read, 0, __pyx_v_max_length); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 116, __pyx_L1_error)
+    __pyx_t_2 = PySequence_GetSlice(__pyx_v_read, 0, __pyx_v_max_length); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF_SET(__pyx_v_read, ((PyObject*)__pyx_t_2));
     __pyx_t_2 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":115
+    /* "metagenome2vec/utils/transformation_ADN.pyx":118
  *     cdef:
  *         int i=0
  *     if max_length > 0:             # <<<<<<<<<<<<<<
@@ -3808,7 +3949,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  */
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":117
+  /* "metagenome2vec/utils/transformation_ADN.pyx":120
  *     if max_length > 0:
  *         read = read[:max_length]
  *     cdef str res = ""             # <<<<<<<<<<<<<<
@@ -3818,20 +3959,20 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __Pyx_INCREF(__pyx_kp_s_);
   __pyx_v_res = __pyx_kp_s_;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":118
+  /* "metagenome2vec/utils/transformation_ADN.pyx":121
  *         read = read[:max_length]
  *     cdef str res = ""
  *     for i in range(len(read) - k + 1):             # <<<<<<<<<<<<<<
  *         res += " %s" % reverse_complement(read[i:i + k], not_AC=True)
  *     return res.strip()
  */
-  __pyx_t_3 = PyObject_Length(__pyx_v_read); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 118, __pyx_L1_error)
+  __pyx_t_3 = PyObject_Length(__pyx_v_read); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 121, __pyx_L1_error)
   __pyx_t_4 = ((__pyx_t_3 - __pyx_v_k) + 1);
   __pyx_t_3 = __pyx_t_4;
   for (__pyx_t_5 = 0; __pyx_t_5 < __pyx_t_3; __pyx_t_5+=1) {
     __pyx_v_i = __pyx_t_5;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":119
+    /* "metagenome2vec/utils/transformation_ADN.pyx":122
  *     cdef str res = ""
  *     for i in range(len(read) - k + 1):
  *         res += " %s" % reverse_complement(read[i:i + k], not_AC=True)             # <<<<<<<<<<<<<<
@@ -3840,26 +3981,26 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  */
     if (unlikely(__pyx_v_read == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 119, __pyx_L1_error)
+      __PYX_ERR(0, 122, __pyx_L1_error)
     }
-    __pyx_t_2 = PySequence_GetSlice(__pyx_v_read, __pyx_v_i, (__pyx_v_i + __pyx_v_k)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __pyx_t_2 = PySequence_GetSlice(__pyx_v_read, __pyx_v_i, (__pyx_v_i + __pyx_v_k)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __pyx_t_7.__pyx_n = 1;
     __pyx_t_7.not_AC = 1;
-    __pyx_t_6 = __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_reverse_complement(((PyObject*)__pyx_t_2), 0, &__pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __pyx_t_6 = __pyx_f_14metagenome2vec_5utils_18transformation_ADN_reverse_complement(((PyObject*)__pyx_t_2), 0, &__pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-    __pyx_t_2 = __Pyx_PyString_Format(__pyx_kp_s_s_2, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyString_Format(__pyx_kp_s_s_2, __pyx_t_6); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_res, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 119, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_res, __pyx_t_2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 122, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
     __Pyx_DECREF_SET(__pyx_v_res, ((PyObject*)__pyx_t_6));
     __pyx_t_6 = 0;
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":120
+  /* "metagenome2vec/utils/transformation_ADN.pyx":123
  *     for i in range(len(read) - k + 1):
  *         res += " %s" % reverse_complement(read[i:i + k], not_AC=True)
  *     return res.strip()             # <<<<<<<<<<<<<<
@@ -3867,14 +4008,14 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  * 
  */
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_6 = __Pyx_CallUnboundCMethod0(&__pyx_umethod_PyString_Type_strip, __pyx_v_res); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 120, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_CallUnboundCMethod0(&__pyx_umethod_PyString_Type_strip, __pyx_v_res); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 123, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 120, __pyx_L1_error)
+  if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 123, __pyx_L1_error)
   __pyx_r = ((PyObject*)__pyx_t_6);
   __pyx_t_6 = 0;
   goto __pyx_L0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":108
+  /* "metagenome2vec/utils/transformation_ADN.pyx":111
  * 
  * 
  * cpdef str preprocess_read_str(str read, int k, int max_length=-1):             # <<<<<<<<<<<<<<
@@ -3886,7 +4027,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_2);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.preprocess_read_str", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.preprocess_read_str", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_res);
@@ -3897,9 +4038,9 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_11preprocess_read_str(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_10preprocess_read_str[] = "\n    Create all 'sentences' of feasible kmers with read\n    All sentences are represented as a list of k-mers\n    ";
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_11preprocess_read_str(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_11preprocess_read_str(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_14metagenome2vec_5utils_18transformation_ADN_10preprocess_read_str[] = "\n    Create all 'sentences' of feasible kmers with read\n    All sentences are represented as a list of k-mers\n    ";
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_11preprocess_read_str(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_read = 0;
   int __pyx_v_k;
   int __pyx_v_max_length;
@@ -3934,7 +4075,7 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_k)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("preprocess_read_str", 0, 2, 3, 1); __PYX_ERR(0, 108, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("preprocess_read_str", 0, 2, 3, 1); __PYX_ERR(0, 111, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -3944,7 +4085,7 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "preprocess_read_str") < 0)) __PYX_ERR(0, 108, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "preprocess_read_str") < 0)) __PYX_ERR(0, 111, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -3957,23 +4098,23 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
       }
     }
     __pyx_v_read = ((PyObject*)values[0]);
-    __pyx_v_k = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_k == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 108, __pyx_L3_error)
+    __pyx_v_k = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_k == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 111, __pyx_L3_error)
     if (values[2]) {
-      __pyx_v_max_length = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_max_length == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 108, __pyx_L3_error)
+      __pyx_v_max_length = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_max_length == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 111, __pyx_L3_error)
     } else {
       __pyx_v_max_length = ((int)-1);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("preprocess_read_str", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 108, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("preprocess_read_str", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 111, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.preprocess_read_str", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.preprocess_read_str", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_read), (&PyString_Type), 1, "read", 1))) __PYX_ERR(0, 108, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_10preprocess_read_str(__pyx_self, __pyx_v_read, __pyx_v_k, __pyx_v_max_length);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_read), (&PyString_Type), 1, "read", 1))) __PYX_ERR(0, 111, __pyx_L1_error)
+  __pyx_r = __pyx_pf_14metagenome2vec_5utils_18transformation_ADN_10preprocess_read_str(__pyx_self, __pyx_v_read, __pyx_v_k, __pyx_v_max_length);
 
   /* function exit code */
   goto __pyx_L0;
@@ -3984,11 +4125,11 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_10preprocess_read_str(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_read, int __pyx_v_k, int __pyx_v_max_length) {
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_10preprocess_read_str(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_read, int __pyx_v_k, int __pyx_v_max_length) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str __pyx_t_2;
+  struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -3996,7 +4137,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.max_length = __pyx_v_max_length;
-  __pyx_t_1 = __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str(__pyx_v_read, __pyx_v_k, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 108, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str(__pyx_v_read, __pyx_v_k, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 111, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4005,7 +4146,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.preprocess_read_str", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.preprocess_read_str", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4013,7 +4154,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":123
+/* "metagenome2vec/utils/transformation_ADN.pyx":126
  * 
  * 
  * cpdef np.ndarray[np.str, ndim=1] preprocess_several_reads_str(list L_read, int k, int max_length=-1):             # <<<<<<<<<<<<<<
@@ -4021,8 +4162,8 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
  *     Create all 'sentences' of feasible kmer with the list of reads L_read
  */
 
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_13preprocess_several_reads_str(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads_str(PyObject *__pyx_v_L_read, int __pyx_v_k, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads_str *__pyx_optional_args) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_13preprocess_several_reads_str(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyArrayObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads_str(PyObject *__pyx_v_L_read, int __pyx_v_k, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads_str *__pyx_optional_args) {
   int __pyx_v_max_length = ((int)-1);
   PyObject *__pyx_v_read = NULL;
   PyArrayObject *__pyx_r = NULL;
@@ -4033,7 +4174,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   PyObject *__pyx_t_4 = NULL;
   Py_ssize_t __pyx_t_5;
   PyObject *__pyx_t_6 = NULL;
-  struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str __pyx_t_7;
+  struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -4044,7 +4185,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
     }
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":129
+  /* "metagenome2vec/utils/transformation_ADN.pyx":132
  *     ps : The first column is an index to retrieve the line from a same read
  *     """
  *     return np.array([preprocess_read_str(read, k, max_length) for read in L_read])             # <<<<<<<<<<<<<<
@@ -4052,34 +4193,34 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
  * 
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_array); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 129, __pyx_L1_error)
+  __pyx_t_2 = PyList_New(0); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (unlikely(__pyx_v_L_read == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 129, __pyx_L1_error)
+    __PYX_ERR(0, 132, __pyx_L1_error)
   }
   __pyx_t_4 = __pyx_v_L_read; __Pyx_INCREF(__pyx_t_4); __pyx_t_5 = 0;
   for (;;) {
     if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_4)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_6 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_6); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_6 = PyList_GET_ITEM(__pyx_t_4, __pyx_t_5); __Pyx_INCREF(__pyx_t_6); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 132, __pyx_L1_error)
     #else
-    __pyx_t_6 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_6 = PySequence_ITEM(__pyx_t_4, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 132, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     #endif
     __Pyx_XDECREF_SET(__pyx_v_read, __pyx_t_6);
     __pyx_t_6 = 0;
-    if (!(likely(PyString_CheckExact(__pyx_v_read))||((__pyx_v_read) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_read)->tp_name), 0))) __PYX_ERR(0, 129, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_v_read))||((__pyx_v_read) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_v_read)->tp_name), 0))) __PYX_ERR(0, 132, __pyx_L1_error)
     __pyx_t_7.__pyx_n = 1;
     __pyx_t_7.max_length = __pyx_v_max_length;
-    __pyx_t_6 = __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str(((PyObject*)__pyx_v_read), __pyx_v_k, 0, &__pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 129, __pyx_L1_error)
+    __pyx_t_6 = __pyx_f_14metagenome2vec_5utils_18transformation_ADN_preprocess_read_str(((PyObject*)__pyx_v_read), __pyx_v_k, 0, &__pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 132, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_t_6))) __PYX_ERR(0, 129, __pyx_L1_error)
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_2, (PyObject*)__pyx_t_6))) __PYX_ERR(0, 132, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
@@ -4096,15 +4237,15 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_t_1 = (__pyx_t_4) ? __Pyx_PyObject_Call2Args(__pyx_t_3, __pyx_t_4, __pyx_t_2) : __Pyx_PyObject_CallOneArg(__pyx_t_3, __pyx_t_2);
   __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 129, __pyx_L1_error)
+  if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 129, __pyx_L1_error)
+  if (!(likely(((__pyx_t_1) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_1, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 132, __pyx_L1_error)
   __pyx_r = ((PyArrayObject *)__pyx_t_1);
   __pyx_t_1 = 0;
   goto __pyx_L0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":123
+  /* "metagenome2vec/utils/transformation_ADN.pyx":126
  * 
  * 
  * cpdef np.ndarray[np.str, ndim=1] preprocess_several_reads_str(list L_read, int k, int max_length=-1):             # <<<<<<<<<<<<<<
@@ -4119,7 +4260,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __Pyx_XDECREF(__pyx_t_3);
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.preprocess_several_reads_str", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.preprocess_several_reads_str", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_read);
@@ -4129,9 +4270,9 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_13preprocess_several_reads_str(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_12preprocess_several_reads_str[] = "\n    Create all 'sentences' of feasible kmer with the list of reads L_read\n    All sentences are represented as a list of k-mers\n    ps : The first column is an index to retrieve the line from a same read\n    ";
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_13preprocess_several_reads_str(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_13preprocess_several_reads_str(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_14metagenome2vec_5utils_18transformation_ADN_12preprocess_several_reads_str[] = "\n    Create all 'sentences' of feasible kmer with the list of reads L_read\n    All sentences are represented as a list of k-mers\n    ps : The first column is an index to retrieve the line from a same read\n    ";
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_13preprocess_several_reads_str(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_L_read = 0;
   int __pyx_v_k;
   int __pyx_v_max_length;
@@ -4166,7 +4307,7 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_k)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("preprocess_several_reads_str", 0, 2, 3, 1); __PYX_ERR(0, 123, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("preprocess_several_reads_str", 0, 2, 3, 1); __PYX_ERR(0, 126, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
@@ -4176,7 +4317,7 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "preprocess_several_reads_str") < 0)) __PYX_ERR(0, 123, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "preprocess_several_reads_str") < 0)) __PYX_ERR(0, 126, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4189,23 +4330,23 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
       }
     }
     __pyx_v_L_read = ((PyObject*)values[0]);
-    __pyx_v_k = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_k == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 123, __pyx_L3_error)
+    __pyx_v_k = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_k == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 126, __pyx_L3_error)
     if (values[2]) {
-      __pyx_v_max_length = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_max_length == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 123, __pyx_L3_error)
+      __pyx_v_max_length = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_max_length == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 126, __pyx_L3_error)
     } else {
       __pyx_v_max_length = ((int)-1);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("preprocess_several_reads_str", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 123, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("preprocess_several_reads_str", 0, 2, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 126, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.preprocess_several_reads_str", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.preprocess_several_reads_str", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_L_read), (&PyList_Type), 1, "L_read", 1))) __PYX_ERR(0, 123, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_12preprocess_several_reads_str(__pyx_self, __pyx_v_L_read, __pyx_v_k, __pyx_v_max_length);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_L_read), (&PyList_Type), 1, "L_read", 1))) __PYX_ERR(0, 126, __pyx_L1_error)
+  __pyx_r = __pyx_pf_14metagenome2vec_5utils_18transformation_ADN_12preprocess_several_reads_str(__pyx_self, __pyx_v_L_read, __pyx_v_k, __pyx_v_max_length);
 
   /* function exit code */
   goto __pyx_L0;
@@ -4216,11 +4357,11 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_12preprocess_several_reads_str(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_L_read, int __pyx_v_k, int __pyx_v_max_length) {
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_12preprocess_several_reads_str(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_L_read, int __pyx_v_k, int __pyx_v_max_length) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads_str __pyx_t_2;
+  struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads_str __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -4228,7 +4369,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   __Pyx_XDECREF(__pyx_r);
   __pyx_t_2.__pyx_n = 1;
   __pyx_t_2.max_length = __pyx_v_max_length;
-  __pyx_t_1 = ((PyObject *)__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads_str(__pyx_v_L_read, __pyx_v_k, 0, &__pyx_t_2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 123, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads_str(__pyx_v_L_read, __pyx_v_k, 0, &__pyx_t_2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 126, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4237,7 +4378,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.preprocess_several_reads_str", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.preprocess_several_reads_str", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4245,7 +4386,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":132
+/* "metagenome2vec/utils/transformation_ADN.pyx":135
  * 
  * 
  * cpdef np.ndarray[np.int_t, ndim=1] preprocess_read(str read, int k, dict dico_index,             # <<<<<<<<<<<<<<
@@ -4253,8 +4394,8 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
  *                                                    int max_length=-1, int min_length=-1):
  */
 
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_15preprocess_read(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read(PyObject *__pyx_v_read, int __pyx_v_k, PyObject *__pyx_v_dico_index, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read *__pyx_optional_args) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_15preprocess_read(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyArrayObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_preprocess_read(PyObject *__pyx_v_read, int __pyx_v_k, PyObject *__pyx_v_dico_index, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_read *__pyx_optional_args) {
   int __pyx_v_index_unk = ((int)-1);
   int __pyx_v_index_pad = ((int)-2);
   int __pyx_v_max_length = ((int)-1);
@@ -4282,7 +4423,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   PyObject *__pyx_t_10 = NULL;
   PyArrayObject *__pyx_t_11 = NULL;
   Py_ssize_t __pyx_t_12;
-  struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_complement __pyx_t_13;
+  struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_complement __pyx_t_13;
   PyObject *__pyx_t_14 = NULL;
   PyObject *__pyx_t_15 = NULL;
   PyObject *__pyx_t_16 = NULL;
@@ -4312,7 +4453,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_pybuffernd_res.data = NULL;
   __pyx_pybuffernd_res.rcbuffer = &__pyx_pybuffer_res;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":140
+  /* "metagenome2vec/utils/transformation_ADN.pyx":143
  *     """
  *     cdef:
  *         int i=0, read_length, unk_seen=0, j=0, cpt_remove=0             # <<<<<<<<<<<<<<
@@ -4324,7 +4465,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_v_j = 0;
   __pyx_v_cpt_remove = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":141
+  /* "metagenome2vec/utils/transformation_ADN.pyx":144
  *     cdef:
  *         int i=0, read_length, unk_seen=0, j=0, cpt_remove=0
  *     if max_length > 0:             # <<<<<<<<<<<<<<
@@ -4334,7 +4475,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_t_1 = ((__pyx_v_max_length > 0) != 0);
   if (__pyx_t_1) {
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":142
+    /* "metagenome2vec/utils/transformation_ADN.pyx":145
  *         int i=0, read_length, unk_seen=0, j=0, cpt_remove=0
  *     if max_length > 0:
  *         read = read[:max_length]             # <<<<<<<<<<<<<<
@@ -4343,14 +4484,14 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
  */
     if (unlikely(__pyx_v_read == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 142, __pyx_L1_error)
+      __PYX_ERR(0, 145, __pyx_L1_error)
     }
-    __pyx_t_2 = PySequence_GetSlice(__pyx_v_read, 0, __pyx_v_max_length); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 142, __pyx_L1_error)
+    __pyx_t_2 = PySequence_GetSlice(__pyx_v_read, 0, __pyx_v_max_length); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 145, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF_SET(__pyx_v_read, ((PyObject*)__pyx_t_2));
     __pyx_t_2 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":141
+    /* "metagenome2vec/utils/transformation_ADN.pyx":144
  *     cdef:
  *         int i=0, read_length, unk_seen=0, j=0, cpt_remove=0
  *     if max_length > 0:             # <<<<<<<<<<<<<<
@@ -4359,17 +4500,17 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
  */
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":144
+  /* "metagenome2vec/utils/transformation_ADN.pyx":147
  *         read = read[:max_length]
  *     #cdef np.ndarray[np.str, ndim=1] read_cut = cut_word(read, k, s=1)
  *     read_length = len(read)             # <<<<<<<<<<<<<<
  *     min_length = read_length if min_length <= 0 else min_length
  *     cdef np.ndarray[np.int_t, ndim=1] res = np.zeros(max(read_length, min_length) - k + 1, dtype=np.int)
  */
-  __pyx_t_3 = PyObject_Length(__pyx_v_read); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 144, __pyx_L1_error)
+  __pyx_t_3 = PyObject_Length(__pyx_v_read); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 147, __pyx_L1_error)
   __pyx_v_read_length = __pyx_t_3;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":145
+  /* "metagenome2vec/utils/transformation_ADN.pyx":148
  *     #cdef np.ndarray[np.str, ndim=1] read_cut = cut_word(read, k, s=1)
  *     read_length = len(read)
  *     min_length = read_length if min_length <= 0 else min_length             # <<<<<<<<<<<<<<
@@ -4383,16 +4524,16 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   }
   __pyx_v_min_length = __pyx_t_4;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":146
+  /* "metagenome2vec/utils/transformation_ADN.pyx":149
  *     read_length = len(read)
  *     min_length = read_length if min_length <= 0 else min_length
  *     cdef np.ndarray[np.int_t, ndim=1] res = np.zeros(max(read_length, min_length) - k + 1, dtype=np.int)             # <<<<<<<<<<<<<<
  *     for i in range(len(res)):
  *         kmer = complement(read[i:i + k], not_AC=True)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_4 = __pyx_v_min_length;
@@ -4402,34 +4543,34 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   } else {
     __pyx_t_7 = __pyx_t_6;
   }
-  __pyx_t_2 = __Pyx_PyInt_From_long(((__pyx_t_7 - __pyx_v_k) + 1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyInt_From_long(((__pyx_t_7 - __pyx_v_k) + 1)); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_2);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_2);
   __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_int); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_int); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 146, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_10) < 0) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-  __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 146, __pyx_L1_error)
+  __pyx_t_10 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_8, __pyx_t_2); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 149, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_10);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_10) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_10, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 146, __pyx_L1_error)
+  if (!(likely(((__pyx_t_10) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_10, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 149, __pyx_L1_error)
   __pyx_t_11 = ((PyArrayObject *)__pyx_t_10);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_res.rcbuffer->pybuffer, (PyObject*)__pyx_t_11, &__Pyx_TypeInfo_nn___pyx_t_5numpy_int_t, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_res = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_res.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 146, __pyx_L1_error)
+      __PYX_ERR(0, 149, __pyx_L1_error)
     } else {__pyx_pybuffernd_res.diminfo[0].strides = __pyx_pybuffernd_res.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_res.diminfo[0].shape = __pyx_pybuffernd_res.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -4437,19 +4578,19 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_v_res = ((PyArrayObject *)__pyx_t_10);
   __pyx_t_10 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":147
+  /* "metagenome2vec/utils/transformation_ADN.pyx":150
  *     min_length = read_length if min_length <= 0 else min_length
  *     cdef np.ndarray[np.int_t, ndim=1] res = np.zeros(max(read_length, min_length) - k + 1, dtype=np.int)
  *     for i in range(len(res)):             # <<<<<<<<<<<<<<
  *         kmer = complement(read[i:i + k], not_AC=True)
  *         if i < read_length:
  */
-  __pyx_t_3 = PyObject_Length(((PyObject *)__pyx_v_res)); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 147, __pyx_L1_error)
+  __pyx_t_3 = PyObject_Length(((PyObject *)__pyx_v_res)); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 150, __pyx_L1_error)
   __pyx_t_12 = __pyx_t_3;
   for (__pyx_t_7 = 0; __pyx_t_7 < __pyx_t_12; __pyx_t_7+=1) {
     __pyx_v_i = __pyx_t_7;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":148
+    /* "metagenome2vec/utils/transformation_ADN.pyx":151
  *     cdef np.ndarray[np.int_t, ndim=1] res = np.zeros(max(read_length, min_length) - k + 1, dtype=np.int)
  *     for i in range(len(res)):
  *         kmer = complement(read[i:i + k], not_AC=True)             # <<<<<<<<<<<<<<
@@ -4458,19 +4599,19 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
  */
     if (unlikely(__pyx_v_read == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 148, __pyx_L1_error)
+      __PYX_ERR(0, 151, __pyx_L1_error)
     }
-    __pyx_t_10 = PySequence_GetSlice(__pyx_v_read, __pyx_v_i, (__pyx_v_i + __pyx_v_k)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 148, __pyx_L1_error)
+    __pyx_t_10 = PySequence_GetSlice(__pyx_v_read, __pyx_v_i, (__pyx_v_i + __pyx_v_k)); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __pyx_t_13.__pyx_n = 1;
     __pyx_t_13.not_AC = 1;
-    __pyx_t_2 = __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_complement(((PyObject*)__pyx_t_10), 0, &__pyx_t_13); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 148, __pyx_L1_error)
+    __pyx_t_2 = __pyx_f_14metagenome2vec_5utils_18transformation_ADN_complement(((PyObject*)__pyx_t_10), 0, &__pyx_t_13); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
     __Pyx_XDECREF_SET(__pyx_v_kmer, __pyx_t_2);
     __pyx_t_2 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":149
+    /* "metagenome2vec/utils/transformation_ADN.pyx":152
  *     for i in range(len(res)):
  *         kmer = complement(read[i:i + k], not_AC=True)
  *         if i < read_length:             # <<<<<<<<<<<<<<
@@ -4480,7 +4621,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
     __pyx_t_1 = ((__pyx_v_i < __pyx_v_read_length) != 0);
     if (__pyx_t_1) {
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":150
+      /* "metagenome2vec/utils/transformation_ADN.pyx":153
  *         kmer = complement(read[i:i + k], not_AC=True)
  *         if i < read_length:
  *             try:             # <<<<<<<<<<<<<<
@@ -4496,7 +4637,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
         __Pyx_XGOTREF(__pyx_t_16);
         /*try:*/ {
 
-          /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":151
+          /* "metagenome2vec/utils/transformation_ADN.pyx":154
  *         if i < read_length:
  *             try:
  *                 res[j] = dico_index[kmer]             # <<<<<<<<<<<<<<
@@ -4505,11 +4646,11 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
  */
           if (unlikely(__pyx_v_dico_index == Py_None)) {
             PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-            __PYX_ERR(0, 151, __pyx_L7_error)
+            __PYX_ERR(0, 154, __pyx_L7_error)
           }
-          __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_dico_index, __pyx_v_kmer); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 151, __pyx_L7_error)
+          __pyx_t_2 = __Pyx_PyDict_GetItem(__pyx_v_dico_index, __pyx_v_kmer); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 154, __pyx_L7_error)
           __Pyx_GOTREF(__pyx_t_2);
-          __pyx_t_17 = __Pyx_PyInt_As_npy_long(__pyx_t_2); if (unlikely((__pyx_t_17 == ((npy_long)-1)) && PyErr_Occurred())) __PYX_ERR(0, 151, __pyx_L7_error)
+          __pyx_t_17 = __Pyx_PyInt_As_npy_long(__pyx_t_2); if (unlikely((__pyx_t_17 == ((npy_long)-1)) && PyErr_Occurred())) __PYX_ERR(0, 154, __pyx_L7_error)
           __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
           __pyx_t_18 = __pyx_v_j;
           __pyx_t_4 = -1;
@@ -4519,11 +4660,11 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
           } else if (unlikely(__pyx_t_18 >= __pyx_pybuffernd_res.diminfo[0].shape)) __pyx_t_4 = 0;
           if (unlikely(__pyx_t_4 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_4);
-            __PYX_ERR(0, 151, __pyx_L7_error)
+            __PYX_ERR(0, 154, __pyx_L7_error)
           }
           *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_int_t *, __pyx_pybuffernd_res.rcbuffer->pybuffer.buf, __pyx_t_18, __pyx_pybuffernd_res.diminfo[0].strides) = __pyx_t_17;
 
-          /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":152
+          /* "metagenome2vec/utils/transformation_ADN.pyx":155
  *             try:
  *                 res[j] = dico_index[kmer]
  *                 unk_seen = 0             # <<<<<<<<<<<<<<
@@ -4532,7 +4673,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
  */
           __pyx_v_unk_seen = 0;
 
-          /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":153
+          /* "metagenome2vec/utils/transformation_ADN.pyx":156
  *                 res[j] = dico_index[kmer]
  *                 unk_seen = 0
  *                 j += 1             # <<<<<<<<<<<<<<
@@ -4541,7 +4682,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
  */
           __pyx_v_j = (__pyx_v_j + 1);
 
-          /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":150
+          /* "metagenome2vec/utils/transformation_ADN.pyx":153
  *         kmer = complement(read[i:i + k], not_AC=True)
  *         if i < read_length:
  *             try:             # <<<<<<<<<<<<<<
@@ -4560,7 +4701,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
         __Pyx_XDECREF(__pyx_t_8); __pyx_t_8 = 0;
         __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
 
-        /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":154
+        /* "metagenome2vec/utils/transformation_ADN.pyx":157
  *                 unk_seen = 0
  *                 j += 1
  *             except KeyError:             # <<<<<<<<<<<<<<
@@ -4569,13 +4710,13 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
  */
         __pyx_t_4 = __Pyx_PyErr_ExceptionMatches(__pyx_builtin_KeyError);
         if (__pyx_t_4) {
-          __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.preprocess_read", __pyx_clineno, __pyx_lineno, __pyx_filename);
-          if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_10, &__pyx_t_8) < 0) __PYX_ERR(0, 154, __pyx_L9_except_error)
+          __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.preprocess_read", __pyx_clineno, __pyx_lineno, __pyx_filename);
+          if (__Pyx_GetException(&__pyx_t_2, &__pyx_t_10, &__pyx_t_8) < 0) __PYX_ERR(0, 157, __pyx_L9_except_error)
           __Pyx_GOTREF(__pyx_t_2);
           __Pyx_GOTREF(__pyx_t_10);
           __Pyx_GOTREF(__pyx_t_8);
 
-          /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":155
+          /* "metagenome2vec/utils/transformation_ADN.pyx":158
  *                 j += 1
  *             except KeyError:
  *                 if not unk_seen:             # <<<<<<<<<<<<<<
@@ -4585,7 +4726,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
           __pyx_t_1 = ((!(__pyx_v_unk_seen != 0)) != 0);
           if (__pyx_t_1) {
 
-            /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":156
+            /* "metagenome2vec/utils/transformation_ADN.pyx":159
  *             except KeyError:
  *                 if not unk_seen:
  *                     res[j] = index_unk             # <<<<<<<<<<<<<<
@@ -4600,11 +4741,11 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
             } else if (unlikely(__pyx_t_18 >= __pyx_pybuffernd_res.diminfo[0].shape)) __pyx_t_4 = 0;
             if (unlikely(__pyx_t_4 != -1)) {
               __Pyx_RaiseBufferIndexError(__pyx_t_4);
-              __PYX_ERR(0, 156, __pyx_L9_except_error)
+              __PYX_ERR(0, 159, __pyx_L9_except_error)
             }
             *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_int_t *, __pyx_pybuffernd_res.rcbuffer->pybuffer.buf, __pyx_t_18, __pyx_pybuffernd_res.diminfo[0].strides) = __pyx_v_index_unk;
 
-            /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":157
+            /* "metagenome2vec/utils/transformation_ADN.pyx":160
  *                 if not unk_seen:
  *                     res[j] = index_unk
  *                     j += 1             # <<<<<<<<<<<<<<
@@ -4613,7 +4754,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
  */
             __pyx_v_j = (__pyx_v_j + 1);
 
-            /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":158
+            /* "metagenome2vec/utils/transformation_ADN.pyx":161
  *                     res[j] = index_unk
  *                     j += 1
  *                     unk_seen = 1             # <<<<<<<<<<<<<<
@@ -4622,7 +4763,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
  */
             __pyx_v_unk_seen = 1;
 
-            /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":155
+            /* "metagenome2vec/utils/transformation_ADN.pyx":158
  *                 j += 1
  *             except KeyError:
  *                 if not unk_seen:             # <<<<<<<<<<<<<<
@@ -4632,7 +4773,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
             goto __pyx_L17;
           }
 
-          /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":160
+          /* "metagenome2vec/utils/transformation_ADN.pyx":163
  *                     unk_seen = 1
  *                 else:
  *                     cpt_remove += 1  # To remove additional cases in numpy array             # <<<<<<<<<<<<<<
@@ -4651,7 +4792,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
         goto __pyx_L9_except_error;
         __pyx_L9_except_error:;
 
-        /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":150
+        /* "metagenome2vec/utils/transformation_ADN.pyx":153
  *         kmer = complement(read[i:i + k], not_AC=True)
  *         if i < read_length:
  *             try:             # <<<<<<<<<<<<<<
@@ -4671,7 +4812,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
         __pyx_L14_try_end:;
       }
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":149
+      /* "metagenome2vec/utils/transformation_ADN.pyx":152
  *     for i in range(len(res)):
  *         kmer = complement(read[i:i + k], not_AC=True)
  *         if i < read_length:             # <<<<<<<<<<<<<<
@@ -4681,7 +4822,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
       goto __pyx_L6;
     }
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":162
+    /* "metagenome2vec/utils/transformation_ADN.pyx":165
  *                     cpt_remove += 1  # To remove additional cases in numpy array
  *         else:
  *             res[j] = index_pad             # <<<<<<<<<<<<<<
@@ -4697,11 +4838,11 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
       } else if (unlikely(__pyx_t_18 >= __pyx_pybuffernd_res.diminfo[0].shape)) __pyx_t_4 = 0;
       if (unlikely(__pyx_t_4 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_4);
-        __PYX_ERR(0, 162, __pyx_L1_error)
+        __PYX_ERR(0, 165, __pyx_L1_error)
       }
       *__Pyx_BufPtrStrided1d(__pyx_t_5numpy_int_t *, __pyx_pybuffernd_res.rcbuffer->pybuffer.buf, __pyx_t_18, __pyx_pybuffernd_res.diminfo[0].strides) = __pyx_v_index_pad;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":163
+      /* "metagenome2vec/utils/transformation_ADN.pyx":166
  *         else:
  *             res[j] = index_pad
  *             j += 1             # <<<<<<<<<<<<<<
@@ -4713,7 +4854,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
     __pyx_L6:;
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":164
+  /* "metagenome2vec/utils/transformation_ADN.pyx":167
  *             res[j] = index_pad
  *             j += 1
  *     if cpt_remove > 0:             # <<<<<<<<<<<<<<
@@ -4723,7 +4864,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_t_1 = ((__pyx_v_cpt_remove > 0) != 0);
   if (__pyx_t_1) {
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":165
+    /* "metagenome2vec/utils/transformation_ADN.pyx":168
  *             j += 1
  *     if cpt_remove > 0:
  *         return res[:-cpt_remove]             # <<<<<<<<<<<<<<
@@ -4731,20 +4872,20 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
  * 
  */
     __Pyx_XDECREF(((PyObject *)__pyx_r));
-    __pyx_t_8 = __Pyx_PyInt_From_int((-__pyx_v_cpt_remove)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 165, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyInt_From_int((-__pyx_v_cpt_remove)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 168, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
-    __pyx_t_10 = PySlice_New(Py_None, __pyx_t_8, Py_None); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 165, __pyx_L1_error)
+    __pyx_t_10 = PySlice_New(Py_None, __pyx_t_8, Py_None); if (unlikely(!__pyx_t_10)) __PYX_ERR(0, 168, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_10);
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-    __pyx_t_8 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_res), __pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 165, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_res), __pyx_t_10); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 168, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_10); __pyx_t_10 = 0;
-    if (!(likely(((__pyx_t_8) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_8, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 165, __pyx_L1_error)
+    if (!(likely(((__pyx_t_8) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_8, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 168, __pyx_L1_error)
     __pyx_r = ((PyArrayObject *)__pyx_t_8);
     __pyx_t_8 = 0;
     goto __pyx_L0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":164
+    /* "metagenome2vec/utils/transformation_ADN.pyx":167
  *             res[j] = index_pad
  *             j += 1
  *     if cpt_remove > 0:             # <<<<<<<<<<<<<<
@@ -4753,7 +4894,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
  */
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":166
+  /* "metagenome2vec/utils/transformation_ADN.pyx":169
  *     if cpt_remove > 0:
  *         return res[:-cpt_remove]
  *     return res             # <<<<<<<<<<<<<<
@@ -4765,7 +4906,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_r = ((PyArrayObject *)__pyx_v_res);
   goto __pyx_L0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":132
+  /* "metagenome2vec/utils/transformation_ADN.pyx":135
  * 
  * 
  * cpdef np.ndarray[np.int_t, ndim=1] preprocess_read(str read, int k, dict dico_index,             # <<<<<<<<<<<<<<
@@ -4786,7 +4927,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
     __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_res.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.preprocess_read", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.preprocess_read", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   goto __pyx_L2;
   __pyx_L0:;
@@ -4801,9 +4942,9 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_15preprocess_read(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_14preprocess_read[] = "\n    Create all 'sentences' of feasible kmers with read\n    All sentences are represented as a list of k-mers\n    ";
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_15preprocess_read(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_15preprocess_read(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_14metagenome2vec_5utils_18transformation_ADN_14preprocess_read[] = "\n    Create all 'sentences' of feasible kmers with read\n    All sentences are represented as a list of k-mers\n    ";
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_15preprocess_read(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_read = 0;
   int __pyx_v_k;
   PyObject *__pyx_v_dico_index = 0;
@@ -4850,13 +4991,13 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_k)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("preprocess_read", 0, 3, 7, 1); __PYX_ERR(0, 132, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("preprocess_read", 0, 3, 7, 1); __PYX_ERR(0, 135, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_dico_index)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("preprocess_read", 0, 3, 7, 2); __PYX_ERR(0, 132, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("preprocess_read", 0, 3, 7, 2); __PYX_ERR(0, 135, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
@@ -4884,7 +5025,7 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "preprocess_read") < 0)) __PYX_ERR(0, 132, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "preprocess_read") < 0)) __PYX_ERR(0, 135, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -4904,40 +5045,40 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
       }
     }
     __pyx_v_read = ((PyObject*)values[0]);
-    __pyx_v_k = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_k == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 132, __pyx_L3_error)
+    __pyx_v_k = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_k == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 135, __pyx_L3_error)
     __pyx_v_dico_index = ((PyObject*)values[2]);
     if (values[3]) {
-      __pyx_v_index_unk = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_index_unk == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 133, __pyx_L3_error)
+      __pyx_v_index_unk = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_index_unk == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 136, __pyx_L3_error)
     } else {
       __pyx_v_index_unk = ((int)-1);
     }
     if (values[4]) {
-      __pyx_v_index_pad = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_index_pad == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 133, __pyx_L3_error)
+      __pyx_v_index_pad = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_index_pad == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 136, __pyx_L3_error)
     } else {
       __pyx_v_index_pad = ((int)-2);
     }
     if (values[5]) {
-      __pyx_v_max_length = __Pyx_PyInt_As_int(values[5]); if (unlikely((__pyx_v_max_length == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 134, __pyx_L3_error)
+      __pyx_v_max_length = __Pyx_PyInt_As_int(values[5]); if (unlikely((__pyx_v_max_length == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 137, __pyx_L3_error)
     } else {
       __pyx_v_max_length = ((int)-1);
     }
     if (values[6]) {
-      __pyx_v_min_length = __Pyx_PyInt_As_int(values[6]); if (unlikely((__pyx_v_min_length == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 134, __pyx_L3_error)
+      __pyx_v_min_length = __Pyx_PyInt_As_int(values[6]); if (unlikely((__pyx_v_min_length == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 137, __pyx_L3_error)
     } else {
       __pyx_v_min_length = ((int)-1);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("preprocess_read", 0, 3, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 132, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("preprocess_read", 0, 3, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 135, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.preprocess_read", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.preprocess_read", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_read), (&PyString_Type), 1, "read", 1))) __PYX_ERR(0, 132, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dico_index), (&PyDict_Type), 1, "dico_index", 1))) __PYX_ERR(0, 132, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_14preprocess_read(__pyx_self, __pyx_v_read, __pyx_v_k, __pyx_v_dico_index, __pyx_v_index_unk, __pyx_v_index_pad, __pyx_v_max_length, __pyx_v_min_length);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_read), (&PyString_Type), 1, "read", 1))) __PYX_ERR(0, 135, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dico_index), (&PyDict_Type), 1, "dico_index", 1))) __PYX_ERR(0, 135, __pyx_L1_error)
+  __pyx_r = __pyx_pf_14metagenome2vec_5utils_18transformation_ADN_14preprocess_read(__pyx_self, __pyx_v_read, __pyx_v_k, __pyx_v_dico_index, __pyx_v_index_unk, __pyx_v_index_pad, __pyx_v_max_length, __pyx_v_min_length);
 
   /* function exit code */
   goto __pyx_L0;
@@ -4948,11 +5089,11 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_14preprocess_read(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_read, int __pyx_v_k, PyObject *__pyx_v_dico_index, int __pyx_v_index_unk, int __pyx_v_index_pad, int __pyx_v_max_length, int __pyx_v_min_length) {
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_14preprocess_read(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_read, int __pyx_v_k, PyObject *__pyx_v_dico_index, int __pyx_v_index_unk, int __pyx_v_index_pad, int __pyx_v_max_length, int __pyx_v_min_length) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read __pyx_t_2;
+  struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_read __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -4963,7 +5104,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   __pyx_t_2.index_pad = __pyx_v_index_pad;
   __pyx_t_2.max_length = __pyx_v_max_length;
   __pyx_t_2.min_length = __pyx_v_min_length;
-  __pyx_t_1 = ((PyObject *)__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read(__pyx_v_read, __pyx_v_k, __pyx_v_dico_index, 0, &__pyx_t_2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 132, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_14metagenome2vec_5utils_18transformation_ADN_preprocess_read(__pyx_v_read, __pyx_v_k, __pyx_v_dico_index, 0, &__pyx_t_2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 135, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -4972,7 +5113,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.preprocess_read", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.preprocess_read", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -4980,7 +5121,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":169
+/* "metagenome2vec/utils/transformation_ADN.pyx":172
  * 
  * 
  * cpdef np.ndarray[np.int_t, ndim=2] preprocess_several_reads(list L_read, int k, dict dico_index,             # <<<<<<<<<<<<<<
@@ -4988,8 +5129,8 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
  *                                                             int max_length=-1, int min_length=-1):
  */
 
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_17preprocess_several_reads(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads(PyObject *__pyx_v_L_read, int __pyx_v_k, PyObject *__pyx_v_dico_index, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads *__pyx_optional_args) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_17preprocess_several_reads(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyArrayObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads(PyObject *__pyx_v_L_read, int __pyx_v_k, PyObject *__pyx_v_dico_index, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads *__pyx_optional_args) {
   int __pyx_v_index_unk = ((int)-1);
   int __pyx_v_index_pad = ((int)-2);
   int __pyx_v_max_length = ((int)-1);
@@ -5009,7 +5150,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   PyObject *__pyx_t_2 = NULL;
   Py_ssize_t __pyx_t_3;
   PyObject *__pyx_t_4 = NULL;
-  struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read __pyx_t_5;
+  struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_read __pyx_t_5;
   Py_ssize_t __pyx_t_6;
   int __pyx_t_7;
   PyObject *__pyx_t_8 = NULL;
@@ -5039,29 +5180,29 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_pybuffernd_arr.data = NULL;
   __pyx_pybuffernd_arr.rcbuffer = &__pyx_pybuffer_arr;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":183
+  /* "metagenome2vec/utils/transformation_ADN.pyx":186
  *         list reads_prepro, leans
  *         np.ndarray A_kmer, read_prepro
  *     reads_prepro = [preprocess_read(read, k, dico_index, index_unk, index_pad, max_length, min_length) for read in L_read]             # <<<<<<<<<<<<<<
  *     lens = [len(read_prepro) for read_prepro in reads_prepro]
  *     maxlen = max(lens)
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 183, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 186, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   if (unlikely(__pyx_v_L_read == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "'NoneType' object is not iterable");
-    __PYX_ERR(0, 183, __pyx_L1_error)
+    __PYX_ERR(0, 186, __pyx_L1_error)
   }
   __pyx_t_2 = __pyx_v_L_read; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
   for (;;) {
     if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 186, __pyx_L1_error)
     #else
-    __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 186, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     #endif
-    if (!(likely(PyString_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_4)->tp_name), 0))) __PYX_ERR(0, 183, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_4)->tp_name), 0))) __PYX_ERR(0, 186, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_read, ((PyObject*)__pyx_t_4));
     __pyx_t_4 = 0;
     __pyx_t_5.__pyx_n = 4;
@@ -5069,77 +5210,77 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
     __pyx_t_5.index_pad = __pyx_v_index_pad;
     __pyx_t_5.max_length = __pyx_v_max_length;
     __pyx_t_5.min_length = __pyx_v_min_length;
-    __pyx_t_4 = ((PyObject *)__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_read(__pyx_v_read, __pyx_v_k, __pyx_v_dico_index, 0, &__pyx_t_5)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 183, __pyx_L1_error)
+    __pyx_t_4 = ((PyObject *)__pyx_f_14metagenome2vec_5utils_18transformation_ADN_preprocess_read(__pyx_v_read, __pyx_v_k, __pyx_v_dico_index, 0, &__pyx_t_5)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 186, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 183, __pyx_L1_error)
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 186, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_reads_prepro = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":184
+  /* "metagenome2vec/utils/transformation_ADN.pyx":187
  *         np.ndarray A_kmer, read_prepro
  *     reads_prepro = [preprocess_read(read, k, dico_index, index_unk, index_pad, max_length, min_length) for read in L_read]
  *     lens = [len(read_prepro) for read_prepro in reads_prepro]             # <<<<<<<<<<<<<<
  *     maxlen = max(lens)
  *     cdef:
  */
-  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 184, __pyx_L1_error)
+  __pyx_t_1 = PyList_New(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_t_2 = __pyx_v_reads_prepro; __Pyx_INCREF(__pyx_t_2); __pyx_t_3 = 0;
   for (;;) {
     if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_2)) break;
     #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 184, __pyx_L1_error)
+    __pyx_t_4 = PyList_GET_ITEM(__pyx_t_2, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 187, __pyx_L1_error)
     #else
-    __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 184, __pyx_L1_error)
+    __pyx_t_4 = PySequence_ITEM(__pyx_t_2, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 187, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     #endif
-    if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 184, __pyx_L1_error)
+    if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 187, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_read_prepro, ((PyArrayObject *)__pyx_t_4));
     __pyx_t_4 = 0;
-    __pyx_t_6 = PyObject_Length(((PyObject *)__pyx_v_read_prepro)); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 184, __pyx_L1_error)
-    __pyx_t_4 = PyInt_FromSsize_t(__pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 184, __pyx_L1_error)
+    __pyx_t_6 = PyObject_Length(((PyObject *)__pyx_v_read_prepro)); if (unlikely(__pyx_t_6 == ((Py_ssize_t)-1))) __PYX_ERR(0, 187, __pyx_L1_error)
+    __pyx_t_4 = PyInt_FromSsize_t(__pyx_t_6); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 187, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 184, __pyx_L1_error)
+    if (unlikely(__Pyx_ListComp_Append(__pyx_t_1, (PyObject*)__pyx_t_4))) __PYX_ERR(0, 187, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   }
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_v_lens = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":185
+  /* "metagenome2vec/utils/transformation_ADN.pyx":188
  *     reads_prepro = [preprocess_read(read, k, dico_index, index_unk, index_pad, max_length, min_length) for read in L_read]
  *     lens = [len(read_prepro) for read_prepro in reads_prepro]
  *     maxlen = max(lens)             # <<<<<<<<<<<<<<
  *     cdef:
  *         np.ndarray[np.int_t, ndim = 2] arr = np.zeros((len(reads_prepro), maxlen), dtype=np.int) + index_pad
  */
-  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_max, __pyx_v_lens); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 185, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_CallOneArg(__pyx_builtin_max, __pyx_v_lens); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 185, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_As_int(__pyx_t_1); if (unlikely((__pyx_t_7 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 188, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __pyx_v_maxlen = __pyx_t_7;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":187
+  /* "metagenome2vec/utils/transformation_ADN.pyx":190
  *     maxlen = max(lens)
  *     cdef:
  *         np.ndarray[np.int_t, ndim = 2] arr = np.zeros((len(reads_prepro), maxlen), dtype=np.int) + index_pad             # <<<<<<<<<<<<<<
  *         np.ndarray mask = np.arange(maxlen) < np.array(lens, dtype=np.int)[:, None]
  *     arr[mask] = np.concatenate(reads_prepro)
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = PyList_GET_SIZE(__pyx_v_reads_prepro); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 187, __pyx_L1_error)
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_3 = PyList_GET_SIZE(__pyx_v_reads_prepro); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 190, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_maxlen); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_maxlen); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_8 = PyTuple_New(2); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_8, 0, __pyx_t_1);
@@ -5147,38 +5288,38 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   PyTuple_SET_ITEM(__pyx_t_8, 1, __pyx_t_4);
   __pyx_t_1 = 0;
   __pyx_t_4 = 0;
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_8);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_8);
   __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_int); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_int); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, __pyx_t_9) < 0) __PYX_ERR(0, 187, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_8, __pyx_n_s_dtype, __pyx_t_9) < 0) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, __pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_index_pad); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_index_pad); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_4 = PyNumber_Add(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 187, __pyx_L1_error)
+  __pyx_t_4 = PyNumber_Add(__pyx_t_9, __pyx_t_8); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 190, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 187, __pyx_L1_error)
+  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 190, __pyx_L1_error)
   __pyx_t_10 = ((PyArrayObject *)__pyx_t_4);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_arr.rcbuffer->pybuffer, (PyObject*)__pyx_t_10, &__Pyx_TypeInfo_nn___pyx_t_5numpy_int_t, PyBUF_FORMAT| PyBUF_STRIDES, 2, 0, __pyx_stack) == -1)) {
       __pyx_v_arr = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_arr.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 187, __pyx_L1_error)
+      __PYX_ERR(0, 190, __pyx_L1_error)
     } else {__pyx_pybuffernd_arr.diminfo[0].strides = __pyx_pybuffernd_arr.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_arr.diminfo[0].shape = __pyx_pybuffernd_arr.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_arr.diminfo[1].strides = __pyx_pybuffernd_arr.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_arr.diminfo[1].shape = __pyx_pybuffernd_arr.rcbuffer->pybuffer.shape[1];
     }
   }
@@ -5186,19 +5327,19 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_v_arr = ((PyArrayObject *)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":188
+  /* "metagenome2vec/utils/transformation_ADN.pyx":191
  *     cdef:
  *         np.ndarray[np.int_t, ndim = 2] arr = np.zeros((len(reads_prepro), maxlen), dtype=np.int) + index_pad
  *         np.ndarray mask = np.arange(maxlen) < np.array(lens, dtype=np.int)[:, None]             # <<<<<<<<<<<<<<
  *     arr[mask] = np.concatenate(reads_prepro)
  *     return arr
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_8, __pyx_n_s_np); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
-  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_arange); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_GetAttrStr(__pyx_t_8, __pyx_n_s_arange); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_maxlen); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_maxlen); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __pyx_t_2 = NULL;
   if (CYTHON_UNPACK_METHODS && unlikely(PyMethod_Check(__pyx_t_9))) {
@@ -5213,53 +5354,53 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_t_4 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_9, __pyx_t_2, __pyx_t_8) : __Pyx_PyObject_CallOneArg(__pyx_t_9, __pyx_t_8);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
-  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 188, __pyx_L1_error)
+  if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_9, __pyx_n_s_np); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
-  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_array); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_GetAttrStr(__pyx_t_9, __pyx_n_s_array); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
-  __pyx_t_9 = PyTuple_New(1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_9 = PyTuple_New(1); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_INCREF(__pyx_v_lens);
   __Pyx_GIVEREF(__pyx_v_lens);
   PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_v_lens);
-  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_int); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_int); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_11) < 0) __PYX_ERR(0, 188, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_dtype, __pyx_t_11) < 0) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_9, __pyx_t_2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_11 = __Pyx_PyObject_Call(__pyx_t_8, __pyx_t_9, __pyx_t_2); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_11, __pyx_tuple__3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetItem(__pyx_t_11, __pyx_tuple__3); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-  __pyx_t_11 = PyObject_RichCompare(__pyx_t_4, __pyx_t_2, Py_LT); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_t_11 = PyObject_RichCompare(__pyx_t_4, __pyx_t_2, Py_LT); __Pyx_XGOTREF(__pyx_t_11); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (!(likely(((__pyx_t_11) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_11, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 188, __pyx_L1_error)
+  if (!(likely(((__pyx_t_11) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_11, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 191, __pyx_L1_error)
   __pyx_v_mask = ((PyArrayObject *)__pyx_t_11);
   __pyx_t_11 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":189
+  /* "metagenome2vec/utils/transformation_ADN.pyx":192
  *         np.ndarray[np.int_t, ndim = 2] arr = np.zeros((len(reads_prepro), maxlen), dtype=np.int) + index_pad
  *         np.ndarray mask = np.arange(maxlen) < np.array(lens, dtype=np.int)[:, None]
  *     arr[mask] = np.concatenate(reads_prepro)             # <<<<<<<<<<<<<<
  *     return arr
  * 
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 189, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_2, __pyx_n_s_np); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
-  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_concatenate); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 189, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_t_2, __pyx_n_s_concatenate); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __pyx_t_2 = NULL;
@@ -5274,13 +5415,13 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   }
   __pyx_t_11 = (__pyx_t_2) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_2, __pyx_v_reads_prepro) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_v_reads_prepro);
   __Pyx_XDECREF(__pyx_t_2); __pyx_t_2 = 0;
-  if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 189, __pyx_L1_error)
+  if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_arr), ((PyObject *)__pyx_v_mask), __pyx_t_11) < 0)) __PYX_ERR(0, 189, __pyx_L1_error)
+  if (unlikely(PyObject_SetItem(((PyObject *)__pyx_v_arr), ((PyObject *)__pyx_v_mask), __pyx_t_11) < 0)) __PYX_ERR(0, 192, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":190
+  /* "metagenome2vec/utils/transformation_ADN.pyx":193
  *         np.ndarray mask = np.arange(maxlen) < np.array(lens, dtype=np.int)[:, None]
  *     arr[mask] = np.concatenate(reads_prepro)
  *     return arr             # <<<<<<<<<<<<<<
@@ -5292,7 +5433,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_r = ((PyArrayObject *)__pyx_v_arr);
   goto __pyx_L0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":169
+  /* "metagenome2vec/utils/transformation_ADN.pyx":172
  * 
  * 
  * cpdef np.ndarray[np.int_t, ndim=2] preprocess_several_reads(list L_read, int k, dict dico_index,             # <<<<<<<<<<<<<<
@@ -5314,7 +5455,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
     __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_arr.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.preprocess_several_reads", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.preprocess_several_reads", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   goto __pyx_L2;
   __pyx_L0:;
@@ -5332,9 +5473,9 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_17preprocess_several_reads(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static char __pyx_doc_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_16preprocess_several_reads[] = "\n    Create all 'sentences' of feasible kmer with the list of reads L_read\n    All sentences are represented as a list of k-mers\n    ps : The first column is an index to retrieve the line from a same read\n    ";
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_17preprocess_several_reads(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_17preprocess_several_reads(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static char __pyx_doc_14metagenome2vec_5utils_18transformation_ADN_16preprocess_several_reads[] = "\n    Create all 'sentences' of feasible kmer with the list of reads L_read\n    All sentences are represented as a list of k-mers\n    ps : The first column is an index to retrieve the line from a same read\n    ";
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_17preprocess_several_reads(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_L_read = 0;
   int __pyx_v_k;
   PyObject *__pyx_v_dico_index = 0;
@@ -5381,13 +5522,13 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_k)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("preprocess_several_reads", 0, 3, 7, 1); __PYX_ERR(0, 169, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("preprocess_several_reads", 0, 3, 7, 1); __PYX_ERR(0, 172, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_dico_index)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("preprocess_several_reads", 0, 3, 7, 2); __PYX_ERR(0, 169, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("preprocess_several_reads", 0, 3, 7, 2); __PYX_ERR(0, 172, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
@@ -5415,7 +5556,7 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "preprocess_several_reads") < 0)) __PYX_ERR(0, 169, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "preprocess_several_reads") < 0)) __PYX_ERR(0, 172, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -5435,40 +5576,40 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
       }
     }
     __pyx_v_L_read = ((PyObject*)values[0]);
-    __pyx_v_k = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_k == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 169, __pyx_L3_error)
+    __pyx_v_k = __Pyx_PyInt_As_int(values[1]); if (unlikely((__pyx_v_k == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 172, __pyx_L3_error)
     __pyx_v_dico_index = ((PyObject*)values[2]);
     if (values[3]) {
-      __pyx_v_index_unk = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_index_unk == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 170, __pyx_L3_error)
+      __pyx_v_index_unk = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_index_unk == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 173, __pyx_L3_error)
     } else {
       __pyx_v_index_unk = ((int)-1);
     }
     if (values[4]) {
-      __pyx_v_index_pad = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_index_pad == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 170, __pyx_L3_error)
+      __pyx_v_index_pad = __Pyx_PyInt_As_int(values[4]); if (unlikely((__pyx_v_index_pad == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 173, __pyx_L3_error)
     } else {
       __pyx_v_index_pad = ((int)-2);
     }
     if (values[5]) {
-      __pyx_v_max_length = __Pyx_PyInt_As_int(values[5]); if (unlikely((__pyx_v_max_length == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 171, __pyx_L3_error)
+      __pyx_v_max_length = __Pyx_PyInt_As_int(values[5]); if (unlikely((__pyx_v_max_length == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 174, __pyx_L3_error)
     } else {
       __pyx_v_max_length = ((int)-1);
     }
     if (values[6]) {
-      __pyx_v_min_length = __Pyx_PyInt_As_int(values[6]); if (unlikely((__pyx_v_min_length == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 171, __pyx_L3_error)
+      __pyx_v_min_length = __Pyx_PyInt_As_int(values[6]); if (unlikely((__pyx_v_min_length == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 174, __pyx_L3_error)
     } else {
       __pyx_v_min_length = ((int)-1);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("preprocess_several_reads", 0, 3, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 169, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("preprocess_several_reads", 0, 3, 7, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 172, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.preprocess_several_reads", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.preprocess_several_reads", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_L_read), (&PyList_Type), 1, "L_read", 1))) __PYX_ERR(0, 169, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dico_index), (&PyDict_Type), 1, "dico_index", 1))) __PYX_ERR(0, 169, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_16preprocess_several_reads(__pyx_self, __pyx_v_L_read, __pyx_v_k, __pyx_v_dico_index, __pyx_v_index_unk, __pyx_v_index_pad, __pyx_v_max_length, __pyx_v_min_length);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_L_read), (&PyList_Type), 1, "L_read", 1))) __PYX_ERR(0, 172, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_dico_index), (&PyDict_Type), 1, "dico_index", 1))) __PYX_ERR(0, 172, __pyx_L1_error)
+  __pyx_r = __pyx_pf_14metagenome2vec_5utils_18transformation_ADN_16preprocess_several_reads(__pyx_self, __pyx_v_L_read, __pyx_v_k, __pyx_v_dico_index, __pyx_v_index_unk, __pyx_v_index_pad, __pyx_v_max_length, __pyx_v_min_length);
 
   /* function exit code */
   goto __pyx_L0;
@@ -5479,11 +5620,11 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_16preprocess_several_reads(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_L_read, int __pyx_v_k, PyObject *__pyx_v_dico_index, int __pyx_v_index_unk, int __pyx_v_index_pad, int __pyx_v_max_length, int __pyx_v_min_length) {
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_16preprocess_several_reads(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_L_read, int __pyx_v_k, PyObject *__pyx_v_dico_index, int __pyx_v_index_unk, int __pyx_v_index_pad, int __pyx_v_max_length, int __pyx_v_min_length) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads __pyx_t_2;
+  struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -5494,7 +5635,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   __pyx_t_2.index_pad = __pyx_v_index_pad;
   __pyx_t_2.max_length = __pyx_v_max_length;
   __pyx_t_2.min_length = __pyx_v_min_length;
-  __pyx_t_1 = ((PyObject *)__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads(__pyx_v_L_read, __pyx_v_k, __pyx_v_dico_index, 0, &__pyx_t_2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 169, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_14metagenome2vec_5utils_18transformation_ADN_preprocess_several_reads(__pyx_v_L_read, __pyx_v_k, __pyx_v_dico_index, 0, &__pyx_t_2)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 172, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5503,7 +5644,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.preprocess_several_reads", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.preprocess_several_reads", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -5511,7 +5652,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":193
+/* "metagenome2vec/utils/transformation_ADN.pyx":196
  * 
  * 
  * cpdef np.ndarray[np.str, ndim=1] remove_unk_kmer(np.ndarray[np.str, ndim=1] kmer_array):             # <<<<<<<<<<<<<<
@@ -5519,8 +5660,8 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
  *         int cpt_remove=0, i=0
  */
 
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_19remove_unk_kmer(PyObject *__pyx_self, PyObject *__pyx_v_kmer_array); /*proto*/
-static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_remove_unk_kmer(PyArrayObject *__pyx_v_kmer_array, CYTHON_UNUSED int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_19remove_unk_kmer(PyObject *__pyx_self, PyObject *__pyx_v_kmer_array); /*proto*/
+static PyArrayObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_remove_unk_kmer(PyArrayObject *__pyx_v_kmer_array, CYTHON_UNUSED int __pyx_skip_dispatch) {
   int __pyx_v_cpt_remove;
   int __pyx_v_i;
   PyObject *__pyx_v_kmer = 0;
@@ -5558,11 +5699,11 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_pybuffernd_kmer_array.rcbuffer = &__pyx_pybuffer_kmer_array;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_kmer_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_kmer_array, &__Pyx_TypeInfo_object, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 193, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_kmer_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_kmer_array, &__Pyx_TypeInfo_object, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 196, __pyx_L1_error)
   }
   __pyx_pybuffernd_kmer_array.diminfo[0].strides = __pyx_pybuffernd_kmer_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_kmer_array.diminfo[0].shape = __pyx_pybuffernd_kmer_array.rcbuffer->pybuffer.shape[0];
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":195
+  /* "metagenome2vec/utils/transformation_ADN.pyx":198
  * cpdef np.ndarray[np.str, ndim=1] remove_unk_kmer(np.ndarray[np.str, ndim=1] kmer_array):
  *     cdef:
  *         int cpt_remove=0, i=0             # <<<<<<<<<<<<<<
@@ -5572,41 +5713,41 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_v_cpt_remove = 0;
   __pyx_v_i = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":197
+  /* "metagenome2vec/utils/transformation_ADN.pyx":200
  *         int cpt_remove=0, i=0
  *         str kmer
  *         np.ndarray[np.str, ndim=1] res = np.zeros(len(kmer_array), dtype=object)             # <<<<<<<<<<<<<<
  *     for kmer in kmer_array:
  *         if re.match("^.*[URYKMSWBDHVNX]+.*$", kmer) is None:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_1, __pyx_n_s_np); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_1, __pyx_n_s_zeros); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  __pyx_t_3 = PyObject_Length(((PyObject *)__pyx_v_kmer_array)); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 197, __pyx_L1_error)
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_t_3 = PyObject_Length(((PyObject *)__pyx_v_kmer_array)); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 200, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_t_4 = PyTuple_New(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
   __Pyx_GIVEREF(__pyx_t_1);
   PyTuple_SET_ITEM(__pyx_t_4, 0, __pyx_t_1);
   __pyx_t_1 = 0;
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 197, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_builtin_object) < 0) __PYX_ERR(0, 197, __pyx_L1_error)
-  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 197, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_1, __pyx_n_s_dtype, __pyx_builtin_object) < 0) __PYX_ERR(0, 200, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_4, __pyx_t_1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 200, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
-  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 197, __pyx_L1_error)
+  if (!(likely(((__pyx_t_5) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_5, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 200, __pyx_L1_error)
   __pyx_t_6 = ((PyArrayObject *)__pyx_t_5);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_res.rcbuffer->pybuffer, (PyObject*)__pyx_t_6, &__Pyx_TypeInfo_object, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_res = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_res.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 197, __pyx_L1_error)
+      __PYX_ERR(0, 200, __pyx_L1_error)
     } else {__pyx_pybuffernd_res.diminfo[0].strides = __pyx_pybuffernd_res.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_res.diminfo[0].shape = __pyx_pybuffernd_res.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -5614,7 +5755,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   __pyx_v_res = ((PyArrayObject *)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":198
+  /* "metagenome2vec/utils/transformation_ADN.pyx":201
  *         str kmer
  *         np.ndarray[np.str, ndim=1] res = np.zeros(len(kmer_array), dtype=object)
  *     for kmer in kmer_array:             # <<<<<<<<<<<<<<
@@ -5625,26 +5766,26 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
     __pyx_t_5 = ((PyObject *)__pyx_v_kmer_array); __Pyx_INCREF(__pyx_t_5); __pyx_t_3 = 0;
     __pyx_t_7 = NULL;
   } else {
-    __pyx_t_3 = -1; __pyx_t_5 = PyObject_GetIter(((PyObject *)__pyx_v_kmer_array)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 198, __pyx_L1_error)
+    __pyx_t_3 = -1; __pyx_t_5 = PyObject_GetIter(((PyObject *)__pyx_v_kmer_array)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 201, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 198, __pyx_L1_error)
+    __pyx_t_7 = Py_TYPE(__pyx_t_5)->tp_iternext; if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 201, __pyx_L1_error)
   }
   for (;;) {
     if (likely(!__pyx_t_7)) {
       if (likely(PyList_CheckExact(__pyx_t_5))) {
         if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_5)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 198, __pyx_L1_error)
+        __pyx_t_1 = PyList_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 201, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 201, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       } else {
         if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_5)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 198, __pyx_L1_error)
+        __pyx_t_1 = PyTuple_GET_ITEM(__pyx_t_5, __pyx_t_3); __Pyx_INCREF(__pyx_t_1); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 201, __pyx_L1_error)
         #else
-        __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 198, __pyx_L1_error)
+        __pyx_t_1 = PySequence_ITEM(__pyx_t_5, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 201, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_1);
         #endif
       }
@@ -5654,26 +5795,26 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 198, __pyx_L1_error)
+          else __PYX_ERR(0, 201, __pyx_L1_error)
         }
         break;
       }
       __Pyx_GOTREF(__pyx_t_1);
     }
-    if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 198, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_1))||((__pyx_t_1) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_1)->tp_name), 0))) __PYX_ERR(0, 201, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_kmer, ((PyObject*)__pyx_t_1));
     __pyx_t_1 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":199
+    /* "metagenome2vec/utils/transformation_ADN.pyx":202
  *         np.ndarray[np.str, ndim=1] res = np.zeros(len(kmer_array), dtype=object)
  *     for kmer in kmer_array:
  *         if re.match("^.*[URYKMSWBDHVNX]+.*$", kmer) is None:             # <<<<<<<<<<<<<<
  *             res[i] = kmer
  *             i += 1
  */
-    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_re); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 199, __pyx_L1_error)
+    __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_re); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 202, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_match); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 199, __pyx_L1_error)
+    __pyx_t_2 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_match); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 202, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_2);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __pyx_t_4 = NULL;
@@ -5691,7 +5832,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
     #if CYTHON_FAST_PYCALL
     if (PyFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_kp_s_URYKMSWBDHVNX, __pyx_v_kmer};
-      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
@@ -5699,13 +5840,13 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
     #if CYTHON_FAST_PYCCALL
     if (__Pyx_PyFastCFunction_Check(__pyx_t_2)) {
       PyObject *__pyx_temp[3] = {__pyx_t_4, __pyx_kp_s_URYKMSWBDHVNX, __pyx_v_kmer};
-      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyCFunction_FastCall(__pyx_t_2, __pyx_temp+1-__pyx_t_8, 2+__pyx_t_8); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
       __Pyx_XDECREF(__pyx_t_4); __pyx_t_4 = 0;
       __Pyx_GOTREF(__pyx_t_1);
     } else
     #endif
     {
-      __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 199, __pyx_L1_error)
+      __pyx_t_9 = PyTuple_New(2+__pyx_t_8); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 202, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_9);
       if (__pyx_t_4) {
         __Pyx_GIVEREF(__pyx_t_4); PyTuple_SET_ITEM(__pyx_t_9, 0, __pyx_t_4); __pyx_t_4 = NULL;
@@ -5716,7 +5857,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
       __Pyx_INCREF(__pyx_v_kmer);
       __Pyx_GIVEREF(__pyx_v_kmer);
       PyTuple_SET_ITEM(__pyx_t_9, 1+__pyx_t_8, __pyx_v_kmer);
-      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 199, __pyx_L1_error)
+      __pyx_t_1 = __Pyx_PyObject_Call(__pyx_t_2, __pyx_t_9, NULL); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 202, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_1);
       __Pyx_DECREF(__pyx_t_9); __pyx_t_9 = 0;
     }
@@ -5726,7 +5867,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
     __pyx_t_11 = (__pyx_t_10 != 0);
     if (__pyx_t_11) {
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":200
+      /* "metagenome2vec/utils/transformation_ADN.pyx":203
  *     for kmer in kmer_array:
  *         if re.match("^.*[URYKMSWBDHVNX]+.*$", kmer) is None:
  *             res[i] = kmer             # <<<<<<<<<<<<<<
@@ -5741,7 +5882,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
       } else if (unlikely(__pyx_t_12 >= __pyx_pybuffernd_res.diminfo[0].shape)) __pyx_t_8 = 0;
       if (unlikely(__pyx_t_8 != -1)) {
         __Pyx_RaiseBufferIndexError(__pyx_t_8);
-        __PYX_ERR(0, 200, __pyx_L1_error)
+        __PYX_ERR(0, 203, __pyx_L1_error)
       }
       __pyx_t_13 = __Pyx_BufPtrStrided1d(PyObject **, __pyx_pybuffernd_res.rcbuffer->pybuffer.buf, __pyx_t_12, __pyx_pybuffernd_res.diminfo[0].strides);
       __Pyx_GOTREF(*__pyx_t_13);
@@ -5749,7 +5890,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
       *__pyx_t_13 = __pyx_v_kmer;
       __Pyx_GIVEREF(*__pyx_t_13);
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":201
+      /* "metagenome2vec/utils/transformation_ADN.pyx":204
  *         if re.match("^.*[URYKMSWBDHVNX]+.*$", kmer) is None:
  *             res[i] = kmer
  *             i += 1             # <<<<<<<<<<<<<<
@@ -5758,7 +5899,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
  */
       __pyx_v_i = (__pyx_v_i + 1);
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":199
+      /* "metagenome2vec/utils/transformation_ADN.pyx":202
  *         np.ndarray[np.str, ndim=1] res = np.zeros(len(kmer_array), dtype=object)
  *     for kmer in kmer_array:
  *         if re.match("^.*[URYKMSWBDHVNX]+.*$", kmer) is None:             # <<<<<<<<<<<<<<
@@ -5768,7 +5909,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
       goto __pyx_L5;
     }
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":203
+    /* "metagenome2vec/utils/transformation_ADN.pyx":206
  *             i += 1
  *         else:
  *             cpt_remove += 1             # <<<<<<<<<<<<<<
@@ -5780,7 +5921,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
     }
     __pyx_L5:;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":198
+    /* "metagenome2vec/utils/transformation_ADN.pyx":201
  *         str kmer
  *         np.ndarray[np.str, ndim=1] res = np.zeros(len(kmer_array), dtype=object)
  *     for kmer in kmer_array:             # <<<<<<<<<<<<<<
@@ -5790,7 +5931,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":204
+  /* "metagenome2vec/utils/transformation_ADN.pyx":207
  *         else:
  *             cpt_remove += 1
  *     return np.array(res[:-cpt_remove], dtype=str)             # <<<<<<<<<<<<<<
@@ -5798,38 +5939,38 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
  * 
  */
   __Pyx_XDECREF(((PyObject *)__pyx_r));
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_np); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_array); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyInt_From_int((-__pyx_v_cpt_remove)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyInt_From_int((-__pyx_v_cpt_remove)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_2 = PySlice_New(Py_None, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __pyx_t_2 = PySlice_New(Py_None, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_res), __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_res), __pyx_t_2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
-  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __pyx_t_2 = PyTuple_New(1); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   __Pyx_GIVEREF(__pyx_t_5);
   PyTuple_SET_ITEM(__pyx_t_2, 0, __pyx_t_5);
   __pyx_t_5 = 0;
-  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 204, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, ((PyObject *)(&PyString_Type))) < 0) __PYX_ERR(0, 204, __pyx_L1_error)
-  __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 204, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_5, __pyx_n_s_dtype, ((PyObject *)(&PyString_Type))) < 0) __PYX_ERR(0, 207, __pyx_L1_error)
+  __pyx_t_9 = __Pyx_PyObject_Call(__pyx_t_1, __pyx_t_2, __pyx_t_5); if (unlikely(!__pyx_t_9)) __PYX_ERR(0, 207, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_9);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (!(likely(((__pyx_t_9) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_9, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 204, __pyx_L1_error)
+  if (!(likely(((__pyx_t_9) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_9, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 207, __pyx_L1_error)
   __pyx_r = ((PyArrayObject *)__pyx_t_9);
   __pyx_t_9 = 0;
   goto __pyx_L0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":193
+  /* "metagenome2vec/utils/transformation_ADN.pyx":196
  * 
  * 
  * cpdef np.ndarray[np.str, ndim=1] remove_unk_kmer(np.ndarray[np.str, ndim=1] kmer_array):             # <<<<<<<<<<<<<<
@@ -5851,7 +5992,7 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_kmer_array.rcbuffer->pybuffer);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_res.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.remove_unk_kmer", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.remove_unk_kmer", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   goto __pyx_L2;
   __pyx_L0:;
@@ -5866,16 +6007,16 @@ static PyArrayObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transfo
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_19remove_unk_kmer(PyObject *__pyx_self, PyObject *__pyx_v_kmer_array); /*proto*/
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_19remove_unk_kmer(PyObject *__pyx_self, PyObject *__pyx_v_kmer_array) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_19remove_unk_kmer(PyObject *__pyx_self, PyObject *__pyx_v_kmer_array); /*proto*/
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_19remove_unk_kmer(PyObject *__pyx_self, PyObject *__pyx_v_kmer_array) {
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("remove_unk_kmer (wrapper)", 0);
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kmer_array), __pyx_ptype_5numpy_ndarray, 1, "kmer_array", 0))) __PYX_ERR(0, 193, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_18remove_unk_kmer(__pyx_self, ((PyArrayObject *)__pyx_v_kmer_array));
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_kmer_array), __pyx_ptype_5numpy_ndarray, 1, "kmer_array", 0))) __PYX_ERR(0, 196, __pyx_L1_error)
+  __pyx_r = __pyx_pf_14metagenome2vec_5utils_18transformation_ADN_18remove_unk_kmer(__pyx_self, ((PyArrayObject *)__pyx_v_kmer_array));
 
   /* function exit code */
   goto __pyx_L0;
@@ -5886,7 +6027,7 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_18remove_unk_kmer(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_kmer_array) {
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_18remove_unk_kmer(CYTHON_UNUSED PyObject *__pyx_self, PyArrayObject *__pyx_v_kmer_array) {
   __Pyx_LocalBuf_ND __pyx_pybuffernd_kmer_array;
   __Pyx_Buffer __pyx_pybuffer_kmer_array;
   PyObject *__pyx_r = NULL;
@@ -5902,11 +6043,11 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   __pyx_pybuffernd_kmer_array.rcbuffer = &__pyx_pybuffer_kmer_array;
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
-    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_kmer_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_kmer_array, &__Pyx_TypeInfo_object, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 193, __pyx_L1_error)
+    if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_kmer_array.rcbuffer->pybuffer, (PyObject*)__pyx_v_kmer_array, &__Pyx_TypeInfo_object, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) __PYX_ERR(0, 196, __pyx_L1_error)
   }
   __pyx_pybuffernd_kmer_array.diminfo[0].strides = __pyx_pybuffernd_kmer_array.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_kmer_array.diminfo[0].shape = __pyx_pybuffernd_kmer_array.rcbuffer->pybuffer.shape[0];
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = ((PyObject *)__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_remove_unk_kmer(__pyx_v_kmer_array, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 193, __pyx_L1_error)
+  __pyx_t_1 = ((PyObject *)__pyx_f_14metagenome2vec_5utils_18transformation_ADN_remove_unk_kmer(__pyx_v_kmer_array, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 196, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -5921,7 +6062,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
     __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_kmer_array.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.remove_unk_kmer", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.remove_unk_kmer", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   goto __pyx_L2;
   __pyx_L0:;
@@ -5932,7 +6073,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":207
+/* "metagenome2vec/utils/transformation_ADN.pyx":210
  * 
  * 
  * cpdef cut_and_write_read(f, str read, int k, int s, str mode="c", int remove_unk=0):             # <<<<<<<<<<<<<<
@@ -5940,8 +6081,8 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
  *         int i, unk_seen=0, cpt_remove=0
  */
 
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_21cut_and_write_read(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read(PyObject *__pyx_v_f, PyObject *__pyx_v_read, int __pyx_v_k, int __pyx_v_s, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read *__pyx_optional_args) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_21cut_and_write_read(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read(PyObject *__pyx_v_f, PyObject *__pyx_v_read, int __pyx_v_k, int __pyx_v_s, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read *__pyx_optional_args) {
   PyObject *__pyx_v_mode = ((PyObject*)__pyx_n_s_c);
   int __pyx_v_remove_unk = ((int)0);
   int __pyx_v_i;
@@ -5994,7 +6135,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __pyx_pybuffernd_res2.data = NULL;
   __pyx_pybuffernd_res2.rcbuffer = &__pyx_pybuffer_res2;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":209
+  /* "metagenome2vec/utils/transformation_ADN.pyx":212
  * cpdef cut_and_write_read(f, str read, int k, int s, str mode="c", int remove_unk=0):
  *     cdef:
  *         int i, unk_seen=0, cpt_remove=0             # <<<<<<<<<<<<<<
@@ -6004,18 +6145,18 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __pyx_v_unk_seen = 0;
   __pyx_v_cpt_remove = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":211
+  /* "metagenome2vec/utils/transformation_ADN.pyx":214
  *         int i, unk_seen=0, cpt_remove=0
  *         str kmer
  *     if mode == "b":             # <<<<<<<<<<<<<<
  *         read = read[:(len(read) / k) * k]
  *     elif mode == "e":
  */
-  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_mode, __pyx_n_s_b, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 211, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_mode, __pyx_n_s_b, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 214, __pyx_L1_error)
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":212
+    /* "metagenome2vec/utils/transformation_ADN.pyx":215
  *         str kmer
  *     if mode == "b":
  *         read = read[:(len(read) / k) * k]             # <<<<<<<<<<<<<<
@@ -6024,23 +6165,23 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  */
     if (unlikely(__pyx_v_read == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 212, __pyx_L1_error)
+      __PYX_ERR(0, 215, __pyx_L1_error)
     }
-    __pyx_t_3 = PyObject_Length(__pyx_v_read); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 212, __pyx_L1_error)
+    __pyx_t_3 = PyObject_Length(__pyx_v_read); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 215, __pyx_L1_error)
     if (unlikely(__pyx_v_k == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-      __PYX_ERR(0, 212, __pyx_L1_error)
+      __PYX_ERR(0, 215, __pyx_L1_error)
     }
     else if (sizeof(Py_ssize_t) == sizeof(long) && (!(((int)-1) > 0)) && unlikely(__pyx_v_k == (int)-1)  && unlikely(UNARY_NEG_WOULD_OVERFLOW(__pyx_t_3))) {
       PyErr_SetString(PyExc_OverflowError, "value too large to perform division");
-      __PYX_ERR(0, 212, __pyx_L1_error)
+      __PYX_ERR(0, 215, __pyx_L1_error)
     }
-    __pyx_t_4 = PySequence_GetSlice(__pyx_v_read, 0, (__Pyx_div_Py_ssize_t(__pyx_t_3, __pyx_v_k) * __pyx_v_k)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 212, __pyx_L1_error)
+    __pyx_t_4 = PySequence_GetSlice(__pyx_v_read, 0, (__Pyx_div_Py_ssize_t(__pyx_t_3, __pyx_v_k) * __pyx_v_k)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 215, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF_SET(__pyx_v_read, ((PyObject*)__pyx_t_4));
     __pyx_t_4 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":211
+    /* "metagenome2vec/utils/transformation_ADN.pyx":214
  *         int i, unk_seen=0, cpt_remove=0
  *         str kmer
  *     if mode == "b":             # <<<<<<<<<<<<<<
@@ -6050,18 +6191,18 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     goto __pyx_L3;
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":213
+  /* "metagenome2vec/utils/transformation_ADN.pyx":216
  *     if mode == "b":
  *         read = read[:(len(read) / k) * k]
  *     elif mode == "e":             # <<<<<<<<<<<<<<
  *         read = read[len(read) % k:]
  *     else:
  */
-  __pyx_t_2 = (__Pyx_PyString_Equals(__pyx_v_mode, __pyx_n_s_e, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 213, __pyx_L1_error)
+  __pyx_t_2 = (__Pyx_PyString_Equals(__pyx_v_mode, __pyx_n_s_e, Py_EQ)); if (unlikely(__pyx_t_2 < 0)) __PYX_ERR(0, 216, __pyx_L1_error)
   __pyx_t_1 = (__pyx_t_2 != 0);
   if (__pyx_t_1) {
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":214
+    /* "metagenome2vec/utils/transformation_ADN.pyx":217
  *         read = read[:(len(read) / k) * k]
  *     elif mode == "e":
  *         read = read[len(read) % k:]             # <<<<<<<<<<<<<<
@@ -6070,19 +6211,19 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  */
     if (unlikely(__pyx_v_read == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 214, __pyx_L1_error)
+      __PYX_ERR(0, 217, __pyx_L1_error)
     }
-    __pyx_t_3 = PyObject_Length(__pyx_v_read); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 214, __pyx_L1_error)
+    __pyx_t_3 = PyObject_Length(__pyx_v_read); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 217, __pyx_L1_error)
     if (unlikely(__pyx_v_k == 0)) {
       PyErr_SetString(PyExc_ZeroDivisionError, "integer division or modulo by zero");
-      __PYX_ERR(0, 214, __pyx_L1_error)
+      __PYX_ERR(0, 217, __pyx_L1_error)
     }
-    __pyx_t_4 = PySequence_GetSlice(__pyx_v_read, __Pyx_mod_Py_ssize_t(__pyx_t_3, __pyx_v_k), PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 214, __pyx_L1_error)
+    __pyx_t_4 = PySequence_GetSlice(__pyx_v_read, __Pyx_mod_Py_ssize_t(__pyx_t_3, __pyx_v_k), PY_SSIZE_T_MAX); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 217, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF_SET(__pyx_v_read, ((PyObject*)__pyx_t_4));
     __pyx_t_4 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":213
+    /* "metagenome2vec/utils/transformation_ADN.pyx":216
  *     if mode == "b":
  *         read = read[:(len(read) / k) * k]
  *     elif mode == "e":             # <<<<<<<<<<<<<<
@@ -6092,7 +6233,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     goto __pyx_L3;
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":216
+  /* "metagenome2vec/utils/transformation_ADN.pyx":219
  *         read = read[len(read) % k:]
  *     else:
  *         pass             # <<<<<<<<<<<<<<
@@ -6103,20 +6244,20 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   }
   __pyx_L3:;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":217
+  /* "metagenome2vec/utils/transformation_ADN.pyx":220
  *     else:
  *         pass
  *     cdef np.ndarray[np.str, ndim=1] res = cut_word(read, k, s, remove_unk)             # <<<<<<<<<<<<<<
  *     cdef np.ndarray[np.str, ndim=1] res2 = np.zeros(len(res), dtype=object)
  *     if remove_unk:
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_cut_word); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_5, __pyx_n_s_cut_word); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 220, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
-  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_k); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_v_k); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 220, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_s); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_t_7 = __Pyx_PyInt_From_int(__pyx_v_s); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 220, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
-  __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_remove_unk); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 217, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyInt_From_int(__pyx_v_remove_unk); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 220, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __pyx_t_9 = NULL;
   __pyx_t_10 = 0;
@@ -6133,7 +6274,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   #if CYTHON_FAST_PYCALL
   if (PyFunction_Check(__pyx_t_5)) {
     PyObject *__pyx_temp[5] = {__pyx_t_9, __pyx_v_read, __pyx_t_6, __pyx_t_7, __pyx_t_8};
-    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_10, 4+__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 217, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_10, 4+__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 220, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -6144,7 +6285,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   #if CYTHON_FAST_PYCCALL
   if (__Pyx_PyFastCFunction_Check(__pyx_t_5)) {
     PyObject *__pyx_temp[5] = {__pyx_t_9, __pyx_v_read, __pyx_t_6, __pyx_t_7, __pyx_t_8};
-    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_10, 4+__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 217, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_5, __pyx_temp+1-__pyx_t_10, 4+__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 220, __pyx_L1_error)
     __Pyx_XDECREF(__pyx_t_9); __pyx_t_9 = 0;
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
@@ -6153,7 +6294,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   } else
   #endif
   {
-    __pyx_t_11 = PyTuple_New(4+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 217, __pyx_L1_error)
+    __pyx_t_11 = PyTuple_New(4+__pyx_t_10); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 220, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     if (__pyx_t_9) {
       __Pyx_GIVEREF(__pyx_t_9); PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_9); __pyx_t_9 = NULL;
@@ -6170,18 +6311,18 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     __pyx_t_6 = 0;
     __pyx_t_7 = 0;
     __pyx_t_8 = 0;
-    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_11, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 217, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_11, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 220, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   }
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 217, __pyx_L1_error)
+  if (!(likely(((__pyx_t_4) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_4, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 220, __pyx_L1_error)
   __pyx_t_12 = ((PyArrayObject *)__pyx_t_4);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_res.rcbuffer->pybuffer, (PyObject*)__pyx_t_12, &__Pyx_TypeInfo_object, PyBUF_FORMAT| PyBUF_STRIDES, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_res = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_res.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 217, __pyx_L1_error)
+      __PYX_ERR(0, 220, __pyx_L1_error)
     } else {__pyx_pybuffernd_res.diminfo[0].strides = __pyx_pybuffernd_res.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_res.diminfo[0].shape = __pyx_pybuffernd_res.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -6189,41 +6330,41 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __pyx_v_res = ((PyArrayObject *)__pyx_t_4);
   __pyx_t_4 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":218
+  /* "metagenome2vec/utils/transformation_ADN.pyx":221
  *         pass
  *     cdef np.ndarray[np.str, ndim=1] res = cut_word(read, k, s, remove_unk)
  *     cdef np.ndarray[np.str, ndim=1] res2 = np.zeros(len(res), dtype=object)             # <<<<<<<<<<<<<<
  *     if remove_unk:
  *         f.write(' '.join(res).strip()+'\n')
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 218, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 218, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_3 = PyObject_Length(((PyObject *)__pyx_v_res)); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 218, __pyx_L1_error)
-  __pyx_t_4 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 218, __pyx_L1_error)
+  __pyx_t_3 = PyObject_Length(((PyObject *)__pyx_v_res)); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 221, __pyx_L1_error)
+  __pyx_t_4 = PyInt_FromSsize_t(__pyx_t_3); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_11 = PyTuple_New(1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 218, __pyx_L1_error)
+  __pyx_t_11 = PyTuple_New(1); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_11);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_11, 0, __pyx_t_4);
   __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 218, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyDict_NewPresized(1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_builtin_object) < 0) __PYX_ERR(0, 218, __pyx_L1_error)
-  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_11, __pyx_t_4); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 218, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_t_4, __pyx_n_s_dtype, __pyx_builtin_object) < 0) __PYX_ERR(0, 221, __pyx_L1_error)
+  __pyx_t_8 = __Pyx_PyObject_Call(__pyx_t_5, __pyx_t_11, __pyx_t_4); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 221, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_8);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
   __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  if (!(likely(((__pyx_t_8) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_8, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 218, __pyx_L1_error)
+  if (!(likely(((__pyx_t_8) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_8, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 221, __pyx_L1_error)
   __pyx_t_13 = ((PyArrayObject *)__pyx_t_8);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
     if (unlikely(__Pyx_GetBufferAndValidate(&__pyx_pybuffernd_res2.rcbuffer->pybuffer, (PyObject*)__pyx_t_13, &__Pyx_TypeInfo_object, PyBUF_FORMAT| PyBUF_STRIDES| PyBUF_WRITABLE, 1, 0, __pyx_stack) == -1)) {
       __pyx_v_res2 = ((PyArrayObject *)Py_None); __Pyx_INCREF(Py_None); __pyx_pybuffernd_res2.rcbuffer->pybuffer.buf = NULL;
-      __PYX_ERR(0, 218, __pyx_L1_error)
+      __PYX_ERR(0, 221, __pyx_L1_error)
     } else {__pyx_pybuffernd_res2.diminfo[0].strides = __pyx_pybuffernd_res2.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_res2.diminfo[0].shape = __pyx_pybuffernd_res2.rcbuffer->pybuffer.shape[0];
     }
   }
@@ -6231,7 +6372,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __pyx_v_res2 = ((PyArrayObject *)__pyx_t_8);
   __pyx_t_8 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":219
+  /* "metagenome2vec/utils/transformation_ADN.pyx":222
  *     cdef np.ndarray[np.str, ndim=1] res = cut_word(read, k, s, remove_unk)
  *     cdef np.ndarray[np.str, ndim=1] res2 = np.zeros(len(res), dtype=object)
  *     if remove_unk:             # <<<<<<<<<<<<<<
@@ -6241,18 +6382,18 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __pyx_t_1 = (__pyx_v_remove_unk != 0);
   if (__pyx_t_1) {
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":220
+    /* "metagenome2vec/utils/transformation_ADN.pyx":223
  *     cdef np.ndarray[np.str, ndim=1] res2 = np.zeros(len(res), dtype=object)
  *     if remove_unk:
  *         f.write(' '.join(res).strip()+'\n')             # <<<<<<<<<<<<<<
  *     else:
  *         i = 0
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_write); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 220, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_write); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 223, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyString_Join(__pyx_kp_s__4, ((PyObject *)__pyx_v_res)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 220, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyString_Join(__pyx_kp_s__4, ((PyObject *)__pyx_v_res)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 223, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_strip); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 220, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyObject_GetAttrStr(__pyx_t_5, __pyx_n_s_strip); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 223, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_t_5 = NULL;
@@ -6267,10 +6408,10 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     }
     __pyx_t_11 = (__pyx_t_5) ? __Pyx_PyObject_CallOneArg(__pyx_t_7, __pyx_t_5) : __Pyx_PyObject_CallNoArg(__pyx_t_7);
     __Pyx_XDECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 220, __pyx_L1_error)
+    if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 223, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = PyNumber_Add(__pyx_t_11, __pyx_kp_s__5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 220, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_Add(__pyx_t_11, __pyx_kp_s__5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 223, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     __pyx_t_11 = NULL;
@@ -6286,12 +6427,12 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     __pyx_t_8 = (__pyx_t_11) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_11, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_7);
     __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 220, __pyx_L1_error)
+    if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 223, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":219
+    /* "metagenome2vec/utils/transformation_ADN.pyx":222
  *     cdef np.ndarray[np.str, ndim=1] res = cut_word(read, k, s, remove_unk)
  *     cdef np.ndarray[np.str, ndim=1] res2 = np.zeros(len(res), dtype=object)
  *     if remove_unk:             # <<<<<<<<<<<<<<
@@ -6301,7 +6442,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     goto __pyx_L4;
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":222
+  /* "metagenome2vec/utils/transformation_ADN.pyx":225
  *         f.write(' '.join(res).strip()+'\n')
  *     else:
  *         i = 0             # <<<<<<<<<<<<<<
@@ -6311,7 +6452,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   /*else*/ {
     __pyx_v_i = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":223
+    /* "metagenome2vec/utils/transformation_ADN.pyx":226
  *     else:
  *         i = 0
  *         for kmer in res:             # <<<<<<<<<<<<<<
@@ -6322,26 +6463,26 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
       __pyx_t_8 = ((PyObject *)__pyx_v_res); __Pyx_INCREF(__pyx_t_8); __pyx_t_3 = 0;
       __pyx_t_14 = NULL;
     } else {
-      __pyx_t_3 = -1; __pyx_t_8 = PyObject_GetIter(((PyObject *)__pyx_v_res)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 223, __pyx_L1_error)
+      __pyx_t_3 = -1; __pyx_t_8 = PyObject_GetIter(((PyObject *)__pyx_v_res)); if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 226, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_8);
-      __pyx_t_14 = Py_TYPE(__pyx_t_8)->tp_iternext; if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 223, __pyx_L1_error)
+      __pyx_t_14 = Py_TYPE(__pyx_t_8)->tp_iternext; if (unlikely(!__pyx_t_14)) __PYX_ERR(0, 226, __pyx_L1_error)
     }
     for (;;) {
       if (likely(!__pyx_t_14)) {
         if (likely(PyList_CheckExact(__pyx_t_8))) {
           if (__pyx_t_3 >= PyList_GET_SIZE(__pyx_t_8)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_8, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 223, __pyx_L1_error)
+          __pyx_t_4 = PyList_GET_ITEM(__pyx_t_8, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 226, __pyx_L1_error)
           #else
-          __pyx_t_4 = PySequence_ITEM(__pyx_t_8, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 223, __pyx_L1_error)
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_8, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 226, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           #endif
         } else {
           if (__pyx_t_3 >= PyTuple_GET_SIZE(__pyx_t_8)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_8, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 223, __pyx_L1_error)
+          __pyx_t_4 = PyTuple_GET_ITEM(__pyx_t_8, __pyx_t_3); __Pyx_INCREF(__pyx_t_4); __pyx_t_3++; if (unlikely(0 < 0)) __PYX_ERR(0, 226, __pyx_L1_error)
           #else
-          __pyx_t_4 = PySequence_ITEM(__pyx_t_8, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 223, __pyx_L1_error)
+          __pyx_t_4 = PySequence_ITEM(__pyx_t_8, __pyx_t_3); __pyx_t_3++; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 226, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_4);
           #endif
         }
@@ -6351,26 +6492,26 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 223, __pyx_L1_error)
+            else __PYX_ERR(0, 226, __pyx_L1_error)
           }
           break;
         }
         __Pyx_GOTREF(__pyx_t_4);
       }
-      if (!(likely(PyString_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_4)->tp_name), 0))) __PYX_ERR(0, 223, __pyx_L1_error)
+      if (!(likely(PyString_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_4)->tp_name), 0))) __PYX_ERR(0, 226, __pyx_L1_error)
       __Pyx_XDECREF_SET(__pyx_v_kmer, ((PyObject*)__pyx_t_4));
       __pyx_t_4 = 0;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":224
+      /* "metagenome2vec/utils/transformation_ADN.pyx":227
  *         i = 0
  *         for kmer in res:
  *             kmer = re.sub("^.*[URYKMSWBDHVNX]+.*$", "<unk>", kmer)             # <<<<<<<<<<<<<<
  *             if kmer != "<unk>":
  *                 res2[i] = kmer
  */
-      __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_re); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 224, __pyx_L1_error)
+      __Pyx_GetModuleGlobalName(__pyx_t_7, __pyx_n_s_re); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 227, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_sub); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 224, __pyx_L1_error)
+      __pyx_t_11 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_sub); if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 227, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_11);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_t_7 = NULL;
@@ -6388,7 +6529,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_11)) {
         PyObject *__pyx_temp[4] = {__pyx_t_7, __pyx_kp_s_URYKMSWBDHVNX, __pyx_kp_s_unk, __pyx_v_kmer};
-        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_11, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 224, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyFunction_FastCall(__pyx_t_11, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 227, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_4);
       } else
@@ -6396,13 +6537,13 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_11)) {
         PyObject *__pyx_temp[4] = {__pyx_t_7, __pyx_kp_s_URYKMSWBDHVNX, __pyx_kp_s_unk, __pyx_v_kmer};
-        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_11, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 224, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyCFunction_FastCall(__pyx_t_11, __pyx_temp+1-__pyx_t_10, 3+__pyx_t_10); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 227, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
         __Pyx_GOTREF(__pyx_t_4);
       } else
       #endif
       {
-        __pyx_t_5 = PyTuple_New(3+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 224, __pyx_L1_error)
+        __pyx_t_5 = PyTuple_New(3+__pyx_t_10); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 227, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_5);
         if (__pyx_t_7) {
           __Pyx_GIVEREF(__pyx_t_7); PyTuple_SET_ITEM(__pyx_t_5, 0, __pyx_t_7); __pyx_t_7 = NULL;
@@ -6416,27 +6557,27 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
         __Pyx_INCREF(__pyx_v_kmer);
         __Pyx_GIVEREF(__pyx_v_kmer);
         PyTuple_SET_ITEM(__pyx_t_5, 2+__pyx_t_10, __pyx_v_kmer);
-        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 224, __pyx_L1_error)
+        __pyx_t_4 = __Pyx_PyObject_Call(__pyx_t_11, __pyx_t_5, NULL); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 227, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_4);
         __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       }
       __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
-      if (!(likely(PyString_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_4)->tp_name), 0))) __PYX_ERR(0, 224, __pyx_L1_error)
+      if (!(likely(PyString_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_4)->tp_name), 0))) __PYX_ERR(0, 227, __pyx_L1_error)
       __Pyx_DECREF_SET(__pyx_v_kmer, ((PyObject*)__pyx_t_4));
       __pyx_t_4 = 0;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":225
+      /* "metagenome2vec/utils/transformation_ADN.pyx":228
  *         for kmer in res:
  *             kmer = re.sub("^.*[URYKMSWBDHVNX]+.*$", "<unk>", kmer)
  *             if kmer != "<unk>":             # <<<<<<<<<<<<<<
  *                 res2[i] = kmer
  *                 i += 1
  */
-      __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_kmer, __pyx_kp_s_unk, Py_NE)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 225, __pyx_L1_error)
+      __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_kmer, __pyx_kp_s_unk, Py_NE)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 228, __pyx_L1_error)
       __pyx_t_2 = (__pyx_t_1 != 0);
       if (__pyx_t_2) {
 
-        /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":226
+        /* "metagenome2vec/utils/transformation_ADN.pyx":229
  *             kmer = re.sub("^.*[URYKMSWBDHVNX]+.*$", "<unk>", kmer)
  *             if kmer != "<unk>":
  *                 res2[i] = kmer             # <<<<<<<<<<<<<<
@@ -6451,7 +6592,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
         } else if (unlikely(__pyx_t_15 >= __pyx_pybuffernd_res2.diminfo[0].shape)) __pyx_t_10 = 0;
         if (unlikely(__pyx_t_10 != -1)) {
           __Pyx_RaiseBufferIndexError(__pyx_t_10);
-          __PYX_ERR(0, 226, __pyx_L1_error)
+          __PYX_ERR(0, 229, __pyx_L1_error)
         }
         __pyx_t_16 = __Pyx_BufPtrStrided1d(PyObject **, __pyx_pybuffernd_res2.rcbuffer->pybuffer.buf, __pyx_t_15, __pyx_pybuffernd_res2.diminfo[0].strides);
         __Pyx_GOTREF(*__pyx_t_16);
@@ -6459,7 +6600,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
         *__pyx_t_16 = __pyx_v_kmer;
         __Pyx_GIVEREF(*__pyx_t_16);
 
-        /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":227
+        /* "metagenome2vec/utils/transformation_ADN.pyx":230
  *             if kmer != "<unk>":
  *                 res2[i] = kmer
  *                 i += 1             # <<<<<<<<<<<<<<
@@ -6468,7 +6609,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  */
         __pyx_v_i = (__pyx_v_i + 1);
 
-        /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":228
+        /* "metagenome2vec/utils/transformation_ADN.pyx":231
  *                 res2[i] = kmer
  *                 i += 1
  *                 unk_seen = 0             # <<<<<<<<<<<<<<
@@ -6477,7 +6618,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  */
         __pyx_v_unk_seen = 0;
 
-        /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":225
+        /* "metagenome2vec/utils/transformation_ADN.pyx":228
  *         for kmer in res:
  *             kmer = re.sub("^.*[URYKMSWBDHVNX]+.*$", "<unk>", kmer)
  *             if kmer != "<unk>":             # <<<<<<<<<<<<<<
@@ -6487,7 +6628,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
         goto __pyx_L7;
       }
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":230
+      /* "metagenome2vec/utils/transformation_ADN.pyx":233
  *                 unk_seen = 0
  *             else:
  *                  if not unk_seen:             # <<<<<<<<<<<<<<
@@ -6498,7 +6639,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
         __pyx_t_2 = ((!(__pyx_v_unk_seen != 0)) != 0);
         if (__pyx_t_2) {
 
-          /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":231
+          /* "metagenome2vec/utils/transformation_ADN.pyx":234
  *             else:
  *                  if not unk_seen:
  *                      res2[i] = kmer             # <<<<<<<<<<<<<<
@@ -6513,7 +6654,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
           } else if (unlikely(__pyx_t_15 >= __pyx_pybuffernd_res2.diminfo[0].shape)) __pyx_t_10 = 0;
           if (unlikely(__pyx_t_10 != -1)) {
             __Pyx_RaiseBufferIndexError(__pyx_t_10);
-            __PYX_ERR(0, 231, __pyx_L1_error)
+            __PYX_ERR(0, 234, __pyx_L1_error)
           }
           __pyx_t_16 = __Pyx_BufPtrStrided1d(PyObject **, __pyx_pybuffernd_res2.rcbuffer->pybuffer.buf, __pyx_t_15, __pyx_pybuffernd_res2.diminfo[0].strides);
           __Pyx_GOTREF(*__pyx_t_16);
@@ -6521,7 +6662,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
           *__pyx_t_16 = __pyx_v_kmer;
           __Pyx_GIVEREF(*__pyx_t_16);
 
-          /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":232
+          /* "metagenome2vec/utils/transformation_ADN.pyx":235
  *                  if not unk_seen:
  *                      res2[i] = kmer
  *                      i += 1             # <<<<<<<<<<<<<<
@@ -6530,7 +6671,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  */
           __pyx_v_i = (__pyx_v_i + 1);
 
-          /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":233
+          /* "metagenome2vec/utils/transformation_ADN.pyx":236
  *                      res2[i] = kmer
  *                      i += 1
  *                      unk_seen = 1             # <<<<<<<<<<<<<<
@@ -6539,7 +6680,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  */
           __pyx_v_unk_seen = 1;
 
-          /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":230
+          /* "metagenome2vec/utils/transformation_ADN.pyx":233
  *                 unk_seen = 0
  *             else:
  *                  if not unk_seen:             # <<<<<<<<<<<<<<
@@ -6549,7 +6690,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
           goto __pyx_L8;
         }
 
-        /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":235
+        /* "metagenome2vec/utils/transformation_ADN.pyx":238
  *                      unk_seen = 1
  *                  else:
  *                      cpt_remove += 1             # <<<<<<<<<<<<<<
@@ -6563,7 +6704,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
       }
       __pyx_L7:;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":223
+      /* "metagenome2vec/utils/transformation_ADN.pyx":226
  *     else:
  *         i = 0
  *         for kmer in res:             # <<<<<<<<<<<<<<
@@ -6573,27 +6714,27 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     }
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":236
+    /* "metagenome2vec/utils/transformation_ADN.pyx":239
  *                  else:
  *                      cpt_remove += 1
  *         f.write(' '.join(res2[:-cpt_remove]).strip()+'\n')             # <<<<<<<<<<<<<<
  * 
  * 
  */
-    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_write); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 236, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyObject_GetAttrStr(__pyx_v_f, __pyx_n_s_write); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 239, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_PyInt_From_int((-__pyx_v_cpt_remove)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 236, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_int((-__pyx_v_cpt_remove)); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 239, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = PySlice_New(Py_None, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 236, __pyx_L1_error)
+    __pyx_t_7 = PySlice_New(Py_None, __pyx_t_5, Py_None); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 239, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_res2), __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 236, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetItem(((PyObject *)__pyx_v_res2), __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 239, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = __Pyx_PyString_Join(__pyx_kp_s__4, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 236, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyString_Join(__pyx_kp_s__4, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 239, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_strip); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 236, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_7, __pyx_n_s_strip); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 239, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __pyx_t_7 = NULL;
@@ -6608,10 +6749,10 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     }
     __pyx_t_11 = (__pyx_t_7) ? __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7) : __Pyx_PyObject_CallNoArg(__pyx_t_5);
     __Pyx_XDECREF(__pyx_t_7); __pyx_t_7 = 0;
-    if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 236, __pyx_L1_error)
+    if (unlikely(!__pyx_t_11)) __PYX_ERR(0, 239, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_11);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyNumber_Add(__pyx_t_11, __pyx_kp_s__5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 236, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_Add(__pyx_t_11, __pyx_kp_s__5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 239, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_11); __pyx_t_11 = 0;
     __pyx_t_11 = NULL;
@@ -6627,14 +6768,14 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     __pyx_t_8 = (__pyx_t_11) ? __Pyx_PyObject_Call2Args(__pyx_t_4, __pyx_t_11, __pyx_t_5) : __Pyx_PyObject_CallOneArg(__pyx_t_4, __pyx_t_5);
     __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 236, __pyx_L1_error)
+    if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 239, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_8);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_8); __pyx_t_8 = 0;
   }
   __pyx_L4:;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":207
+  /* "metagenome2vec/utils/transformation_ADN.pyx":210
  * 
  * 
  * cpdef cut_and_write_read(f, str read, int k, int s, str mode="c", int remove_unk=0):             # <<<<<<<<<<<<<<
@@ -6660,7 +6801,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_res.rcbuffer->pybuffer);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_res2.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.cut_and_write_read", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.cut_and_write_read", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   goto __pyx_L2;
   __pyx_L0:;
@@ -6677,8 +6818,8 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_21cut_and_write_read(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_21cut_and_write_read(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_21cut_and_write_read(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_21cut_and_write_read(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_f = 0;
   PyObject *__pyx_v_read = 0;
   int __pyx_v_k;
@@ -6723,19 +6864,19 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_read)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("cut_and_write_read", 0, 4, 6, 1); __PYX_ERR(0, 207, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("cut_and_write_read", 0, 4, 6, 1); __PYX_ERR(0, 210, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_k)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("cut_and_write_read", 0, 4, 6, 2); __PYX_ERR(0, 207, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("cut_and_write_read", 0, 4, 6, 2); __PYX_ERR(0, 210, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
         if (likely((values[3] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_s)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("cut_and_write_read", 0, 4, 6, 3); __PYX_ERR(0, 207, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("cut_and_write_read", 0, 4, 6, 3); __PYX_ERR(0, 210, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  4:
@@ -6751,7 +6892,7 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "cut_and_write_read") < 0)) __PYX_ERR(0, 207, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "cut_and_write_read") < 0)) __PYX_ERR(0, 210, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -6769,26 +6910,26 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
     }
     __pyx_v_f = values[0];
     __pyx_v_read = ((PyObject*)values[1]);
-    __pyx_v_k = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_k == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 207, __pyx_L3_error)
-    __pyx_v_s = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_s == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 207, __pyx_L3_error)
+    __pyx_v_k = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_k == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 210, __pyx_L3_error)
+    __pyx_v_s = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_s == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 210, __pyx_L3_error)
     __pyx_v_mode = ((PyObject*)values[4]);
     if (values[5]) {
-      __pyx_v_remove_unk = __Pyx_PyInt_As_int(values[5]); if (unlikely((__pyx_v_remove_unk == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 207, __pyx_L3_error)
+      __pyx_v_remove_unk = __Pyx_PyInt_As_int(values[5]); if (unlikely((__pyx_v_remove_unk == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 210, __pyx_L3_error)
     } else {
       __pyx_v_remove_unk = ((int)0);
     }
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("cut_and_write_read", 0, 4, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 207, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("cut_and_write_read", 0, 4, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 210, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.cut_and_write_read", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.cut_and_write_read", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_read), (&PyString_Type), 1, "read", 1))) __PYX_ERR(0, 207, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mode), (&PyString_Type), 1, "mode", 1))) __PYX_ERR(0, 207, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_20cut_and_write_read(__pyx_self, __pyx_v_f, __pyx_v_read, __pyx_v_k, __pyx_v_s, __pyx_v_mode, __pyx_v_remove_unk);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_read), (&PyString_Type), 1, "read", 1))) __PYX_ERR(0, 210, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mode), (&PyString_Type), 1, "mode", 1))) __PYX_ERR(0, 210, __pyx_L1_error)
+  __pyx_r = __pyx_pf_14metagenome2vec_5utils_18transformation_ADN_20cut_and_write_read(__pyx_self, __pyx_v_f, __pyx_v_read, __pyx_v_k, __pyx_v_s, __pyx_v_mode, __pyx_v_remove_unk);
 
   /* function exit code */
   goto __pyx_L0;
@@ -6799,11 +6940,11 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_20cut_and_write_read(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_f, PyObject *__pyx_v_read, int __pyx_v_k, int __pyx_v_s, PyObject *__pyx_v_mode, int __pyx_v_remove_unk) {
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_20cut_and_write_read(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_f, PyObject *__pyx_v_read, int __pyx_v_k, int __pyx_v_s, PyObject *__pyx_v_mode, int __pyx_v_remove_unk) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read __pyx_t_2;
+  struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -6812,7 +6953,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   __pyx_t_2.__pyx_n = 2;
   __pyx_t_2.mode = __pyx_v_mode;
   __pyx_t_2.remove_unk = __pyx_v_remove_unk;
-  __pyx_t_1 = __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read(__pyx_v_f, __pyx_v_read, __pyx_v_k, __pyx_v_s, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 207, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read(__pyx_v_f, __pyx_v_read, __pyx_v_k, __pyx_v_s, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 210, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -6821,7 +6962,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.cut_and_write_read", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.cut_and_write_read", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6829,7 +6970,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":239
+/* "metagenome2vec/utils/transformation_ADN.pyx":242
  * 
  * 
  * cpdef cut_and_write_reads(list L_reads, f, int k, int s=1, str mode="c", remove_unk=False):             # <<<<<<<<<<<<<<
@@ -6837,8 +6978,8 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
  *         int i
  */
 
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_23cut_and_write_reads(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_reads(PyObject *__pyx_v_L_reads, PyObject *__pyx_v_f, int __pyx_v_k, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_reads *__pyx_optional_args) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_23cut_and_write_reads(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_reads(PyObject *__pyx_v_L_reads, PyObject *__pyx_v_f, int __pyx_v_k, CYTHON_UNUSED int __pyx_skip_dispatch, struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_reads *__pyx_optional_args) {
   int __pyx_v_s = ((int)1);
   PyObject *__pyx_v_mode = ((PyObject*)__pyx_n_s_c);
   PyObject *__pyx_v_remove_unk = ((PyObject *)Py_False);
@@ -6851,7 +6992,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   PyObject *__pyx_t_4 = NULL;
   int __pyx_t_5;
   PyObject *__pyx_t_6 = NULL;
-  struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read __pyx_t_7;
+  struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read __pyx_t_7;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -6868,7 +7009,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     }
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":242
+  /* "metagenome2vec/utils/transformation_ADN.pyx":245
  *     cdef:
  *         int i
  *     for i in range(len(L_reads)):             # <<<<<<<<<<<<<<
@@ -6877,14 +7018,14 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  */
   if (unlikely(__pyx_v_L_reads == Py_None)) {
     PyErr_SetString(PyExc_TypeError, "object of type 'NoneType' has no len()");
-    __PYX_ERR(0, 242, __pyx_L1_error)
+    __PYX_ERR(0, 245, __pyx_L1_error)
   }
-  __pyx_t_1 = PyList_GET_SIZE(__pyx_v_L_reads); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 242, __pyx_L1_error)
+  __pyx_t_1 = PyList_GET_SIZE(__pyx_v_L_reads); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 245, __pyx_L1_error)
   __pyx_t_2 = __pyx_t_1;
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":243
+    /* "metagenome2vec/utils/transformation_ADN.pyx":246
  *         int i
  *     for i in range(len(L_reads)):
  *         cut_and_write_read(f, L_reads[i], k, s, mode, remove_unk)             # <<<<<<<<<<<<<<
@@ -6893,22 +7034,22 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  */
     if (unlikely(__pyx_v_L_reads == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 243, __pyx_L1_error)
+      __PYX_ERR(0, 246, __pyx_L1_error)
     }
-    __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_L_reads, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 243, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_GetItemInt_List(__pyx_v_L_reads, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 1, 1, 1); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 246, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    if (!(likely(PyString_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_4)->tp_name), 0))) __PYX_ERR(0, 243, __pyx_L1_error)
-    __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_v_remove_unk); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 243, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_4))||((__pyx_t_4) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_4)->tp_name), 0))) __PYX_ERR(0, 246, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_As_int(__pyx_v_remove_unk); if (unlikely((__pyx_t_5 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 246, __pyx_L1_error)
     __pyx_t_7.__pyx_n = 2;
     __pyx_t_7.mode = __pyx_v_mode;
     __pyx_t_7.remove_unk = __pyx_t_5;
-    __pyx_t_6 = __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read(__pyx_v_f, ((PyObject*)__pyx_t_4), __pyx_v_k, __pyx_v_s, 0, &__pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 243, __pyx_L1_error)
+    __pyx_t_6 = __pyx_f_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_read(__pyx_v_f, ((PyObject*)__pyx_t_4), __pyx_v_k, __pyx_v_s, 0, &__pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 246, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":239
+  /* "metagenome2vec/utils/transformation_ADN.pyx":242
  * 
  * 
  * cpdef cut_and_write_reads(list L_reads, f, int k, int s=1, str mode="c", remove_unk=False):             # <<<<<<<<<<<<<<
@@ -6922,7 +7063,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_4);
   __Pyx_XDECREF(__pyx_t_6);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.cut_and_write_reads", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.cut_and_write_reads", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -6931,8 +7072,8 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_23cut_and_write_reads(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_23cut_and_write_reads(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_23cut_and_write_reads(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_23cut_and_write_reads(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_L_reads = 0;
   PyObject *__pyx_v_f = 0;
   int __pyx_v_k;
@@ -6978,13 +7119,13 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_f)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("cut_and_write_reads", 0, 3, 6, 1); __PYX_ERR(0, 239, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("cut_and_write_reads", 0, 3, 6, 1); __PYX_ERR(0, 242, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_k)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("cut_and_write_reads", 0, 3, 6, 2); __PYX_ERR(0, 239, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("cut_and_write_reads", 0, 3, 6, 2); __PYX_ERR(0, 242, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  3:
@@ -7006,7 +7147,7 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "cut_and_write_reads") < 0)) __PYX_ERR(0, 239, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "cut_and_write_reads") < 0)) __PYX_ERR(0, 242, __pyx_L3_error)
       }
     } else {
       switch (PyTuple_GET_SIZE(__pyx_args)) {
@@ -7025,9 +7166,9 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
     }
     __pyx_v_L_reads = ((PyObject*)values[0]);
     __pyx_v_f = values[1];
-    __pyx_v_k = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_k == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 239, __pyx_L3_error)
+    __pyx_v_k = __Pyx_PyInt_As_int(values[2]); if (unlikely((__pyx_v_k == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 242, __pyx_L3_error)
     if (values[3]) {
-      __pyx_v_s = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_s == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 239, __pyx_L3_error)
+      __pyx_v_s = __Pyx_PyInt_As_int(values[3]); if (unlikely((__pyx_v_s == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 242, __pyx_L3_error)
     } else {
       __pyx_v_s = ((int)1);
     }
@@ -7036,15 +7177,15 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("cut_and_write_reads", 0, 3, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 239, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("cut_and_write_reads", 0, 3, 6, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 242, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.cut_and_write_reads", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.cut_and_write_reads", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_L_reads), (&PyList_Type), 1, "L_reads", 1))) __PYX_ERR(0, 239, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mode), (&PyString_Type), 1, "mode", 1))) __PYX_ERR(0, 239, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_22cut_and_write_reads(__pyx_self, __pyx_v_L_reads, __pyx_v_f, __pyx_v_k, __pyx_v_s, __pyx_v_mode, __pyx_v_remove_unk);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_L_reads), (&PyList_Type), 1, "L_reads", 1))) __PYX_ERR(0, 242, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_mode), (&PyString_Type), 1, "mode", 1))) __PYX_ERR(0, 242, __pyx_L1_error)
+  __pyx_r = __pyx_pf_14metagenome2vec_5utils_18transformation_ADN_22cut_and_write_reads(__pyx_self, __pyx_v_L_reads, __pyx_v_f, __pyx_v_k, __pyx_v_s, __pyx_v_mode, __pyx_v_remove_unk);
 
   /* function exit code */
   goto __pyx_L0;
@@ -7055,11 +7196,11 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_22cut_and_write_reads(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_L_reads, PyObject *__pyx_v_f, int __pyx_v_k, int __pyx_v_s, PyObject *__pyx_v_mode, PyObject *__pyx_v_remove_unk) {
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_22cut_and_write_reads(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_L_reads, PyObject *__pyx_v_f, int __pyx_v_k, int __pyx_v_s, PyObject *__pyx_v_mode, PyObject *__pyx_v_remove_unk) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
-  struct __pyx_opt_args_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_reads __pyx_t_2;
+  struct __pyx_opt_args_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_reads __pyx_t_2;
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
@@ -7069,7 +7210,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   __pyx_t_2.s = __pyx_v_s;
   __pyx_t_2.mode = __pyx_v_mode;
   __pyx_t_2.remove_unk = __pyx_v_remove_unk;
-  __pyx_t_1 = __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_reads(__pyx_v_L_reads, __pyx_v_f, __pyx_v_k, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 239, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_14metagenome2vec_5utils_18transformation_ADN_cut_and_write_reads(__pyx_v_L_reads, __pyx_v_f, __pyx_v_k, 0, &__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 242, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7078,7 +7219,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.cut_and_write_reads", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.cut_and_write_reads", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7086,7 +7227,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":246
+/* "metagenome2vec/utils/transformation_ADN.pyx":249
  * 
  * 
  * cpdef int mch(str alpha, str beta):             # <<<<<<<<<<<<<<
@@ -7094,8 +7235,8 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
  *         return pt['match']
  */
 
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_25mch(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_mch(PyObject *__pyx_v_alpha, PyObject *__pyx_v_beta, CYTHON_UNUSED int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_25mch(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_f_14metagenome2vec_5utils_18transformation_ADN_mch(PyObject *__pyx_v_alpha, PyObject *__pyx_v_beta, CYTHON_UNUSED int __pyx_skip_dispatch) {
   int __pyx_r;
   __Pyx_RefNannyDeclarations
   int __pyx_t_1;
@@ -7108,36 +7249,36 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("mch", 0);
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":247
+  /* "metagenome2vec/utils/transformation_ADN.pyx":250
  * 
  * cpdef int mch(str alpha, str beta):
  *     if alpha == beta:             # <<<<<<<<<<<<<<
  *         return pt['match']
  *     elif alpha == '-' or beta == '-':
  */
-  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_alpha, __pyx_v_beta, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 247, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_alpha, __pyx_v_beta, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 250, __pyx_L1_error)
   __pyx_t_2 = (__pyx_t_1 != 0);
   if (__pyx_t_2) {
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":248
+    /* "metagenome2vec/utils/transformation_ADN.pyx":251
  * cpdef int mch(str alpha, str beta):
  *     if alpha == beta:
  *         return pt['match']             # <<<<<<<<<<<<<<
  *     elif alpha == '-' or beta == '-':
  *         return pt['gap']
  */
-    if (unlikely(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
+    if (unlikely(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 248, __pyx_L1_error)
+      __PYX_ERR(0, 251, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_match); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 248, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_match); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 251, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 248, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 251, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_r = __pyx_t_4;
     goto __pyx_L0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":247
+    /* "metagenome2vec/utils/transformation_ADN.pyx":250
  * 
  * cpdef int mch(str alpha, str beta):
  *     if alpha == beta:             # <<<<<<<<<<<<<<
@@ -7146,45 +7287,45 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  */
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":249
+  /* "metagenome2vec/utils/transformation_ADN.pyx":252
  *     if alpha == beta:
  *         return pt['match']
  *     elif alpha == '-' or beta == '-':             # <<<<<<<<<<<<<<
  *         return pt['gap']
  *     else:
  */
-  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_alpha, __pyx_kp_s__6, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_t_1 = (__Pyx_PyString_Equals(__pyx_v_alpha, __pyx_kp_s__6, Py_EQ)); if (unlikely(__pyx_t_1 < 0)) __PYX_ERR(0, 252, __pyx_L1_error)
   __pyx_t_5 = (__pyx_t_1 != 0);
   if (!__pyx_t_5) {
   } else {
     __pyx_t_2 = __pyx_t_5;
     goto __pyx_L4_bool_binop_done;
   }
-  __pyx_t_5 = (__Pyx_PyString_Equals(__pyx_v_beta, __pyx_kp_s__6, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_t_5 = (__Pyx_PyString_Equals(__pyx_v_beta, __pyx_kp_s__6, Py_EQ)); if (unlikely(__pyx_t_5 < 0)) __PYX_ERR(0, 252, __pyx_L1_error)
   __pyx_t_1 = (__pyx_t_5 != 0);
   __pyx_t_2 = __pyx_t_1;
   __pyx_L4_bool_binop_done:;
   if (__pyx_t_2) {
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":250
+    /* "metagenome2vec/utils/transformation_ADN.pyx":253
  *         return pt['match']
  *     elif alpha == '-' or beta == '-':
  *         return pt['gap']             # <<<<<<<<<<<<<<
  *     else:
  *         return pt['mismatch']
  */
-    if (unlikely(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
+    if (unlikely(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 250, __pyx_L1_error)
+      __PYX_ERR(0, 253, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_gap); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 250, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_gap); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 253, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 250, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 253, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_r = __pyx_t_4;
     goto __pyx_L0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":249
+    /* "metagenome2vec/utils/transformation_ADN.pyx":252
  *     if alpha == beta:
  *         return pt['match']
  *     elif alpha == '-' or beta == '-':             # <<<<<<<<<<<<<<
@@ -7193,7 +7334,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  */
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":252
+  /* "metagenome2vec/utils/transformation_ADN.pyx":255
  *         return pt['gap']
  *     else:
  *         return pt['mismatch']             # <<<<<<<<<<<<<<
@@ -7201,19 +7342,19 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  * 
  */
   /*else*/ {
-    if (unlikely(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
+    if (unlikely(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 252, __pyx_L1_error)
+      __PYX_ERR(0, 255, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_mismatch); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 252, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_mismatch); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 255, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 252, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_As_int(__pyx_t_3); if (unlikely((__pyx_t_4 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 255, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __pyx_r = __pyx_t_4;
     goto __pyx_L0;
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":246
+  /* "metagenome2vec/utils/transformation_ADN.pyx":249
  * 
  * 
  * cpdef int mch(str alpha, str beta):             # <<<<<<<<<<<<<<
@@ -7224,7 +7365,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_3);
-  __Pyx_WriteUnraisable("metagenome2vec.metagenome2vec.utils.transformation_ADN.mch", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("metagenome2vec.utils.transformation_ADN.mch", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -7232,8 +7373,8 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_25mch(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_25mch(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_25mch(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_25mch(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_alpha = 0;
   PyObject *__pyx_v_beta = 0;
   int __pyx_lineno = 0;
@@ -7265,11 +7406,11 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_beta)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("mch", 1, 2, 2, 1); __PYX_ERR(0, 246, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("mch", 1, 2, 2, 1); __PYX_ERR(0, 249, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "mch") < 0)) __PYX_ERR(0, 246, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "mch") < 0)) __PYX_ERR(0, 249, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -7282,15 +7423,15 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("mch", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 246, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("mch", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 249, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.mch", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.mch", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_alpha), (&PyString_Type), 1, "alpha", 1))) __PYX_ERR(0, 246, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_beta), (&PyString_Type), 1, "beta", 1))) __PYX_ERR(0, 246, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_24mch(__pyx_self, __pyx_v_alpha, __pyx_v_beta);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_alpha), (&PyString_Type), 1, "alpha", 1))) __PYX_ERR(0, 249, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_beta), (&PyString_Type), 1, "beta", 1))) __PYX_ERR(0, 249, __pyx_L1_error)
+  __pyx_r = __pyx_pf_14metagenome2vec_5utils_18transformation_ADN_24mch(__pyx_self, __pyx_v_alpha, __pyx_v_beta);
 
   /* function exit code */
   goto __pyx_L0;
@@ -7301,7 +7442,7 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_24mch(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_alpha, PyObject *__pyx_v_beta) {
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_24mch(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_alpha, PyObject *__pyx_v_beta) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -7310,7 +7451,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("mch", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_mch(__pyx_v_alpha, __pyx_v_beta, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 246, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_14metagenome2vec_5utils_18transformation_ADN_mch(__pyx_v_alpha, __pyx_v_beta, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 249, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -7319,7 +7460,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.mch", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.mch", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -7327,7 +7468,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":255
+/* "metagenome2vec/utils/transformation_ADN.pyx":258
  * 
  * 
  * cpdef int needle(str s1, str s2):             # <<<<<<<<<<<<<<
@@ -7335,8 +7476,8 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
  *         int m, n, i, j, seqN, seq_score = 0, ident = 0
  */
 
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_27needle(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_needle(PyObject *__pyx_v_s1, PyObject *__pyx_v_s2, CYTHON_UNUSED int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_27needle(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_f_14metagenome2vec_5utils_18transformation_ADN_needle(PyObject *__pyx_v_s1, PyObject *__pyx_v_s2, CYTHON_UNUSED int __pyx_skip_dispatch) {
   int __pyx_v_m;
   int __pyx_v_n;
   int __pyx_v_i;
@@ -7395,7 +7536,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   __pyx_pybuffernd_score.data = NULL;
   __pyx_pybuffernd_score.rcbuffer = &__pyx_pybuffer_score;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":257
+  /* "metagenome2vec/utils/transformation_ADN.pyx":260
  * cpdef int needle(str s1, str s2):
  *     cdef:
  *         int m, n, i, j, seqN, seq_score = 0, ident = 0             # <<<<<<<<<<<<<<
@@ -7405,7 +7546,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   __pyx_v_seq_score = 0;
   __pyx_v_ident = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":259
+  /* "metagenome2vec/utils/transformation_ADN.pyx":262
  *         int m, n, i, j, seqN, seq_score = 0, ident = 0
  *         float diag, delete, insert, score_current, score_diag, score_left, score_up
  *         str align1, align2, a1, a2, sym = ''             # <<<<<<<<<<<<<<
@@ -7415,35 +7556,35 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   __Pyx_INCREF(__pyx_kp_s_);
   __pyx_v_sym = __pyx_kp_s_;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":262
+  /* "metagenome2vec/utils/transformation_ADN.pyx":265
  *         np.ndarray[np.float_t, ndim=2] score
  * 
  *     m, n = len(s1), len(s2)             # <<<<<<<<<<<<<<
  *     score = np.zeros((m + 1, n + 1))
  * 
  */
-  __pyx_t_1 = PyObject_Length(__pyx_v_s1); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 262, __pyx_L1_error)
-  __pyx_t_2 = PyObject_Length(__pyx_v_s2); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 262, __pyx_L1_error)
+  __pyx_t_1 = PyObject_Length(__pyx_v_s1); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 265, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_v_s2); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 265, __pyx_L1_error)
   __pyx_v_m = __pyx_t_1;
   __pyx_v_n = __pyx_t_2;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":263
+  /* "metagenome2vec/utils/transformation_ADN.pyx":266
  * 
  *     m, n = len(s1), len(s2)
  *     score = np.zeros((m + 1, n + 1))             # <<<<<<<<<<<<<<
  * 
  *     # Initialization
  */
-  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 263, __pyx_L1_error)
+  __Pyx_GetModuleGlobalName(__pyx_t_4, __pyx_n_s_np); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 263, __pyx_L1_error)
+  __pyx_t_5 = __Pyx_PyObject_GetAttrStr(__pyx_t_4, __pyx_n_s_zeros); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_5);
   __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
-  __pyx_t_4 = __Pyx_PyInt_From_long((__pyx_v_m + 1)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 263, __pyx_L1_error)
+  __pyx_t_4 = __Pyx_PyInt_From_long((__pyx_v_m + 1)); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_4);
-  __pyx_t_6 = __Pyx_PyInt_From_long((__pyx_v_n + 1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 263, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyInt_From_long((__pyx_v_n + 1)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
-  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 263, __pyx_L1_error)
+  __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_7);
   __Pyx_GIVEREF(__pyx_t_4);
   PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_4);
@@ -7464,10 +7605,10 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   __pyx_t_3 = (__pyx_t_6) ? __Pyx_PyObject_Call2Args(__pyx_t_5, __pyx_t_6, __pyx_t_7) : __Pyx_PyObject_CallOneArg(__pyx_t_5, __pyx_t_7);
   __Pyx_XDECREF(__pyx_t_6); __pyx_t_6 = 0;
   __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 263, __pyx_L1_error)
+  if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 266, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 263, __pyx_L1_error)
+  if (!(likely(((__pyx_t_3) == Py_None) || likely(__Pyx_TypeTest(__pyx_t_3, __pyx_ptype_5numpy_ndarray))))) __PYX_ERR(0, 266, __pyx_L1_error)
   __pyx_t_8 = ((PyArrayObject *)__pyx_t_3);
   {
     __Pyx_BufFmt_StackElem __pyx_stack[1];
@@ -7484,13 +7625,13 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
       __pyx_t_10 = __pyx_t_11 = __pyx_t_12 = 0;
     }
     __pyx_pybuffernd_score.diminfo[0].strides = __pyx_pybuffernd_score.rcbuffer->pybuffer.strides[0]; __pyx_pybuffernd_score.diminfo[0].shape = __pyx_pybuffernd_score.rcbuffer->pybuffer.shape[0]; __pyx_pybuffernd_score.diminfo[1].strides = __pyx_pybuffernd_score.rcbuffer->pybuffer.strides[1]; __pyx_pybuffernd_score.diminfo[1].shape = __pyx_pybuffernd_score.rcbuffer->pybuffer.shape[1];
-    if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 263, __pyx_L1_error)
+    if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 266, __pyx_L1_error)
   }
   __pyx_t_8 = 0;
   __pyx_v_score = ((PyArrayObject *)__pyx_t_3);
   __pyx_t_3 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":266
+  /* "metagenome2vec/utils/transformation_ADN.pyx":269
  * 
  *     # Initialization
  *     for i in range(m + 1):             # <<<<<<<<<<<<<<
@@ -7502,33 +7643,33 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_14; __pyx_t_9+=1) {
     __pyx_v_i = __pyx_t_9;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":267
+    /* "metagenome2vec/utils/transformation_ADN.pyx":270
  *     # Initialization
  *     for i in range(m + 1):
  *         score[i][0] = pt['gap'] * i             # <<<<<<<<<<<<<<
  *     for j in range(n + 1):
  *         score[0][j] = pt['gap'] * j
  */
-    if (unlikely(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
+    if (unlikely(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 267, __pyx_L1_error)
+      __PYX_ERR(0, 270, __pyx_L1_error)
     }
-    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_gap); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 267, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_gap); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 270, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 267, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_i); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 270, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_7 = PyNumber_Multiply(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 267, __pyx_L1_error)
+    __pyx_t_7 = PyNumber_Multiply(__pyx_t_3, __pyx_t_5); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 270, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 267, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 270, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(__Pyx_SetItemInt(__pyx_t_5, 0, __pyx_t_7, long, 1, __Pyx_PyInt_From_long, 0, 0, 1) < 0)) __PYX_ERR(0, 267, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(__pyx_t_5, 0, __pyx_t_7, long, 1, __Pyx_PyInt_From_long, 0, 0, 1) < 0)) __PYX_ERR(0, 270, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":268
+  /* "metagenome2vec/utils/transformation_ADN.pyx":271
  *     for i in range(m + 1):
  *         score[i][0] = pt['gap'] * i
  *     for j in range(n + 1):             # <<<<<<<<<<<<<<
@@ -7540,33 +7681,33 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   for (__pyx_t_9 = 0; __pyx_t_9 < __pyx_t_14; __pyx_t_9+=1) {
     __pyx_v_j = __pyx_t_9;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":269
+    /* "metagenome2vec/utils/transformation_ADN.pyx":272
  *         score[i][0] = pt['gap'] * i
  *     for j in range(n + 1):
  *         score[0][j] = pt['gap'] * j             # <<<<<<<<<<<<<<
  * 
  *     # Fill
  */
-    if (unlikely(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
+    if (unlikely(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 269, __pyx_L1_error)
+      __PYX_ERR(0, 272, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_gap); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 269, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_gap); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 272, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_j); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 269, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyInt_From_int(__pyx_v_j); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 272, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_3 = PyNumber_Multiply(__pyx_t_7, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 269, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Multiply(__pyx_t_7, __pyx_t_5); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 272, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 269, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), 0, long, 1, __Pyx_PyInt_From_long, 0, 0, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 272, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (unlikely(__Pyx_SetItemInt(__pyx_t_5, __pyx_v_j, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 269, __pyx_L1_error)
+    if (unlikely(__Pyx_SetItemInt(__pyx_t_5, __pyx_v_j, __pyx_t_3, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 272, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":272
+  /* "metagenome2vec/utils/transformation_ADN.pyx":275
  * 
  *     # Fill
  *     for i in range(1, m + 1):             # <<<<<<<<<<<<<<
@@ -7578,7 +7719,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   for (__pyx_t_9 = 1; __pyx_t_9 < __pyx_t_14; __pyx_t_9+=1) {
     __pyx_v_i = __pyx_t_9;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":273
+    /* "metagenome2vec/utils/transformation_ADN.pyx":276
  *     # Fill
  *     for i in range(1, m + 1):
  *         for j in range(1, n + 1):             # <<<<<<<<<<<<<<
@@ -7590,7 +7731,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
     for (__pyx_t_17 = 1; __pyx_t_17 < __pyx_t_16; __pyx_t_17+=1) {
       __pyx_v_j = __pyx_t_17;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":274
+      /* "metagenome2vec/utils/transformation_ADN.pyx":277
  *     for i in range(1, m + 1):
  *         for j in range(1, n + 1):
  *             diag = score[i - 1][j - 1] + mch(s1[i - 1], s2[j - 1])             # <<<<<<<<<<<<<<
@@ -7598,33 +7739,33 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  *             insert = score[i][j - 1] + pt['gap']
  */
       __pyx_t_18 = (__pyx_v_i - 1);
-      __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_t_18, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 274, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_t_18, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 277, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __pyx_t_18 = (__pyx_v_j - 1);
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_3, __pyx_t_18, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 274, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_3, __pyx_t_18, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 277, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_t_18 = (__pyx_v_i - 1);
-      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_s1, __pyx_t_18, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 274, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_GetItemInt(__pyx_v_s1, __pyx_t_18, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 277, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 274, __pyx_L1_error)
+      if (!(likely(PyString_CheckExact(__pyx_t_3))||((__pyx_t_3) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_3)->tp_name), 0))) __PYX_ERR(0, 277, __pyx_L1_error)
       __pyx_t_18 = (__pyx_v_j - 1);
-      __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_s2, __pyx_t_18, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 274, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_s2, __pyx_t_18, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 277, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      if (!(likely(PyString_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 274, __pyx_L1_error)
-      __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_mch(((PyObject*)__pyx_t_3), ((PyObject*)__pyx_t_7), 0)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 274, __pyx_L1_error)
+      if (!(likely(PyString_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 277, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyInt_From_int(__pyx_f_14metagenome2vec_5utils_18transformation_ADN_mch(((PyObject*)__pyx_t_3), ((PyObject*)__pyx_t_7), 0)); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 277, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_7 = PyNumber_Add(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 274, __pyx_L1_error)
+      __pyx_t_7 = PyNumber_Add(__pyx_t_5, __pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 277, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-      __pyx_t_19 = __pyx_PyFloat_AsFloat(__pyx_t_7); if (unlikely((__pyx_t_19 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 274, __pyx_L1_error)
+      __pyx_t_19 = __pyx_PyFloat_AsFloat(__pyx_t_7); if (unlikely((__pyx_t_19 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 277, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __pyx_v_diag = __pyx_t_19;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":275
+      /* "metagenome2vec/utils/transformation_ADN.pyx":278
  *         for j in range(1, n + 1):
  *             diag = score[i - 1][j - 1] + mch(s1[i - 1], s2[j - 1])
  *             delete = score[i - 1][j] + pt['gap']             # <<<<<<<<<<<<<<
@@ -7632,53 +7773,53 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  *             score[i][j] = max(diag, delete, insert)
  */
       __pyx_t_18 = (__pyx_v_i - 1);
-      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_t_18, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 275, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_t_18, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 278, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_7, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 275, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_7, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 278, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      if (unlikely(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
+      if (unlikely(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 275, __pyx_L1_error)
+        __PYX_ERR(0, 278, __pyx_L1_error)
       }
-      __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_gap); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 275, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_gap); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 278, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_5 = PyNumber_Add(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 275, __pyx_L1_error)
+      __pyx_t_5 = PyNumber_Add(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 278, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-      __pyx_t_19 = __pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_19 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 275, __pyx_L1_error)
+      __pyx_t_19 = __pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_19 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 278, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __pyx_v_delete = __pyx_t_19;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":276
+      /* "metagenome2vec/utils/transformation_ADN.pyx":279
  *             diag = score[i - 1][j - 1] + mch(s1[i - 1], s2[j - 1])
  *             delete = score[i - 1][j] + pt['gap']
  *             insert = score[i][j - 1] + pt['gap']             # <<<<<<<<<<<<<<
  *             score[i][j] = max(diag, delete, insert)
  * 
  */
-      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 276, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 279, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
       __pyx_t_18 = (__pyx_v_j - 1);
-      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_5, __pyx_t_18, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 276, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_t_5, __pyx_t_18, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 279, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      if (unlikely(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
+      if (unlikely(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
         PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-        __PYX_ERR(0, 276, __pyx_L1_error)
+        __PYX_ERR(0, 279, __pyx_L1_error)
       }
-      __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_gap); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 276, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_gap); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 279, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      __pyx_t_6 = PyNumber_Add(__pyx_t_7, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 276, __pyx_L1_error)
+      __pyx_t_6 = PyNumber_Add(__pyx_t_7, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 279, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-      __pyx_t_19 = __pyx_PyFloat_AsFloat(__pyx_t_6); if (unlikely((__pyx_t_19 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 276, __pyx_L1_error)
+      __pyx_t_19 = __pyx_PyFloat_AsFloat(__pyx_t_6); if (unlikely((__pyx_t_19 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 279, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       __pyx_v_insert = __pyx_t_19;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":277
+      /* "metagenome2vec/utils/transformation_ADN.pyx":280
  *             delete = score[i - 1][j] + pt['gap']
  *             insert = score[i][j - 1] + pt['gap']
  *             score[i][j] = max(diag, delete, insert)             # <<<<<<<<<<<<<<
@@ -7699,17 +7840,17 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
       } else {
         __pyx_t_22 = __pyx_t_21;
       }
-      __pyx_t_6 = PyFloat_FromDouble(__pyx_t_22); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 277, __pyx_L1_error)
+      __pyx_t_6 = PyFloat_FromDouble(__pyx_t_22); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 280, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 277, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 280, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      if (unlikely(__Pyx_SetItemInt(__pyx_t_5, __pyx_v_j, __pyx_t_6, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 277, __pyx_L1_error)
+      if (unlikely(__Pyx_SetItemInt(__pyx_t_5, __pyx_v_j, __pyx_t_6, int, 1, __Pyx_PyInt_From_int, 0, 1, 1) < 0)) __PYX_ERR(0, 280, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
       __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     }
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":279
+  /* "metagenome2vec/utils/transformation_ADN.pyx":282
  *             score[i][j] = max(diag, delete, insert)
  * 
  *     align1, align2 = '', ''             # <<<<<<<<<<<<<<
@@ -7725,7 +7866,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   __pyx_v_align2 = ((PyObject*)__pyx_t_5);
   __pyx_t_5 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":280
+  /* "metagenome2vec/utils/transformation_ADN.pyx":283
  * 
  *     align1, align2 = '', ''
  *     i, j = m, n             # <<<<<<<<<<<<<<
@@ -7737,7 +7878,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   __pyx_v_i = __pyx_t_9;
   __pyx_v_j = __pyx_t_17;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":282
+  /* "metagenome2vec/utils/transformation_ADN.pyx":285
  *     i, j = m, n
  * 
  *     while i > 0 and j > 0:             # <<<<<<<<<<<<<<
@@ -7756,23 +7897,23 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
     __pyx_L13_bool_binop_done:;
     if (!__pyx_t_23) break;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":283
+    /* "metagenome2vec/utils/transformation_ADN.pyx":286
  * 
  *     while i > 0 and j > 0:
  *         score_current = score[i][j]             # <<<<<<<<<<<<<<
  *         score_diag = score[i - 1][j - 1]
  *         score_left = score[i][j - 1]
  */
-    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 283, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 286, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 283, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_5, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 286, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_22 = __pyx_PyFloat_AsFloat(__pyx_t_6); if (unlikely((__pyx_t_22 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 283, __pyx_L1_error)
+    __pyx_t_22 = __pyx_PyFloat_AsFloat(__pyx_t_6); if (unlikely((__pyx_t_22 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 286, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_v_score_current = __pyx_t_22;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":284
+    /* "metagenome2vec/utils/transformation_ADN.pyx":287
  *     while i > 0 and j > 0:
  *         score_current = score[i][j]
  *         score_diag = score[i - 1][j - 1]             # <<<<<<<<<<<<<<
@@ -7780,34 +7921,34 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  *         score_up = score[i - 1][j]
  */
     __pyx_t_13 = (__pyx_v_i - 1);
-    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_t_13, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 284, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_t_13, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 287, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __pyx_t_13 = (__pyx_v_j - 1);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_6, __pyx_t_13, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 284, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_6, __pyx_t_13, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 287, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_22 = __pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_22 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 284, __pyx_L1_error)
+    __pyx_t_22 = __pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_22 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 287, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_score_diag = __pyx_t_22;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":285
+    /* "metagenome2vec/utils/transformation_ADN.pyx":288
  *         score_current = score[i][j]
  *         score_diag = score[i - 1][j - 1]
  *         score_left = score[i][j - 1]             # <<<<<<<<<<<<<<
  *         score_up = score[i - 1][j]
  * 
  */
-    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 285, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 288, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __pyx_t_13 = (__pyx_v_j - 1);
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_5, __pyx_t_13, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 285, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_t_5, __pyx_t_13, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 288, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_22 = __pyx_PyFloat_AsFloat(__pyx_t_6); if (unlikely((__pyx_t_22 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 285, __pyx_L1_error)
+    __pyx_t_22 = __pyx_PyFloat_AsFloat(__pyx_t_6); if (unlikely((__pyx_t_22 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 288, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_v_score_left = __pyx_t_22;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":286
+    /* "metagenome2vec/utils/transformation_ADN.pyx":289
  *         score_diag = score[i - 1][j - 1]
  *         score_left = score[i][j - 1]
  *         score_up = score[i - 1][j]             # <<<<<<<<<<<<<<
@@ -7815,16 +7956,16 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  *         if score_current == score_diag + mch(s1[i - 1], s2[j - 1]):
  */
     __pyx_t_13 = (__pyx_v_i - 1);
-    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_t_13, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 286, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(((PyObject *)__pyx_v_score), __pyx_t_13, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_6, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 286, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_t_6, __pyx_v_j, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 289, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_22 = __pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_22 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 286, __pyx_L1_error)
+    __pyx_t_22 = __pyx_PyFloat_AsFloat(__pyx_t_5); if (unlikely((__pyx_t_22 == (float)-1) && PyErr_Occurred())) __PYX_ERR(0, 289, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __pyx_v_score_up = __pyx_t_22;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":288
+    /* "metagenome2vec/utils/transformation_ADN.pyx":291
  *         score_up = score[i - 1][j]
  * 
  *         if score_current == score_diag + mch(s1[i - 1], s2[j - 1]):             # <<<<<<<<<<<<<<
@@ -7832,19 +7973,19 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  *             i, j = i - 1, j - 1
  */
     __pyx_t_13 = (__pyx_v_i - 1);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_s1, __pyx_t_13, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 288, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_s1, __pyx_t_13, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 291, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    if (!(likely(PyString_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 288, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 291, __pyx_L1_error)
     __pyx_t_13 = (__pyx_v_j - 1);
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_s2, __pyx_t_13, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 288, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_s2, __pyx_t_13, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 291, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 288, __pyx_L1_error)
-    __pyx_t_23 = ((__pyx_v_score_current == (__pyx_v_score_diag + __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_mch(((PyObject*)__pyx_t_5), ((PyObject*)__pyx_t_6), 0))) != 0);
+    if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 291, __pyx_L1_error)
+    __pyx_t_23 = ((__pyx_v_score_current == (__pyx_v_score_diag + __pyx_f_14metagenome2vec_5utils_18transformation_ADN_mch(((PyObject*)__pyx_t_5), ((PyObject*)__pyx_t_6), 0))) != 0);
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     if (__pyx_t_23) {
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":289
+      /* "metagenome2vec/utils/transformation_ADN.pyx":292
  * 
  *         if score_current == score_diag + mch(s1[i - 1], s2[j - 1]):
  *             a1, a2 = s1[i - 1], s2[j - 1]             # <<<<<<<<<<<<<<
@@ -7852,19 +7993,19 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  *         elif score_current == score_up + pt['gap']:
  */
       __pyx_t_13 = (__pyx_v_i - 1);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_s1, __pyx_t_13, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 289, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_s1, __pyx_t_13, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 292, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 289, __pyx_L1_error)
+      if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 292, __pyx_L1_error)
       __pyx_t_13 = (__pyx_v_j - 1);
-      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_s2, __pyx_t_13, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 289, __pyx_L1_error)
+      __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_s2, __pyx_t_13, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 292, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_5);
-      if (!(likely(PyString_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 289, __pyx_L1_error)
+      if (!(likely(PyString_CheckExact(__pyx_t_5))||((__pyx_t_5) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_5)->tp_name), 0))) __PYX_ERR(0, 292, __pyx_L1_error)
       __Pyx_XDECREF_SET(__pyx_v_a1, ((PyObject*)__pyx_t_6));
       __pyx_t_6 = 0;
       __Pyx_XDECREF_SET(__pyx_v_a2, ((PyObject*)__pyx_t_5));
       __pyx_t_5 = 0;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":290
+      /* "metagenome2vec/utils/transformation_ADN.pyx":293
  *         if score_current == score_diag + mch(s1[i - 1], s2[j - 1]):
  *             a1, a2 = s1[i - 1], s2[j - 1]
  *             i, j = i - 1, j - 1             # <<<<<<<<<<<<<<
@@ -7876,7 +8017,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
       __pyx_v_i = __pyx_t_13;
       __pyx_v_j = __pyx_t_14;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":288
+      /* "metagenome2vec/utils/transformation_ADN.pyx":291
  *         score_up = score[i - 1][j]
  * 
  *         if score_current == score_diag + mch(s1[i - 1], s2[j - 1]):             # <<<<<<<<<<<<<<
@@ -7886,35 +8027,35 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
       goto __pyx_L15;
     }
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":291
+    /* "metagenome2vec/utils/transformation_ADN.pyx":294
  *             a1, a2 = s1[i - 1], s2[j - 1]
  *             i, j = i - 1, j - 1
  *         elif score_current == score_up + pt['gap']:             # <<<<<<<<<<<<<<
  *             a1, a2 = s1[i - 1], '-'
  *             i -= 1
  */
-    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_score_current); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 291, __pyx_L1_error)
+    __pyx_t_5 = PyFloat_FromDouble(__pyx_v_score_current); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 294, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_score_up); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 291, __pyx_L1_error)
+    __pyx_t_6 = PyFloat_FromDouble(__pyx_v_score_up); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 294, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (unlikely(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
+    if (unlikely(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 291, __pyx_L1_error)
+      __PYX_ERR(0, 294, __pyx_L1_error)
     }
-    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_gap); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 291, __pyx_L1_error)
+    __pyx_t_7 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_gap); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 294, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    __pyx_t_3 = PyNumber_Add(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 291, __pyx_L1_error)
+    __pyx_t_3 = PyNumber_Add(__pyx_t_6, __pyx_t_7); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 294, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_7 = PyObject_RichCompare(__pyx_t_5, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 291, __pyx_L1_error)
+    __pyx_t_7 = PyObject_RichCompare(__pyx_t_5, __pyx_t_3, Py_EQ); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 294, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
-    __pyx_t_23 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_23 < 0)) __PYX_ERR(0, 291, __pyx_L1_error)
+    __pyx_t_23 = __Pyx_PyObject_IsTrue(__pyx_t_7); if (unlikely(__pyx_t_23 < 0)) __PYX_ERR(0, 294, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (__pyx_t_23) {
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":292
+      /* "metagenome2vec/utils/transformation_ADN.pyx":295
  *             i, j = i - 1, j - 1
  *         elif score_current == score_up + pt['gap']:
  *             a1, a2 = s1[i - 1], '-'             # <<<<<<<<<<<<<<
@@ -7922,9 +8063,9 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  *         elif score_current == score_left + pt['gap']:
  */
       __pyx_t_14 = (__pyx_v_i - 1);
-      __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_s1, __pyx_t_14, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 292, __pyx_L1_error)
+      __pyx_t_7 = __Pyx_GetItemInt(__pyx_v_s1, __pyx_t_14, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 295, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      if (!(likely(PyString_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 292, __pyx_L1_error)
+      if (!(likely(PyString_CheckExact(__pyx_t_7))||((__pyx_t_7) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_7)->tp_name), 0))) __PYX_ERR(0, 295, __pyx_L1_error)
       __pyx_t_3 = __pyx_kp_s__6;
       __Pyx_INCREF(__pyx_t_3);
       __Pyx_XDECREF_SET(__pyx_v_a1, ((PyObject*)__pyx_t_7));
@@ -7932,7 +8073,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
       __Pyx_XDECREF_SET(__pyx_v_a2, ((PyObject*)__pyx_t_3));
       __pyx_t_3 = 0;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":293
+      /* "metagenome2vec/utils/transformation_ADN.pyx":296
  *         elif score_current == score_up + pt['gap']:
  *             a1, a2 = s1[i - 1], '-'
  *             i -= 1             # <<<<<<<<<<<<<<
@@ -7941,7 +8082,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  */
       __pyx_v_i = (__pyx_v_i - 1);
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":291
+      /* "metagenome2vec/utils/transformation_ADN.pyx":294
  *             a1, a2 = s1[i - 1], s2[j - 1]
  *             i, j = i - 1, j - 1
  *         elif score_current == score_up + pt['gap']:             # <<<<<<<<<<<<<<
@@ -7951,35 +8092,35 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
       goto __pyx_L15;
     }
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":294
+    /* "metagenome2vec/utils/transformation_ADN.pyx":297
  *             a1, a2 = s1[i - 1], '-'
  *             i -= 1
  *         elif score_current == score_left + pt['gap']:             # <<<<<<<<<<<<<<
  *             a1, a2 = '-', s2[j - 1]
  *             j -= 1
  */
-    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_score_current); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 294, __pyx_L1_error)
+    __pyx_t_3 = PyFloat_FromDouble(__pyx_v_score_current); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 297, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_score_left); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 294, __pyx_L1_error)
+    __pyx_t_7 = PyFloat_FromDouble(__pyx_v_score_left); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 297, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
-    if (unlikely(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
+    if (unlikely(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt == Py_None)) {
       PyErr_SetString(PyExc_TypeError, "'NoneType' object is not subscriptable");
-      __PYX_ERR(0, 294, __pyx_L1_error)
+      __PYX_ERR(0, 297, __pyx_L1_error)
     }
-    __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_gap); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 294, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_PyDict_GetItem(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt, __pyx_n_s_gap); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 297, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = PyNumber_Add(__pyx_t_7, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 294, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_Add(__pyx_t_7, __pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 297, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
-    __pyx_t_5 = PyObject_RichCompare(__pyx_t_3, __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 294, __pyx_L1_error)
+    __pyx_t_5 = PyObject_RichCompare(__pyx_t_3, __pyx_t_6, Py_EQ); __Pyx_XGOTREF(__pyx_t_5); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 297, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_23 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_23 < 0)) __PYX_ERR(0, 294, __pyx_L1_error)
+    __pyx_t_23 = __Pyx_PyObject_IsTrue(__pyx_t_5); if (unlikely(__pyx_t_23 < 0)) __PYX_ERR(0, 297, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     if (__pyx_t_23) {
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":295
+      /* "metagenome2vec/utils/transformation_ADN.pyx":298
  *             i -= 1
  *         elif score_current == score_left + pt['gap']:
  *             a1, a2 = '-', s2[j - 1]             # <<<<<<<<<<<<<<
@@ -7989,15 +8130,15 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
       __pyx_t_5 = __pyx_kp_s__6;
       __Pyx_INCREF(__pyx_t_5);
       __pyx_t_14 = (__pyx_v_j - 1);
-      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_s2, __pyx_t_14, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 295, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_s2, __pyx_t_14, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 298, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 295, __pyx_L1_error)
+      if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 298, __pyx_L1_error)
       __Pyx_XDECREF_SET(__pyx_v_a1, ((PyObject*)__pyx_t_5));
       __pyx_t_5 = 0;
       __Pyx_XDECREF_SET(__pyx_v_a2, ((PyObject*)__pyx_t_6));
       __pyx_t_6 = 0;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":296
+      /* "metagenome2vec/utils/transformation_ADN.pyx":299
  *         elif score_current == score_left + pt['gap']:
  *             a1, a2 = '-', s2[j - 1]
  *             j -= 1             # <<<<<<<<<<<<<<
@@ -8006,7 +8147,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  */
       __pyx_v_j = (__pyx_v_j - 1);
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":294
+      /* "metagenome2vec/utils/transformation_ADN.pyx":297
  *             a1, a2 = s1[i - 1], '-'
  *             i -= 1
  *         elif score_current == score_left + pt['gap']:             # <<<<<<<<<<<<<<
@@ -8016,34 +8157,34 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
     }
     __pyx_L15:;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":297
+    /* "metagenome2vec/utils/transformation_ADN.pyx":300
  *             a1, a2 = '-', s2[j - 1]
  *             j -= 1
  *         align1 += a1             # <<<<<<<<<<<<<<
  *         align2 += a2
  * 
  */
-    if (unlikely(!__pyx_v_a1)) { __Pyx_RaiseUnboundLocalError("a1"); __PYX_ERR(0, 297, __pyx_L1_error) }
-    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_align1, __pyx_v_a1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 297, __pyx_L1_error)
+    if (unlikely(!__pyx_v_a1)) { __Pyx_RaiseUnboundLocalError("a1"); __PYX_ERR(0, 300, __pyx_L1_error) }
+    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_align1, __pyx_v_a1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 300, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF_SET(__pyx_v_align1, ((PyObject*)__pyx_t_6));
     __pyx_t_6 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":298
+    /* "metagenome2vec/utils/transformation_ADN.pyx":301
  *             j -= 1
  *         align1 += a1
  *         align2 += a2             # <<<<<<<<<<<<<<
  * 
  *     while i > 0:
  */
-    if (unlikely(!__pyx_v_a2)) { __Pyx_RaiseUnboundLocalError("a2"); __PYX_ERR(0, 298, __pyx_L1_error) }
-    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_align2, __pyx_v_a2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 298, __pyx_L1_error)
+    if (unlikely(!__pyx_v_a2)) { __Pyx_RaiseUnboundLocalError("a2"); __PYX_ERR(0, 301, __pyx_L1_error) }
+    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_align2, __pyx_v_a2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 301, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF_SET(__pyx_v_align2, ((PyObject*)__pyx_t_6));
     __pyx_t_6 = 0;
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":300
+  /* "metagenome2vec/utils/transformation_ADN.pyx":303
  *         align2 += a2
  * 
  *     while i > 0:             # <<<<<<<<<<<<<<
@@ -8054,7 +8195,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
     __pyx_t_23 = ((__pyx_v_i > 0) != 0);
     if (!__pyx_t_23) break;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":301
+    /* "metagenome2vec/utils/transformation_ADN.pyx":304
  * 
  *     while i > 0:
  *         a1, a2 = s1[i - 1], '-'             # <<<<<<<<<<<<<<
@@ -8062,9 +8203,9 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  *         align2 += a2
  */
     __pyx_t_14 = (__pyx_v_i - 1);
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_s1, __pyx_t_14, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 301, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_s1, __pyx_t_14, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 304, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 301, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 304, __pyx_L1_error)
     __pyx_t_5 = __pyx_kp_s__6;
     __Pyx_INCREF(__pyx_t_5);
     __Pyx_XDECREF_SET(__pyx_v_a1, ((PyObject*)__pyx_t_6));
@@ -8072,31 +8213,31 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
     __Pyx_XDECREF_SET(__pyx_v_a2, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":302
+    /* "metagenome2vec/utils/transformation_ADN.pyx":305
  *     while i > 0:
  *         a1, a2 = s1[i - 1], '-'
  *         align1 += a1             # <<<<<<<<<<<<<<
  *         align2 += a2
  *         i -= 1
  */
-    __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_v_align1, __pyx_v_a1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 302, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_v_align1, __pyx_v_a1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 305, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF_SET(__pyx_v_align1, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":303
+    /* "metagenome2vec/utils/transformation_ADN.pyx":306
  *         a1, a2 = s1[i - 1], '-'
  *         align1 += a1
  *         align2 += a2             # <<<<<<<<<<<<<<
  *         i -= 1
  * 
  */
-    __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_v_align2, __pyx_v_a2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 303, __pyx_L1_error)
+    __pyx_t_5 = PyNumber_InPlaceAdd(__pyx_v_align2, __pyx_v_a2); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 306, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
     __Pyx_DECREF_SET(__pyx_v_align2, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":304
+    /* "metagenome2vec/utils/transformation_ADN.pyx":307
  *         align1 += a1
  *         align2 += a2
  *         i -= 1             # <<<<<<<<<<<<<<
@@ -8106,7 +8247,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
     __pyx_v_i = (__pyx_v_i - 1);
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":306
+  /* "metagenome2vec/utils/transformation_ADN.pyx":309
  *         i -= 1
  * 
  *     while j > 0:             # <<<<<<<<<<<<<<
@@ -8117,7 +8258,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
     __pyx_t_23 = ((__pyx_v_j > 0) != 0);
     if (!__pyx_t_23) break;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":307
+    /* "metagenome2vec/utils/transformation_ADN.pyx":310
  * 
  *     while j > 0:
  *         a1, a2 = '-', s2[j - 1]             # <<<<<<<<<<<<<<
@@ -8127,39 +8268,39 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
     __pyx_t_5 = __pyx_kp_s__6;
     __Pyx_INCREF(__pyx_t_5);
     __pyx_t_14 = (__pyx_v_j - 1);
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_s2, __pyx_t_14, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 307, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_s2, __pyx_t_14, long, 1, __Pyx_PyInt_From_long, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 310, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 307, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 310, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_a1, ((PyObject*)__pyx_t_5));
     __pyx_t_5 = 0;
     __Pyx_XDECREF_SET(__pyx_v_a2, ((PyObject*)__pyx_t_6));
     __pyx_t_6 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":308
+    /* "metagenome2vec/utils/transformation_ADN.pyx":311
  *     while j > 0:
  *         a1, a2 = '-', s2[j - 1]
  *         align1 += a1             # <<<<<<<<<<<<<<
  *         align2 += a2
  *         j -= 1
  */
-    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_align1, __pyx_v_a1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 308, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_align1, __pyx_v_a1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 311, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF_SET(__pyx_v_align1, ((PyObject*)__pyx_t_6));
     __pyx_t_6 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":309
+    /* "metagenome2vec/utils/transformation_ADN.pyx":312
  *         a1, a2 = '-', s2[j - 1]
  *         align1 += a1
  *         align2 += a2             # <<<<<<<<<<<<<<
  *         j -= 1
  * 
  */
-    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_align2, __pyx_v_a2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 309, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_align2, __pyx_v_a2); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 312, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF_SET(__pyx_v_align2, ((PyObject*)__pyx_t_6));
     __pyx_t_6 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":310
+    /* "metagenome2vec/utils/transformation_ADN.pyx":313
  *         align1 += a1
  *         align2 += a2
  *         j -= 1             # <<<<<<<<<<<<<<
@@ -8169,41 +8310,41 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
     __pyx_v_j = (__pyx_v_j - 1);
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":312
+  /* "metagenome2vec/utils/transformation_ADN.pyx":315
  *         j -= 1
  * 
  *     align1 = align1[::-1]             # <<<<<<<<<<<<<<
  *     align2 = align2[::-1]
  *     seqN = len(align1)
  */
-  __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_align1, __pyx_slice__7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 312, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_align1, __pyx_slice__7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF_SET(__pyx_v_align1, ((PyObject*)__pyx_t_6));
   __pyx_t_6 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":313
+  /* "metagenome2vec/utils/transformation_ADN.pyx":316
  * 
  *     align1 = align1[::-1]
  *     align2 = align2[::-1]             # <<<<<<<<<<<<<<
  *     seqN = len(align1)
  *     for i in range(seqN):
  */
-  __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_align2, __pyx_slice__7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 313, __pyx_L1_error)
+  __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_align2, __pyx_slice__7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 316, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_6);
   __Pyx_DECREF_SET(__pyx_v_align2, ((PyObject*)__pyx_t_6));
   __pyx_t_6 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":314
+  /* "metagenome2vec/utils/transformation_ADN.pyx":317
  *     align1 = align1[::-1]
  *     align2 = align2[::-1]
  *     seqN = len(align1)             # <<<<<<<<<<<<<<
  *     for i in range(seqN):
  *         a1 = align1[i]
  */
-  __pyx_t_2 = PyObject_Length(__pyx_v_align1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 314, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_v_align1); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 317, __pyx_L1_error)
   __pyx_v_seqN = __pyx_t_2;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":315
+  /* "metagenome2vec/utils/transformation_ADN.pyx":318
  *     align2 = align2[::-1]
  *     seqN = len(align1)
  *     for i in range(seqN):             # <<<<<<<<<<<<<<
@@ -8215,56 +8356,56 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   for (__pyx_t_25 = 0; __pyx_t_25 < __pyx_t_9; __pyx_t_25+=1) {
     __pyx_v_i = __pyx_t_25;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":316
+    /* "metagenome2vec/utils/transformation_ADN.pyx":319
  *     seqN = len(align1)
  *     for i in range(seqN):
  *         a1 = align1[i]             # <<<<<<<<<<<<<<
  *         a2 = align2[i]
  *         if a1 == a2:
  */
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_align1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 316, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_align1, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 319, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 316, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 319, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_a1, ((PyObject*)__pyx_t_6));
     __pyx_t_6 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":317
+    /* "metagenome2vec/utils/transformation_ADN.pyx":320
  *     for i in range(seqN):
  *         a1 = align1[i]
  *         a2 = align2[i]             # <<<<<<<<<<<<<<
  *         if a1 == a2:
  *             sym += a1
  */
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_align2, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 317, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_align2, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 320, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 317, __pyx_L1_error)
+    if (!(likely(PyString_CheckExact(__pyx_t_6))||((__pyx_t_6) == Py_None)||(PyErr_Format(PyExc_TypeError, "Expected %.16s, got %.200s", "str", Py_TYPE(__pyx_t_6)->tp_name), 0))) __PYX_ERR(0, 320, __pyx_L1_error)
     __Pyx_XDECREF_SET(__pyx_v_a2, ((PyObject*)__pyx_t_6));
     __pyx_t_6 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":318
+    /* "metagenome2vec/utils/transformation_ADN.pyx":321
  *         a1 = align1[i]
  *         a2 = align2[i]
  *         if a1 == a2:             # <<<<<<<<<<<<<<
  *             sym += a1
  *             ident += 1
  */
-    __pyx_t_23 = (__Pyx_PyString_Equals(__pyx_v_a1, __pyx_v_a2, Py_EQ)); if (unlikely(__pyx_t_23 < 0)) __PYX_ERR(0, 318, __pyx_L1_error)
+    __pyx_t_23 = (__Pyx_PyString_Equals(__pyx_v_a1, __pyx_v_a2, Py_EQ)); if (unlikely(__pyx_t_23 < 0)) __PYX_ERR(0, 321, __pyx_L1_error)
     __pyx_t_24 = (__pyx_t_23 != 0);
     if (__pyx_t_24) {
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":319
+      /* "metagenome2vec/utils/transformation_ADN.pyx":322
  *         a2 = align2[i]
  *         if a1 == a2:
  *             sym += a1             # <<<<<<<<<<<<<<
  *             ident += 1
  *             seq_score += mch(a1, a2)
  */
-      __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_sym, __pyx_v_a1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 319, __pyx_L1_error)
+      __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_sym, __pyx_v_a1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 322, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF_SET(__pyx_v_sym, ((PyObject*)__pyx_t_6));
       __pyx_t_6 = 0;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":320
+      /* "metagenome2vec/utils/transformation_ADN.pyx":323
  *         if a1 == a2:
  *             sym += a1
  *             ident += 1             # <<<<<<<<<<<<<<
@@ -8273,16 +8414,16 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  */
       __pyx_v_ident = (__pyx_v_ident + 1);
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":321
+      /* "metagenome2vec/utils/transformation_ADN.pyx":324
  *             sym += a1
  *             ident += 1
  *             seq_score += mch(a1, a2)             # <<<<<<<<<<<<<<
  *         else:
  *             seq_score += mch(a1, a2)
  */
-      __pyx_v_seq_score = (__pyx_v_seq_score + __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_mch(__pyx_v_a1, __pyx_v_a2, 0));
+      __pyx_v_seq_score = (__pyx_v_seq_score + __pyx_f_14metagenome2vec_5utils_18transformation_ADN_mch(__pyx_v_a1, __pyx_v_a2, 0));
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":318
+      /* "metagenome2vec/utils/transformation_ADN.pyx":321
  *         a1 = align1[i]
  *         a2 = align2[i]
  *         if a1 == a2:             # <<<<<<<<<<<<<<
@@ -8292,7 +8433,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
       goto __pyx_L22;
     }
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":323
+    /* "metagenome2vec/utils/transformation_ADN.pyx":326
  *             seq_score += mch(a1, a2)
  *         else:
  *             seq_score += mch(a1, a2)             # <<<<<<<<<<<<<<
@@ -8300,16 +8441,16 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  *     return seq_score
  */
     /*else*/ {
-      __pyx_v_seq_score = (__pyx_v_seq_score + __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_mch(__pyx_v_a1, __pyx_v_a2, 0));
+      __pyx_v_seq_score = (__pyx_v_seq_score + __pyx_f_14metagenome2vec_5utils_18transformation_ADN_mch(__pyx_v_a1, __pyx_v_a2, 0));
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":324
+      /* "metagenome2vec/utils/transformation_ADN.pyx":327
  *         else:
  *             seq_score += mch(a1, a2)
  *             sym += ' '             # <<<<<<<<<<<<<<
  *     return seq_score
  * 
  */
-      __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_sym, __pyx_kp_s__4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 324, __pyx_L1_error)
+      __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_v_sym, __pyx_kp_s__4); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 327, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF_SET(__pyx_v_sym, ((PyObject*)__pyx_t_6));
       __pyx_t_6 = 0;
@@ -8317,7 +8458,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
     __pyx_L22:;
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":325
+  /* "metagenome2vec/utils/transformation_ADN.pyx":328
  *             seq_score += mch(a1, a2)
  *             sym += ' '
  *     return seq_score             # <<<<<<<<<<<<<<
@@ -8327,7 +8468,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   __pyx_r = __pyx_v_seq_score;
   goto __pyx_L0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":255
+  /* "metagenome2vec/utils/transformation_ADN.pyx":258
  * 
  * 
  * cpdef int needle(str s1, str s2):             # <<<<<<<<<<<<<<
@@ -8348,7 +8489,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
     __Pyx_ErrFetch(&__pyx_type, &__pyx_value, &__pyx_tb);
     __Pyx_SafeReleaseBuffer(&__pyx_pybuffernd_score.rcbuffer->pybuffer);
   __Pyx_ErrRestore(__pyx_type, __pyx_value, __pyx_tb);}
-  __Pyx_WriteUnraisable("metagenome2vec.metagenome2vec.utils.transformation_ADN.needle", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("metagenome2vec.utils.transformation_ADN.needle", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   goto __pyx_L2;
   __pyx_L0:;
@@ -8365,8 +8506,8 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_27needle(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_27needle(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_27needle(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_27needle(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_s1 = 0;
   PyObject *__pyx_v_s2 = 0;
   int __pyx_lineno = 0;
@@ -8398,11 +8539,11 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_s2)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("needle", 1, 2, 2, 1); __PYX_ERR(0, 255, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("needle", 1, 2, 2, 1); __PYX_ERR(0, 258, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "needle") < 0)) __PYX_ERR(0, 255, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "needle") < 0)) __PYX_ERR(0, 258, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -8415,15 +8556,15 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("needle", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 255, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("needle", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 258, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.needle", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.needle", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s1), (&PyString_Type), 1, "s1", 1))) __PYX_ERR(0, 255, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s2), (&PyString_Type), 1, "s2", 1))) __PYX_ERR(0, 255, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_26needle(__pyx_self, __pyx_v_s1, __pyx_v_s2);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s1), (&PyString_Type), 1, "s1", 1))) __PYX_ERR(0, 258, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s2), (&PyString_Type), 1, "s2", 1))) __PYX_ERR(0, 258, __pyx_L1_error)
+  __pyx_r = __pyx_pf_14metagenome2vec_5utils_18transformation_ADN_26needle(__pyx_self, __pyx_v_s1, __pyx_v_s2);
 
   /* function exit code */
   goto __pyx_L0;
@@ -8434,7 +8575,7 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_26needle(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s1, PyObject *__pyx_v_s2) {
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_26needle(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s1, PyObject *__pyx_v_s2) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -8443,7 +8584,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("needle", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_needle(__pyx_v_s1, __pyx_v_s2, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 255, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_14metagenome2vec_5utils_18transformation_ADN_needle(__pyx_v_s1, __pyx_v_s2, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 258, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8452,7 +8593,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.needle", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.needle", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -8460,7 +8601,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":328
+/* "metagenome2vec/utils/transformation_ADN.pyx":331
  * 
  * 
  * cpdef int ED(str s, str t):             # <<<<<<<<<<<<<<
@@ -8468,8 +8609,8 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
  *         int res = 0
  */
 
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_29ED(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_ED(PyObject *__pyx_v_s, PyObject *__pyx_v_t, CYTHON_UNUSED int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_29ED(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static int __pyx_f_14metagenome2vec_5utils_18transformation_ADN_ED(PyObject *__pyx_v_s, PyObject *__pyx_v_t, CYTHON_UNUSED int __pyx_skip_dispatch) {
   int __pyx_v_res;
   int __pyx_v_i;
   int __pyx_r;
@@ -8487,7 +8628,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ED", 0);
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":330
+  /* "metagenome2vec/utils/transformation_ADN.pyx":333
  * cpdef int ED(str s, str t):
  *     cdef:
  *         int res = 0             # <<<<<<<<<<<<<<
@@ -8496,44 +8637,44 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
  */
   __pyx_v_res = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":332
+  /* "metagenome2vec/utils/transformation_ADN.pyx":335
  *         int res = 0
  *         int i
  *     for i in range(len(s)):             # <<<<<<<<<<<<<<
  *         res += (s[i] != t[i])
  *     return res
  */
-  __pyx_t_1 = PyObject_Length(__pyx_v_s); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 332, __pyx_L1_error)
+  __pyx_t_1 = PyObject_Length(__pyx_v_s); if (unlikely(__pyx_t_1 == ((Py_ssize_t)-1))) __PYX_ERR(0, 335, __pyx_L1_error)
   __pyx_t_2 = __pyx_t_1;
   for (__pyx_t_3 = 0; __pyx_t_3 < __pyx_t_2; __pyx_t_3+=1) {
     __pyx_v_i = __pyx_t_3;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":333
+    /* "metagenome2vec/utils/transformation_ADN.pyx":336
  *         int i
  *     for i in range(len(s)):
  *         res += (s[i] != t[i])             # <<<<<<<<<<<<<<
  *     return res
  * 
  */
-    __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_res); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 333, __pyx_L1_error)
+    __pyx_t_4 = __Pyx_PyInt_From_int(__pyx_v_res); if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 336, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_4);
-    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_s, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 333, __pyx_L1_error)
+    __pyx_t_5 = __Pyx_GetItemInt(__pyx_v_s, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_5)) __PYX_ERR(0, 336, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_5);
-    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_t, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 333, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_GetItemInt(__pyx_v_t, __pyx_v_i, int, 1, __Pyx_PyInt_From_int, 0, 1, 1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 336, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = PyObject_RichCompare(__pyx_t_5, __pyx_t_6, Py_NE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 333, __pyx_L1_error)
+    __pyx_t_7 = PyObject_RichCompare(__pyx_t_5, __pyx_t_6, Py_NE); __Pyx_XGOTREF(__pyx_t_7); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 336, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_5); __pyx_t_5 = 0;
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
-    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 333, __pyx_L1_error)
+    __pyx_t_6 = PyNumber_InPlaceAdd(__pyx_t_4, __pyx_t_7); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 336, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_4); __pyx_t_4 = 0;
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
-    __pyx_t_8 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_8 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 333, __pyx_L1_error)
+    __pyx_t_8 = __Pyx_PyInt_As_int(__pyx_t_6); if (unlikely((__pyx_t_8 == (int)-1) && PyErr_Occurred())) __PYX_ERR(0, 336, __pyx_L1_error)
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     __pyx_v_res = __pyx_t_8;
   }
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":334
+  /* "metagenome2vec/utils/transformation_ADN.pyx":337
  *     for i in range(len(s)):
  *         res += (s[i] != t[i])
  *     return res             # <<<<<<<<<<<<<<
@@ -8543,7 +8684,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   __pyx_r = __pyx_v_res;
   goto __pyx_L0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":328
+  /* "metagenome2vec/utils/transformation_ADN.pyx":331
  * 
  * 
  * cpdef int ED(str s, str t):             # <<<<<<<<<<<<<<
@@ -8557,7 +8698,7 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_WriteUnraisable("metagenome2vec.metagenome2vec.utils.transformation_ADN.ED", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
+  __Pyx_WriteUnraisable("metagenome2vec.utils.transformation_ADN.ED", __pyx_clineno, __pyx_lineno, __pyx_filename, 1, 0);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();
@@ -8565,8 +8706,8 @@ static int __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_29ED(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_29ED(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_29ED(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_29ED(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_s = 0;
   PyObject *__pyx_v_t = 0;
   int __pyx_lineno = 0;
@@ -8598,11 +8739,11 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_t)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("ED", 1, 2, 2, 1); __PYX_ERR(0, 328, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("ED", 1, 2, 2, 1); __PYX_ERR(0, 331, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ED") < 0)) __PYX_ERR(0, 328, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "ED") < 0)) __PYX_ERR(0, 331, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 2) {
       goto __pyx_L5_argtuple_error;
@@ -8615,15 +8756,15 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("ED", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 328, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("ED", 1, 2, 2, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 331, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.ED", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.ED", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s), (&PyString_Type), 1, "s", 1))) __PYX_ERR(0, 328, __pyx_L1_error)
-  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_t), (&PyString_Type), 1, "t", 1))) __PYX_ERR(0, 328, __pyx_L1_error)
-  __pyx_r = __pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_28ED(__pyx_self, __pyx_v_s, __pyx_v_t);
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_s), (&PyString_Type), 1, "s", 1))) __PYX_ERR(0, 331, __pyx_L1_error)
+  if (unlikely(!__Pyx_ArgTypeTest(((PyObject *)__pyx_v_t), (&PyString_Type), 1, "t", 1))) __PYX_ERR(0, 331, __pyx_L1_error)
+  __pyx_r = __pyx_pf_14metagenome2vec_5utils_18transformation_ADN_28ED(__pyx_self, __pyx_v_s, __pyx_v_t);
 
   /* function exit code */
   goto __pyx_L0;
@@ -8634,7 +8775,7 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_28ED(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s, PyObject *__pyx_v_t) {
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_28ED(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_s, PyObject *__pyx_v_t) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -8643,7 +8784,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("ED", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_ED(__pyx_v_s, __pyx_v_t, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 328, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyInt_From_int(__pyx_f_14metagenome2vec_5utils_18transformation_ADN_ED(__pyx_v_s, __pyx_v_t, 0)); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 331, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -8652,7 +8793,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.ED", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.ED", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -8660,7 +8801,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   return __pyx_r;
 }
 
-/* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":337
+/* "metagenome2vec/utils/transformation_ADN.pyx":340
  * 
  * 
  * cpdef dict create_distance(similarities, algo, reverse_index):             # <<<<<<<<<<<<<<
@@ -8668,8 +8809,8 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
  *     for i in range(len(similarities)):
  */
 
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_31create_distance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_create_distance(PyObject *__pyx_v_similarities, PyObject *__pyx_v_algo, PyObject *__pyx_v_reverse_index, CYTHON_UNUSED int __pyx_skip_dispatch) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_31create_distance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_f_14metagenome2vec_5utils_18transformation_ADN_create_distance(PyObject *__pyx_v_similarities, PyObject *__pyx_v_algo, PyObject *__pyx_v_reverse_index, CYTHON_UNUSED int __pyx_skip_dispatch) {
   PyObject *__pyx_v_D_distance = NULL;
   PyObject *__pyx_v_i = NULL;
   PyObject *__pyx_v_j = NULL;
@@ -8698,38 +8839,38 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("create_distance", 0);
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":338
+  /* "metagenome2vec/utils/transformation_ADN.pyx":341
  * 
  * cpdef dict create_distance(similarities, algo, reverse_index):
  *     D_distance = {}  # Key is the distance value, value is the list of all mean the cosine similarity             # <<<<<<<<<<<<<<
  *     for i in range(len(similarities)):
  *         for j in range(i + 1, len(similarities)):
  */
-  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 338, __pyx_L1_error)
+  __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 341, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_v_D_distance = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":339
+  /* "metagenome2vec/utils/transformation_ADN.pyx":342
  * cpdef dict create_distance(similarities, algo, reverse_index):
  *     D_distance = {}  # Key is the distance value, value is the list of all mean the cosine similarity
  *     for i in range(len(similarities)):             # <<<<<<<<<<<<<<
  *         for j in range(i + 1, len(similarities)):
  *             kmer_1, kmer_2 = reverse_index[i], reverse_index[j]
  */
-  __pyx_t_2 = PyObject_Length(__pyx_v_similarities); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 339, __pyx_L1_error)
-  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 339, __pyx_L1_error)
+  __pyx_t_2 = PyObject_Length(__pyx_v_similarities); if (unlikely(__pyx_t_2 == ((Py_ssize_t)-1))) __PYX_ERR(0, 342, __pyx_L1_error)
+  __pyx_t_1 = PyInt_FromSsize_t(__pyx_t_2); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 342, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 339, __pyx_L1_error)
+  __pyx_t_3 = __Pyx_PyObject_CallOneArg(__pyx_builtin_range, __pyx_t_1); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 342, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_3);
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   if (likely(PyList_CheckExact(__pyx_t_3)) || PyTuple_CheckExact(__pyx_t_3)) {
     __pyx_t_1 = __pyx_t_3; __Pyx_INCREF(__pyx_t_1); __pyx_t_2 = 0;
     __pyx_t_4 = NULL;
   } else {
-    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 339, __pyx_L1_error)
+    __pyx_t_2 = -1; __pyx_t_1 = PyObject_GetIter(__pyx_t_3); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 342, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_1);
-    __pyx_t_4 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 339, __pyx_L1_error)
+    __pyx_t_4 = Py_TYPE(__pyx_t_1)->tp_iternext; if (unlikely(!__pyx_t_4)) __PYX_ERR(0, 342, __pyx_L1_error)
   }
   __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
   for (;;) {
@@ -8737,17 +8878,17 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
       if (likely(PyList_CheckExact(__pyx_t_1))) {
         if (__pyx_t_2 >= PyList_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 339, __pyx_L1_error)
+        __pyx_t_3 = PyList_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 342, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 339, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 342, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       } else {
         if (__pyx_t_2 >= PyTuple_GET_SIZE(__pyx_t_1)) break;
         #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 339, __pyx_L1_error)
+        __pyx_t_3 = PyTuple_GET_ITEM(__pyx_t_1, __pyx_t_2); __Pyx_INCREF(__pyx_t_3); __pyx_t_2++; if (unlikely(0 < 0)) __PYX_ERR(0, 342, __pyx_L1_error)
         #else
-        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 339, __pyx_L1_error)
+        __pyx_t_3 = PySequence_ITEM(__pyx_t_1, __pyx_t_2); __pyx_t_2++; if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 342, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         #endif
       }
@@ -8757,7 +8898,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
         PyObject* exc_type = PyErr_Occurred();
         if (exc_type) {
           if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-          else __PYX_ERR(0, 339, __pyx_L1_error)
+          else __PYX_ERR(0, 342, __pyx_L1_error)
         }
         break;
       }
@@ -8766,19 +8907,19 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     __Pyx_XDECREF_SET(__pyx_v_i, __pyx_t_3);
     __pyx_t_3 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":340
+    /* "metagenome2vec/utils/transformation_ADN.pyx":343
  *     D_distance = {}  # Key is the distance value, value is the list of all mean the cosine similarity
  *     for i in range(len(similarities)):
  *         for j in range(i + 1, len(similarities)):             # <<<<<<<<<<<<<<
  *             kmer_1, kmer_2 = reverse_index[i], reverse_index[j]
  *             if kmer_1 == "UNK" or kmer_2 == "UNK" or kmer_1 == kmer_2:
  */
-    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 340, __pyx_L1_error)
+    __pyx_t_3 = __Pyx_PyInt_AddObjC(__pyx_v_i, __pyx_int_1, 1, 0, 0); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 343, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_3);
-    __pyx_t_5 = PyObject_Length(__pyx_v_similarities); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 340, __pyx_L1_error)
-    __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 340, __pyx_L1_error)
+    __pyx_t_5 = PyObject_Length(__pyx_v_similarities); if (unlikely(__pyx_t_5 == ((Py_ssize_t)-1))) __PYX_ERR(0, 343, __pyx_L1_error)
+    __pyx_t_6 = PyInt_FromSsize_t(__pyx_t_5); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 343, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
-    __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 340, __pyx_L1_error)
+    __pyx_t_7 = PyTuple_New(2); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 343, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_7);
     __Pyx_GIVEREF(__pyx_t_3);
     PyTuple_SET_ITEM(__pyx_t_7, 0, __pyx_t_3);
@@ -8786,16 +8927,16 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     PyTuple_SET_ITEM(__pyx_t_7, 1, __pyx_t_6);
     __pyx_t_3 = 0;
     __pyx_t_6 = 0;
-    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 340, __pyx_L1_error)
+    __pyx_t_6 = __Pyx_PyObject_Call(__pyx_builtin_range, __pyx_t_7, NULL); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 343, __pyx_L1_error)
     __Pyx_GOTREF(__pyx_t_6);
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
     if (likely(PyList_CheckExact(__pyx_t_6)) || PyTuple_CheckExact(__pyx_t_6)) {
       __pyx_t_7 = __pyx_t_6; __Pyx_INCREF(__pyx_t_7); __pyx_t_5 = 0;
       __pyx_t_8 = NULL;
     } else {
-      __pyx_t_5 = -1; __pyx_t_7 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 340, __pyx_L1_error)
+      __pyx_t_5 = -1; __pyx_t_7 = PyObject_GetIter(__pyx_t_6); if (unlikely(!__pyx_t_7)) __PYX_ERR(0, 343, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_7);
-      __pyx_t_8 = Py_TYPE(__pyx_t_7)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 340, __pyx_L1_error)
+      __pyx_t_8 = Py_TYPE(__pyx_t_7)->tp_iternext; if (unlikely(!__pyx_t_8)) __PYX_ERR(0, 343, __pyx_L1_error)
     }
     __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
     for (;;) {
@@ -8803,17 +8944,17 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
         if (likely(PyList_CheckExact(__pyx_t_7))) {
           if (__pyx_t_5 >= PyList_GET_SIZE(__pyx_t_7)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_6 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_5); __Pyx_INCREF(__pyx_t_6); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 340, __pyx_L1_error)
+          __pyx_t_6 = PyList_GET_ITEM(__pyx_t_7, __pyx_t_5); __Pyx_INCREF(__pyx_t_6); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 343, __pyx_L1_error)
           #else
-          __pyx_t_6 = PySequence_ITEM(__pyx_t_7, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 340, __pyx_L1_error)
+          __pyx_t_6 = PySequence_ITEM(__pyx_t_7, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 343, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           #endif
         } else {
           if (__pyx_t_5 >= PyTuple_GET_SIZE(__pyx_t_7)) break;
           #if CYTHON_ASSUME_SAFE_MACROS && !CYTHON_AVOID_BORROWED_REFS
-          __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_7, __pyx_t_5); __Pyx_INCREF(__pyx_t_6); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 340, __pyx_L1_error)
+          __pyx_t_6 = PyTuple_GET_ITEM(__pyx_t_7, __pyx_t_5); __Pyx_INCREF(__pyx_t_6); __pyx_t_5++; if (unlikely(0 < 0)) __PYX_ERR(0, 343, __pyx_L1_error)
           #else
-          __pyx_t_6 = PySequence_ITEM(__pyx_t_7, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 340, __pyx_L1_error)
+          __pyx_t_6 = PySequence_ITEM(__pyx_t_7, __pyx_t_5); __pyx_t_5++; if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 343, __pyx_L1_error)
           __Pyx_GOTREF(__pyx_t_6);
           #endif
         }
@@ -8823,7 +8964,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
           PyObject* exc_type = PyErr_Occurred();
           if (exc_type) {
             if (likely(__Pyx_PyErr_GivenExceptionMatches(exc_type, PyExc_StopIteration))) PyErr_Clear();
-            else __PYX_ERR(0, 340, __pyx_L1_error)
+            else __PYX_ERR(0, 343, __pyx_L1_error)
           }
           break;
         }
@@ -8832,49 +8973,49 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
       __Pyx_XDECREF_SET(__pyx_v_j, __pyx_t_6);
       __pyx_t_6 = 0;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":341
+      /* "metagenome2vec/utils/transformation_ADN.pyx":344
  *     for i in range(len(similarities)):
  *         for j in range(i + 1, len(similarities)):
  *             kmer_1, kmer_2 = reverse_index[i], reverse_index[j]             # <<<<<<<<<<<<<<
  *             if kmer_1 == "UNK" or kmer_2 == "UNK" or kmer_1 == kmer_2:
  *                 continue
  */
-      __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_reverse_index, __pyx_v_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 341, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_v_reverse_index, __pyx_v_i); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 344, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
-      __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_reverse_index, __pyx_v_j); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 341, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_reverse_index, __pyx_v_j); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 344, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
       __Pyx_XDECREF_SET(__pyx_v_kmer_1, __pyx_t_6);
       __pyx_t_6 = 0;
       __Pyx_XDECREF_SET(__pyx_v_kmer_2, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":342
+      /* "metagenome2vec/utils/transformation_ADN.pyx":345
  *         for j in range(i + 1, len(similarities)):
  *             kmer_1, kmer_2 = reverse_index[i], reverse_index[j]
  *             if kmer_1 == "UNK" or kmer_2 == "UNK" or kmer_1 == kmer_2:             # <<<<<<<<<<<<<<
  *                 continue
  *             dist = algo(kmer_1, kmer_2)
  */
-      __pyx_t_10 = (__Pyx_PyString_Equals(__pyx_v_kmer_1, __pyx_n_s_UNK, Py_EQ)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 342, __pyx_L1_error)
+      __pyx_t_10 = (__Pyx_PyString_Equals(__pyx_v_kmer_1, __pyx_n_s_UNK, Py_EQ)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 345, __pyx_L1_error)
       if (!__pyx_t_10) {
       } else {
         __pyx_t_9 = __pyx_t_10;
         goto __pyx_L8_bool_binop_done;
       }
-      __pyx_t_10 = (__Pyx_PyString_Equals(__pyx_v_kmer_2, __pyx_n_s_UNK, Py_EQ)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 342, __pyx_L1_error)
+      __pyx_t_10 = (__Pyx_PyString_Equals(__pyx_v_kmer_2, __pyx_n_s_UNK, Py_EQ)); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 345, __pyx_L1_error)
       if (!__pyx_t_10) {
       } else {
         __pyx_t_9 = __pyx_t_10;
         goto __pyx_L8_bool_binop_done;
       }
-      __pyx_t_3 = PyObject_RichCompare(__pyx_v_kmer_1, __pyx_v_kmer_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 342, __pyx_L1_error)
-      __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 342, __pyx_L1_error)
+      __pyx_t_3 = PyObject_RichCompare(__pyx_v_kmer_1, __pyx_v_kmer_2, Py_EQ); __Pyx_XGOTREF(__pyx_t_3); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 345, __pyx_L1_error)
+      __pyx_t_10 = __Pyx_PyObject_IsTrue(__pyx_t_3); if (unlikely(__pyx_t_10 < 0)) __PYX_ERR(0, 345, __pyx_L1_error)
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __pyx_t_9 = __pyx_t_10;
       __pyx_L8_bool_binop_done:;
       if (__pyx_t_9) {
 
-        /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":343
+        /* "metagenome2vec/utils/transformation_ADN.pyx":346
  *             kmer_1, kmer_2 = reverse_index[i], reverse_index[j]
  *             if kmer_1 == "UNK" or kmer_2 == "UNK" or kmer_1 == kmer_2:
  *                 continue             # <<<<<<<<<<<<<<
@@ -8883,7 +9024,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  */
         goto __pyx_L5_continue;
 
-        /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":342
+        /* "metagenome2vec/utils/transformation_ADN.pyx":345
  *         for j in range(i + 1, len(similarities)):
  *             kmer_1, kmer_2 = reverse_index[i], reverse_index[j]
  *             if kmer_1 == "UNK" or kmer_2 == "UNK" or kmer_1 == kmer_2:             # <<<<<<<<<<<<<<
@@ -8892,7 +9033,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  */
       }
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":344
+      /* "metagenome2vec/utils/transformation_ADN.pyx":347
  *             if kmer_1 == "UNK" or kmer_2 == "UNK" or kmer_1 == kmer_2:
  *                 continue
  *             dist = algo(kmer_1, kmer_2)             # <<<<<<<<<<<<<<
@@ -8915,7 +9056,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
       #if CYTHON_FAST_PYCALL
       if (PyFunction_Check(__pyx_t_6)) {
         PyObject *__pyx_temp[3] = {__pyx_t_11, __pyx_v_kmer_1, __pyx_v_kmer_2};
-        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 344, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 347, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
         __Pyx_GOTREF(__pyx_t_3);
       } else
@@ -8923,13 +9064,13 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
       #if CYTHON_FAST_PYCCALL
       if (__Pyx_PyFastCFunction_Check(__pyx_t_6)) {
         PyObject *__pyx_temp[3] = {__pyx_t_11, __pyx_v_kmer_1, __pyx_v_kmer_2};
-        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 344, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyCFunction_FastCall(__pyx_t_6, __pyx_temp+1-__pyx_t_12, 2+__pyx_t_12); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 347, __pyx_L1_error)
         __Pyx_XDECREF(__pyx_t_11); __pyx_t_11 = 0;
         __Pyx_GOTREF(__pyx_t_3);
       } else
       #endif
       {
-        __pyx_t_13 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 344, __pyx_L1_error)
+        __pyx_t_13 = PyTuple_New(2+__pyx_t_12); if (unlikely(!__pyx_t_13)) __PYX_ERR(0, 347, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_13);
         if (__pyx_t_11) {
           __Pyx_GIVEREF(__pyx_t_11); PyTuple_SET_ITEM(__pyx_t_13, 0, __pyx_t_11); __pyx_t_11 = NULL;
@@ -8940,7 +9081,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
         __Pyx_INCREF(__pyx_v_kmer_2);
         __Pyx_GIVEREF(__pyx_v_kmer_2);
         PyTuple_SET_ITEM(__pyx_t_13, 1+__pyx_t_12, __pyx_v_kmer_2);
-        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_13, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 344, __pyx_L1_error)
+        __pyx_t_3 = __Pyx_PyObject_Call(__pyx_t_6, __pyx_t_13, NULL); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 347, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_3);
         __Pyx_DECREF(__pyx_t_13); __pyx_t_13 = 0;
       }
@@ -8948,45 +9089,45 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
       __Pyx_XDECREF_SET(__pyx_v_dist, __pyx_t_3);
       __pyx_t_3 = 0;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":345
+      /* "metagenome2vec/utils/transformation_ADN.pyx":348
  *                 continue
  *             dist = algo(kmer_1, kmer_2)
  *             sim = similarities[i][j]             # <<<<<<<<<<<<<<
  *             if dist in D_distance:
  *                 D_distance[dist].append(sim)
  */
-      __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_similarities, __pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 345, __pyx_L1_error)
+      __pyx_t_3 = __Pyx_PyObject_GetItem(__pyx_v_similarities, __pyx_v_i); if (unlikely(!__pyx_t_3)) __PYX_ERR(0, 348, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_3);
-      __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_j); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 345, __pyx_L1_error)
+      __pyx_t_6 = __Pyx_PyObject_GetItem(__pyx_t_3, __pyx_v_j); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 348, __pyx_L1_error)
       __Pyx_GOTREF(__pyx_t_6);
       __Pyx_DECREF(__pyx_t_3); __pyx_t_3 = 0;
       __Pyx_XDECREF_SET(__pyx_v_sim, __pyx_t_6);
       __pyx_t_6 = 0;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":346
+      /* "metagenome2vec/utils/transformation_ADN.pyx":349
  *             dist = algo(kmer_1, kmer_2)
  *             sim = similarities[i][j]
  *             if dist in D_distance:             # <<<<<<<<<<<<<<
  *                 D_distance[dist].append(sim)
  *             else:
  */
-      __pyx_t_9 = (__Pyx_PyDict_ContainsTF(__pyx_v_dist, __pyx_v_D_distance, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 346, __pyx_L1_error)
+      __pyx_t_9 = (__Pyx_PyDict_ContainsTF(__pyx_v_dist, __pyx_v_D_distance, Py_EQ)); if (unlikely(__pyx_t_9 < 0)) __PYX_ERR(0, 349, __pyx_L1_error)
       __pyx_t_10 = (__pyx_t_9 != 0);
       if (__pyx_t_10) {
 
-        /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":347
+        /* "metagenome2vec/utils/transformation_ADN.pyx":350
  *             sim = similarities[i][j]
  *             if dist in D_distance:
  *                 D_distance[dist].append(sim)             # <<<<<<<<<<<<<<
  *             else:
  *                 D_distance[dist] = [sim]
  */
-        __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_D_distance, __pyx_v_dist); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 347, __pyx_L1_error)
+        __pyx_t_6 = __Pyx_PyDict_GetItem(__pyx_v_D_distance, __pyx_v_dist); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 350, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
-        __pyx_t_14 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_v_sim); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 347, __pyx_L1_error)
+        __pyx_t_14 = __Pyx_PyObject_Append(__pyx_t_6, __pyx_v_sim); if (unlikely(__pyx_t_14 == ((int)-1))) __PYX_ERR(0, 350, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
 
-        /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":346
+        /* "metagenome2vec/utils/transformation_ADN.pyx":349
  *             dist = algo(kmer_1, kmer_2)
  *             sim = similarities[i][j]
  *             if dist in D_distance:             # <<<<<<<<<<<<<<
@@ -8996,7 +9137,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
         goto __pyx_L11;
       }
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":349
+      /* "metagenome2vec/utils/transformation_ADN.pyx":352
  *                 D_distance[dist].append(sim)
  *             else:
  *                 D_distance[dist] = [sim]             # <<<<<<<<<<<<<<
@@ -9004,17 +9145,17 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
  * 
  */
       /*else*/ {
-        __pyx_t_6 = PyList_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 349, __pyx_L1_error)
+        __pyx_t_6 = PyList_New(1); if (unlikely(!__pyx_t_6)) __PYX_ERR(0, 352, __pyx_L1_error)
         __Pyx_GOTREF(__pyx_t_6);
         __Pyx_INCREF(__pyx_v_sim);
         __Pyx_GIVEREF(__pyx_v_sim);
         PyList_SET_ITEM(__pyx_t_6, 0, __pyx_v_sim);
-        if (unlikely(PyDict_SetItem(__pyx_v_D_distance, __pyx_v_dist, __pyx_t_6) < 0)) __PYX_ERR(0, 349, __pyx_L1_error)
+        if (unlikely(PyDict_SetItem(__pyx_v_D_distance, __pyx_v_dist, __pyx_t_6) < 0)) __PYX_ERR(0, 352, __pyx_L1_error)
         __Pyx_DECREF(__pyx_t_6); __pyx_t_6 = 0;
       }
       __pyx_L11:;
 
-      /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":340
+      /* "metagenome2vec/utils/transformation_ADN.pyx":343
  *     D_distance = {}  # Key is the distance value, value is the list of all mean the cosine similarity
  *     for i in range(len(similarities)):
  *         for j in range(i + 1, len(similarities)):             # <<<<<<<<<<<<<<
@@ -9025,7 +9166,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
     }
     __Pyx_DECREF(__pyx_t_7); __pyx_t_7 = 0;
 
-    /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":339
+    /* "metagenome2vec/utils/transformation_ADN.pyx":342
  * cpdef dict create_distance(similarities, algo, reverse_index):
  *     D_distance = {}  # Key is the distance value, value is the list of all mean the cosine similarity
  *     for i in range(len(similarities)):             # <<<<<<<<<<<<<<
@@ -9035,7 +9176,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   }
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":350
+  /* "metagenome2vec/utils/transformation_ADN.pyx":353
  *             else:
  *                 D_distance[dist] = [sim]
  *     return D_distance             # <<<<<<<<<<<<<<
@@ -9046,7 +9187,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __pyx_r = __pyx_v_D_distance;
   goto __pyx_L0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":337
+  /* "metagenome2vec/utils/transformation_ADN.pyx":340
  * 
  * 
  * cpdef dict create_distance(similarities, algo, reverse_index):             # <<<<<<<<<<<<<<
@@ -9062,7 +9203,7 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
   __Pyx_XDECREF(__pyx_t_7);
   __Pyx_XDECREF(__pyx_t_11);
   __Pyx_XDECREF(__pyx_t_13);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.create_distance", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.create_distance", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = 0;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_D_distance);
@@ -9078,8 +9219,8 @@ static PyObject *__pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformati
 }
 
 /* Python wrapper */
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_31create_distance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
-static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_31create_distance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_31create_distance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds); /*proto*/
+static PyObject *__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_31create_distance(PyObject *__pyx_self, PyObject *__pyx_args, PyObject *__pyx_kwds) {
   PyObject *__pyx_v_similarities = 0;
   PyObject *__pyx_v_algo = 0;
   PyObject *__pyx_v_reverse_index = 0;
@@ -9114,17 +9255,17 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
         case  1:
         if (likely((values[1] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_algo)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("create_distance", 1, 3, 3, 1); __PYX_ERR(0, 337, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("create_distance", 1, 3, 3, 1); __PYX_ERR(0, 340, __pyx_L3_error)
         }
         CYTHON_FALLTHROUGH;
         case  2:
         if (likely((values[2] = __Pyx_PyDict_GetItemStr(__pyx_kwds, __pyx_n_s_reverse_index)) != 0)) kw_args--;
         else {
-          __Pyx_RaiseArgtupleInvalid("create_distance", 1, 3, 3, 2); __PYX_ERR(0, 337, __pyx_L3_error)
+          __Pyx_RaiseArgtupleInvalid("create_distance", 1, 3, 3, 2); __PYX_ERR(0, 340, __pyx_L3_error)
         }
       }
       if (unlikely(kw_args > 0)) {
-        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_distance") < 0)) __PYX_ERR(0, 337, __pyx_L3_error)
+        if (unlikely(__Pyx_ParseOptionalKeywords(__pyx_kwds, __pyx_pyargnames, 0, values, pos_args, "create_distance") < 0)) __PYX_ERR(0, 340, __pyx_L3_error)
       }
     } else if (PyTuple_GET_SIZE(__pyx_args) != 3) {
       goto __pyx_L5_argtuple_error;
@@ -9139,20 +9280,20 @@ static PyObject *__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformat
   }
   goto __pyx_L4_argument_unpacking_done;
   __pyx_L5_argtuple_error:;
-  __Pyx_RaiseArgtupleInvalid("create_distance", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 337, __pyx_L3_error)
+  __Pyx_RaiseArgtupleInvalid("create_distance", 1, 3, 3, PyTuple_GET_SIZE(__pyx_args)); __PYX_ERR(0, 340, __pyx_L3_error)
   __pyx_L3_error:;
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.create_distance", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.create_distance", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __Pyx_RefNannyFinishContext();
   return NULL;
   __pyx_L4_argument_unpacking_done:;
-  __pyx_r = __pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_30create_distance(__pyx_self, __pyx_v_similarities, __pyx_v_algo, __pyx_v_reverse_index);
+  __pyx_r = __pyx_pf_14metagenome2vec_5utils_18transformation_ADN_30create_distance(__pyx_self, __pyx_v_similarities, __pyx_v_algo, __pyx_v_reverse_index);
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_30create_distance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_similarities, PyObject *__pyx_v_algo, PyObject *__pyx_v_reverse_index) {
+static PyObject *__pyx_pf_14metagenome2vec_5utils_18transformation_ADN_30create_distance(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_similarities, PyObject *__pyx_v_algo, PyObject *__pyx_v_reverse_index) {
   PyObject *__pyx_r = NULL;
   __Pyx_RefNannyDeclarations
   PyObject *__pyx_t_1 = NULL;
@@ -9161,7 +9302,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   int __pyx_clineno = 0;
   __Pyx_RefNannySetupContext("create_distance", 0);
   __Pyx_XDECREF(__pyx_r);
-  __pyx_t_1 = __pyx_f_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_create_distance(__pyx_v_similarities, __pyx_v_algo, __pyx_v_reverse_index, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 337, __pyx_L1_error)
+  __pyx_t_1 = __pyx_f_14metagenome2vec_5utils_18transformation_ADN_create_distance(__pyx_v_similarities, __pyx_v_algo, __pyx_v_reverse_index, 0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 340, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
   __pyx_r = __pyx_t_1;
   __pyx_t_1 = 0;
@@ -9170,7 +9311,7 @@ static PyObject *__pyx_pf_14metagenome2vec_14metagenome2vec_5utils_18transformat
   /* function exit code */
   __pyx_L1_error:;
   __Pyx_XDECREF(__pyx_t_1);
-  __Pyx_AddTraceback("metagenome2vec.metagenome2vec.utils.transformation_ADN.create_distance", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("metagenome2vec.utils.transformation_ADN.create_distance", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XGIVEREF(__pyx_r);
@@ -10196,21 +10337,21 @@ static CYTHON_INLINE NPY_DATETIMEUNIT __pyx_f_5numpy_get_datetime64_unit(PyObjec
 }
 
 static PyMethodDef __pyx_methods[] = {
-  {"kmer_to_int", (PyCFunction)__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_1kmer_to_int, METH_O, 0},
-  {"int_to_kmer", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_3int_to_kmer, METH_VARARGS|METH_KEYWORDS, 0},
-  {"complement", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_5complement, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_4complement},
-  {"reverse_complement", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_7reverse_complement, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_6reverse_complement},
-  {"preprocess_read_str", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_11preprocess_read_str, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_10preprocess_read_str},
-  {"preprocess_several_reads_str", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_13preprocess_several_reads_str, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_12preprocess_several_reads_str},
-  {"preprocess_read", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_15preprocess_read, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_14preprocess_read},
-  {"preprocess_several_reads", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_17preprocess_several_reads, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_16preprocess_several_reads},
-  {"remove_unk_kmer", (PyCFunction)__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_19remove_unk_kmer, METH_O, 0},
-  {"cut_and_write_read", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_21cut_and_write_read, METH_VARARGS|METH_KEYWORDS, 0},
-  {"cut_and_write_reads", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_23cut_and_write_reads, METH_VARARGS|METH_KEYWORDS, 0},
-  {"mch", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_25mch, METH_VARARGS|METH_KEYWORDS, 0},
-  {"needle", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_27needle, METH_VARARGS|METH_KEYWORDS, 0},
-  {"ED", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_29ED, METH_VARARGS|METH_KEYWORDS, 0},
-  {"create_distance", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_31create_distance, METH_VARARGS|METH_KEYWORDS, 0},
+  {"kmer_to_int", (PyCFunction)__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_1kmer_to_int, METH_O, 0},
+  {"int_to_kmer", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_3int_to_kmer, METH_VARARGS|METH_KEYWORDS, 0},
+  {"complement", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_5complement, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14metagenome2vec_5utils_18transformation_ADN_4complement},
+  {"reverse_complement", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_7reverse_complement, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14metagenome2vec_5utils_18transformation_ADN_6reverse_complement},
+  {"preprocess_read_str", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_11preprocess_read_str, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14metagenome2vec_5utils_18transformation_ADN_10preprocess_read_str},
+  {"preprocess_several_reads_str", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_13preprocess_several_reads_str, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14metagenome2vec_5utils_18transformation_ADN_12preprocess_several_reads_str},
+  {"preprocess_read", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_15preprocess_read, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14metagenome2vec_5utils_18transformation_ADN_14preprocess_read},
+  {"preprocess_several_reads", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_17preprocess_several_reads, METH_VARARGS|METH_KEYWORDS, __pyx_doc_14metagenome2vec_5utils_18transformation_ADN_16preprocess_several_reads},
+  {"remove_unk_kmer", (PyCFunction)__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_19remove_unk_kmer, METH_O, 0},
+  {"cut_and_write_read", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_21cut_and_write_read, METH_VARARGS|METH_KEYWORDS, 0},
+  {"cut_and_write_reads", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_23cut_and_write_reads, METH_VARARGS|METH_KEYWORDS, 0},
+  {"mch", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_25mch, METH_VARARGS|METH_KEYWORDS, 0},
+  {"needle", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_27needle, METH_VARARGS|METH_KEYWORDS, 0},
+  {"ED", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_29ED, METH_VARARGS|METH_KEYWORDS, 0},
+  {"create_distance", (PyCFunction)(void*)(PyCFunctionWithKeywords)__pyx_pw_14metagenome2vec_5utils_18transformation_ADN_31create_distance, METH_VARARGS|METH_KEYWORDS, 0},
   {0, 0, 0, 0}
 };
 
@@ -10287,6 +10428,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_concatenate, __pyx_k_concatenate, sizeof(__pyx_k_concatenate), 0, 0, 1, 1},
   {&__pyx_n_s_cut_word, __pyx_k_cut_word, sizeof(__pyx_k_cut_word), 0, 0, 1, 1},
   {&__pyx_n_s_data, __pyx_k_data, sizeof(__pyx_k_data), 0, 0, 1, 1},
+  {&__pyx_n_s_decode, __pyx_k_decode, sizeof(__pyx_k_decode), 0, 0, 1, 1},
   {&__pyx_n_s_dico_index, __pyx_k_dico_index, sizeof(__pyx_k_dico_index), 0, 0, 1, 1},
   {&__pyx_n_s_dtype, __pyx_k_dtype, sizeof(__pyx_k_dtype), 0, 0, 1, 1},
   {&__pyx_n_s_e, __pyx_k_e, sizeof(__pyx_k_e), 0, 0, 1, 1},
@@ -10302,7 +10444,7 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_match, __pyx_k_match, sizeof(__pyx_k_match), 0, 0, 1, 1},
   {&__pyx_n_s_max, __pyx_k_max, sizeof(__pyx_k_max), 0, 0, 1, 1},
   {&__pyx_n_s_max_length, __pyx_k_max_length, sizeof(__pyx_k_max_length), 0, 0, 1, 1},
-  {&__pyx_n_s_metagenome2vec_metagenome2vec_ut, __pyx_k_metagenome2vec_metagenome2vec_ut, sizeof(__pyx_k_metagenome2vec_metagenome2vec_ut), 0, 0, 1, 1},
+  {&__pyx_n_s_metagenome2vec_utils_transformat, __pyx_k_metagenome2vec_utils_transformat, sizeof(__pyx_k_metagenome2vec_utils_transformat), 0, 0, 1, 1},
   {&__pyx_n_s_min_length, __pyx_k_min_length, sizeof(__pyx_k_min_length), 0, 0, 1, 1},
   {&__pyx_n_s_mismatch, __pyx_k_mismatch, sizeof(__pyx_k_mismatch), 0, 0, 1, 1},
   {&__pyx_n_s_mode, __pyx_k_mode, sizeof(__pyx_k_mode), 0, 0, 1, 1},
@@ -10340,8 +10482,8 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
 static CYTHON_SMALL_CODE int __Pyx_InitCachedBuiltins(void) {
   __pyx_builtin_range = __Pyx_GetBuiltinName(__pyx_n_s_range); if (!__pyx_builtin_range) __PYX_ERR(0, 25, __pyx_L1_error)
   __pyx_builtin_object = __Pyx_GetBuiltinName(__pyx_n_s_object); if (!__pyx_builtin_object) __PYX_ERR(0, 100, __pyx_L1_error)
-  __pyx_builtin_KeyError = __Pyx_GetBuiltinName(__pyx_n_s_KeyError); if (!__pyx_builtin_KeyError) __PYX_ERR(0, 154, __pyx_L1_error)
-  __pyx_builtin_max = __Pyx_GetBuiltinName(__pyx_n_s_max); if (!__pyx_builtin_max) __PYX_ERR(0, 185, __pyx_L1_error)
+  __pyx_builtin_KeyError = __Pyx_GetBuiltinName(__pyx_n_s_KeyError); if (!__pyx_builtin_KeyError) __PYX_ERR(0, 157, __pyx_L1_error)
+  __pyx_builtin_max = __Pyx_GetBuiltinName(__pyx_n_s_max); if (!__pyx_builtin_max) __PYX_ERR(0, 188, __pyx_L1_error)
   __pyx_builtin_ImportError = __Pyx_GetBuiltinName(__pyx_n_s_ImportError); if (!__pyx_builtin_ImportError) __PYX_ERR(1, 945, __pyx_L1_error)
   return 0;
   __pyx_L1_error:;
@@ -10352,28 +10494,28 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":188
+  /* "metagenome2vec/utils/transformation_ADN.pyx":191
  *     cdef:
  *         np.ndarray[np.int_t, ndim = 2] arr = np.zeros((len(reads_prepro), maxlen), dtype=np.int) + index_pad
  *         np.ndarray mask = np.arange(maxlen) < np.array(lens, dtype=np.int)[:, None]             # <<<<<<<<<<<<<<
  *     arr[mask] = np.concatenate(reads_prepro)
  *     return arr
  */
-  __pyx_slice__2 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__2)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_slice__2 = PySlice_New(Py_None, Py_None, Py_None); if (unlikely(!__pyx_slice__2)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__2);
   __Pyx_GIVEREF(__pyx_slice__2);
-  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_slice__2, Py_None); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 188, __pyx_L1_error)
+  __pyx_tuple__3 = PyTuple_Pack(2, __pyx_slice__2, Py_None); if (unlikely(!__pyx_tuple__3)) __PYX_ERR(0, 191, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple__3);
   __Pyx_GIVEREF(__pyx_tuple__3);
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":312
+  /* "metagenome2vec/utils/transformation_ADN.pyx":315
  *         j -= 1
  * 
  *     align1 = align1[::-1]             # <<<<<<<<<<<<<<
  *     align2 = align2[::-1]
  *     seqN = len(align1)
  */
-  __pyx_slice__7 = PySlice_New(Py_None, Py_None, __pyx_int_neg_1); if (unlikely(!__pyx_slice__7)) __PYX_ERR(0, 312, __pyx_L1_error)
+  __pyx_slice__7 = PySlice_New(Py_None, Py_None, __pyx_int_neg_1); if (unlikely(!__pyx_slice__7)) __PYX_ERR(0, 315, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_slice__7);
   __Pyx_GIVEREF(__pyx_slice__7);
 
@@ -10399,7 +10541,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_GOTREF(__pyx_tuple__9);
   __Pyx_GIVEREF(__pyx_tuple__9);
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":75
+  /* "metagenome2vec/utils/transformation_ADN.pyx":75
  * 
  * 
  * def cut_word(str x, int k, int s=1, int remove_unk=0):             # <<<<<<<<<<<<<<
@@ -10442,9 +10584,9 @@ static int __Pyx_modinit_global_init_code(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_modinit_global_init_code", 0);
   /*--- Global init code ---*/
-  __pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_dico_nucleotide_to_int = ((PyObject*)Py_None); Py_INCREF(Py_None);
-  __pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_dico_int_to_nucleotide = ((PyObject*)Py_None); Py_INCREF(Py_None);
-  __pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt = ((PyObject*)Py_None); Py_INCREF(Py_None);
+  __pyx_v_14metagenome2vec_5utils_18transformation_ADN_dico_nucleotide_to_int = ((PyObject*)Py_None); Py_INCREF(Py_None);
+  __pyx_v_14metagenome2vec_5utils_18transformation_ADN_dico_int_to_nucleotide = ((PyObject*)Py_None); Py_INCREF(Py_None);
+  __pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt = ((PyObject*)Py_None); Py_INCREF(Py_None);
   __Pyx_RefNannyFinishContext();
   return 0;
 }
@@ -10722,14 +10864,14 @@ if (!__Pyx_RefNanny) {
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_metagenome2vec__metagenome2vec__utils__transformation_ADN) {
+  if (__pyx_module_is_main_metagenome2vec__utils__transformation_ADN) {
     if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "metagenome2vec.metagenome2vec.utils.transformation_ADN")) {
-      if (unlikely(PyDict_SetItemString(modules, "metagenome2vec.metagenome2vec.utils.transformation_ADN", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "metagenome2vec.utils.transformation_ADN")) {
+      if (unlikely(PyDict_SetItemString(modules, "metagenome2vec.utils.transformation_ADN", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
@@ -10750,7 +10892,7 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":9
+  /* "metagenome2vec/utils/transformation_ADN.pyx":9
  * """
  * 
  * import re             # <<<<<<<<<<<<<<
@@ -10762,7 +10904,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_re, __pyx_t_1) < 0) __PYX_ERR(0, 9, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":10
+  /* "metagenome2vec/utils/transformation_ADN.pyx":10
  * 
  * import re
  * import numpy as np             # <<<<<<<<<<<<<<
@@ -10774,7 +10916,7 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_np, __pyx_t_1) < 0) __PYX_ERR(0, 10, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":12
+  /* "metagenome2vec/utils/transformation_ADN.pyx":12
  * import numpy as np
  * cimport numpy as np
  * from Bio.Seq import Seq             # <<<<<<<<<<<<<<
@@ -10795,7 +10937,7 @@ if (!__Pyx_RefNanny) {
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":15
+  /* "metagenome2vec/utils/transformation_ADN.pyx":15
  * 
  * 
  * cdef dict dico_nucleotide_to_int = {"A": 0, "T": 3, "C": 1, "G": 2}             # <<<<<<<<<<<<<<
@@ -10808,12 +10950,12 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_T, __pyx_int_3) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_C, __pyx_int_1) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_G, __pyx_int_2) < 0) __PYX_ERR(0, 15, __pyx_L1_error)
-  __Pyx_XGOTREF(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_dico_nucleotide_to_int);
-  __Pyx_DECREF_SET(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_dico_nucleotide_to_int, ((PyObject*)__pyx_t_2));
+  __Pyx_XGOTREF(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_dico_nucleotide_to_int);
+  __Pyx_DECREF_SET(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_dico_nucleotide_to_int, ((PyObject*)__pyx_t_2));
   __Pyx_GIVEREF(__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":16
+  /* "metagenome2vec/utils/transformation_ADN.pyx":16
  * 
  * cdef dict dico_nucleotide_to_int = {"A": 0, "T": 3, "C": 1, "G": 2}
  * cdef dict dico_int_to_nucleotide = {0: "A", 3: "T", 1: "C", 2: "G"}             # <<<<<<<<<<<<<<
@@ -10826,12 +10968,12 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_t_2, __pyx_int_3, __pyx_n_s_T) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_2, __pyx_int_1, __pyx_n_s_C) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_2, __pyx_int_2, __pyx_n_s_G) < 0) __PYX_ERR(0, 16, __pyx_L1_error)
-  __Pyx_XGOTREF(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_dico_int_to_nucleotide);
-  __Pyx_DECREF_SET(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_dico_int_to_nucleotide, ((PyObject*)__pyx_t_2));
+  __Pyx_XGOTREF(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_dico_int_to_nucleotide);
+  __Pyx_DECREF_SET(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_dico_int_to_nucleotide, ((PyObject*)__pyx_t_2));
   __Pyx_GIVEREF(__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":18
+  /* "metagenome2vec/utils/transformation_ADN.pyx":18
  * cdef dict dico_int_to_nucleotide = {0: "A", 3: "T", 1: "C", 2: "G"}
  * 
  * cdef dict pt = {'match': 1, 'mismatch': -1, 'gap': -1}             # <<<<<<<<<<<<<<
@@ -10843,24 +10985,24 @@ if (!__Pyx_RefNanny) {
   if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_match, __pyx_int_1) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_mismatch, __pyx_int_neg_1) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
   if (PyDict_SetItem(__pyx_t_2, __pyx_n_s_gap, __pyx_int_neg_1) < 0) __PYX_ERR(0, 18, __pyx_L1_error)
-  __Pyx_XGOTREF(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt);
-  __Pyx_DECREF_SET(__pyx_v_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_pt, ((PyObject*)__pyx_t_2));
+  __Pyx_XGOTREF(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt);
+  __Pyx_DECREF_SET(__pyx_v_14metagenome2vec_5utils_18transformation_ADN_pt, ((PyObject*)__pyx_t_2));
   __Pyx_GIVEREF(__pyx_t_2);
   __pyx_t_2 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":75
+  /* "metagenome2vec/utils/transformation_ADN.pyx":75
  * 
  * 
  * def cut_word(str x, int k, int s=1, int remove_unk=0):             # <<<<<<<<<<<<<<
  *     """
  *     Convert a sequence of nucleotides into a list of k nucleotides spaced by s nucleotides
  */
-  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_14metagenome2vec_14metagenome2vec_5utils_18transformation_ADN_9cut_word, NULL, __pyx_n_s_metagenome2vec_metagenome2vec_ut); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
+  __pyx_t_2 = PyCFunction_NewEx(&__pyx_mdef_14metagenome2vec_5utils_18transformation_ADN_9cut_word, NULL, __pyx_n_s_metagenome2vec_utils_transformat); if (unlikely(!__pyx_t_2)) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_2);
   if (PyDict_SetItem(__pyx_d, __pyx_n_s_cut_word, __pyx_t_2) < 0) __PYX_ERR(0, 75, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
 
-  /* "metagenome2vec/metagenome2vec/utils/transformation_ADN.pyx":1
+  /* "metagenome2vec/utils/transformation_ADN.pyx":1
  * #!/usr/bin/env python2             # <<<<<<<<<<<<<<
  * # -*- coding: utf-8 -*-
  * """
@@ -10886,11 +11028,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_XDECREF(__pyx_t_2);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init metagenome2vec.metagenome2vec.utils.transformation_ADN", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init metagenome2vec.utils.transformation_ADN", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_CLEAR(__pyx_m);
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init metagenome2vec.metagenome2vec.utils.transformation_ADN");
+    PyErr_SetString(PyExc_ImportError, "init metagenome2vec.utils.transformation_ADN");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();

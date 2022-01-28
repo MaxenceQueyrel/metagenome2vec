@@ -50,8 +50,8 @@ cpdef str complement(str s, int not_AC=False):
     if not_AC:
         if s[0] in "AC":
             return s
-        return Seq(s).complement()._data
-    return Seq(s).complement()._data
+        return Seq(s).complement()._data.decode()
+    return Seq(s).complement()._data.decode()
 
 
 cpdef str reverse_complement(str s, int not_AC=False):
@@ -68,8 +68,8 @@ cpdef str reverse_complement(str s, int not_AC=False):
     if not_AC:
         if s[0] in "AC":
             return s
-        return Seq(s).reverse_complement()._data
-    return Seq(s).reverse_complement()._data
+        return Seq(s).reverse_complement()._data.decode()
+    return Seq(s).reverse_complement()._data.decode()
 
 
 def cut_word(str x, int k, int s=1, int remove_unk=0):
@@ -99,7 +99,10 @@ cdef np.ndarray[np.str, ndim=1] cut_word_in_c(str x, int k, int s=1, int remove_
         int i
         np.ndarray[np.str, ndim=1] res = np.zeros(np.int(np.ceil((len(x) - k + 1) / s)), dtype=object)
     for i in range(0, len(res), s):
-        res[i] = reverse_complement(x[i:i + k], not_AC=True)
+        kmer = reverse_complement(x[i:i + k], not_AC=True)
+        if type(kmer) == bytes:
+            kmer = kmer.decode()
+        res[i] = kmer
     if remove_unk:
         return remove_unk_kmer(res)
     return res

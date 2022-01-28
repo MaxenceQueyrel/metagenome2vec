@@ -1,9 +1,6 @@
-from read2vec import Read2Vec
-
 import random
 import dill
 from pathlib import Path
-import csv
 import shutil
 import sys
 import os
@@ -15,30 +12,22 @@ import numpy as np
 import torch.nn.functional as F
 from torch.nn import TransformerEncoderLayer
 import torch.optim as optim
-from packaging import version
-import torchtext
-if version.parse("0.9.0") <= version.parse(torchtext.__version__):
-    del torchtext
-    import torchtext.legacy as torchtext
-    from torchtext.legacy import vocab
-    from torchtext.legacy.data import ReversibleField, Dataset
-    from torchtext.legacy.datasets import LanguageModelingDataset
-else:
-    from torchtext import vocab
-    from torchtext.data import ReversibleField, Dataset
-    from torchtext.datasets import LanguageModelingDataset
-
+from torchtext import vocab
+from torchtext.data import ReversibleField, Dataset
+from torchtext.datasets import LanguageModelingDataset
 from torch.nn import AdaptiveLogSoftmaxWithLoss
 from torch.nn import Linear, Dropout, LayerNorm, TransformerEncoder
 from torch.utils.data import DataLoader
 
+
 root_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 sys.path.insert(0, os.path.join(root_folder, "utils"))
-import parser_creator
-import hdfs_functions as hdfs
-import logger
+from metagenome2vec.utils import parser_creator
+from metagenome2vec.utils import file_manager
+from metagenome2vec.read2vec import read2vec
+
+import logging
 from torchtext.nn import MultiheadAttentionContainer, InProjContainer, ScaledDotProduct
-#from torchtext_module import MultiheadAttentionContainer, InProjContainer, ScaledDotProduct
 
 
 SEED = 1234
