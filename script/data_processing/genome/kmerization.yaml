@@ -1,0 +1,5 @@
+overwrite: "True"
+path_data: /home/mqueyrel/Documents/taff/metagenome2vec/data/genome/sim_db_concatenated_506.fa
+path_save: /home/mqueyrel/Documents/taff/metagenome2vec/data/genome/kmerized_k_6_sim_db_concatenated_506
+k: 6
+s: 1
