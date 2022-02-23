@@ -1,6 +1,8 @@
 #Distribution name
 FROM maxence27/deep_learning:cuda113-cudnn8
 
+ARG DEBIAN_FRONTEND="noninteractive"
+
 RUN apt update && \
   apt upgrade -y && \
   apt install default-jdk -y && \
