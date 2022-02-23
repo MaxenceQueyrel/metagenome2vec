@@ -38,13 +38,13 @@ In a folder you should have a folder called 'camisim' with these files:
 
 ###### Create config files
 ```bash
-bash $METAGENOME2VEC_PATH/script/data_processing/simulation/create_camisim_config_file.sh --conf-file$METAGENOME2VEC_PATH/script/data_processing/simulation/create_camisim_config_file.yaml
+bash $METAGENOME2VEC_PATH/script/data_processing/simulation/create_camisim_config_file.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/simulation/create_camisim_config_file.yaml
 ```
-The script creates a init file in camisim/config_files and an empty folder in camisim/dataset
+The script creates an init file in camisim/config_files and an empty folder in camisim/dataset
 
 ###### Run simulation
 ```bash
-docker run --rm --name camisim -dt --memory="4g" --memory-swap="4g" --cpus="4.0" -e METAGENOME2VEC_PATH=$METAGENOME2VEC_PATH -e CAMISIM=/home/mqueyrel/Documents/CAMISIM -e NANOSIM=/home/mqueyrel/Documents/NanoSim -v /home/mqueyrel/:/home/mqueyrel/ maxence27/camisim:1.0`
+docker run --rm --name camisim -dt --memory="4g" --memory-swap="4g" --cpus="4.0" -e METAGENOME2VEC_PATH=$METAGENOME2VEC_PATH -e CAMISIM=/home/mqueyrel/Documents/CAMISIM -e NANOSIM=/home/mqueyrel/Documents/NanoSim -v /home/mqueyrel/:/home/mqueyrel/ maxence27/camisim:1.0
 docker exec -i camisim bash $METAGENOME2VEC_PATH/script/data_processing/simulation/run_camisim.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/simulation/run_camisim.yaml
 ```
 The first line initiate the docker container and the second one run the simulation that simulates metagenomic samples in the folder camisim/dataset/my_folder_in_init_file
