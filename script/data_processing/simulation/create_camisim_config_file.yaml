@@ -1,7 +1,7 @@
 n_cpus: 3
-path_save: /home/mqueyrel/Documents/work/tmp/simulation_files
+path_save: $METAGENOME2VEC_PATH/data/simulation_files
 computation_type: illumina
 giga_octet: 0.5
-path_tmp_folder: /home/mqueyrel/Documents/tmp
-path_abundance_profile: /home/mqueyrel/Documents/work/tmp/simulation_files/camisim/abundance_balanced_species_V2.tsv
+path_tmp_folder: $METAGENOME2VEC_PATH/data/tmp
+path_abundance_profile: $METAGENOME2VEC_PATH/data/simulation_files/camisim/abundance_balanced_species_V2.tsv
 n_sample_by_class: 2

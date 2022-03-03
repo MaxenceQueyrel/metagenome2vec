@@ -4,6 +4,6 @@ path_log: "$METAGENOME2VEC_PATH/logs/word_count"
 n_sample_load: 10000
 overwrite: "True"
 in_memory: "True"
-path_data: /home/mqueyrel/Documents/taff/metagenome2vec/data/metagenome/cirrhosis_small
-path_save: /home/mqueyrel/Documents/taff/metagenome2vec/data/metagenome/cirrhosis_small_clean
+path_data: $METAGENOME2VEC_PATH/metagenome2vec/data/metagenome/cirrhosis_small
+path_save: $METAGENOME2VEC_PATH/metagenome2vec/data/metagenome/cirrhosis_small_clean
 
