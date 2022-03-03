@@ -4,31 +4,47 @@
 ### pre-requisites
 - Docker (https://docs.docker.com/engine/install/)
 - Define the METAGENOME2VEC_PATH environment variable which is the path to the metagenome2vec folder
-- Dowload CAMISIM (https://github.com/CAMI-challenge/CAMISIM) and NanoSim (https://github.com/bcgsc/NanoSim)
+- Dowload CAMISIM (https://github.com/CAMI-challenge/CAMISIM) and NanoSim (https://github.com/bcgsc/NanoSim). Define CAMISIM and NANOSIM environment variables corresponding to the path of the CAMISIM and NanoSim softwares respectively.
 
 
 ### Environment creation
 
 ##### Build docker image of metagenome2vec
+```bash
 cd $METAGENOME2VEC_PATH/Docker/metagenome2vec; make
+```
+Exemple of command to run the container : 
+```bash
+docker run -i -d --rm --name=metagenome2vec -v /your/path/:/your/path/ -e METAGENOME2VEC_PATH=$METAGENOME2VEC_PATH -e CAMISIM=$CAMISIM -e NANOSIM=$NANNOSIM maxence27/metagenome2vec:1.0
+```
 
 ##### Build docker image of CAMISIM
+```bash
 cd $METAGENOME2VEC_PATH/Docker/CAMISIM; make
+```
 
 ### Examples to execute scripts
 
 ##### Data download
+```bash
 bash download_metagenomic_data_from_tsv_file.sh --path-input $METAGENOME2VEC_PATH/data/cirrhosis/download_file.tsv --path-output ~/Documents/tmp/data_cirrhosis/
+```
 
-##### Run data preprocessing :
+##### Run data preprocessing
+```bash
 bash $METAGENOME2VEC_PATH/script/data_processing/metagenome/clean_raw_data.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/metagenome/clean_raw_data.yaml
+```
 
 ##### Run BOK
+```bash
 bash $METAGENOME2VEC_PATH/script/data_processing/metagenome/bok_split.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/metagenome/bok_split.yaml
 bash $METAGENOME2VEC_PATH/script/data_processing/metagenome/bok_merge.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/metagenome/bok_merge.yaml
+```
 
 ##### Run Kmerization
+```bash
 bash $METAGENOME2VEC_PATH/script/data_processing/metagenome/kmerization.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/metagenome/kmerization.yaml
+```
 
 ##### Run simulation
 In a folder you should have a folder called 'camisim' with these files:
@@ -40,11 +56,11 @@ In a folder you should have a folder called 'camisim' with these files:
 ```bash
 bash $METAGENOME2VEC_PATH/script/data_processing/simulation/create_camisim_config_file.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/simulation/create_camisim_config_file.yaml
 ```
-The script creates an init file in camisim/config_files and an empty folder in camisim/dataset
+The script creates a init file in camisim/config_files and an empty folder in camisim/dataset
 
 ###### Run simulation
 ```bash
-docker run --rm --name camisim -dt --memory="4g" --memory-swap="4g" --cpus="4.0" -e METAGENOME2VEC_PATH=$METAGENOME2VEC_PATH -e CAMISIM=/home/mqueyrel/Documents/CAMISIM -e NANOSIM=/home/mqueyrel/Documents/NanoSim -v /home/mqueyrel/:/home/mqueyrel/ maxence27/camisim:1.0
+docker run --rm --name camisim -dt --memory="4g" --memory-swap="4g" --cpus="4.0" -e METAGENOME2VEC_PATH=$METAGENOME2VEC_PATH -e CAMISIM=$CAMISIM -e NANOSIM=$NANOSIM -v /your/path/:/your/path/ maxence27/camisim:1.0`
 docker exec -i camisim bash $METAGENOME2VEC_PATH/script/data_processing/simulation/run_camisim.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/simulation/run_camisim.yaml
 ```
 The first line initiate the docker container and the second one run the simulation that simulates metagenomic samples in the folder camisim/dataset/my_folder_in_init_file
