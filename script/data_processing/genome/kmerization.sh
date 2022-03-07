@@ -4,18 +4,15 @@
 
 args $0 "$@"
 
-if [ -z "$conf_file" ]
+path_script="$METAGENOME2VEC_PATH/metagenome2vec/data_processing/simulation/create_camisim_config_file.py"
+
+if $help
 then
-  usage
-  exit
+  python $path_script --help
+  exit 0
 fi
 
 eval $(parse_yaml $conf_file)
 
-if [ $overwrite = "True" ]
-then
-  rm -r $path_save
-fi
-
-python $METAGENOME2VEC_PATH/metagenome2vec/data_processing/genome/kmerization.py -pd $path_data -ps $path_save -k $k -s $s
+python $path_script -pd $path_data -ps $path_save -k $k -s $s
 

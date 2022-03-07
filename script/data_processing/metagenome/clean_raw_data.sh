@@ -4,10 +4,12 @@
 
 args $0 "$@"
 
-if [ -z "$conf_file" ]
+path_script="$METAGENOME2VEC_PATH/metagenome2vec/data_processing/metagenome/clean_raw_data.py"
+
+if $help
 then
-  usage
-  exit
+  python $path_script --help
+  exit 0
 fi
 
 eval $(parse_yaml $conf_file)
@@ -38,7 +40,7 @@ for file in $path_data/*; do
    --conf spark.executor.memoryOverhead=$executor_memory_overhead \
    --files $METAGENOME2VEC_PATH/metagenome2vec/utils/transformation_ADN.cpython-38-x86_64-linux-gnu.so \
    --py-files $METAGENOME2VEC_PATH/metagenome2vec.zip \
-   $METAGENOME2VEC_PATH/metagenome2vec/data_processing/metagenome/clean_raw_data.py \
+   $path_script \
    -nsl $n_sample_load \
    -pd $path_data/$filename \
    -ps $path_save/$filename \

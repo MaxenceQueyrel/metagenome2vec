@@ -35,7 +35,7 @@ executor_memory_overhead=5g
 
 function args()
 {
-    options=$(getopt \
+    options=$(getopt -o -h \
     --long num-executors: \
     --long executor-cores: \
     --long driver-memory: \
@@ -43,6 +43,7 @@ function args()
     --long driver-memory-overhead: \
     --long executor-memory-overhead: \
     --long conf-file: \
+    --long help \
     -- "$@")
     [ $? -eq 0 ] || {
         echo "Incorrect option provided"
@@ -79,16 +80,28 @@ function args()
             shift;
             conf_file=$1
             ;;
+        --help | -h)
+            shift;
+            help=true
+            break
+            ;;
         --)
-            shift
+            shift;
             break
             ;;
         esac
         shift
     done
+    if [ -z "$conf_file" ] && [ $help != true ]
+    then
+      echo ! $help
+      usage
+      exit
+    fi
 }
 
 function usage()
 {
-    echo "mandatory parameters : --conf-file"
+    echo "mandatory parameters: --conf-file
+Optional parameters: --num-executors, --executor-cores, --driver-memory, --executor-memory, --driver_memory_overhead, --executor-memory-overhead, --help / -h"
 }

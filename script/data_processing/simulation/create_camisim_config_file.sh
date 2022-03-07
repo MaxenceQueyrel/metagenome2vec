@@ -4,16 +4,17 @@
 
 args $0 "$@"
 
-if [ -z "$conf_file" ]
+path_script="$METAGENOME2VEC_PATH/metagenome2vec/data_processing/simulation/create_camisim_config_file.py"
+
+if $help
 then
-  usage
-  exit
+  python $path_script --help
+  exit 0
 fi
 
 eval $(parse_yaml $conf_file)
 
-
-python $METAGENOME2VEC_PATH/metagenome2vec/data_processing/simulation/create_camisim_config_file.py \
+python $path_script \
     -nc $n_cpus \
     -nsc $n_sample_by_class \
     -ct $computation_type \

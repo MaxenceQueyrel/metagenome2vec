@@ -4,13 +4,13 @@
 
 args $0 "$@"
 
-if [ -z "$conf_file" ]
-then
-  usage
-  exit
-fi
+path_script="$METAGENOME2VEC_PATH/metagenome2vec/data_processing/metagenome/kmerization.py"
 
-eval $(parse_yaml $conf_file)
+if $help
+then
+  python $path_script --help
+  exit 0
+fi
 
 if [ $overwrite = "True" ]
 then
@@ -39,7 +39,7 @@ for path in $path_data/*; do
      --conf spark.driver.memoryOverhead=$driver_memory_overhead \
      --conf spark.executor.memoryOverhead=$executor_memory_overhead \
      --files $METAGENOME2VEC_PATH/metagenome2vec/utils/transformation_ADN.cpython-38-x86_64-linux-gnu.so \
-     $METAGENOME2VEC_PATH/metagenome2vec/data_processing/metagenome/kmerization.py \
+     $path_script \
      -nsl $n_sample_load \
      -k $k \
      -pd $path \

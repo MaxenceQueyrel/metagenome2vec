@@ -4,13 +4,16 @@
 
 args $0 "$@"
 
-if [ -z "$conf_file" ]
+path_script="$METAGENOME2VEC_PATH/metagenome2vec/data_processing/metagenome/bok_split.py"
+
+if $help
 then
-  usage
-  exit
+  python $path_script --help
+  exit 0
 fi
 
 eval $(parse_yaml $conf_file)
+
 
 for file in $path_data/*; do
   filename=`basename $file`
@@ -37,7 +40,7 @@ for file in $path_data/*; do
      --conf spark.driver.memoryOverhead=$driver_memory_overhead \
      --conf spark.executor.memoryOverhead=$executor_memory_overhead \
      --files $METAGENOME2VEC_PATH/metagenome2vec/utils/transformation_ADN.cpython-38-x86_64-linux-gnu.so \
-     $METAGENOME2VEC_PATH/metagenome2vec/data_processing/metagenome/bok_split.py \
+     $path_script \
      -mo $mode \
      -k $k \
      -s $s \

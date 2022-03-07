@@ -4,14 +4,16 @@
 
 args $0 "$@"
 
-if [ -z "$conf_file" ]
+path_script="$CAMISIM/metagenomesimulation.py"
+
+if $help
 then
-  usage
-  exit
+  python $path_script --help
+  exit 0
 fi
 
 eval $(parse_yaml $conf_file)
 
-python $CAMISIM/metagenomesimulation.py --debug $init_file
+python $path_script --debug $init_file
 
 

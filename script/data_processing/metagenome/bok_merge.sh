@@ -4,10 +4,12 @@
 
 args $0 "$@"
 
-if [ -z "$conf_file" ]
+path_script="$METAGENOME2VEC_PATH/metagenome2vec/data_processing/metagenome/bok_merge.py"
+
+if $help
 then
-  usage
-  exit
+  python $path_script --help
+  exit 0
 fi
 
 eval $(parse_yaml $conf_file)
@@ -40,7 +42,7 @@ do
    --conf spark.driver.memoryOverhead=$driver_memory_overhead \
    --conf spark.executor.memoryOverhead=$executor_memory_overhead \
    --files $METAGENOME2VEC_PATH/metagenome2vec/utils/transformation_ADN.cpython-38-x86_64-linux-gnu.so \
-   $METAGENOME2VEC_PATH/metagenome2vec/data_processing/metagenome/bok_merge.py \
+   $path_script \
    -mo $mode \
    -np $num_partitions \
    -pd $path_data"/k_"$k"_s_"$s \

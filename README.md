@@ -27,7 +27,7 @@ cd $METAGENOME2VEC_PATH/Docker/CAMISIM; make
 
 ##### Data download
 ```bash
-bash download_metagenomic_data_from_tsv_file.sh --path-input $METAGENOME2VEC_PATH/data/cirrhosis/download_file.tsv --path-output ~/Documents/tmp/data_cirrhosis/
+bash $METAGENOME2VEC_PATH/script/data_processing/dowload/download_metagenomic_data_from_tsv_file.sh --path-input $METAGENOME2VEC_PATH/data/cirrhosis/download_file.tsv --path-output ~/Documents/tmp/data_cirrhosis/
 ```
 
 ##### Run data preprocessing
