@@ -6,7 +6,7 @@ args $0 "$@"
 
 path_script="$CAMISIM/metagenomesimulation.py"
 
-if $help
+if [[ $help == "true" ]]
 then
   python $path_script --help
   exit 0

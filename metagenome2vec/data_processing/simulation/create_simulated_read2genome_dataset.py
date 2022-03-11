@@ -88,18 +88,14 @@ def create_simulated_dataset(path_data, valid_size=None, n_sample_load=-1, overw
 
 if __name__ == "__main__":
     args = parser_creator.ParserCreator().parser_create_simulated_read2genome_dataset()
-    n_sample_load = args.n_sample_load
-    overwrite = args.overwrite
     path_data = args.path_data
-    valid_size = args.valid_size
-    path_metadata = args.path_metadata
 
     name_matrix_save = reads_genomes_file_name
     name_matrix_save_valid = reads_genomes_file_name + "_valid"
-    df_taxonomy_ref = pd.read_csv(path_metadata)
+    df_taxonomy_ref = pd.read_csv(args.path_metadata)
     D_taxonomy_mapping = df_taxonomy_ref[[ncbi_id_name, species_name, genus_name, family_name]].astype(str).set_index(ncbi_id_name).to_dict()
     # Create simulation datasets for train and valid
-    create_simulated_dataset(path_data, valid_size, n_sample_load, overwrite=overwrite)
+    create_simulated_dataset(path_data, args.valid_size, args.n_sample_load, overwrite=args.overwrite)
 
     # Create fastdna inputs
     prefix_reads = "in_fastdna_reads"
@@ -113,7 +109,7 @@ if __name__ == "__main__":
                                prefix_species,
                                prefix_genus,
                                prefix_family)
-    if valid_size is not None:
+    if args.valid_size:
         dataframe_to_fastdna_input(path_data, name_matrix_save_valid,
                                    prefix_reads + "_valid",
                                    prefix_tax_id + "_valid",

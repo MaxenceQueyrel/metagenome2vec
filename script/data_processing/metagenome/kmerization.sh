@@ -6,13 +6,13 @@ args $0 "$@"
 
 path_script="$METAGENOME2VEC_PATH/metagenome2vec/data_processing/metagenome/kmerization.py"
 
-if $help
+if [[ $help == "true" ]]
 then
   python $path_script --help
   exit 0
 fi
 
-if [ $overwrite = "True" ]
+if [[ $overwrite = "True" ]]
 then
   rm -r $path_save
 fi

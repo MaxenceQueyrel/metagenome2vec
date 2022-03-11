@@ -6,7 +6,7 @@ args $0 "$@"
 
 path_script="$METAGENOME2VEC_PATH/metagenome2vec/data_processing/metagenome/bok_split.py"
 
-if $help
+if [[ $help == "true" ]]
 then
   python $path_script --help
   exit 0
