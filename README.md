@@ -64,3 +64,13 @@ docker run --rm --name camisim -dt --memory="4g" --memory-swap="4g" --cpus="4.0"
 docker exec -i camisim bash $METAGENOME2VEC_PATH/script/data_processing/simulation/run_camisim.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/simulation/run_camisim.yaml
 ```
 The first line initiate the docker container and the second one run the simulation that simulates metagenomic samples in the folder camisim/dataset/my_folder_in_init_file
+
+###### Clean simulation files to create datasets
+- Preprocessing for read2genome dataset
+```bash
+bash $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_read2genome.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_read2genome.yaml
+```
+- Preprocessing for metagenome2vec dataset
+```bash
+bash $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_metagenome2vec.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_metagenome2vec.yaml
+```
