@@ -1,6 +1,5 @@
 import pandas as pd
 import os
-import sys
 import json
 import csv
 import numpy as np
@@ -13,22 +12,16 @@ except:
     pass
 
 from tqdm import tqdm
-root_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-sys.path.insert(0, os.path.join(root_folder, "utils"))
-sys.path.insert(0, os.path.join(root_folder, "read2vec"))
-sys.path.insert(0, os.path.join(root_folder, "read2genome"))
 
-from stat_func import ttest_cv
-from basic import BasicReadEmbeddings
-from fastTextEmbed import FastTextReadEmbeddings
-from transformer import Seq2Seq
-from fastDnaEmbed import FastDnaEmbed
-
-from h2oModel import H2oModel
-from fastDnaPred import FastDnaPred
-from transformerClassifier import TransformerClassifier
-
-from string_names import *
+from metagenome2vec.utils.stat_func import ttest_cv
+from metagenome2vec.utils.string_names import *
+from metagenome2vec.read2vec.basic import BasicReadEmbeddings
+from metagenome2vec.read2vec.fastTextEmbed import FastTextReadEmbeddings
+from metagenome2vec.read2vec.transformer import Seq2Seq
+from metagenome2vec.read2vec.fastDnaEmbed import FastDnaEmbed
+from metagenome2vec.read2genome.h2oModel import H2oModel
+from metagenome2vec.read2genome.fastDnaPred import FastDnaPred
+from metagenome2vec.read2genome.transformerClassifier import TransformerClassifier
 
 
 def load_embeddings(path_embeddings, skip_kmer_name=True, L_kmer_to_del=None):

@@ -1,10 +1,7 @@
 import os
-from metagenome2vec.utils import file_manager
-from metagenome2vec.utils import parser_creator
-from metagenome2vec.utils import transformation_ADN
-
 from tqdm import tqdm
 import re
+from metagenome2vec.utils import file_manager, parser_creator, transformation_ADN
 
 
 if __name__ == "__main__":

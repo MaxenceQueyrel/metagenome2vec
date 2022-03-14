@@ -2,7 +2,6 @@ import random
 import dill
 from pathlib import Path
 import shutil
-import sys
 import os
 import math
 import time
@@ -13,20 +12,15 @@ import torch.nn.functional as F
 from torch.nn import TransformerEncoderLayer
 import torch.optim as optim
 from torchtext import vocab
-from torchtext.data import ReversibleField, Dataset
-from torchtext.datasets import LanguageModelingDataset
+from torchtext.legacy.data import ReversibleField, Dataset
+from torchtext.legacy.datasets import LanguageModelingDataset
 from torch.nn import AdaptiveLogSoftmaxWithLoss
 from torch.nn import Linear, Dropout, LayerNorm, TransformerEncoder
 from torch.utils.data import DataLoader
 
-
-root_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-sys.path.insert(0, os.path.join(root_folder, "utils"))
 from metagenome2vec.utils import parser_creator
-from metagenome2vec.utils import file_manager
-from metagenome2vec.read2vec import read2vec
+from metagenome2vec.read2vec.read2vec import Read2Vec
 
-import logging
 from torchtext.nn import MultiheadAttentionContainer, InProjContainer, ScaledDotProduct
 
 

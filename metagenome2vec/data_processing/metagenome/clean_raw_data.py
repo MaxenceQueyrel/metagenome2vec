@@ -1,8 +1,6 @@
 import os
 import logging
-from metagenome2vec.utils import file_manager
-from metagenome2vec.utils import spark_manager
-from metagenome2vec.utils import parser_creator
+from metagenome2vec.utils import file_manager, spark_manager, parser_creator
 
 
 def preprocess_metagenomic_data(path_data, path_save, spark, n_sample_load=-1, mode="local",

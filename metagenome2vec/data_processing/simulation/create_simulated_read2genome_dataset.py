@@ -1,16 +1,13 @@
 import os
-import sys
-
-root_folder = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-sys.path.insert(0, os.path.join(root_folder, "utils"))
-
 from tqdm import tqdm
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import re
-import parser_creator
-from string_names import *
+
+from metagenome2vec.utils import parser_creator
+from metagenome2vec.utils.string_names import *
+
 SEED = 42
 
 

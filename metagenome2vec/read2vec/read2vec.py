@@ -1,5 +1,3 @@
-import sys
-import os
 from collections import Counter, defaultdict
 import pyspark.sql.types as T
 import pyspark.sql.functions as F
@@ -8,15 +6,7 @@ import pandas as pd
 from tqdm import tqdm
 import abc
 
-root_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-sys.path.insert(0, os.path.join(root_folder, "utils"))
-
-if sys.version_info[0] == 3 and sys.version_info[1] == 7:
-    import transformation_ADN
-else:
-    import transformation_ADN2 as transformation_ADN
-
-#os.environ['ARROW_PRE_0_15_IPC_FORMAT'] = '1'
+from metagenome2vec.utils import transformation_ADN
 
 
 class Read2Vec(object):

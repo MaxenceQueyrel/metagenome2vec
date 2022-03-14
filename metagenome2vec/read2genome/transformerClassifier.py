@@ -1,6 +1,4 @@
-from read2genome import Read2Genome
 import os
-import sys
 import math
 import time
 import torch
@@ -10,39 +8,21 @@ import numpy as np
 from pyspark.sql import functions as F
 from pyspark.sql import types as T
 from torch.nn import TransformerEncoder, TransformerEncoderLayer
-from packaging import version
-import torchtext
-if version.parse("0.9.0") <= version.parse(torchtext.__version__):
-    del torchtext
-    import torchtext.legacy as torchtext
-    from torchtext.legacy import vocab
-    from torchtext.legacy.data import Field, LabelField
-    from torchtext.legacy.data import TabularDataset, BucketIterator, Dataset
-else:
-    from torchtext import vocab
-    from torchtext.data import Field, LabelField
-    from torchtext.data import TabularDataset, BucketIterator, Dataset
+
+from torchtext import vocab
+from torchtext.legacy.data import Field, LabelField
+from torchtext.legacy.data import TabularDataset, BucketIterator, Dataset
 
 import torch.optim as optim
 import dill
 from pathlib import Path
 
+from metagenome2vec.read2vec.read2vec import Read2Vec
+from metagenome2vec.read2genome.read2genome import Read2Genome
+from metagenome2vec.utils import parser_creator, file_manager
+import logging
 
-root_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-sys.path.insert(0, os.path.join(root_folder, "utils"))
-sys.path.insert(0, os.path.join(root_folder, "read2vec"))
-sys.path.insert(0, os.path.join(root_folder, "read2genome"))
-
-from read2vec import Read2Vec
-import parser_creator
-import logger
-import hdfs_functions as hdfs
-
-if sys.version_info[0] == 3 and sys.version_info[1] == 7:
-    import transformation_ADN
-else:
-    import transformation_ADN2 as transformation_ADN
-
+import transformation_ADN
 #os.environ['ARROW_PRE_0_15_IPC_FORMAT'] = '1'
 
 
@@ -285,7 +265,7 @@ class TransformerClassifier(Read2Genome, Read2Vec):
             if i % log_interval == 0 and i > 0:
                 cur_loss = inter_loss / log_interval
                 elapsed = time.time() - start_time
-                log.write('| {:5d}/{:5d} batches | '
+                logging.info('| {:5d}/{:5d} batches | '
                           'lr {:02.4f} | ms/batch {:5.2f} | '
                           'loss {:5.2f} | ppl {:8.2f}'.format(
                     i, len(self.train_data), self.scheduler.get_last_lr()[0],
@@ -324,12 +304,9 @@ class TransformerClassifier(Read2Genome, Read2Vec):
 
             epoch_mins, epoch_secs = epoch_time(start_time, end_time)
 
-            log.write('Epoch: {:02} | Time: {}m {}s'.format(epoch, epoch_mins, epoch_secs))
-            log.write('\tTrain Loss: {:.3f} | Train PPL: {:7.3f}'.format(train_loss, math.exp(train_loss)))
-            log.write('\tVal. Loss: {:.3f} | Val. PPL: {:7.3f}'.format(valid_loss, math.exp(valid_loss)))
-            print('Epoch: {:02} | Time: {}m {}s'.format(epoch, epoch_mins, epoch_secs))
-            print('\tTrain Loss: {:.3f} | Train PPL: {:7.3f}'.format(train_loss, math.exp(train_loss)))
-            print('\tVal. Loss: {:.3f} | Val. PPL: {:7.3f}'.format(valid_loss, math.exp(valid_loss)))
+            logging.info('Epoch: {:02} | Time: {}m {}s'.format(epoch, epoch_mins, epoch_secs))
+            logging.info('\tTrain Loss: {:.3f} | Train PPL: {:7.3f}'.format(train_loss, math.exp(train_loss)))
+            logging.info('\tVal. Loss: {:.3f} | Val. PPL: {:7.3f}'.format(valid_loss, math.exp(valid_loss)))
 
             if valid_loss < best_valid_loss:
                 best_valid_loss = valid_loss
@@ -490,23 +467,17 @@ if __name__ == "__main__":
     path_data_train, path_data_valid = args.path_data.split(',')
     max_length = args.max_length
 
-    path_log = args.path_log
-    log_file = args.log_file
+    logging.basicConfig(filename=os.path.join(args.path_log, args.log_file), level=logging.DEBUG)
 
-    log = logger.Logger(path_log, log_file, log_file,
-                        variable_time={"k": k, "embedding_size": emb_dim,
-                                       "n_steps": n_steps, "batch_size": batch_size},
-                        **vars(args))
-
-    print("Initializing seq2seq model")
+    logging.info("Initializing seq2seq model")
     model = TransformerClassifier(k, max_length=max_length, learning_rate=learning_rate, id_gpu=id_gpu, batch_size=batch_size,
                                   hid_dim=hid_dim,  dropout=dropout, n_iterations=n_iterations, emb_dim=emb_dim,
                                   nhead=nhead, nlayers=nlayers, tax_level=tax_level, f_name=f_name)
-    print("Creating field iterator")
+    logging.info("Creating field iterator")
     model.create_field_iterator(path_data_train, path_data_valid, path_kmer2vec)
-    print("Creating Model")
+    logging.info("Creating Model")
     model.create_model()
-    hdfs.create_dir(os.path.join(path_analysis, "read2vec"), mode="local")
+    file_manager.create_dir(os.path.join(path_analysis, "read2vec"), mode="local")
     clip = 1.
-    print("Fit Model")
+    logging.info("Fit Model")
     model.fit(epochs=n_steps, clip=clip, path_model=os.path.join(path_analysis, "read2genome", f_name))

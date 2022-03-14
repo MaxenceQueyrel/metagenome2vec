@@ -1,17 +1,16 @@
-from read2genome import Read2Genome
 import pandas as pd
 import subprocess
 import os
 import string
 import random
 import time
-from pyspark.sql.functions import monotonically_increasing_id, col, row_number, udf
+from pyspark.sql.functions import monotonically_increasing_id, row_number, udf
 from pyspark.sql import types as T
 from pyspark.sql import Window
 from string_names import *
 
-root_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-import hdfs_functions as hdfs
+from metagenome2vec.utils import spark_manager
+from metagenome2vec.read2genome.read2genome import Read2Genome
 
 random.seed(time.time())
 
@@ -49,7 +48,7 @@ class FastDnaPred(Read2Genome):
         X = X.withColumn(read_formatted_name, udfFormatRead(X[col_name], X[index_name])).persist()
         X.count()
 
-        hdfs.write_csv_from_spark(X.select(read_formatted_name), read_name)
+        spark_manager.write_csv_from_spark(X.select(read_formatted_name), read_name)
 
         subprocess.check_output("%s predict-prob %s %s > %s" % (os.path.join(self.path_fastDNA, "fastdna"),
                                                                 self.path_model,

@@ -14,7 +14,7 @@ fi
 
 eval $(parse_yaml $conf_file)
 
-if [[ $overwrite = "True" ]]
+if [[ $overwrite = "true" ]]
 then
   rm -r $path_data/k_"$k"_s_"$s"/bok.parquet
 fi

@@ -1,5 +1,5 @@
 import numpy as np
-from read2vec import Read2Vec
+from metagenome2vec.read2vec.read2vec import Read2Vec
 import fasttext
 
 

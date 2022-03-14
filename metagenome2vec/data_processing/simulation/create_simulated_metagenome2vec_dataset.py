@@ -1,13 +1,9 @@
 import os
-import sys
 import subprocess
-
-root_folder = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-sys.path.insert(0, os.path.join(root_folder, "utils"))
-
 import csv
 import shutil
-import parser_creator
+
+from metagenome2vec.utils import parser_creator
 
 
 if __name__ == "__main__":

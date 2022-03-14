@@ -5,9 +5,7 @@ import time
 import re
 import logging
 
-from metagenome2vec.utils import file_manager
-from metagenome2vec.utils import spark_manager
-from metagenome2vec.utils import parser_creator
+from metagenome2vec.utils import file_manager, spark_manager, parser_creator
 
 
 # Fast without saving tmp matrix

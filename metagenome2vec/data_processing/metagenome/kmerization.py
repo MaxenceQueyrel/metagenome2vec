@@ -1,9 +1,7 @@
 import os
 import logging
 
-from metagenome2vec.utils import spark_manager
-from metagenome2vec.utils import parser_creator
-from metagenome2vec.utils import transformation_ADN
+from metagenome2vec.utils import spark_manager, parser_creator, transformation_ADN
 
 
 def kmerize_metagenomic_data(spark, path_data, path_save, k_mer_size, n_sample_load=-1,

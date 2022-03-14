@@ -2,9 +2,7 @@
 
 import os
 import logging
-from metagenome2vec.utils import file_manager
-from metagenome2vec.utils import spark_manager
-from metagenome2vec.utils import parser_creator
+from metagenome2vec.utils import file_manager, spark_manager, parser_creator
 
 
 def bok_split(spark, path_data, path_save, k_mer_size, step, mode="local", num_partitions=50, overwrite=False):

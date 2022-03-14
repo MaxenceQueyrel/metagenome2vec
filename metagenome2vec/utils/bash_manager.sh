@@ -92,9 +92,8 @@ function args()
         esac
         shift
     done
-    if [ -z "$conf_file" ] && [ $help != true ]
+    if [[ -z "$conf_file" ]] && [[ $help != "true" ]]
     then
-      echo ! $help
       usage
       exit
     fi

@@ -10,13 +10,9 @@ import json
 from ete3 import NCBITaxa
 import numpy as np
 import shutil
-import sys
 
-root_folder = os.path.dirname(os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
-sys.path.insert(0, os.path.join(root_folder, "utils"))
-
-import parser_creator
-from string_names import *
+from metagenome2vec.utils import parser_creator
+from metagenome2vec.utils.string_names import *
 
 
 # Functions
