@@ -11,16 +11,11 @@ from h2o.estimators.deeplearning import H2ODeepLearningEstimator
 from h2o.estimators.random_forest import H2ORandomForestEstimator
 from h2o.automl import H2OAutoML
 from h2o.grid.grid_search import H2OGridSearch
-
-root_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-sys.path.insert(0, os.path.join(root_folder, "utils"))
-sys.path.insert(0, os.path.join(root_folder, "read2vec"))
-
-import hdfs_functions as hdfs
-import parser_creator
-import data_manager
+import logging
+from metagenome2vec.utils import file_manager, spark_manager, parser_creator, data_manager
+from metagenome2vec.utils.string_names import *
 import logger
-from string_names import *
+
 
 SEED = 42
 
@@ -36,7 +31,7 @@ def run_read2vec(spark, path_matrix, df_metadata, path_save_read2vec, num_partit
     :param overwrite: Boolean, if True rewrite a matrix if it exists
     :return:
     """
-    if overwrite or not hdfs.dir_exists(path_save_read2vec, mode):
+    if overwrite or not file_manager.dir_exists(path_save_read2vec, mode):
         # Loading data
         log.write("Loading the data set")
         log.write(path_matrix)
@@ -133,7 +128,7 @@ if __name__ == "__main__":
     # ---------- Spark Conf -----------#
     ####################################
 
-    spark = hdfs.createSparkSession("read2genome")
+    spark = spark_manager.createSparkSession("read2genome")
 
     #############################
     # --- Preparing read2vec ---#
@@ -293,7 +288,7 @@ if __name__ == "__main__":
     if tax_taken is not None:
         name_model = name_model + "_n_tax_%s" % n_tax_taken
     path_model = os.path.join(path_model, name_model)
-    hdfs.create_dir(path_model, mode)
+    file_manager.create_dir(path_model, mode)
 
     h2o_name = "model.h2o"
     model.model_id = h2o_name

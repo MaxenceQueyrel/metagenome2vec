@@ -34,7 +34,6 @@ for path in $path_data/*; do
      --driver-memory $driver_memory \
      --executor-memory $executor_memory \
      --master local[*] \
-     --deploy-mode client \
      --conf spark.network.timeout=800 \
      --conf spark.driver.memoryOverhead=$driver_memory_overhead \
      --conf spark.executor.memoryOverhead=$executor_memory_overhead \

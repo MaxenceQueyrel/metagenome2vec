@@ -74,3 +74,13 @@ bash $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_read2
 ```bash
 bash $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_metagenome2vec.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_metagenome2vec.yaml
 ```
+
+###### read2vec
+```bash
+bash $METAGENOME2VEC_PATH/script/read2genome/fastdna.sh --conf-file $METAGENOME2VEC_PATH/script/read2genome/fastdna.yaml
+```
+
+###### metagenome2vec
+```bash
+bash $METAGENOME2VEC_PATH/script/metagenome_vectorization/embeddings.sh --conf-file $METAGENOME2VEC_PATH/script/metagenome_vectorization/embeddings.yaml
+```

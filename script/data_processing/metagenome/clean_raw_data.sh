@@ -28,18 +28,15 @@ for file in $path_data/*; do
    --conf spark.cleaner.referenceTracking.blocking=false \
    --conf spark.cleaner.referenceTracking.blocking.shuffle=false \
    --conf spark.cleaner.referenceTracking.cleanCheckpoints=false \
-   --conf spark.maxRemoteBlockSizeFetchToMem=2147483135 \
    --num-executors $num_executors \
    --executor-cores $executor_cores \
    --driver-memory $driver_memory \
    --executor-memory $executor_memory \
    --master local[*] \
-   --deploy-mode client \
    --conf spark.network.timeout=800 \
    --conf spark.driver.memoryOverhead=$driver_memory_overhead \
    --conf spark.executor.memoryOverhead=$executor_memory_overhead \
    --files $METAGENOME2VEC_PATH/metagenome2vec/utils/transformation_ADN.cpython-38-x86_64-linux-gnu.so \
-   --py-files $METAGENOME2VEC_PATH/metagenome2vec.zip \
    $path_script \
    -nsl $n_sample_load \
    -pd $path_data/$filename \

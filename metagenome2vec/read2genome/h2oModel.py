@@ -1,4 +1,4 @@
-from read2genome import Read2Genome
+from metagenome2vec.read2genome.read2genome import Read2Genome
 import h2o
 import pysparkling
 import pandas as pd

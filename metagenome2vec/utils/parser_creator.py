@@ -329,6 +329,10 @@ class ParserCreator(object):
                                                                     "type": str,
                                                                     "default": None,
                                                                     "help": "Complete path to read2vec model"}}
+        self.D_parser["-prg"] = {"name": "--path_read2genome", "arg": {"metavar": "path_read2genome",
+                                                                       "type": str,
+                                                                       "default": None,
+                                                                       "help": "Complete path to read2vec model"}}
         self.D_parser["-pmca"] = {"name": "--path_metagenome_cut_analyse",
                                   "arg": {"metavar": "path_metagenome_cut_analyse",
                                           "type": str,
@@ -722,7 +726,7 @@ class ParserCreator(object):
     def parser_metagenome2vec(self):
         parser = argparse.ArgumentParser(description="Arguments for transformation metagenomes' reads to embeddings")
         for k in ['-ps', '-k', '-np', '-mo', '-pd', '-lf', '-T', '-prv', '-pt', '-o', '-pg', '-ng', '-im',
-                  '-rv', '-ig', '-pmwc', '-ct', '-pmd', '-nsl', '-pm', '-ni', '-rg', '-pfsr', '-pmca', '-il', '-pp']:
+                  '-rv', '-ig', '-pmwc', '-ct', '-pmd', '-nsl', '-prg', '-ni', '-rg', '-pfsr', '-pmca', '-il', '-pp']:
             if k == '-f':
                 self.D_parser[k]["arg"]["required"] = True
                 self.D_parser[k]["arg"]["help"] = "The suffix name of the matrix file saved. To identify all matrix"
