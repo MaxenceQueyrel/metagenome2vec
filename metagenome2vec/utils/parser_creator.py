@@ -708,9 +708,9 @@ class ParserCreator(object):
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
         return parser.parse_args()
 
-    def parser_BoK(self):
+    def parser_bok(self):
         parser = argparse.ArgumentParser(description="Arguments for structuring metagenomes to BoK representation")
-        for k in ['-pd', '-k', '-mo', '-o', '-pg', '-lf', '-ng', '-pmd']:
+        for k in ['-pd', '-k', '-o', '-pg', '-lf', '-pmd']:
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
             if k == '-k':
                 self.D_parser[k]["arg"]["required"] = True

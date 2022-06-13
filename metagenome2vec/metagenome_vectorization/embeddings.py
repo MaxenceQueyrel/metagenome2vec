@@ -11,10 +11,8 @@ import pysparkling
 import pickle
 import logging
 
-
 from metagenome2vec.utils import file_manager, spark_manager, parser_creator, data_manager
 from metagenome2vec.utils.string_names import *
-
 
 
 def compute(df, r2v, metagenome, target, computation_type, n_sample_load=-1, r2g=None):
@@ -162,52 +160,7 @@ def compute(df, r2v, metagenome, target, computation_type, n_sample_load=-1, r2g
     return None, df
 
 
-def metagenome2vec(r2v, spark, computation_type, r2g=None):
-    """
-    Compute the transformation for each metagenome and save it
-    :param spark: SparkSession
-    """
-    # We compute the first folder containing the first metagenome which will be merged with the
-    # result of the other folder to create a big database
-    # All computation are saved for each folder
-    file_name_res_sil = os.path.join(path_save, "tabular.csv")
-    file_name_res_mil = os.path.join(path_save, "mil.csv")
-    X_sil = X_mil = None
-    if overwrite is False and os.path.exists(file_name_res_sil):
-        X_sil = pd.read_csv(file_name_res_sil)
-    if overwrite is False and os.path.exists(file_name_res_mil):
-        X_mil = pd.read_csv(file_name_res_mil)
-    for m, metagenome in enumerate(metadata[id_fasta_name]):
-        if m > nb_metagenome:
-            break
-        if X_sil is not None and \
-                X_mil is not None and \
-                metagenome in X_sil[id_fasta_name].tolist()  and \
-                metagenome in X_mil[id_fasta_name].tolist():
-            continue  # already exists
-        d = time.time()
-        logging.info("Iteration %s %s" % (m, metagenome))
-        df = spark.read.parquet(os.path.join(path_data, metagenome))
-        # Only if we are testing the code
-        x_sil, x_mil = compute(df, r2v, metagenome, metadata[group_name].iloc[m], computation_type, n_sample_load, r2g)
-        if 0 in computation_type:
-            if X_sil is not None:
-                X_sil = pd.concat([X_sil, x_sil])
-            else:
-                X_sil = x_sil.copy()
-            X_sil.to_csv(file_name_res_sil, index=False)
-        if 1 in computation_type:
-            if X_mil is not None:
-                X_mil = pd.concat([X_mil, x_mil])
-            else:
-                X_mil = x_mil.copy()
-            X_mil.to_csv(file_name_res_mil, index=False)
-        logging.info("Duration: %s" % (time.time()-d))
-        spark.catalog.clearCache()
-        del x_sil, x_mil
-
-
-def metagenome2vec_one(id_label, r2v, spark, computation_type, r2g=None):
+def metagenome2vec(id_label, r2v, spark, computation_type, r2g=None):
     """
     Compute the transformation for each metagenome and save it
     :param spark: SparkSession
@@ -225,7 +178,7 @@ def metagenome2vec_one(id_label, r2v, spark, computation_type, r2g=None):
 
 def metagenome2vec_merge():
     """
-    Merge file computed by metagenome2vec_one
+    Merge file computed by metagenome2vec
     """
     file_name_res_sil = os.path.join(path_save, "tabular.csv")
     file_name_res_mil = os.path.join(path_save, "mil.csv")
@@ -364,10 +317,7 @@ if __name__ == "__main__":
         r2g = None
     if 0 in computation_type or 1 in computation_type:
         logging.info("Begin embeddings matrix structuring")
-        if id_label is None:
-            metagenome2vec(r2v, spark, computation_type, r2g)
-        else:
-            metagenome2vec_one(id_label, r2v, spark, computation_type, r2g)
+        metagenome2vec(id_label, r2v, spark, computation_type, r2g)
         logging.info("End computation")
     elif 2 in computation_type:
         logging.info("Begin embeddings cut matrix structuring")
