@@ -75,7 +75,7 @@ bash $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_read2
 bash $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_metagenome2vec.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_metagenome2vec.yaml
 ```
 
-###### read2vec
+###### read2genome with fastDNA
 ```bash
 bash $METAGENOME2VEC_PATH/script/read2genome/fastdna.sh --conf-file $METAGENOME2VEC_PATH/script/read2genome/fastdna.yaml
 ```
