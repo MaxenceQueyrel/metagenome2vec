@@ -58,14 +58,14 @@ bash $METAGENOME2VEC_PATH/script/data_processing/simulation/create_camisim_confi
 ```
 The script creates a init file in camisim/config_files and an empty folder in camisim/dataset
 
-###### Run simulation
+##### Run simulation
 ```bash
 docker run --rm --name camisim -dt --memory="4g" --memory-swap="4g" --cpus="4.0" -e METAGENOME2VEC_PATH=$METAGENOME2VEC_PATH -e CAMISIM=$CAMISIM -e NANOSIM=$NANOSIM -v /your/path/:/your/path/ maxence27/camisim:1.0`
 docker exec -i camisim bash $METAGENOME2VEC_PATH/script/data_processing/simulation/run_camisim.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/simulation/run_camisim.yaml
 ```
 The first line initiate the docker container and the second one run the simulation that simulates metagenomic samples in the folder camisim/dataset/my_folder_in_init_file
 
-###### Clean simulation files to create datasets
+##### Clean simulation files to create datasets
 - Preprocessing for read2genome dataset
 ```bash
 bash $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_read2genome.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_read2genome.yaml
@@ -75,12 +75,12 @@ bash $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_read2
 bash $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_metagenome2vec.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_metagenome2vec.yaml
 ```
 
-###### read2genome with fastDNA
+##### Run read2genome with fastDNA
 ```bash
 bash $METAGENOME2VEC_PATH/script/read2genome/fastdna.sh --conf-file $METAGENOME2VEC_PATH/script/read2genome/fastdna.yaml
 ```
 
-###### metagenome2vec
+##### Run metagenome2vec
 ```bash
 bash $METAGENOME2VEC_PATH/script/metagenome_vectorization/embeddings.sh --conf-file $METAGENOME2VEC_PATH/script/metagenome_vectorization/embeddings.yaml
 ```
