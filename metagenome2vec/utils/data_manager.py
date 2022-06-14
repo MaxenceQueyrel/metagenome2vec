@@ -17,11 +17,11 @@ from metagenome2vec.utils.stat_func import ttest_cv
 from metagenome2vec.utils.string_names import *
 from metagenome2vec.read2vec.basic import BasicReadEmbeddings
 from metagenome2vec.read2vec.fastTextEmbed import FastTextReadEmbeddings
-from metagenome2vec.read2vec.transformer import Seq2Seq
+# from metagenome2vec.read2vec.transformer import Seq2Seq
 from metagenome2vec.read2vec.fastDnaEmbed import FastDnaEmbed
 from metagenome2vec.read2genome.h2oModel import H2oModel
 from metagenome2vec.read2genome.fastDnaPred import FastDnaPred
-from metagenome2vec.read2genome.transformerClassifier import TransformerClassifier
+# from metagenome2vec.read2genome.transformerClassifier import TransformerClassifier
 
 
 def load_embeddings(path_embeddings, skip_kmer_name=True, L_kmer_to_del=None):
@@ -372,6 +372,7 @@ def load_read2vec(read2vec, path_read2vec, spark=None, path_metagenome_word_coun
         r2v = FastTextReadEmbeddings(path_model, dico_index, reverse_index, k)
     elif read2vec == "fastDNA":
         r2v = FastDnaEmbed(path_read2vec, spark, path_tmp_folder)
+    # TODO
     elif read2vec == "transformer":
         r2v = Seq2Seq(k, id_gpu=id_gpu)
         r2v.loadModel(path_read2vec)
