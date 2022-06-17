@@ -1,0 +1,4 @@
+path_log: "$METAGENOME2VEC_PATH/logs/metagenome_structuring"
+k: 6
+path_data: $METAGENOME2VEC_PATH/data/metagenome/cirrhosis_small_bok/k_6_s_1
+path_metadata: $METAGENOME2VEC_PATH/data/metagenome/metadata.csv

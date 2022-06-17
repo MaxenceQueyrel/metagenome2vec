@@ -1,0 +1,14 @@
+input: /home/mqueyrel/Documents/work/tmp/simulation_files/camisim/dataset/illumina_abundance_balanced_species_V2_2_read2genome/in_fastdna_reads
+labels: /home/mqueyrel/Documents/work/tmp/simulation_files/camisim/dataset/illumina_abundance_balanced_species_V2_2_read2genome/in_fastdna_species
+k: 6
+dim: 50
+epoch: 3
+thread: 4
+noise: 0
+learning_rate: 0.001
+output: /home/mqueyrel/Documents/work/tmp/fastdna
+path_tmp_folder: /home/mqueyrel/Documents/work/tmp/
+kmer2vec: /home/mqueyrel/Documents/work/tmp/kmer2vec/simulated
+tax_taken: None
+max_length: 100
+name: test

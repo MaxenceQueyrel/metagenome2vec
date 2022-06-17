@@ -1,0 +1,17 @@
+input: /home/mqueyrel/Documents/work/tmp/simulation_files/camisim/dataset/illumina_abundance_balanced_species_V2_2_read2genome/in_fastdna_reads
+labels: /home/mqueyrel/Documents/work/tmp/simulation_files/camisim/dataset/illumina_abundance_balanced_species_V2_2_read2genome/in_fastdna_species
+f_name: h2o_test
+mode: local
+path_tmp_folder: /home/mqueyrel/Documents/work/tmp/
+num_partitions: 10
+k: 6
+tax_level: species
+path_model: /home/mqueyrel/Documents/work/tmp/model
+machine_learning_algorithm: dl
+max_model: 5
+n_fold: 5
+n_sample_load: -1
+path_read2vec: # $ANALYSE/kmer2vec/genome/506ref_tmp/fasttext/k_6_w_6_s_1/embSize_300_nStep_3_learRate_0.05
+tax_taken: None
+path_metagenome_word_count: None
+read2vec: basic
