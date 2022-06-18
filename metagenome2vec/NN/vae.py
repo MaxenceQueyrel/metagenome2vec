@@ -34,30 +34,12 @@ np.random.seed(SEED)
 torch.manual_seed(SEED)
 torch.cuda.manual_seed(SEED)
 
-root_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-sys.path.insert(0, os.path.join(root_folder, "utils"))
+from metagenome2vec.utils import parser_creator
+from metagenome2vec.utils import data_manager
+from metagenome2vec.utils import file_manager
+from metagenome2vec.utils.string_names import *
 
-import parser_creator
-import data_manager
-import hdfs_functions as hdfs
-from string_names import *
 
-############################################
-############ Global variables ##############
-############################################
-
-learning_rate = "learning_rate"
-batch_size = "batch_size"
-input_dim = "input_dim"
-n_epoch = "n_epoch"
-weight_decay = "weight_decay"
-step_size = "step_size"
-hidden_dim = "hidden_dim"
-n_layer_before_flatten = "n_layer_before_flatten"
-n_layer_after_flatten = "n_layer_after_flatten"
-dropout = "dropout"
-clip = "clip"
-activation_function = "activation_function"
 file_name_parameters = "hyper_parameters.pkl"
 vae_name = 'vae.pt'
 vae_fine_tuned_name = 'vae_fine_tuned.pt'
@@ -729,6 +711,7 @@ if __name__ == "__main__":
     weight_decay_ = args.weight_decay
     dropout_ = args.dropout
     clip_ = args.clip
+    activation_function_= args.activation_function
     path_tmp = args.path_tmp_folder
     n_memory = args.n_memory * 1000 * 1024 * 1024  # To convert in giga
     computation_type = args.computation_type
@@ -766,6 +749,7 @@ if __name__ == "__main__":
 
     params = {input_dim: input_dim_,
               batch_size: batch_size_,
+              activation_function: activation_function_,
               n_epoch: n_steps_,
               learning_rate: learning_rate_,
               weight_decay: weight_decay_,
@@ -778,16 +762,17 @@ if __name__ == "__main__":
     n_output = len(set(y_.tolist()))
     n_output = 1 if n_output == 2 else n_output
 
+    file_manager.create_dir(path_model, mode="local")
+
     # Tune
     if tuning:
         os.environ["RAY_PICKLE_VERBOSE_DEBUG"] = "1"
         ray.init(num_cpus=np.int(np.ceil(D_resource["cpu"] * D_resource["worker"])),
                  object_store_memory=n_memory,
                  num_gpus=np.int(np.ceil(D_resource["gpu"] * D_resource["worker"])))
-        parameters = [#{"name": learning_rate, "type": "range", "bounds": [1e-4, 1e-1], "log_scale": True},
-                      {"name": learning_rate, "type": "range", "bounds": [1e-5, 1e-2], "value_type": "float"},
+        parameters = [{"name": learning_rate, "type": "range", "bounds": [1e-4, 1e-1], "log_scale": True},
                       {"name": weight_decay, "type": "choice", "values": [0.0, 1e-3], "value_type": "float"},
-                      # {"name": dropout, "type": "choice", "values": [0.0, 0.1]},
+                      {"name": dropout, "type": "choice", "values": [0.0, 0.1]},
                       {"name": activation_function, "type": "choice", "values": ["nn.ReLU", "nn.LeakyReLU"], "value_type": "str"},
                       {"name": batch_size, "type": "fixed", "value": 6, "value_type": "int"},
                       {"name": n_epoch, "type": "fixed", "value": 100, "value_type": "int"},
@@ -815,11 +800,9 @@ if __name__ == "__main__":
                            metric=metric_to_tune,
                            verbose=1,
                            resources_per_trial=resources_per_trial,
-                           local_dir=os.path.join(path_tmp, "ray_results_" + dataset_name)
-                           )
-        hdfs.create_dir(path_model, mode="local")
+                           local_dir=os.path.join(path_tmp, "ray_results_" + dataset_name))
+
         analyse.dataframe().to_csv(os.path.join(path_model, "tuning_results.csv"), index=False)
-        #best_parameters, values = ax.get_best_parameters()
         best_parameters = analyse.get_best_config(metric=metric_to_tune, mode="min")
         best_parameters[input_dim] = input_dim_
         save_model(path_model, best_parameters, genomes)

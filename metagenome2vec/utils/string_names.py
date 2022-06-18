@@ -51,3 +51,17 @@ control_category = "Control"
 read_formatted_name = "read_formatted"
 
 m2v_zip_name = "metagenome2vec.zip"
+
+# NN
+learning_rate = "learning_rate"
+batch_size = "batch_size"
+input_dim = "input_dim"
+n_epoch = "n_epoch"
+weight_decay = "weight_decay"
+step_size = "step_size"
+hidden_dim = "hidden_dim"
+n_layer_before_flatten = "n_layer_before_flatten"
+n_layer_after_flatten = "n_layer_after_flatten"
+dropout = "dropout"
+clip = "clip"
+activation_function = "activation_function"

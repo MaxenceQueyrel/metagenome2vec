@@ -446,6 +446,11 @@ class ParserCreator(object):
                                                                    "type": str,
                                                                    "default": "no",
                                                                    "choices": ["no", "yes", "only"]}}
+        self.D_parser["-AF"] = {"name": "--activation_function", "arg": {"metavar": "activation_function",
+                                                                 "type": str,
+                                                                 "default": "nn.ReLU",
+                                                                 "choices": ["nn.ReLU", "nn.LeakyReLU"],
+                                                                 "help": "The activation function used during training."}}
 
     def parser_bok_split(self):
         parser = argparse.ArgumentParser(description='Arguments for word count split')
@@ -613,7 +618,7 @@ class ParserCreator(object):
     def parser_vae(self):
         parser = argparse.ArgumentParser(description='Arguments for VAE script')
         for k in ['-pd', '-pmd', '-pm', '-dn', '-B', '-S', '-R', '-D', '-d', '-ct',
-                  '-DO', '-DV', '-ig', '-nm', '-TU', '-I', '-r', '-CL', '-pt', '-cv', '-TS']:
+                  '-DO', '-DV', '-ig', '-nm', '-TU', '-I', '-r', '-CL', '-pt', '-cv', '-TS', '-AF']:
             if k == '-dn':
                 self.D_parser[k]["arg"]["help"] = "The name of the model to save"
                 self.D_parser[k]["arg"]["default"] = "vae"

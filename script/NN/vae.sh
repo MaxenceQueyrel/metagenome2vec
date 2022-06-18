@@ -4,7 +4,7 @@
 
 args $0 "$@"
 
-path_script="$METAGENOME2VEC_PATH/metagenome2vec/metagenome_vectorization/embeddings.py"
+path_script="$METAGENOME2VEC_PATH/metagenome2vec/NN/vae.py"
 
 if [[ $help == "true" ]]
 then
@@ -14,8 +14,7 @@ fi
 
 eval $(parse_yaml $conf_file)
 
-command="$DEEPGENE/Pipeline/NN/vae.py \
-  -pd $path_data \
+string_args="-pd $path_data \
   -pm $path_model \
   -d $disease \
   -dn $dataset_name \
@@ -30,5 +29,14 @@ command="$DEEPGENE/Pipeline/NN/vae.py \
   -pmd $path_metadata \
   -D $weight_decay \
   -r $ressources \
-  -cv $cross_validation"
+  -cv $cross_validation \
+  -AF $activation_function"
+
+
+if [[ $tune == "True" ]]; then
+  string_args=$string_args" -TU"
+fi
+
+python $path_script $string_args
+  
 
