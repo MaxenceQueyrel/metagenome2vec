@@ -84,3 +84,8 @@ bash $METAGENOME2VEC_PATH/script/read2genome/fastdna.sh --conf-file $METAGENOME2
 ```bash
 bash $METAGENOME2VEC_PATH/script/metagenome_vectorization/embeddings.sh --conf-file $METAGENOME2VEC_PATH/script/metagenome_vectorization/embeddings.yaml
 ```
+
+##### Run Variational Auto Encoder
+```bash
+bash $METAGENOME2VEC_PATH/script/NN/vae.sh --conf-file $METAGENOME2VEC_PATH/script/NN/vae.yaml
+```

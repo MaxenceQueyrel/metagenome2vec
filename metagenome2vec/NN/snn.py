@@ -34,38 +34,17 @@ np.random.seed(SEED)
 torch.manual_seed(SEED)
 torch.cuda.manual_seed(SEED)
 
-root_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-sys.path.insert(0, os.path.join(root_folder, "utils"))
+from metagenome2vec.utils import parser_creator
+from metagenome2vec.utils import data_manager
+from metagenome2vec.utils import file_manager
+from metagenome2vec.utils.string_names import *
 
-import parser_creator
-import data_manager
-import hdfs_functions as hdfs
-from string_names import *
-
-############################################
-############ Global variables ##############
-############################################
-
-input_dim = "input_dim"
-batch_size = "batch_size"
-learning_rate = "learning_rate"
-batch_size = "batch_size"
-n_epoch = "n_epoch"
-weight_decay = "weight_decay"
-step_size = "step_size"
-hidden_dim = "hidden_dim"
-n_layer_before_flatten = "n_layer_before_flatten"
-n_layer_after_flatten = "n_layer_after_flatten"
-dropout = "dropout"
-clip = "clip"
-activation_function = "activation_function"
-file_name_parameters = "hyper_parameters.pkl"
 siamese_name = "siamese.pt"
+file_name_parameters = "hyper_parameters.pkl"
 
 ############################################
 #### Functions to load and generate data ###
 ############################################
-
 
 class metagenomeDataset(Dataset):
     def __init__(self, X, y_):
@@ -481,7 +460,6 @@ def load_model(path_model):
 if __name__ == "__main__":
     parser = parser_creator.ParserCreator()
     args = parser.parser_snn()
-    # Script variables
     path_data = args.path_data
     path_metadata = args.path_metadata
     disease = args.disease
@@ -546,10 +524,9 @@ if __name__ == "__main__":
         ray.init(num_cpus=np.int(np.ceil(D_resource["cpu"] * D_resource["worker"])),
                  object_store_memory=n_memory,
                  num_gpus=np.int(np.ceil(D_resource["gpu"] * D_resource["worker"])))
-        parameters = [#{"name": learning_rate, "type": "range", "bounds": [1e-4, 1e-1], "log_scale": True},
-                      {"name": learning_rate, "type": "range", "bounds": [1e-5, 1e-2], "value_type": "float"},
+        parameters = [{"name": learning_rate, "type": "range", "bounds": [1e-4, 1e-1], "log_scale": True},
                       {"name": weight_decay, "type": "choice", "values": [0.0, 1e-3], "value_type": "float"},
-                      # {"name": dropout, "type": "choice", "values": [0.0, 0.1]},
+                      {"name": dropout, "type": "choice", "values": [0.0, 0.1]},
                       {"name": activation_function, "type": "choice", "values": ["nn.ReLU", "nn.LeakyReLU"], "value_type": "str"},
                       {"name": batch_size, "type": "fixed", "value": 6, "value_type": "int"},
                       {"name": n_epoch, "type": "fixed", "value": 100, "value_type": "int"},
@@ -581,7 +558,6 @@ if __name__ == "__main__":
                            )
         hdfs.create_dir(path_model, mode="local")
         analyse.dataframe().to_csv(os.path.join(path_model, "tuning_results.csv"), index=False)
-        #best_parameters, values = ax.get_best_parameters()
         best_parameters = analyse.get_best_config(metric=metric_to_tune, mode="min")
         best_parameters[input_dim] = input_dim_
         save_model(path_model, best_parameters, genomes)

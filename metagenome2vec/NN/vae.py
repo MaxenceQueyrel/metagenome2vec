@@ -39,7 +39,6 @@ from metagenome2vec.utils import data_manager
 from metagenome2vec.utils import file_manager
 from metagenome2vec.utils.string_names import *
 
-
 file_name_parameters = "hyper_parameters.pkl"
 vae_name = 'vae.pt'
 vae_fine_tuned_name = 'vae_fine_tuned.pt'
@@ -47,7 +46,6 @@ vae_fine_tuned_name = 'vae_fine_tuned.pt'
 ############################################
 #### Functions to load and generate data ###
 ############################################
-
 
 class metagenomeDataset(Dataset):
     def __init__(self, X, y_):
@@ -415,18 +413,6 @@ def loss_function_vae(recon_x, x, mu, logvar):
 
 def loss_function_ae(recon_x, x):
     return reconstruction_function(recon_x, x)
-
-
-"""
-# Reconstruction + KL divergence losses summed over all elements and batch
-def loss_function(recon_x, x, mu, logvar):
-    #BCE = F.binary_cross_entropy(recon_x, x.view(-1, input_dim), reduction='sum')
-    BCE = F.binary_cross_entropy(recon_x, x, reduction='sum')
-
-    # 0.5 * sum(1 + log(sigma^2) - mu^2 - sigma^2)
-    KLD = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
-    return BCE + KLD
-"""
 
 
 def train_finetune(model, loader, optimizer, clip=-1):
