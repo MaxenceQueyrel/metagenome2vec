@@ -452,15 +452,7 @@ class ParserCreator(object):
                                                                  "choices": ["nn.ReLU", "nn.LeakyReLU"],
                                                                  "help": "The activation function used during training."}}
 
-    def parser_bok_split(self, parser=None):
-        parser = argparse.ArgumentParser(description='Download metagenomic data.')
-        for k in ['-pd', '-ps']:
-            if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "The path od he tsv file containing information to download the data."
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_bok_split(self, parser=None):
+    def parser_bok_split(self):
         parser = argparse.ArgumentParser(description='Arguments for bag of kmer split split')
         for k in ['-k', '-s', '-lf', '-pg', '-ps', '-np',
                   '-if', '-o', '-mo', '-pd', '-bu', '-ng']:

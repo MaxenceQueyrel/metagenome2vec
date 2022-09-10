@@ -49,7 +49,6 @@ function args()
 }
 
 args $0 "$@"
-
 if [ -z "$path_input" ] || [ -z "$path_output" ]
 then
   usage

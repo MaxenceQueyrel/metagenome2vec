@@ -1,9 +1,19 @@
+import os
 import argparse
 import json
+import logging
+import copy
+from metagenome2vec.utils import spark_manager
+from metagenome2vec.data_processing.metagenome import preprocess_metagenomic_data, bok_split, bok_merge
+from metagenome2vec.data_processing.dowload_metagenomic_data import download_from_tsv_file
+from metagenome2vec.data_processing.simulation import create_simulated_config_file, run_camisim
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 class ParserCreator(object):
     def __init__(self):
+        self.parser = argparse.ArgumentParser('Main command')
+        self.subparsers = self.parser.add_subparsers(help="test", dest="command")
         self.D_parser = {}
         self.D_parser["-k"] = {"name": "--k_mer_size", "arg": {"metavar": "k_mer_size",
                                                                "type": int,
@@ -32,23 +42,23 @@ class ParserCreator(object):
         self.D_parser["-pl"] = {"name": "--path_learning", "arg": {"metavar": "path_learning",
                                                                    "type": str,
                                                                    "default": "hdfs://ma-1-1-t630.infiniband:8020/user/mqueyrel/deepGene/data/learning/",
-                                                                   "help": "This is the path where are saved the structuring matrix."}}
+                                                                   "help": "Path where are saved the structuring matrix."}}
         self.D_parser["-pa"] = {"name": "--path_analysis", "arg": {"metavar": "path_analyses",
                                                                    "type": str,
                                                                    "default": "/data/projects/deepgene/analyses/",
-                                                                   "help": "This is the path where are saved the data to analyse."}}
+                                                                   "help": "Path where are saved the data to analyse."}}
         self.D_parser["-pm"] = {"name": "--path_model", "arg": {"metavar": "path_model",
                                                                 "type": str,
                                                                 "default": "./",
-                                                                "help": "This is the path where are stored the trained machine learning models"}}
+                                                                "help": "Path where are stored the trained machine learning models"}}
         self.D_parser["-pd"] = {"name": "--path_data", "arg": {"metavar": "path_data",
                                                                "type": str,
                                                                "required": True,
-                                                               "help": "This is the path where the data are stored."}}
+                                                               "help": "Path to the data."}}
         self.D_parser["-ps"] = {"name": "--path_save", "arg": {"metavar": "path_save",
                                                                "type": str,
-                                                               "default": None,
-                                                               "help": "This is the path where will be saved the data."}}
+                                                               "required": True,
+                                                               "help": "Path where will be saved the data."}}
         self.D_parser["-pkc"] = {"name": "--path_kmer_count", "arg": {"metavar": "path_kmer_count",
                                                                       "type": str,
                                                                       "default": None,
@@ -83,12 +93,8 @@ class ParserCreator(object):
         self.D_parser["-mo"] = {"name": "--mode", "arg": {"metavar": "mode",
                                                           "type": str,
                                                           "choices": ["hdfs", "local", "s3"],
-                                                          "default": "hdfs",
+                                                          "default": "local",
                                                           "help": "'hdfs', 'local', 's3' : correspond to the file system we use"}}
-        self.D_parser["-bu"] = {"name": "--bucket", "arg": {"metavar": "bucket",
-                                                            "type": str,
-                                                            "default": "s3://deepgene",
-                                                            "help": "Name of the bucket we are working on"}}
         self.D_parser["-pas"] = {"name": "--parameter_structu", "arg": {"metavar": "parameter_structu",
                                                                         "type": str,
                                                                         "required": True,
@@ -213,6 +219,14 @@ class ParserCreator(object):
                                                                      "type": int,
                                                                      "default": -1,
                                                                      "help": "if stm = 2 then it will start from the index given for the next temporary matrix"}}
+        self.D_parser["-isi"] = {"name": "--index_sample_id", "arg": {"metavar": "index_sample_id",
+                                                                     "type": int,
+                                                                     "default": 1,
+                                                                     "help": "Index in the tsv file of the column containing the sample ids."}}
+        self.D_parser["-iu"] = {"name": "--index_url", "arg": {"metavar": "index_url",
+                                                                "type": int,
+                                                                "default": 10,
+                                                                "help": "Index in the tsv file of the column containing the sample url."}}
         self.D_parser["-np"] = {"name": "--num_partitions", "arg": {"metavar": "num_partitions",
                                                                     "type": int,
                                                                     "default": 16,
@@ -452,39 +466,142 @@ class ParserCreator(object):
                                                                  "choices": ["nn.ReLU", "nn.LeakyReLU"],
                                                                  "help": "The activation function used during training."}}
 
-    def parser_bok_split(self, parser=None):
-        parser = argparse.ArgumentParser(description='Download metagenomic data.')
-        for k in ['-pd', '-ps']:
+        self.parser_donwload_metagenomic_data()
+        self.parser_bok_split()
+        self.parser_bok_merge()
+        self.parser_clean_raw_metagenomic_data()
+        self.parser_metagenome_kmerization()
+        self.parser_genome_kmerization()
+        self.parser_create_df_fasta_metadata()
+        self.parser_create_simulated_read2genome_dataset()
+        self.parser_create_simulated_metagenome2vec_dataset()
+        self.parser_create_camisim_config_file()
+        
+    ##############################
+    # METAGENOME PROCESSING
+    ##############################
+
+    def add_subparser(func_create_parser):
+        def wrapper(self, *args, **kwargs):
+            D_parser_back = copy.deepcopy(self.D_parser)
+            func_create_parser(self, *args, **kwargs)
+            self.D_parser = copy.deepcopy(D_parser_back)
+        return wrapper
+
+    @add_subparser
+    def parser_donwload_metagenomic_data(self):
+        parser = self.subparsers.add_parser('download_metagenomic_data')
+        for k in ['-pd', '-ps', '-isi', '-iu']:
             if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "The path od he tsv file containing information to download the data."
+                self.D_parser[k]["arg"]["help"] = "Path of the tsv file containing information to download the data."
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_bok_split(self, parser=None):
-        parser = argparse.ArgumentParser(description='Arguments for bag of kmer split split')
+    
+    @add_subparser
+    def parser_bok_split(self):
+        parser = self.subparsers.add_parser('bok_split')
         for k in ['-k', '-s', '-lf', '-pg', '-ps', '-np',
-                  '-if', '-o', '-mo', '-pd', '-bu', '-ng']:
+                  '-if', '-o', '-mo', '-pd', '-ng']:
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
 
+    @add_subparser
     def parser_bok_merge(self):
-        parser = argparse.ArgumentParser(description='Arguments for bag ok kmer merge')
-        for k in ['-lf', '-pg', '-pd', '-np', '-mo', '-bu', '-o', '-ng']:
-            if k == '-ct':
-                self.D_parser[k]["arg"][
-                    "help"] = "0 : do not save temporary matrix, 1 save all temporary matrix, 2 save one temporary matrix in case of bug"
+        parser = self.subparsers.add_parser('bok_merge')
+        for k in ['-lf', '-pg', '-pd', '-np', '-mo', '-o', '-ng']:
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
 
-    def parser_structuring_sequence_learning_merge(self):
-        parser = argparse.ArgumentParser(description='Arguments for the structuring of the learning')
-        for k in ['-k', '-w', '-s', '-lf', '-pg', '-pl', '-np',
-                  '-f', '-dn', '-mo', '-bu', '-itf', '-o', '-ng', '-owc', '-ct']:
-            if k == '-ct':
-                self.D_parser[k]["arg"][
-                    "help"] = "0 : do not save temporary matrix, 1 save all temporary matrix, 2 save one temporary matrix in case of bug"
+    @add_subparser
+    def parser_clean_raw_metagenomic_data(self):
+        parser = self.subparsers.add_parser('clean_raw_metagenomic_data')
+        for k in ['-pd', '-nsl', '-ps', '-if', '-mo', '-np', '-o', '-pg', '-lf', '-ftd', '-im']:
+            if k == '-nsl':
+                self.D_parser[k]["arg"]["default"] = -1
+                self.D_parser[k]["arg"]["help"] = "Maximum number of reads loaded for one sample "
+            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])        
+    
+    @add_subparser
+    def parser_metagenome_kmerization(self):
+        parser = self.subparsers.add_parser('metagenome_kmerization')
+        for k in ['-pd', '-k', '-nsl', '-ps', '-if', '-mo', '-np', '-pg', '-lf', '-im']:
+            if k == '-nsl':
+                self.D_parser[k]["arg"]["default"] = -1
+                self.D_parser[k]["arg"]["help"] = "Maximum number of reads loaded for one sample "
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
+    
+    ##############################
+    # GENOME PROCESSING
+    ##############################
+    
+    def parser_genome_kmerization(self):
+        parser = self.subparsers.add_parser('genome_kmerization')
+        for k in ['-k', '-s', '-pd', '-ps']:
+            if k == '-pd':
+                self.D_parser[k]["arg"]["help"] = "Path to the genome data"
+            if k == '-ps':
+                self.D_parser[k]["arg"]["help"] = "Path to the saved kmerized genome"
+            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
+    
+    ##############################
+    # SIMULATION
+    ##############################
+    
+    @add_subparser
+    def parser_create_df_fasta_metadata(self):
+        parser = self.subparsers.add_parser('create_df_fasta_metadata')
+        for k in ['-pd', '-ps', '-pjma', '-pmd', '-sa']:
+            if k == '-ps':
+                self.D_parser[k]["arg"]["required"] = True
+            if k == '-pmd':
+                self.D_parser[k]["arg"]["required"] = False
+                self.D_parser[k]["arg"]["default"] = None
+                self.D_parser[k]["arg"]["help"] = "If given it corresponds to a path of an already existing metadata file, this avoid computation time when generating it"
+            if k == '-pd':
+                self.D_parser[k]["arg"]["help"] = "Path to the folder containing fasta files."
+            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
+    
+    @add_subparser
+    def parser_create_simulated_read2genome_dataset(self):
+        parser = self.subparsers.add_parser('create_simulated_read2genome_dataset')
+        for k in ['-pd', '-nsl', '-o', '-vs', '-pmd']:
+            if k == '-pd':
+                self.D_parser[k]["arg"]["help"] = "Path to the simulation data"
+            if k == '-nsl':
+                self.D_parser[k]["arg"]["help"] = "Number of reads taken in the simulation dataset"
+                self.D_parser[k]["arg"]["default"] = -1
+            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
+
+    @add_subparser
+    def parser_create_simulated_metagenome2vec_dataset(self):
+        parser = self.subparsers.add_parser('create_simulated_metagenome2vec_dataset')
+        for k in ['-pd', '-ps', '-o', '-tm']:
+            if k == '-pd':
+                self.D_parser[k]["arg"]["help"] = "Comma separated path to the folders containing the simulation data. One folder corresponds to a class of samples."
+            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
+    
+    @add_subparser
+    def parser_create_camisim_config_file(self):
+        parser = self.subparsers.add_parser('create_camisim_config_file')
+        for k in ['-ps', '-nc', '-nsc', '-ct', '-pt', '-go', '-pap']:
+            if k == '-ct':
+                self.D_parser[k]["arg"]["choices"] = ["illumina", "nanosim", "both"]
+                self.D_parser[k]["arg"]["type"] = str
+                self.D_parser[k]["arg"]["default"] = "illumina"
+                self.D_parser[k]["arg"]["help"] = "'illumina', 'nanosim' or 'both' simulator"
+            if k == '-pd':
+                self.D_parser[k]["arg"]["help"] = "Path of the create_df_fasta_metadata output"
+            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
+
+    @add_subparser
+    def parser_run_camisim(self):
+        parser = self.subparsers.add_parser('run_camisim')
+        for k in ['-pd']:
+            if k == '-pd':
+                self.D_parser[k]["arg"]["help"] = "Path to the CAMISIM config file."
+            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
+
+    
+    ##############################
+    ##############################
+    ##############################
 
     def parser_word2vec(self):
         parser = argparse.ArgumentParser(description='Arguments for the kmer2vec algorithm')
@@ -511,23 +628,6 @@ class ParserCreator(object):
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
         return parser.parse_args()
 
-    def parser_clean_raw_data(self):
-        parser = argparse.ArgumentParser(description='Arguments for the generation of sample metagenome')
-        for k in ['-pd', '-nsl', '-ps', '-if', '-mo', '-np', '-o', '-pg', '-lf', '-ftd', '-im']:
-            if k == '-nsl':
-                self.D_parser[k]["arg"]["default"] = -1
-                self.D_parser[k]["arg"]["help"] = "Maximum number of reads loaded for one sample "
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_metagenomic_kmerization(self):
-        parser = argparse.ArgumentParser(description='Arguments for the generation of sample metagenome')
-        for k in ['-pd', '-k', '-nsl', '-ps', '-if', '-mo', '-np', '-pg', '-lf', '-im']:
-            if k == '-nsl':
-                self.D_parser[k]["arg"]["default"] = -1
-                self.D_parser[k]["arg"]["help"] = "Maximum number of reads loaded for one sample "
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
 
     def parser_GloVe(self):
         parser = argparse.ArgumentParser(description='Arguments for glove learning')
@@ -913,25 +1013,6 @@ class ParserCreator(object):
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
         return parser.parse_args()
 
-    def parser_create_simulated_read2genome_dataset(self):
-        parser = argparse.ArgumentParser(description="Arguments for create simulation dataset")
-        for k in ['-pd', '-nsl', '-o', '-vs', '-pmd']:
-            if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "Path to the simulation data"
-            if k == '-nsl':
-                self.D_parser[k]["arg"]["help"] = "Number of reads taken in the simulation dataset"
-                self.D_parser[k]["arg"]["default"] = -1
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_create_simulated_metagenome2vec_dataset(self):
-        parser = argparse.ArgumentParser(description="Arguments for create simulation dataset")
-        for k in ['-pd', '-ps', '-o', '-tm']:
-            if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "Comma separated path to the folders containing the simulation data. One folder corresponds to a class of samples."
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
     def parser_fastdna(self):
         parser = argparse.ArgumentParser(description="Arguments for fastdna training")
         for k in ['-pd', '-f', '-k', '-E', '-S', '-R', '-nc', '-pm', '-pkv', '-pt', '-tt', '-no', '-Ml']:
@@ -948,16 +1029,6 @@ class ParserCreator(object):
             if k == '-pkv':
                 self.D_parser[k]["arg"]["help"] = "Complete path to save final embeddings"
                 self.D_parser[k]["arg"]["required"] = False
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_genome_kmerization(self):
-        parser = argparse.ArgumentParser(description="Arguments for genomes kmerization")
-        for k in ['-k', '-s', '-pd', '-ps']:
-            if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "Path to the genome data"
-            if k == '-ps':
-                self.D_parser[k]["arg"]["help"] = "Path to the saved kmerized genome"
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
         return parser.parse_args()
 
@@ -994,30 +1065,99 @@ class ParserCreator(object):
                 self.D_parser[k]["arg"]["choices"] = ["word_count_matrix", "kmerized_genome_dataset"]
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
         return parser.parse_args()
-
-    def parser_create_df_fasta_metadata(self):
-        parser = argparse.ArgumentParser(description="Arguments to create dataframe fasta metadata")
-        for k in ['-pd', '-ps', '-pjma', '-pmd', '-sa']:
-            if k == '-ps':
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-pmd':
-                self.D_parser[k]["arg"]["required"] = False
-                self.D_parser[k]["arg"]["default"] = None
-                self.D_parser[k]["arg"]["help"] = "If given it corresponds to a path of an already existing metadata file, this avoid computation time when generating it"
-            if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "Path to the folder containing fasta files."
+    
+    def parser_download_metagenomic_data(self):
+        parser = self.subparsers.add_parser('download_metagenomic_data')
+        for k in ['-pd', '-ps']:
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
+        
 
-    def parser_create_camisi_config_file(self):
-        parser = argparse.ArgumentParser(description="Arguments for the creation of camisim config file")
-        for k in ['-ps', '-nc', '-nsc', '-ct', '-pt', '-go', '-pap']:
-            if k == '-ct':
-                self.D_parser[k]["arg"]["choices"] = ["illumina", "nanosim", "both"]
-                self.D_parser[k]["arg"]["type"] = str
-                self.D_parser[k]["arg"]["default"] = "illumina"
-                self.D_parser[k]["arg"]["help"] = "'illumina', 'nanosim' or 'both' simulator"
-            if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "ath of the create_df_fasta_metadata output"
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
+
+if __name__ == "__main__":
+
+    parserCreator = ParserCreator()
+    args = parserCreator.parser.parse_args()
+    # TODO replace with os.path + increment log file if already exists add path log
+    dict_commands_metadata = {"download_metagenomic_data": {"path_log": "download", "log_file": "download_metagenomic_data.log", "need_spark": False},
+                            "clean_raw_metagenomic_data": {"path_log": "metagenome_preprocessing", "log_file": "clean_raw_metagenomic_data.log", "need_spark": True},
+                            "bok_split": {"path_log": "metagenome_preprocessing", "log_file": "bok_split.log", "need_spark": True},
+                            "bok_merge": {"path_log": "metagenome_preprocessing", "log_file": "bok_merge.log", "need_spark": True},
+                            "create_camisim_config_file": {"path_log": "simulation", "log_file": "create_camisim_config_file.log", "need_spark": False}}
+    command_metadata = dict_commands_metadata[args.command]
+    path_log, log_file, need_spark = os.path.join(SCRIPT_DIR, "logs", command_metadata["path_log"]), command_metadata["log_file"], command_metadata["need_spark"]
+    os.makedirs(path_log, exist_ok=True)
+    logging.basicConfig(filename=os.path.join(path_log, log_file), level=logging.INFO)
+
+    spark = None
+    if need_spark:
+        spark = spark_manager.createSparkSession(args.command)
+
+    if args.command == "download_metagenomic_data":
+        download_from_tsv_file(args.path_data, args.path_save, args.index_sample_id, args.index_url)
+
+    if args.command == "clean_raw_metagenomic_data":
+        os.makedirs(args.path_save, exist_ok=True)
+        logging.info("Start clean_raw_metagenomic_data")
+        if not args.is_file:
+            for folder in os.listdir(args.path_data):
+                logging.info("cleaning metagenome {}".format(os.path.join(args.path_data, folder)))
+                preprocess_metagenomic_data(spark, os.path.join(args.path_data, folder), args.path_save, args.n_sample_load, args.num_partitions, args.mode, args.in_memory, args.overwrite)
+        else:
+            preprocess_metagenomic_data(spark, args.path_data, args.path_save, args.n_sample_load, args.num_partitions, args.mode, args.in_memory, args.overwrite)
+
+    if args.command == "bok_split":
+        os.makedirs(args.path_save, exist_ok=True)
+        logging.info("Start bok_split")
+        if not args.is_file:
+            for folder in os.listdir(args.path_data):
+                logging.info("Computing bok for metagenome metagenome {}".format(os.path.join(args.path_data, folder)))
+                bok_split(spark, os.path.join(args.path_data, folder), args.path_save, args.k_mer_size, args.step, args.mode, args.num_partitions, args.overwrite)
+        else:
+             bok_split(spark, args.path_data, args.path_save, args.k_mer_size, args.step, args.mode, args.num_partitions, args.overwrite)
+   
+    if args.command == "bok_merge":
+        logging.info("Start bok_merge")
+        bok_merge(spark, args.path_data, args.nb_metagenome, args.num_partitions, args.mode, args.overwrite)
+
+
+    if args.command == "create_camisim_config_file":
+        create_simulated_config_file(args.n_cpus, args.n_sample_by_class, args.computation_type, args.giga_octet,
+                                args.path_tmp_folder, args.path_save, args.path_abundance_profile)
+
+    if args.command == "run_camisim":
+        run_camisim(args.config_file)
+    logging.info("End computing")
+
+
+"""
+if __name__ == "__main__":
+    logging.getLogger('pyspark').setLevel(logging.ERROR)
+    logging.getLogger("py4j").setLevel(logging.ERROR)
+
+    spark = spark_manager.createSparkSession("clean_raw_data")
+
+    preprocess_metagenomic_data(args.path_data, args.path_save, spark, args.n_sample_load, args.mode,
+                                overwrite=args.overwrite, num_partitions=args.num_partitions, in_memory=args.in_memory)
+
+if __name__ == "__main__":
+    args = parser_creator.ParserCreator().parser_bok_merge()
+
+    logging.basicConfig(filename=os.path.join(args.path_log, args.log_file), level=logging.DEBUG)
+
+    spark = spark_manager.createSparkSession("BoK merge")
+
+    logging.info("Start computing")
+    bok_merge(spark, args.path_data, args.nb_metagenome, args.num_partitions, args.mode, args.overwrite)
+    logging.info("End computing")
+
+
+if __name__ == "__main__":
+    args = parser_creator.ParserCreator().parser_metagenomic_kmerization()
+
+    logging.basicConfig(filename=os.path.join(args.path_log, args.log_file), level=logging.DEBUG)
+
+    spark = spark_manager.createSparkSession("Metagenome kmerization")
+
+    kmerize_metagenomic_data(spark, args.path_data, args.path_save, args.k_mer_size, args.n_sample_load,
+                             num_partitions=args.num_partitions, in_memory=args.in_memory)
+"""

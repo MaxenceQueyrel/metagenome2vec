@@ -1,5 +1,4 @@
 import os
-import sys
 from pyspark.sql import types as T
 from pyspark.sql import functions as F
 from pyspark.sql import Window
@@ -8,10 +7,28 @@ from pyspark.sql import SparkSession
 import subprocess
 
 from metagenome2vec.utils.string_names import *
+from metagenome2vec.utils import transformation_ADN
 
 root_folder = os.path.join(os.environ["METAGENOME2VEC_PATH"], "metagenome2vec")
-sys.path.insert(0, os.path.join(root_folder, "utils"))
-import transformation_ADN
+
+
+spark_default_conf = {'spark.locality.wait': 0,
+    'spark.sql.autoBroadcastJoinThreshold': -1,
+    'spark.scheduler.minRegisteredResourcesRatio': 1,
+    'spark.executor.extraLibraryPath': "$METAGENOME2VEC_PATH/metagenome2vec/utils/transformation_ADN.cpython-38-x86_64-linux-gnu.so",
+    'spark.cleaner.referenceTracking': 'false',
+    'spark.cleaner.referenceTracking.blocking': 'false',
+    'spark.cleaner.referenceTracking.blocking.shuffle': 'false',
+    'spark.cleaner.referenceTracking.cleanCheckpoints': 'false',
+    'spark.rpc.message.maxSize': 1024,
+    'num-executors': 3,
+    'executor-cores': 5,
+    'driver-memory': '10g',
+    'executor-memory': '5g',
+    'master': 'local[*]',
+    'spark.network.timeout': 800,
+    'spark.driver.memoryOverhead': '5g',
+    'spark.executor.memoryOverhead': '5g'}
 
 
 def createSparkSession(name_app, **conf):
@@ -23,27 +40,25 @@ def createSparkSession(name_app, **conf):
     """
     conf_ = SparkConf()
     conf_.setAppName(name_app)
+    conf = {**spark_default_conf, **conf}
+    
     if "master" in conf:
         conf_ = conf_.setMaster(conf["master"])
         del conf["master"]
     if bool(conf):
         conf_ = conf_.setAll(list(conf.items()))
     spark = SparkSession.builder.config(conf=conf_).getOrCreate()
-
     py_files = [os.path.join(os.environ["METAGENOME2VEC_PATH"], m2v_zip_name),
                 os.path.join(root_folder, "utils", "file_manager.py"),
                 os.path.join(root_folder, "utils", "parser_creator.py"),
                 os.path.join(root_folder, "utils", "transformation_ADN.cpython-38-x86_64-linux-gnu.so"),
-                os.path.join(root_folder, "utils", "logger.py"),
                 os.path.join(root_folder, "utils", "stat_func.py"),
                 os.path.join(root_folder, "utils", "data_manager.py"),
                 os.path.join(root_folder, "read2vec", "basic.py"),
                 os.path.join(root_folder, "read2vec", "fastDnaEmbed.py"),
                 os.path.join(root_folder, "read2vec", "fastTextEmbed.py"),
-                os.path.join(root_folder, "read2vec", "transformer.py"),
                 os.path.join(root_folder, "read2vec", "read2vec.py"),
                 os.path.join(root_folder, "read2genome", "read2genome.py"),
-                os.path.join(root_folder, "read2genome", "transformerClassifier.py"),
                 os.path.join(root_folder, "read2genome", "h2oModel.py"),
                 os.path.join(root_folder, "read2genome", "fastDnaPred.py")]
     for py_file in py_files:
@@ -170,8 +185,8 @@ def read_raw_fastq_file_to_df(spark, path_data, n_sample_load=1., num_partitions
         str_tmp = "tmp_cleaning_raw_data_"
         for filename in os.listdir(path_data):
             if filename.startswith(str_tmp):
-                subprocess.call(["rm", os.path.join(path_data, filename)])
-                continue
+                os.remove(os.path.join(path_data, filename))
+        for filename in os.listdir(path_data):
             tmp_file_name = os.path.join(path_data, str_tmp + filename).replace(".gz", "")
             L_list_tmp_file.append(tmp_file_name)
             cmd = r"""zcat {} | awk 'NR%4==1 || NR%4==2' | awk 'NR%2{{printf "%s,",$0;next;}}1' > {}""".format(

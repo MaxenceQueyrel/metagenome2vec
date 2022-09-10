@@ -32,6 +32,7 @@ driver_memory=10g
 executor_memory=5g
 driver_memory_overhead=5g
 executor_memory_overhead=5g
+master="local[*]"
 
 function args()
 {
@@ -42,6 +43,7 @@ function args()
     --long executor-memory: \
     --long driver-memory-overhead: \
     --long executor-memory-overhead: \
+    --long master: \
     --long conf-file: \
     --long help \
     -- "$@")
@@ -75,6 +77,10 @@ function args()
         --executor-memory-overhead)
             shift;
             executor_memory_overhead=$1
+            ;;
+        --master)
+            shift;
+            master=$1
             ;;
         --conf-file)
             shift;

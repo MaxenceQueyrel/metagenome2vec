@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 import subprocess
 import os
 import string
@@ -7,9 +8,9 @@ import time
 from pyspark.sql.functions import monotonically_increasing_id, row_number, udf
 from pyspark.sql import types as T
 from pyspark.sql import Window
-from string_names import *
+from metagenome2vec.utils.string_names import *
 
-from metagenome2vec.utils import spark_manager
+from metagenome2vec.utils import spark_manager,file_manager, data_manager
 from metagenome2vec.read2genome.read2genome import Read2Genome
 
 random.seed(time.time())
@@ -63,3 +64,63 @@ class FastDnaPred(Read2Genome):
 
         return X
 
+    def train(path_data, f_name, k_mer_size, embedding_size, n_steps, learning_rate, tax_taken, path_kmer2vec, path_model,
+              path_tmp_folder, n_cpus, noise, max_length):
+        data, labels = path_data.split(",")
+        tax_taken = None if (tax_taken is None or tax_taken == "None") else [str(x) for x in tax_taken.split('.')]
+
+        if tax_taken is not None:
+            f_name += "_n_tax_%s" % len(tax_taken)
+        path_save = os.path.join(path_kmer2vec, f_name)
+        output = os.path.join(path_model, f_name)
+
+        path_fastDNA = os.getenv("FASTDNA")
+        assert path_fastDNA is not None, "FASTDNA environment variable has to be defined"
+
+        ###################################
+        # --------- Create folders -------#
+        ###################################
+
+        # Create the folder where the model will be saved
+        file_manager.create_dir(path_save, "local")
+        file_manager.create_dir(path_model, "local")
+
+        ###################################
+        #--------- Training model --------#
+        ###################################
+
+        # If tax_taken is given, need to change the file
+
+        if tax_taken is not None:
+            data, labels = data_manager.filter_fastdna_fasta_file(data, labels, path_tmp_folder, tax_taken)
+
+        subprocess.call([os.path.join(path_fastDNA, "fastdna"),
+                        "supervised",
+                        "-input", data,
+                        "-labels", labels,
+                        "-output", output,
+                        "-minn", str(k_mer_size),
+                        "-maxn", str(k_mer_size),
+                        "-dim", str(embedding_size),
+                        "-epoch", str(n_steps),
+                        "-lr", str(learning_rate),
+                        "-thread", str(n_cpus),
+                        "-noise", str(noise),
+                        "-length", str(max_length)])
+
+        if tax_taken is not None:
+            subprocess.call(["rm", data])
+            subprocess.call(["rm", labels])
+
+        ###################################
+        #---------- Saving files ---------#
+        ###################################
+
+        df = pd.read_csv(output + ".vec", sep=" ", header=None, skiprows=1)
+        reverse_index = df[0].to_dict()
+        dico_index = {}
+        for k, v in reverse_index.items():
+            dico_index[str(v)] = int(k_mer_size)
+
+        final_embeddings = np.array(df[np.arange(1, df.shape[1])])
+        data_manager.save_embeddings(path_save, final_embeddings, dico_index, reverse_index, path_tmp_folder)
