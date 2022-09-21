@@ -6,7 +6,7 @@ import copy
 from metagenome2vec.utils import spark_manager
 from metagenome2vec.data_processing.metagenome import preprocess_metagenomic_data, bok_split, bok_merge
 from metagenome2vec.data_processing.dowload_metagenomic_data import download_from_tsv_file
-from metagenome2vec.data_processing.simulation import create_simulated_config_file, run_camisim
+from metagenome2vec.data_processing.simulation import create_simulated_config_file, run_camisim, create_df_fasta_metadata
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -1082,7 +1082,9 @@ if __name__ == "__main__":
                             "clean_raw_metagenomic_data": {"path_log": "metagenome_preprocessing", "log_file": "clean_raw_metagenomic_data.log", "need_spark": True},
                             "bok_split": {"path_log": "metagenome_preprocessing", "log_file": "bok_split.log", "need_spark": True},
                             "bok_merge": {"path_log": "metagenome_preprocessing", "log_file": "bok_merge.log", "need_spark": True},
-                            "create_camisim_config_file": {"path_log": "simulation", "log_file": "create_camisim_config_file.log", "need_spark": False}}
+                            "create_camisim_config_file": {"path_log": "simulation", "log_file": "create_camisim_config_file.log", "need_spark": False},
+                            "run_camisim": {"path_log": "simulation", "log_file": "run_camisim.log", "need_spark": False},
+                            "create_df_fasta_metadata": {"path_log": "simulation", "log_file": "create_df_fasta_metadata.log", "need_spark": False}}
     command_metadata = dict_commands_metadata[args.command]
     path_log, log_file, need_spark = os.path.join(SCRIPT_DIR, "logs", command_metadata["path_log"]), command_metadata["log_file"], command_metadata["need_spark"]
     os.makedirs(path_log, exist_ok=True)
@@ -1123,6 +1125,11 @@ if __name__ == "__main__":
     if args.command == "create_camisim_config_file":
         create_simulated_config_file(args.n_cpus, args.n_sample_by_class, args.computation_type, args.giga_octet,
                                 args.path_tmp_folder, args.path_save, args.path_abundance_profile)
+
+    # TODO agg create_files_camisim + complete_fasta_metadata_with_abundance + create_df_fasta_metadata
+    if args.command == "create_df_fasta_metadata":
+        create_df_fasta_metadata(args.path_data, args.path_save, args.path_json_modif_abundance, args.path_metadata, args.simulate_abundance)
+    logging.info("End computing")
 
     if args.command == "run_camisim":
         run_camisim(args.config_file)

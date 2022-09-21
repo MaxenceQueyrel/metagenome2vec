@@ -10,6 +10,7 @@ import csv
 import json
 
 from metagenome2vec.utils.string_names import *
+from metagenome2vec.data_processing import genome
 
 SEED = 42
 
@@ -99,7 +100,7 @@ def create_simulated_metagenome2vec_dataset(path_data: str, path_save: str, over
 
     merge_file_name = "metagenome.fq.gz"
     for path in path_data.split(","):
-        for root, dirs, files in os.walk(path):
+        for root, _, files in os.walk(path):
             if os.path.basename(root) == "reads":
                 class_name = root.split("/")[-3]
                 sample_name = "sample_%s" % cpt
@@ -215,9 +216,9 @@ def create_simulated_config_file(n_cpus, n_sample_by_class, computation_type, si
             f_res.write(s)
 
 
-def create_config_file(df_fasta_metadata, path_save, tax_level="species"):
+def randomly_alterate_abundance(df_fasta_metadata, path_save, tax_level="species"):
     """
-    Function that creates a config dictionary for the simulation expeiments
+    Function that creates a config dictionary for the simulation experiments
     :param df_fasta_metadata: DataFrame Pandas, the complete metadata fatadrame with abundance
     :param path_save: String, Name of the json config file
     :param tax_level: Str, the taxonomic level
@@ -261,7 +262,6 @@ def _generate_abundance_name(abundance_name, tax_level):
     :return: Str, generic name for a abundance column
     """
     return abundance_name + "_" + tax_level
-
 
 
 def complete_fasta_metadata_with_abundance(df, D_modif_abundance=None):
@@ -358,7 +358,7 @@ def create_files_camisim(df_fasta_metadata, path_folder_save, path_fasta_folder,
                 os.path.join(path_folder_save, "abundance_profile", abundance_name + ".tsv"), sep="\t", header=False, index=False)
 
 
-def create_df_fasta_metadata(path_fasta_folder: str, path_folder_save: str, path_json_modif_abundance: str, path_metadata: str, simulate_abundance: bool):
+def create_df_fasta_metadata(path_fasta_folder: str, path_folder_save: str, path_json_modif_abundance: str = None, path_metadata: str = None, simulate_abundance: bool = False):
     """_summary_
 
     Args:
@@ -371,7 +371,7 @@ def create_df_fasta_metadata(path_fasta_folder: str, path_folder_save: str, path
     # Create and save fasta metadata
     name_fasta_metadata = os.path.join(path_folder_save, "fasta_metadata.csv")
     os.makedirs(path_folder_save, exist_ok=True)
-    if path_metadata is not None:  # Do not compute it if given
+    if path_metadata is not None:
         if os.path.exists(name_fasta_metadata):
             os.remove(name_fasta_metadata)
         shutil.copyfile(path_metadata, name_fasta_metadata)
@@ -379,14 +379,14 @@ def create_df_fasta_metadata(path_fasta_folder: str, path_folder_save: str, path
     elif os.path.exists(name_fasta_metadata):  # Do not compute it if already exists
         df_fasta_metadata = pd.read_csv(name_fasta_metadata, sep=",")
     else:
-        df_fasta_metadata = create_df_fasta_metadata(path_fasta_folder)
+        df_fasta_metadata = genome.create_df_fasta_metadata(path_fasta_folder)
         df_fasta_metadata.to_csv(name_fasta_metadata, sep=",", index=False)
 
     # Complete metadata with abundance and save fasta metadata with abundance
     if path_json_modif_abundance is not None:
         D_modif_abundance = json.load(open(path_json_modif_abundance, 'r'))
     elif simulate_abundance is True:
-        D_modif_abundance = create_config_file(df_fasta_metadata, os.path.join(path_folder_save, "config_abundance.json"))
+        D_modif_abundance = randomly_alterate_abundance(df_fasta_metadata, os.path.join(path_folder_save, "config_abundance.json"))
     else:
         D_modif_abundance = None
     name_fasta_metadata_with_abundance = os.path.join(path_folder_save, "fasta_metadata_with_abundance.csv")
