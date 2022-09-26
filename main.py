@@ -6,7 +6,7 @@ import copy
 from metagenome2vec.utils import spark_manager
 from metagenome2vec.data_processing.metagenome import preprocess_metagenomic_data, bok_split, bok_merge
 from metagenome2vec.data_processing.dowload_metagenomic_data import download_from_tsv_file
-from metagenome2vec.data_processing.simulation import create_simulated_config_file, run_camisim, create_df_fasta_metadata
+from metagenome2vec.data_processing.simulation import *
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -67,6 +67,14 @@ class ParserCreator(object):
                                                                     "type": str,
                                                                     "required": True,
                                                                     "help": "Absolute path to the metadata file"}}
+        self.D_parser["-pfq"] = {"name": "--path_fastq_file", "arg": {"metavar": "path_fastq_file",
+                                                                      "type": str,
+                                                                      "required": True,
+                                                                      "help": "Absolute path to the fastq file from the simulation"}}
+        self.D_parser["-pmf"] = {"name": "--path_mapping_file", "arg": {"metavar": "path_mapping_file",
+                                                            "type": str,
+                                                            "required": True,
+                                                            "help": "Absolute path to the read mapping file from the simulation"}}
         self.D_parser["-f"] = {"name": "--f_name", "arg": {"metavar": "f_name",
                                                            "type": str,
                                                            "default": None,
@@ -558,15 +566,16 @@ class ParserCreator(object):
                 self.D_parser[k]["arg"]["help"] = "Path to the folder containing fasta files."
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
     
+
     @add_subparser
     def parser_create_simulated_read2genome_dataset(self):
         parser = self.subparsers.add_parser('create_simulated_read2genome_dataset')
-        for k in ['-pd', '-nsl', '-o', '-vs', '-pmd']:
-            if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "Path to the simulation data"
+        for k in ['-pfq', '-pmf', '-pmd', '-ps', '-nsl', '-o', '-vs']:
             if k == '-nsl':
                 self.D_parser[k]["arg"]["help"] = "Number of reads taken in the simulation dataset"
                 self.D_parser[k]["arg"]["default"] = -1
+            if k == '-vs':
+                self.D_parser[k]["arg"]["default"] = 0.3
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
 
     @add_subparser
@@ -590,15 +599,7 @@ class ParserCreator(object):
                 self.D_parser[k]["arg"]["help"] = "Path of the create_df_fasta_metadata output"
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
 
-    @add_subparser
-    def parser_run_camisim(self):
-        parser = self.subparsers.add_parser('run_camisim')
-        for k in ['-pd']:
-            if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "Path to the CAMISIM config file."
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
 
-    
     ##############################
     ##############################
     ##############################
@@ -1084,7 +1085,10 @@ if __name__ == "__main__":
                             "bok_merge": {"path_log": "metagenome_preprocessing", "log_file": "bok_merge.log", "need_spark": True},
                             "create_camisim_config_file": {"path_log": "simulation", "log_file": "create_camisim_config_file.log", "need_spark": False},
                             "run_camisim": {"path_log": "simulation", "log_file": "run_camisim.log", "need_spark": False},
-                            "create_df_fasta_metadata": {"path_log": "simulation", "log_file": "create_df_fasta_metadata.log", "need_spark": False}}
+                            "create_df_fasta_metadata": {"path_log": "simulation", "log_file": "create_df_fasta_metadata.log", "need_spark": False},
+                            "create_simulated_read2genome_dataset": {"path_log": "simulation", "log_file": "create_simulated_read2genome_dataset.log", "need_spark": False},
+                            "create_simulated_metagenome2vec_dataset": {"path_log": "simulation", "log_file": "create_simulated_metagenome2vec_dataset.log", "need_spark": False}}
+    
     command_metadata = dict_commands_metadata[args.command]
     path_log, log_file, need_spark = os.path.join(SCRIPT_DIR, "logs", command_metadata["path_log"]), command_metadata["log_file"], command_metadata["need_spark"]
     os.makedirs(path_log, exist_ok=True)
@@ -1126,14 +1130,16 @@ if __name__ == "__main__":
         create_simulated_config_file(args.n_cpus, args.n_sample_by_class, args.computation_type, args.giga_octet,
                                 args.path_tmp_folder, args.path_save, args.path_abundance_profile)
 
-    # TODO agg create_files_camisim + complete_fasta_metadata_with_abundance + create_df_fasta_metadata
     if args.command == "create_df_fasta_metadata":
         create_df_fasta_metadata(args.path_data, args.path_save, args.path_json_modif_abundance, args.path_metadata, args.simulate_abundance)
+    
+    if args.command == "create_simulated_read2genome_dataset":
+        create_simulated_read2genome_dataset(args.path_fastq_file, args.path_mapping_file, args.path_metadata, args.path_save,
+                                            args.valid_size, args.n_sample_load, args.overwrite)
+    if args.command == "create_simulated_metagenome2vec_dataset":
+        create_simulated_metagenome2vec_dataset(args.path_data, args.path_save, args.overwrite, args.to_merge)
     logging.info("End computing")
 
-    if args.command == "run_camisim":
-        run_camisim(args.config_file)
-    logging.info("End computing")
 
 
 """

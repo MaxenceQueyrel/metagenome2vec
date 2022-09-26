@@ -61,7 +61,7 @@ The script creates a init file in camisim/config_files and an empty folder in ca
 ##### Run simulation
 ```bash
 docker run --rm --name camisim -dt --memory="4g" --memory-swap="4g" --cpus="4.0" -e METAGENOME2VEC_PATH=$METAGENOME2VEC_PATH -e CAMISIM=$CAMISIM -e NANOSIM=$NANOSIM -v /your/path/:/your/path/ maxence27/camisim:1.0`
-docker exec -i camisim bash $METAGENOME2VEC_PATH/script/data_processing/simulation/run_camisim.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/simulation/run_camisim.yaml
+docker exec -i camisim python $CAMISIM/metagenomesimulation.py --debug $METAGENOME2VEC_PATH/data/simulation_test/camisim/config_files/illumina_abundance_balanced_species.ini
 ```
 The first line initiate the docker container and the second one run the simulation that simulates metagenomic samples in the folder camisim/dataset/my_folder_in_init_file
 

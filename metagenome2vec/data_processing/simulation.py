@@ -15,16 +15,17 @@ from metagenome2vec.data_processing import genome
 SEED = 42
 
 # from create_simulated_read2genome_dataset
-def dataframe_to_fastdna_input(path_data, name_matrix, name_reads_fastdna, name_ids_fastdna,
-                               name_species_fastdna, name_genus_fastdna, name_family_fastdna,
-                               D_taxonomy_mapping):
-    name_matrix = os.path.join(path_data, name_matrix)
-    name_reads_fastdna = os.path.join(path_data, name_reads_fastdna)
-    name_ids_fastdna = os.path.join(path_data, name_ids_fastdna)
-    name_species_fastdna = os.path.join(path_data, name_species_fastdna)
-    name_genus_fastdna = os.path.join(path_data, name_genus_fastdna)
-    name_family_fastdna = os.path.join(path_data, name_family_fastdna)
-    with open(name_matrix, "r") as f:
+def dataframe_to_fastdna_input(path_data, path_metadata, name_reads_fastdna="reads_fastdna", name_ids_fastdna="ids_fastdna",
+name_species_fastdna="species_fastdna", name_genus_fastdna="genus_fastdna", name_family_fastdna="family_fastdna"):
+    df_taxonomy_ref = pd.read_csv(path_metadata)
+    D_taxonomy_mapping = df_taxonomy_ref[[ncbi_id_name, species_name, genus_name, family_name]].astype(str).set_index(ncbi_id_name).to_dict()
+    path_save = os.path.dirname(path_data)
+    name_reads_fastdna = os.path.join(path_save, name_reads_fastdna)
+    name_ids_fastdna = os.path.join(path_save, name_ids_fastdna)
+    name_species_fastdna = os.path.join(path_save, name_species_fastdna)
+    name_genus_fastdna = os.path.join(path_save, name_genus_fastdna)
+    name_family_fastdna = os.path.join(path_save, name_family_fastdna)
+    with open(path_data, "r") as f:
         with open(name_reads_fastdna, "w") as out_reads:
             with open(name_ids_fastdna, "w") as out_tax_id:
                 with open(name_species_fastdna, "w") as out_species:
@@ -33,7 +34,7 @@ def dataframe_to_fastdna_input(path_data, name_matrix, name_reads_fastdna, name_
                             for i, line in tqdm(enumerate(f)):
                                 if i == 0:
                                     continue
-                                read, tax_id, sim_id, ratio = line.split('\t')
+                                read, tax_id, _, _ = line.split('\t')
                                 out_reads.write(">%s\n" % str(i))
                                 out_reads.write(read + "\n")
                                 out_tax_id.write(tax_id + "\n")
@@ -41,23 +42,29 @@ def dataframe_to_fastdna_input(path_data, name_matrix, name_reads_fastdna, name_
                                 out_family.write(D_taxonomy_mapping[family_name][tax_id] + "\n")
                                 out_species.write(D_taxonomy_mapping[species_name][tax_id] + "\n")
 
-# from create_simulated_read2genome_dataset
-def create_simulated_dataset(path_data, df_taxonomy_ref, name_matrix_save, name_matrix_save_valid,
-                             valid_size=None, n_sample_load=-1, overwrite=False):
+
+# from create_simulated_read2genome_dataset TODO Add the clean output simulation in it
+def create_simulated_read2genome_dataset(path_fastq_file, path_mapping_file, path_metadata, path_save,
+                                        valid_size=0.3, n_sample_load=-1, overwrite=False):
     """
-    Load or create the simulation data matrix
-    :param path_data: String, Path to folder, assuming that it exists a file named reads and a file
-    named mapping_read_genome
-    :param valid_size, float, percentage for the validation datase
-    :param n_sample_load, long, number of read loaded
-    :param overwrite: bool, if true replace matrix if exists
-    :return:
+    # TODO
     """
-    path_final_matrix = os.path.join(path_data, name_matrix_save)
-    path_final_matrix_valid = os.path.join(path_data, name_matrix_save_valid)
+    assert valid_size >= 0 and valid_size <= 1, "Valid size should be between 0 and 1."
+    
+    # Clean output simulation if does not exist
+    path_mapping_read_genome = os.path.join(path_save, mapping_read_file_name)
+    path_reads = os.path.join(path_save, reads_file_name)
+    if not ( os.path.exists(path_mapping_read_genome) and os.path.exists(path_reads) ):
+        clean_output_simulation(path_fastq_file, path_mapping_file, path_save, path_metadata)
+    
+    # Create the read2genome datasets
     if overwrite or not os.path.exists(path_final_matrix):
-        path_mapping_read_genome = os.path.join(path_data, mapping_read_file_name)
-        path_reads = os.path.join(path_data, reads_file_name)
+
+        name_matrix_save = "reads_read2genome"
+        name_matrix_save_valid = name_matrix_save + "_valid"
+        path_final_matrix = os.path.join(path_save, name_matrix_save)
+        path_final_matrix_valid = os.path.join(path_save, name_matrix_save_valid)
+
         mapping_read_genome = pd.read_csv(path_mapping_read_genome, sep="\t", dtype=str)[[tax_id_name, anonymous_read_id_name]]
         reads = pd.read_csv(path_reads, sep="\t")  # 1 min
         if n_sample_load > 0:
@@ -74,19 +81,24 @@ def create_simulated_dataset(path_data, df_taxonomy_ref, name_matrix_save, name_
                 df.loc[tmp.index, prop_name] = tmp
             return df
 
-        if valid_size > 0:
-            try:
-                reads, reads_valid = train_test_split(reads, test_size=valid_size, random_state=SEED, stratify=reads[tax_id_name])
-            except:
-                # Try to stratify at the species level if the stratification at the genome level didn't work
-                reads = reads.merge(df_taxonomy_ref[[ncbi_id_name, species_name]].astype(str), left_on=tax_id_name, right_on=ncbi_id_name)
-                reads, reads_valid = train_test_split(reads, test_size=valid_size, random_state=SEED, stratify=reads[species_name])
-                reads = reads.drop([species_name, ncbi_id_name], axis=1)
-                reads_valid = reads_valid.drop([species_name, ncbi_id_name], axis=1)
-            reads_valid = compute_proportion(reads_valid)
-            reads_valid.to_csv(path_final_matrix_valid, index=False, sep="\t")
+        try:
+            reads, reads_valid = train_test_split(reads, test_size=valid_size, random_state=SEED, stratify=reads[tax_id_name])
+        except:
+            # Try to stratify at the species level if the stratification at the genome level didn't work
+            df_taxonomy_ref = pd.read_csv(path_metadata).astype(str)
+            reads = reads.merge(df_taxonomy_ref[[ncbi_id_name, species_name]].astype(str), left_on=tax_id_name, right_on=ncbi_id_name)
+            reads, reads_valid = train_test_split(reads, test_size=valid_size, random_state=SEED, stratify=reads[species_name])
+            reads = reads.drop([species_name, ncbi_id_name], axis=1)
+            reads_valid = reads_valid.drop([species_name, ncbi_id_name], axis=1)
+        reads_valid = compute_proportion(reads_valid)
+        reads_valid.to_csv(path_final_matrix_valid, index=False, sep="\t")
         reads = compute_proportion(reads)
         reads.to_csv(path_final_matrix, index=False, sep="\t")
+
+        # create files in fastdna format
+        dataframe_to_fastdna_input(path_final_matrix, path_metadata)
+        dataframe_to_fastdna_input(path_final_matrix_valid, path_metadata, name_reads_fastdna="reads_fastdna_valid", name_ids_fastdna="ids_fastdna_valid",
+                        name_species_fastdna="species_fastdna_valid", name_genus_fastdna="genus_fastdna_valid", name_family_fastdna="family_fastdna_valid")
 
 
 def create_simulated_metagenome2vec_dataset(path_data: str, path_save: str, overwrite: bool = False, to_merge: bool = False):
@@ -399,7 +411,3 @@ def create_df_fasta_metadata(path_fasta_folder: str, path_folder_save: str, path
         shutil.rmtree(path_camisim)
     create_files_camisim(df_fasta_metadata, path_camisim, path_fasta_folder, D_modif_abundance)
 
-
-def run_camisim(init_file: str):
-    assert "CAMISIM" in os.environ, "The environment variable CAMISIM should be defined."
-    subprocess.call(["python", "$CAMISIM/metagenomesimulation.py", "--debug", init_file])
