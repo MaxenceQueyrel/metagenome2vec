@@ -276,4 +276,4 @@ data
 script_test
 script
 logs
-
+*.odt
