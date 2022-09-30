@@ -7,6 +7,7 @@ from metagenome2vec.utils import spark_manager
 from metagenome2vec.data_processing.metagenome import preprocess_metagenomic_data, bok_split, bok_merge
 from metagenome2vec.data_processing.dowload_metagenomic_data import download_from_tsv_file
 from metagenome2vec.data_processing.simulation import *
+from metagenome2vec.read2genome.fastDnaPred import FastDnaPred
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -484,6 +485,7 @@ class ParserCreator(object):
         self.parser_create_simulated_read2genome_dataset()
         self.parser_create_simulated_metagenome2vec_dataset()
         self.parser_create_camisim_config_file()
+        self.parser_fastdna()
         
     ##############################
     # METAGENOME PROCESSING
@@ -599,6 +601,25 @@ class ParserCreator(object):
                 self.D_parser[k]["arg"]["help"] = "Path of the create_df_fasta_metadata output"
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
 
+    ##############################
+    # READ2GENOME
+    ##############################
+
+    @add_subparser
+    def parser_fastdna(self):
+        parser = self.subparsers.add_parser('fastdna')
+        for k in ['-pd', '-k', '-E', '-S', '-R', '-nc', '-prg', '-pkv', '-pt', '-tt', '-no', '-Ml']:
+            if k == '-pd':
+                self.D_parser[k]["arg"][
+                    "help"] = "comma separated path, first is reads fasta file, second is corresponding labels"
+                self.D_parser[k]["arg"]["required"] = True
+            if k == '-pm':
+                self.D_parser[k]["arg"]["help"] = "Complete path to save the model"
+                self.D_parser[k]["arg"]["required"] = True
+            if k == '-pkv':
+                self.D_parser[k]["arg"]["help"] = "Complete path to save final embeddings"
+                self.D_parser[k]["arg"]["required"] = False
+            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
 
     ##############################
     ##############################
@@ -1014,25 +1035,6 @@ class ParserCreator(object):
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
         return parser.parse_args()
 
-    def parser_fastdna(self):
-        parser = argparse.ArgumentParser(description="Arguments for fastdna training")
-        for k in ['-pd', '-f', '-k', '-E', '-S', '-R', '-nc', '-pm', '-pkv', '-pt', '-tt', '-no', '-Ml']:
-            if k == '-f':
-                self.D_parser[k]["arg"]["help"] = "Name of the model trained (used for saving files)"
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-pd':
-                self.D_parser[k]["arg"][
-                    "help"] = "comma separated path, first is reads fasta file, second is corresponding labels"
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-pm':
-                self.D_parser[k]["arg"]["help"] = "Complete path to save the model"
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-pkv':
-                self.D_parser[k]["arg"]["help"] = "Complete path to save final embeddings"
-                self.D_parser[k]["arg"]["required"] = False
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
     def parser_genome_projection(self):
         parser = argparse.ArgumentParser(description="Arguments for genomes projection")
         for k in ['-k', '-pd', '-ps', '-o', '-prv', '-rv', '-nc', '-pmwc', '-ig',
@@ -1087,7 +1089,8 @@ if __name__ == "__main__":
                             "run_camisim": {"path_log": "simulation", "log_file": "run_camisim.log", "need_spark": False},
                             "create_df_fasta_metadata": {"path_log": "simulation", "log_file": "create_df_fasta_metadata.log", "need_spark": False},
                             "create_simulated_read2genome_dataset": {"path_log": "simulation", "log_file": "create_simulated_read2genome_dataset.log", "need_spark": False},
-                            "create_simulated_metagenome2vec_dataset": {"path_log": "simulation", "log_file": "create_simulated_metagenome2vec_dataset.log", "need_spark": False}}
+                            "create_simulated_metagenome2vec_dataset": {"path_log": "simulation", "log_file": "create_simulated_metagenome2vec_dataset.log", "need_spark": False},
+                            "fastdna": {"path_log": "read2genome", "log_file": "fastdna.log", "need_spark": False}}
     
     command_metadata = dict_commands_metadata[args.command]
     path_log, log_file, need_spark = os.path.join(SCRIPT_DIR, "logs", command_metadata["path_log"]), command_metadata["log_file"], command_metadata["need_spark"]
@@ -1138,6 +1141,11 @@ if __name__ == "__main__":
                                             args.valid_size, args.n_sample_load, args.overwrite)
     if args.command == "create_simulated_metagenome2vec_dataset":
         create_simulated_metagenome2vec_dataset(args.path_data, args.path_save, args.overwrite, args.to_merge)
+
+    if args.command == "fastdna":
+        fastdna = FastDnaPred()
+        fastdna.train(args.path_data, args.k_mer_size, args.embedding_size, args.n_steps, args.learning_rate, args.tax_taken,
+                    args.path_kmer2vec, args.path_read2genome, args.path_tmp_folder, args.n_cpus, args.noise, args.max_length)
     logging.info("End computing")
 
 

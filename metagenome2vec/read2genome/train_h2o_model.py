@@ -14,7 +14,6 @@ from h2o.grid.grid_search import H2OGridSearch
 import logging
 from metagenome2vec.utils import file_manager, spark_manager, parser_creator, data_manager
 from metagenome2vec.utils.string_names import *
-import logger
 
 
 SEED = 42

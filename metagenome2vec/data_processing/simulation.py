@@ -58,7 +58,7 @@ def create_simulated_read2genome_dataset(path_fastq_file, path_mapping_file, pat
         clean_output_simulation(path_fastq_file, path_mapping_file, path_save, path_metadata)
     
     # Create the read2genome datasets
-    if overwrite or not os.path.exists(path_final_matrix):
+    if overwrite or not os.path.exists(path_save):
 
         name_matrix_save = "reads_read2genome"
         name_matrix_save_valid = name_matrix_save + "_valid"

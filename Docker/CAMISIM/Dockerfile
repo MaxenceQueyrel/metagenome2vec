@@ -38,4 +38,3 @@ RUN pip3 install scikit-learn==0.20.0 && \
  pip install numpy && \
  pip install matplotlib
 
-

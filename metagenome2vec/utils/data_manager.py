@@ -6,10 +6,8 @@ import numpy as np
 import subprocess
 import dill as pickle
 import re
-try:
-    import fasttext
-except:
-    pass
+#import fasttext
+
 
 from tqdm import tqdm
 
@@ -19,8 +17,8 @@ from metagenome2vec.read2vec.basic import BasicReadEmbeddings
 from metagenome2vec.read2vec.fastTextEmbed import FastTextReadEmbeddings
 # from metagenome2vec.read2vec.transformer import Seq2Seq
 from metagenome2vec.read2vec.fastDnaEmbed import FastDnaEmbed
-from metagenome2vec.read2genome.h2oModel import H2oModel
-from metagenome2vec.read2genome.fastDnaPred import FastDnaPred
+# from metagenome2vec.read2genome.h2oModel import H2oModel
+# from metagenome2vec.read2genome.fastDnaPred import FastDnaPred
 # from metagenome2vec.read2genome.transformerClassifier import TransformerClassifier
 
 
@@ -382,20 +380,20 @@ def load_read2vec(read2vec, path_read2vec, spark=None, path_metagenome_word_coun
     return r2v
 
 
-def load_read2genome(read2genome, path_read2genome, hc=None, path_tmp_folder=None, device=None):
-    if read2genome == "fastDNA":
-        r2g = FastDnaPred(path_read2genome, path_tmp_folder)
-    elif read2genome == "h2oModel":
-        # Test if the name of the model ends by model.h2o
-        if "model.h2o" != path_read2genome.split("/")[-1]:
-            path_read2genome = os.path.join(path_read2genome, "model.h2o")
-        r2g = H2oModel(path_read2genome, hc)
-    elif read2genome == "transformer":
-        r2g = TransformerClassifier(-1)
-        r2g.loadModel(path_read2genome, device=device)
-    else:
-        raise Exception("Read genome algorithm not correctly given !")
-    return r2g
+# def load_read2genome(read2genome, path_read2genome, hc=None, path_tmp_folder=None, device=None):
+#     if read2genome == "fastDNA":
+#         r2g = FastDnaPred(path_read2genome, path_tmp_folder)
+#     elif read2genome == "h2oModel":
+#         # Test if the name of the model ends by model.h2o
+#         if "model.h2o" != path_read2genome.split("/")[-1]:
+#             path_read2genome = os.path.join(path_read2genome, "model.h2o")
+#         r2g = H2oModel(path_read2genome, hc)
+#     elif read2genome == "transformer":
+#         r2g = TransformerClassifier(-1)
+#         r2g.loadModel(path_read2genome, device=device)
+#     else:
+#         raise Exception("Read genome algorithm not correctly given !")
+#     return r2g
 
 
 def filter_fastdna_fasta_file(data, labels, path_tmp_folder, tax_taken):

@@ -17,11 +17,10 @@ random.seed(time.time())
 
 
 class FastDnaPred(Read2Genome):
-    def __init__(self, path_model, path_tmp_folder):
+    def __init__(self, path_model=None, path_tmp_folder=None):
         Read2Genome.__init__(self, "fastDNA")
         self.path_fastDNA = os.getenv("FASTDNA")
         assert self.path_fastDNA is not None, "FASTDNA environment variable has to be defined"
-        assert path_model is not None and path_tmp_folder is not None, "All parameters have to be set"
         self.path_model = path_model
         self.path_tmp_folder = path_tmp_folder
 
@@ -31,6 +30,7 @@ class FastDnaPred(Read2Genome):
         :param X: pyspark DataFrame
         :return: pandas DataFrame with prediction
         """
+        assert self.path_model is not None and self.path_tmp_folder is not None, "path_model and path_tmp_folder variables have to be set."
         col_name = "read"
         index_name = "row_id"
         random_string = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(10))
@@ -64,15 +64,16 @@ class FastDnaPred(Read2Genome):
 
         return X
 
-    def train(path_data, f_name, k_mer_size, embedding_size, n_steps, learning_rate, tax_taken, path_kmer2vec, path_model,
+    def train(self, path_data, k_mer_size, embedding_size, n_steps, learning_rate, tax_taken, path_kmer2vec, path_read2genome,
               path_tmp_folder, n_cpus, noise, max_length):
         data, labels = path_data.split(",")
         tax_taken = None if (tax_taken is None or tax_taken == "None") else [str(x) for x in tax_taken.split('.')]
 
+        f_name = "fastdna_k_{}_embed_size_{}_n_step_{}_lr_{}_noise_{}_max_length_{}".format(k_mer_size, embedding_size, n_steps, learning_rate, noise, max_length)
         if tax_taken is not None:
             f_name += "_n_tax_%s" % len(tax_taken)
         path_save = os.path.join(path_kmer2vec, f_name)
-        output = os.path.join(path_model, f_name)
+        output = os.path.join(path_read2genome, f_name)
 
         path_fastDNA = os.getenv("FASTDNA")
         assert path_fastDNA is not None, "FASTDNA environment variable has to be defined"
@@ -83,7 +84,7 @@ class FastDnaPred(Read2Genome):
 
         # Create the folder where the model will be saved
         file_manager.create_dir(path_save, "local")
-        file_manager.create_dir(path_model, "local")
+        file_manager.create_dir(path_read2genome, "local")
 
         ###################################
         #--------- Training model --------#
@@ -119,7 +120,7 @@ class FastDnaPred(Read2Genome):
         df = pd.read_csv(output + ".vec", sep=" ", header=None, skiprows=1)
         reverse_index = df[0].to_dict()
         dico_index = {}
-        for k, v in reverse_index.items():
+        for _, v in reverse_index.items():
             dico_index[str(v)] = int(k_mer_size)
 
         final_embeddings = np.array(df[np.arange(1, df.shape[1])])

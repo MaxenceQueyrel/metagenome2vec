@@ -27,65 +27,58 @@ cd $METAGENOME2VEC_PATH/Docker/CAMISIM; make
 
 ##### Data download
 ```bash
-bash $METAGENOME2VEC_PATH/script/data_processing/dowload/download_metagenomic_data_from_tsv_file.sh --path-input $METAGENOME2VEC_PATH/data/cirrhosis/download_file.tsv --path-output ~/Documents/tmp/data_cirrhosis/
+python $METAGENOME2VEC_PATH/main.py download_metagenomic_data -pd /path/to/file/mydata.tsv -ps /path/to/data -isi 1 -iu 6
 ```
 
-##### Run data preprocessing
+##### Run data preprocessing (cleaning metagenomic data)
 ```bash
-bash $METAGENOME2VEC_PATH/script/data_processing/metagenome/clean_raw_data.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/metagenome/clean_raw_data.yaml
+python $METAGENOME2VEC_PATH/main.py clean_raw_metagenomic_data -pd /path/to/data -ps /path/to/clean_data -nsl 10000
 ```
 
 ##### Run BOK
 ```bash
-bash $METAGENOME2VEC_PATH/script/data_processing/metagenome/bok_split.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/metagenome/bok_split.yaml
-bash $METAGENOME2VEC_PATH/script/data_processing/metagenome/bok_merge.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/metagenome/bok_merge.yaml
-```
+python $METAGENOME2VEC_PATH/main.py bok_split -pd /path/to/data -ps /path/to/bok -k 6
 
-##### Run Kmerization
-```bash
-bash $METAGENOME2VEC_PATH/script/data_processing/metagenome/kmerization.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/metagenome/kmerization.yaml
+python $METAGENOME2VEC_PATH/main.py bok_merge -pd /path/to/bok
 ```
 
 ##### Run simulation
-In a folder you should have a folder called 'camisim' with these files:
+###### Create metadata
+```bash
+python $METAGENOME2VEC_PATH/main.py create_df_fasta_metadata -pd /path/to/genomic/data -ps /path/to/metadata
+```
+
+###### Create config files for camisim
+```bash
+python $METAGENOME2VEC_PATH/main.py create_camisim_config_file -ps /path/to/simulation/folder -nc 3 -nsc 2 -ct both -pt /tmp -go 1.0 -pap /path/to/abundance_file.tsv
+```
+The script creates a init file in camisim/config_files and an empty folder in camisim/dataset
+
+
+
+###### Run CAMISIM
+At this time you should have a folder containing a folder called 'camisim' with these files:
 - metadata.tsv: header is "genome_ID \t OTU \t NCBI_ID \t novelty_category".
 - genome_to_id.tsv: no header, two columns as "genome_ID \t path_to_fasta_file".
 - A tsv file with abundance: no header, two columns as "genome_ID \t abundance". Notice that abundance column must sum to 1 and that this file can also be a folder containing several abundance files.
 
-###### Create config files
-```bash
-bash $METAGENOME2VEC_PATH/script/data_processing/simulation/create_camisim_config_file.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/simulation/create_camisim_config_file.yaml
-```
-The script creates a init file in camisim/config_files and an empty folder in camisim/dataset
-
-##### Run simulation
 ```bash
 docker run --rm --name camisim -dt --memory="4g" --memory-swap="4g" --cpus="4.0" -e METAGENOME2VEC_PATH=$METAGENOME2VEC_PATH -e CAMISIM=$CAMISIM -e NANOSIM=$NANOSIM -v /your/path/:/your/path/ maxence27/camisim:1.0`
 docker exec -i camisim python $CAMISIM/metagenomesimulation.py --debug $METAGENOME2VEC_PATH/data/simulation_test/camisim/config_files/illumina_abundance_balanced_species.ini
 ```
 The first line initiate the docker container and the second one run the simulation that simulates metagenomic samples in the folder camisim/dataset/my_folder_in_init_file
 
-##### Clean simulation files to create datasets
-- Preprocessing for read2genome dataset
+###### Create a read2genome / fastdna datasets from CAMISIM output
 ```bash
-bash $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_read2genome.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_read2genome.yaml
+python $METAGENOME2VEC_PATH/main.py create_simulated_read2genome_dataset -pfq /to/to/reads.fq.gz -pmf /pat/to/reads_mapping.tsv.gz -ps /path/to/save/output -nsl 500000 -pmd /path/to/metadata.csv
 ```
-- Preprocessing for metagenome2vec dataset
+
+###### Create a metagenome2vec dataset from CAMISIM output
 ```bash
-bash $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_metagenome2vec.sh --conf-file $METAGENOME2VEC_PATH/script/data_processing/simulation/clean_data_for_metagenome2vec.yaml
+python $METAGENOME2VEC_PATH/main.py create_simulated_metagenome2vec_dataset -pd /path/to/simulated/data -ps /path/to/save/output
 ```
 
 ##### Run read2genome with fastDNA
 ```bash
-bash $METAGENOME2VEC_PATH/script/read2genome/fastdna.sh --conf-file $METAGENOME2VEC_PATH/script/read2genome/fastdna.yaml
-```
-
-##### Run metagenome2vec
-```bash
-bash $METAGENOME2VEC_PATH/script/metagenome_vectorization/embeddings.sh --conf-file $METAGENOME2VEC_PATH/script/metagenome_vectorization/embeddings.yaml
-```
-
-##### Run Variational Auto Encoder
-```bash
-bash $METAGENOME2VEC_PATH/script/NN/vae.sh --conf-file $METAGENOME2VEC_PATH/script/NN/vae.yaml
+python $METAGENOME2VEC_PATH/main.py fastdna -k 6 -pd /path/to/reads_fastdna,/path/to/fastdna_labels -nc 3 -prg /path/to/save/read2genome -pkv /path/to/save/read2vec -pt /tmp -S 2 -E 50
 ```
