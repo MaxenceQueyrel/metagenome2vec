@@ -8,6 +8,7 @@ from metagenome2vec.data_processing.metagenome import preprocess_metagenomic_dat
 from metagenome2vec.data_processing.dowload_metagenomic_data import download_from_tsv_file
 from metagenome2vec.data_processing.simulation import *
 from metagenome2vec.read2genome.fastDnaPred import FastDnaPred
+from metagenome2vec.metagenome2vec import bok
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -486,6 +487,8 @@ class ParserCreator(object):
         self.parser_create_simulated_metagenome2vec_dataset()
         self.parser_create_camisim_config_file()
         self.parser_fastdna()
+        self.parser_bok()
+        self.parser_metagenome2vec()
         
     ##############################
     # METAGENOME PROCESSING
@@ -620,6 +623,71 @@ class ParserCreator(object):
                 self.D_parser[k]["arg"]["help"] = "Complete path to save final embeddings"
                 self.D_parser[k]["arg"]["required"] = False
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
+
+    ##############################
+    # METAGENOME2VEC
+    ##############################
+
+    def parser_bok(self):
+        parser = self.subparsers.add_parser('bok')
+        for k in ['-pd', '-k', '-o', '-pg', '-lf', '-pmd']:
+            if k == '-k':
+                self.D_parser[k]["arg"]["required"] = True
+            if k == '-pmd':
+                self.D_parser[k]["arg"][
+                    "help"] = "Absolute path to a csv file containing 2 columns : 'id.fasta' (the metagenome's id) and 'group' that is the class of a metagenome"
+            if k == '-pd':
+                self.D_parser[k]["arg"]["required"] = True
+                self.D_parser[k]["arg"][
+                    "help"] = "Path were are saved the BoK files for each metagenomes. It is also where is saved the BoK final matrix with metagenome info concatenated"
+            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
+
+    def parser_metagenome2vec(self):
+        parser = self.subparsers.add_parser('metagenome2vec')
+        for k in ['-ps', '-k', '-np', '-mo', '-pd', '-lf', '-T', '-prv', '-pt', '-o', '-pg', '-ng', '-im',
+                  '-rv', '-ig', '-pmwc', '-ct', '-pmd', '-nsl', '-prg', '-ni', '-rg', '-pfsr', '-pmca', '-il', '-pp']:
+            if k == '-f':
+                self.D_parser[k]["arg"]["required"] = True
+                self.D_parser[k]["arg"]["help"] = "The suffix name of the matrix file saved. To identify all matrix"
+            if k == '-m':
+                self.D_parser[k]["arg"]["default"] = "mean"
+                self.D_parser[k]["arg"]["help"] = "Computation method : mean or sum are available"
+            if k == '-ct':
+                self.D_parser[k]["arg"][
+                    "help"] = "Comma separated string with value: 0 tabular, 1 MIL, 2 for cut metagenome analysis"
+                self.D_parser[k]["arg"]["type"] = str
+                del self.D_parser[k]["arg"]["choices"]
+            if k == '-B':
+                self.D_parser[k]["arg"]["default"] = 1e6
+            if k == '-pal':
+                self.D_parser[k]["arg"]["required"] = False
+            if k == '-k':
+                self.D_parser[k]["arg"]["required"] = False
+            if k == '-rg':
+                self.D_parser[k]["arg"]["required"] = False
+            if k == '-pm':
+                self.D_parser[k]["arg"]["required"] = False
+                self.D_parser[k]["arg"]["default"] = None
+            if k == '-ca':
+                self.D_parser[k]["arg"]["required"] = False
+            if k == '-dn':
+                self.D_parser[k]["arg"]["required"] = True
+            if k == '-nsl':
+                self.D_parser[k]["arg"]["default"] = -1
+            if k == '-pmd':
+                self.D_parser[k]["arg"][
+                    "help"] = "Absolute path to a csv file containing 2 columns : 'id.fasta' (the metagenome's id) and 'group' that is the class of a metagenome"
+                self.D_parser[k]["arg"]["required"] = False
+                self.D_parser[k]["arg"]["default"] = None
+            if k == '-m':
+                self.D_parser[k]["arg"]["default"] = None
+                self.D_parser[k]["arg"]["help"] = "The path where is saved the read2genome model"
+            if k == '-T':
+                self.D_parser[k]["arg"]["default"] = 0.0
+                self.D_parser[k]["arg"]["type"] = float
+                self.D_parser[k]["arg"]["help"] = "Value of the threshold for the read2genome"
+            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
+
 
     ##############################
     ##############################
@@ -843,68 +911,6 @@ class ParserCreator(object):
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
         return parser.parse_args()
 
-    def parser_bok(self):
-        parser = argparse.ArgumentParser(description="Arguments for structuring metagenomes to BoK representation")
-        for k in ['-pd', '-k', '-o', '-pg', '-lf', '-pmd']:
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-            if k == '-k':
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-pmd':
-                self.D_parser[k]["arg"][
-                    "help"] = "Absolute path to a csv file containing 2 columns : 'id.fasta' (the metagenome's id) and 'group' that is the class of a metagenome"
-            if k == '-pd':
-                self.D_parser[k]["arg"]["required"] = True
-                self.D_parser[k]["arg"][
-                    "help"] = "Path were are saved the BoK files for each metagenomes. It is also where is saved the BoK final matrix with metagenome info concatenated"
-        return parser.parse_args()
-
-    def parser_metagenome2vec(self):
-        parser = argparse.ArgumentParser(description="Arguments for transformation metagenomes' reads to embeddings")
-        for k in ['-ps', '-k', '-np', '-mo', '-pd', '-lf', '-T', '-prv', '-pt', '-o', '-pg', '-ng', '-im',
-                  '-rv', '-ig', '-pmwc', '-ct', '-pmd', '-nsl', '-prg', '-ni', '-rg', '-pfsr', '-pmca', '-il', '-pp']:
-            if k == '-f':
-                self.D_parser[k]["arg"]["required"] = True
-                self.D_parser[k]["arg"]["help"] = "The suffix name of the matrix file saved. To identify all matrix"
-            if k == '-m':
-                self.D_parser[k]["arg"]["default"] = "mean"
-                self.D_parser[k]["arg"]["help"] = "Computation method : mean or sum are available"
-            if k == '-ct':
-                self.D_parser[k]["arg"][
-                    "help"] = "Comma separated string with value: 0 tabular, 1 MIL, 2 for cut metagenome analysis"
-                self.D_parser[k]["arg"]["type"] = str
-                del self.D_parser[k]["arg"]["choices"]
-            if k == '-B':
-                self.D_parser[k]["arg"]["default"] = 1e6
-            if k == '-pal':
-                self.D_parser[k]["arg"]["required"] = False
-            if k == '-k':
-                self.D_parser[k]["arg"]["required"] = False
-            if k == '-rg':
-                self.D_parser[k]["arg"]["required"] = False
-            if k == '-pm':
-                self.D_parser[k]["arg"]["required"] = False
-                self.D_parser[k]["arg"]["default"] = None
-            if k == '-ca':
-                self.D_parser[k]["arg"]["required"] = False
-            if k == '-dn':
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-nsl':
-                self.D_parser[k]["arg"]["default"] = -1
-            if k == '-pmd':
-                self.D_parser[k]["arg"][
-                    "help"] = "Absolute path to a csv file containing 2 columns : 'id.fasta' (the metagenome's id) and 'group' that is the class of a metagenome"
-                self.D_parser[k]["arg"]["required"] = False
-                self.D_parser[k]["arg"]["default"] = None
-            if k == '-m':
-                self.D_parser[k]["arg"]["default"] = None
-                self.D_parser[k]["arg"]["help"] = "The path where is saved the read2genome model"
-            if k == '-T':
-                self.D_parser[k]["arg"]["default"] = 0.0
-                self.D_parser[k]["arg"]["type"] = float
-                self.D_parser[k]["arg"]["help"] = "Value of the threshold for the read2genome"
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
     def parser_seq2seq(self):
         parser = argparse.ArgumentParser(description="Arguments for transformation metagenomes' reads to embeddings")
         for k in ['-k', '-w', '-pa', '-pal', '-s', '-kea', '-dn', '-ca', '-S', '-B', '-ig', '-R', '-E', '-pd',
@@ -1090,7 +1096,9 @@ if __name__ == "__main__":
                             "create_df_fasta_metadata": {"path_log": "simulation", "log_file": "create_df_fasta_metadata.log", "need_spark": False},
                             "create_simulated_read2genome_dataset": {"path_log": "simulation", "log_file": "create_simulated_read2genome_dataset.log", "need_spark": False},
                             "create_simulated_metagenome2vec_dataset": {"path_log": "simulation", "log_file": "create_simulated_metagenome2vec_dataset.log", "need_spark": False},
-                            "fastdna": {"path_log": "read2genome", "log_file": "fastdna.log", "need_spark": False}}
+                            "fastdna": {"path_log": "read2genome", "log_file": "fastdna.log", "need_spark": False},
+                            "bok": {"path_log": "metagenome2vec", "log_file": "bok.log", "need_spark": True},
+                            "metagenome2vec": {"path_log": "metagenome2vec", "log_file": "metagenome2vec.log", "need_spark": True}}
     
     command_metadata = dict_commands_metadata[args.command]
     path_log, log_file, need_spark = os.path.join(SCRIPT_DIR, "logs", command_metadata["path_log"]), command_metadata["log_file"], command_metadata["need_spark"]
@@ -1146,6 +1154,12 @@ if __name__ == "__main__":
         fastdna = FastDnaPred()
         fastdna.train(args.path_data, args.k_mer_size, args.embedding_size, args.n_steps, args.learning_rate, args.tax_taken,
                     args.path_kmer2vec, args.path_read2genome, args.path_tmp_folder, args.n_cpus, args.noise, args.max_length)
+    
+    if args.command == "bok":
+        bok.transform(spark, args.k_mer_size, args.path_data, df_metadata, args.overwrite)
+
+    if args.command == "metagenome2vec":
+        pass
     logging.info("End computing")
 
 

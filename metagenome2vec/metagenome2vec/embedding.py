@@ -2,20 +2,17 @@ import os
 import time
 import numpy as np
 import pandas as pd
-import json
 import re
 from pyspark.sql import functions as F
-from pysparkling import H2OContext
 import h2o
-import pysparkling
 import pickle
 import logging
 
-from metagenome2vec.utils import file_manager, spark_manager, parser_creator, data_manager
 from metagenome2vec.utils.string_names import *
 
 
-def compute(df, r2v, metagenome, target, computation_type, n_sample_load=-1, r2g=None):
+def compute(df, r2v, metagenome, target, k_mer_size, spark, hc, computation_type, n_sample_load=-1, r2g=None, path_folder_save_read2genome=None,
+    overwrite=True, in_memory=False, read2genome_algo="fastdna", threshold=0., paired_prediction=True):
     """
     Compute the structuring matrix for one metagenome
     :param df: spark dataframe, contains reads to process
@@ -30,8 +27,8 @@ def compute(df, r2v, metagenome, target, computation_type, n_sample_load=-1, r2g
     """
     if n_sample_load > 0:
         df = df.limit(n_sample_load)
-    # Filter reads too short (lower than k)
-    df = df.filter(F.length(F.col(read_name)) > k).persist()
+    # Filter reads too short (lower than k_mer_size)
+    df = df.filter(F.length(F.col(read_name)) > k_mer_size).persist()
     df.count()
     # read2vec
     logging.info("Begin read2vec")
@@ -51,7 +48,7 @@ def compute(df, r2v, metagenome, target, computation_type, n_sample_load=-1, r2g
         if not overwrite and path_folder_save_read2genome is not None and os.path.exists(os.path.join(path_folder_save_read2genome, metagenome)):
             df_pred = pd.read_csv(os.path.join(path_folder_save_read2genome, metagenome))
         else:
-            if read2genome == "fastDNA":
+            if read2genome_algo == "fastdna":
                 df_pred = r2g.read2genome(df)
             else:
                 df_pred = r2g.read2genome(df_embed)
@@ -160,7 +157,7 @@ def compute(df, r2v, metagenome, target, computation_type, n_sample_load=-1, r2g
     return None, df
 
 
-def metagenome2vec(id_label, r2v, spark, computation_type, r2g=None):
+def metagenome2vec(path_data, id_label, r2v, spark, n_sample_load, computation_type, path_save_tmp, r2g=None, overwrite=False):
     """
     Compute the transformation for each metagenome and save it
     :param spark: SparkSession
@@ -238,95 +235,4 @@ def compute_cut_matrix_read_embeddings(D_L_metagenome, r2v, pct_cut=0.1, n_cut=1
                 logging.info("Duration : %s" % (time.time() - d))
     logging.info("Saving final table")
     df_res.to_csv(file_name_res_cut_matrix, sep=',', index=False)
-
-
-if __name__ == "__main__":
-    ####################################
-    # ------ Script's Parameters ------#
-    ####################################
-    args = parser_creator.ParserCreator().parser_metagenome2vec()
-    path_save = args.path_save
-    k = args.k_mer_size
-    num_partitions = args.num_partitions
-    mode = args.mode
-    path_data = args.path_data
-
-    log_file = args.log_file
-    overwrite = args.overwrite
-    saving_mode = "overwrite" if overwrite else None
-    path_log = args.path_log
-    nb_metagenome = args.nb_metagenome
-    name_df_read_embeddings = "df_read_embeddings.parquet"
-    read2vec = args.read2vec
-    path_metagenome_word_count = args.path_metagenome_word_count
-    n_sample_load = args.n_sample_load
-    computation_type = [int(x) for x in args.computation_type.split(',') if int(x) in [0, 1, 2, 3]]
-    path_read2genome = args.path_read2genome
-    path_metagenome_cut_analyse = args.path_metagenome_cut_analyse
-    path_folder_save_read2genome = args.path_folder_save_read2genome if args.path_folder_save_read2genome != "None" else None
-    if path_folder_save_read2genome is not None:
-        file_manager.create_dir(path_folder_save_read2genome, mode="local")
-    n_instance = args.n_instance
-    threshold = args.thresholds
-    path_read2vec = args.path_read2vec
-    path_tmp_folder = args.path_tmp_folder
-    read2genome = args.read2genome
-    in_memory = args.in_memory
-    paired_prediction = args.paired_prediction
-    path_metadata = None if args.path_metadata == "None" else args.path_metadata
-    id_label = None if args.id_label == "None" else args.id_label
-    assert all([x not in computation_type for x in [0, 1, 2]]) or path_metadata is not None or id_label is not None, "path_metadata or id_label should be defined"
-    path_save_tmp = os.path.join(path_save, "tmp")
-    if id_label is not None:
-        id_label = id_label.split(',')
-        assert len(id_label) == 2, "2 values are mandatory id.fasta and group"
-        file_manager.create_dir(path_save_tmp, "local")
-
-    file_manager.create_dir(path_save, mode="local")
-    id_gpu = [int(x) for x in args.id_gpu.split(',')]
-
-    logging.basicConfig(filename=os.path.join(args.path_log, args.log_file), level=logging.DEBUG)
-
-    # Init Spark
-    spark = spark_manager.createSparkSession("metagenome2vec")
-    # Init h2o
-    hc = H2OContext.getOrCreate() if in_memory is False else None
-    
-    beg = time.time()
-
-    if path_metadata is not None:
-        metadata = pd.read_csv(path_metadata, delimiter=",")[[id_fasta_name, group_name]]
-
-    #############################
-    # --- Preparing read2vec ----#
-    #############################
-
-    r2v = data_manager.load_read2vec(read2vec, path_read2vec=path_read2vec, spark=spark,
-                                     path_metagenome_word_count=path_metagenome_word_count, k=k, id_gpu=id_gpu,
-                                     path_tmp_folder=path_tmp_folder)
-
-    ###################################
-    # ---- Compute transformation -----#
-    # ---- And Saving Data ------------#
-    ###################################
-
-    if path_read2genome is not None:
-        logging.info("Loading read2genome model")
-        r2g = data_manager.load_read2genome(read2genome, path_read2genome, hc, path_tmp_folder)
-    else:
-        r2g = None
-    if 0 in computation_type or 1 in computation_type:
-        logging.info("Begin embeddings matrix structuring")
-        metagenome2vec(id_label, r2v, spark, computation_type, r2g)
-        logging.info("End computation")
-    elif 2 in computation_type:
-        logging.info("Begin embeddings cut matrix structuring")
-        D_L_metagenome = json.load(open(path_metagenome_cut_analyse, "r"))
-        compute_cut_matrix_read_embeddings(D_L_metagenome, r2v)
-        logging.info("End computation")
-    elif 3 in computation_type:
-        logging.info("Begin merge")
-        metagenome2vec_merge()
-        logging.info("End computation")
-    logging.info("Total time spending for the script : %s" % (time.time() - beg))
 

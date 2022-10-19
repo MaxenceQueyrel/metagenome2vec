@@ -138,3 +138,5 @@ def kmerize_metagenomic_data(spark: SparkContext, path_data: str, path_save: str
                                                      num_partitions=num_partitions, in_memory=in_memory)
         L_reads = [x[0] for x in df.select(col_name).collect()]
         transformation_ADN.cut_and_write_reads(L_reads, f_res, k_mer_size, s=1, mode="c", remove_unk=False)
+
+
