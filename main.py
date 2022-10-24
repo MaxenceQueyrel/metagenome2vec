@@ -3,12 +3,13 @@ import argparse
 import json
 import logging
 import copy
-from metagenome2vec.utils import spark_manager
+from metagenome2vec.utils import data_manager, spark_manager
 from metagenome2vec.data_processing.metagenome import preprocess_metagenomic_data, bok_split, bok_merge
 from metagenome2vec.data_processing.dowload_metagenomic_data import download_from_tsv_file
 from metagenome2vec.data_processing.simulation import *
 from metagenome2vec.read2genome.fastDnaPred import FastDnaPred
-from metagenome2vec.metagenome2vec import bok
+from metagenome2vec.read2vec.fastDnaEmbed import FastDnaEmbed
+from metagenome2vec.metagenome2vec import bok, embedding
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -322,10 +323,10 @@ class ParserCreator(object):
                                                                "choices": ["tax_id", "species", "genus", "family"],
                                                                "default": "species",
                                                                "help": "Determine the taxonomy level considered"}}
-        self.D_parser["-T"] = {"name": "--thresholds", "arg": {"metavar": "thresholds",
+        self.D_parser["-T"] = {"name": "--threshold", "arg": {"metavar": "threshold",
                                                                "type": str,
                                                                "default": "0.5",
-                                                               "help": "Coma separated thresholds"}}
+                                                               "help": "Threshold to accept the prediction."}}
         self.D_parser["-ba"] = {"name": "--balance", "arg": {"metavar": "balance",
                                                              "type": str,
                                                              "choices": [None, "under", "over", "both"],
@@ -368,7 +369,7 @@ class ParserCreator(object):
                                                                     "help": "Complete path to kmer2vec model"}}
         self.D_parser["-pt"] = {"name": "--path_tmp_folder", "arg": {"metavar": "path_tmp_folder",
                                                                      "type": str,
-                                                                     "default": None,
+                                                                     "default": "./" if os.environ["TMP"] is None else os.environ["TMP"],
                                                                      "help": "Complete path to the tmp folder used for the script"}}
         self.D_parser["-ot"] = {"name": "--only_transform", "arg": {"action": "store_true",
                                                                     "help": "If True just compute the reads transforming not training"}}
@@ -630,7 +631,7 @@ class ParserCreator(object):
 
     def parser_bok(self):
         parser = self.subparsers.add_parser('bok')
-        for k in ['-pd', '-k', '-o', '-pg', '-lf', '-pmd']:
+        for k in ['-pd', '-k', '-o', '-pmd']:
             if k == '-k':
                 self.D_parser[k]["arg"]["required"] = True
             if k == '-pmd':
@@ -644,34 +645,9 @@ class ParserCreator(object):
 
     def parser_metagenome2vec(self):
         parser = self.subparsers.add_parser('metagenome2vec')
-        for k in ['-ps', '-k', '-np', '-mo', '-pd', '-lf', '-T', '-prv', '-pt', '-o', '-pg', '-ng', '-im',
-                  '-rv', '-ig', '-pmwc', '-ct', '-pmd', '-nsl', '-prg', '-ni', '-rg', '-pfsr', '-pmca', '-il', '-pp']:
-            if k == '-f':
-                self.D_parser[k]["arg"]["required"] = True
-                self.D_parser[k]["arg"]["help"] = "The suffix name of the matrix file saved. To identify all matrix"
-            if k == '-m':
-                self.D_parser[k]["arg"]["default"] = "mean"
-                self.D_parser[k]["arg"]["help"] = "Computation method : mean or sum are available"
-            if k == '-ct':
-                self.D_parser[k]["arg"][
-                    "help"] = "Comma separated string with value: 0 tabular, 1 MIL, 2 for cut metagenome analysis"
-                self.D_parser[k]["arg"]["type"] = str
-                del self.D_parser[k]["arg"]["choices"]
-            if k == '-B':
-                self.D_parser[k]["arg"]["default"] = 1e6
-            if k == '-pal':
+        for k in ['-pd', '-ps', '-pmd', '-prv', '-pt', '-prg', '-nsl', '-T', '-pp', '-o', '-il', '-k']:
+            if k == '-prg':
                 self.D_parser[k]["arg"]["required"] = False
-            if k == '-k':
-                self.D_parser[k]["arg"]["required"] = False
-            if k == '-rg':
-                self.D_parser[k]["arg"]["required"] = False
-            if k == '-pm':
-                self.D_parser[k]["arg"]["required"] = False
-                self.D_parser[k]["arg"]["default"] = None
-            if k == '-ca':
-                self.D_parser[k]["arg"]["required"] = False
-            if k == '-dn':
-                self.D_parser[k]["arg"]["required"] = True
             if k == '-nsl':
                 self.D_parser[k]["arg"]["default"] = -1
             if k == '-pmd':
@@ -679,9 +655,6 @@ class ParserCreator(object):
                     "help"] = "Absolute path to a csv file containing 2 columns : 'id.fasta' (the metagenome's id) and 'group' that is the class of a metagenome"
                 self.D_parser[k]["arg"]["required"] = False
                 self.D_parser[k]["arg"]["default"] = None
-            if k == '-m':
-                self.D_parser[k]["arg"]["default"] = None
-                self.D_parser[k]["arg"]["help"] = "The path where is saved the read2genome model"
             if k == '-T':
                 self.D_parser[k]["arg"]["default"] = 0.0
                 self.D_parser[k]["arg"]["type"] = float
@@ -1156,12 +1129,34 @@ if __name__ == "__main__":
                     args.path_kmer2vec, args.path_read2genome, args.path_tmp_folder, args.n_cpus, args.noise, args.max_length)
     
     if args.command == "bok":
+        df_metadata = pd.read_csv(args.path_metadata)
         bok.transform(spark, args.k_mer_size, args.path_data, df_metadata, args.overwrite)
 
     if args.command == "metagenome2vec":
-        pass
+        logging.info("Begin metagenome2vec")
+        assert args.id_label is not None or args.path_metadata is not None, "At least one between id_label or path_metadata must be defined."
+        logging.info("Load read2vec")
+        read2vec = FastDnaEmbed(args.path_read2vec, spark, os.path.join(args.path_tmp_folder, "tmp_fastdna"))
+        logging.info("Load read2genome")
+        read2genome = FastDnaPred(args.path_read2genome, args.path_tmp_folder)
+        if args.path_metadata:
+            df_metadata = pd.read_csv(args.path_metadata)
+            for i, row in df_metadata.iterrows():
+                metagenome_name, target = row["id.subject"], row["group"]
+                df_metagenome = spark.read.parquet(os.path.join(args.path_data, metagenome_name))
+                embedding.transform(spark, args.path_save, df_metagenome, args.k_mer_size, target, metagenome_name, read2vec, args.n_sample_load,
+                        read2genome, threshold=args.threshold, paired_prediction=args.paired_prediction, overwrite=args.overwrite, hc=None, save_read2genome=True)
+        else:
+            metagenome_name, target = args.id_label.split(',')
+            df_metagenome = spark.read.parquet(os.path.join(args.path_data, metagenome_name))
+            embedding.transform(args.path_save, df_metagenome, args.k_mer_size, target, metagenome_name, spark, read2vec, args.n_sample_load,
+                        read2genome, threshold=args.threshold, paired_prediction=args.paired_prediction, overwrite=args.overwrite, hc=None, save_read2genome=True)
+        logging.info("End computation")
+        # Add the folder where are saved the output of metagenome2vec to path_data
+        # Then aggregate the outputs
+        from metagenome2vec.utils.string_names import metagenome_embeddings_folder
+        embedding.create_finale_files(os.path.join(args.path_save, metagenome_embeddings_folder))
     logging.info("End computing")
-
 
 
 """

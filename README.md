@@ -82,3 +82,12 @@ python $METAGENOME2VEC_PATH/main.py create_simulated_metagenome2vec_dataset -pd 
 ```bash
 python $METAGENOME2VEC_PATH/main.py fastdna -k 6 -pd /path/to/reads_fastdna,/path/to/fastdna_labels -nc 3 -prg /path/to/save/read2genome -pkv /path/to/save/read2vec -pt /tmp -S 2 -E 50
 ```
+
+##### Run metagenome2vec
+###### Bag of kmers
+
+python $METAGENOME2VEC_PATH/main.py bok -pd /path/to/folder/with/bok_files -pmd /path/to/metadata.csv -k 6
+
+###### Embeddings
+
+python $METAGENOME2VEC_PATH/main.py metagenome2vec -k 6 -pd /path/to/folder/with/metagenomes/preprocessed/ -ps /path/to/save/ -pmd /path/to/metadata.csv -prv /path/to/read2vec -prg /path/to/read2genome

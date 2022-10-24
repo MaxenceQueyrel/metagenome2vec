@@ -49,7 +49,7 @@ count_name = "count"
 genome_name = "genome"
 control_category = "Control"
 read_formatted_name = "read_formatted"
-
+metagenome_embeddings_folder = "metagenome_embeddings"
 m2v_zip_name = "metagenome2vec.zip"
 
 # NN

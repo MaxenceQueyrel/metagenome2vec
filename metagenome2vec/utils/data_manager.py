@@ -348,36 +348,31 @@ def load_df_taxonomy_ref(path_tax_report):
     return df_taxonomy_ref
 
 
-def load_read2vec(read2vec, path_read2vec, spark=None, path_metagenome_word_count=None,
-                  k=None, id_gpu=[-1], path_tmp_folder=None):
-    if path_metagenome_word_count is not None and path_metagenome_word_count != "None":
-        assert spark is not None, "You have to define a SQL spark context to load kmer count"
-        kmer_count = spark.read.parquet(path_metagenome_word_count).select("kmer", "count").rdd.collectAsMap()
-    else:
-        kmer_count = None
-
-    if read2vec in ["basic", "sif", "gem"]:
-        # Creation of read embedding algorithm
-        embeddings, dico_index, reverse_index = load_embeddings(path_read2vec)
-        if read2vec == "basic":
-            # method = args.method
-            r2v = BasicReadEmbeddings(embeddings, dico_index, reverse_index, k, kmer_count)
-        #if read2vec == "sif":
-        #    r2v = SifEmbeddings(embeddings, dico_index, reverse_index, k, kmer_count)
-    elif read2vec == "fastText":
-        # Creation of read embedding algorithm
-        path_model, dico_index, reverse_index = load_fasttext(path_read2vec)
-        r2v = FastTextReadEmbeddings(path_model, dico_index, reverse_index, k)
-    elif read2vec == "fastDNA":
-        r2v = FastDnaEmbed(path_read2vec, spark, path_tmp_folder)
-    # TODO
-    elif read2vec == "transformer":
-        r2v = Seq2Seq(k, id_gpu=id_gpu)
-        r2v.loadModel(path_read2vec)
-        r2v.model.eval()
-    else:
-        raise Exception("The read2vec algorithm is unknown")
-    return r2v
+# Creation of read embedding algorithm
+# def load_read2vec(read2vec_name, path_read2vec, spark=None, path_metagenome_word_count=None,
+#                   k=None, id_gpu=[-1], path_tmp_folder=None):
+#     if path_metagenome_word_count is not None and path_metagenome_word_count != "None":
+#         assert spark is not None, "You have to define a SQL spark context to load kmer count"
+#         kmer_count = spark.read.parquet(path_metagenome_word_count).select("kmer", "count").rdd.collectAsMap()
+#     else:
+#         kmer_count = None
+#     if read2vec_name == "basic":
+#         embeddings, dico_index, reverse_index = load_embeddings(path_read2vec)
+#         read2vec = BasicReadEmbeddings(embeddings, dico_index, reverse_index, k, kmer_count)
+#     elif read2vec_name == "fastText":
+#         # Creation of read embedding algorithm
+#         path_model, dico_index, reverse_index = load_fasttext(path_read2vec)
+#         read2vec = FastTextReadEmbeddings(path_model, dico_index, reverse_index, k)
+#     elif read2vec_name == "fastDNA":
+#         read2vec = FastDnaEmbed(path_read2vec, spark, path_tmp_folder)
+#     # TODO
+#     elif read2vec_name == "transformer":
+#         read2vec = Seq2Seq(k, id_gpu=id_gpu)
+#         read2vec.loadModel(path_read2vec)
+#         read2vec.model.eval()
+#     else:
+#         raise Exception("The read2vec algorithm is unknown")
+#     return read2vec
 
 
 # def load_read2genome(read2genome, path_read2genome, hc=None, path_tmp_folder=None, device=None):

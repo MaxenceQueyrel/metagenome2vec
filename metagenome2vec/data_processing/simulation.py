@@ -135,7 +135,6 @@ def create_simulated_metagenome2vec_dataset(path_data: str, path_save: str, over
                             cpt += 1
     csvfile.close()
 
-
 def create_simulated_config_file(n_cpus, n_sample_by_class, computation_type, size,
                                  path_tmp_folder, path_save, path_abundance_profile):
     name_config_folder = "config_files"

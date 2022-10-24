@@ -23,9 +23,9 @@ def transform(spark, k, path_data, df_metadata, overwrite):
     m = 0
     for metagenome in df_metadata[id_fasta_name]:
         if not os.path.exists(os.path.join(path_data, metagenome)):
-            logging.info("Interation %s, Metagenome : %s doesn't exist" % (m, metagenome))
+            logging.info("Iteration %s, Metagenome : %s doesn't exist" % (m, metagenome))
             continue
-        logging.info("Interation %s, Metagenome : %s" % (m, metagenome))
+        logging.info("Iteration %s, Metagenome : %s" % (m, metagenome))
         kmer_count = spark.read.parquet(os.path.join(path_data, metagenome)).select(kmer_name, "count")
         kmer_count = kmer_count.filter(~kmer_count.kmer.rlike(r'[^ACGT]'))
         kmer_count = kmer_count.rdd.collectAsMap()
