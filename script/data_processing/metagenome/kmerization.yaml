@@ -1,7 +1,0 @@
-num_partitions: 100
-path_log: "$METAGENOME2VEC_PATH/logs/kmerization"
-n_sample_load: 10000
-overwrite: "True"
-path_data: $METAGENOME2VEC_PATH/metagenome2vec/data/metagenome/cirrhosis_small
-path_save: $METAGENOME2VEC_PATH/metagenome2vec/data/metagenome/cirrhosis_small_k_6
-k: 6

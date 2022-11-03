@@ -1,9 +1,0 @@
-path_data: /home/mqueyrel/Documents/work/tmp/simulation_files/camisim/dataset/illumina_abundance_balanced_species_V2_2
-path_save: /home/mqueyrel/Documents/work/tmp/simulation_files/camisim/dataset/illumina_abundance_balanced_species_V2_2_metagenome2vec
-overwrite: true
-
-num_partitions: 100
-mode: "local"
-path_log: "$METAGENOME2VEC_PATH/logs/data_preprocessing/"
-n_sample_load: -1
-in_memory: "True"

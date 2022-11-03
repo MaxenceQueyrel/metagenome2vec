@@ -10,6 +10,8 @@ from metagenome2vec.data_processing.simulation import *
 from metagenome2vec.read2genome.fastDnaPred import FastDnaPred
 from metagenome2vec.read2vec.fastDnaEmbed import FastDnaEmbed
 from metagenome2vec.metagenome2vec import bok, embedding
+from metagenome2vec.NN import utils as nn_utils
+from metagenome2vec.NN import deepsets
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -369,7 +371,7 @@ class ParserCreator(object):
                                                                     "help": "Complete path to kmer2vec model"}}
         self.D_parser["-pt"] = {"name": "--path_tmp_folder", "arg": {"metavar": "path_tmp_folder",
                                                                      "type": str,
-                                                                     "default": "./" if os.environ["TMP"] is None else os.environ["TMP"],
+                                                                     "default": "./" if "TMP" not in os.environ["TMP"] else os.environ["TMP"],
                                                                      "help": "Complete path to the tmp folder used for the script"}}
         self.D_parser["-ot"] = {"name": "--only_transform", "arg": {"action": "store_true",
                                                                     "help": "If True just compute the reads transforming not training"}}
@@ -490,6 +492,9 @@ class ParserCreator(object):
         self.parser_fastdna()
         self.parser_bok()
         self.parser_metagenome2vec()
+        self.parser_deepsets()
+        self.parser_vae()
+        self.parser_snn()
         
     ##############################
     # METAGENOME PROCESSING
@@ -661,83 +666,81 @@ class ParserCreator(object):
                 self.D_parser[k]["arg"]["help"] = "Value of the threshold for the read2genome"
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
 
-
     ##############################
-    ##############################
+    # Models
     ##############################
 
-    def parser_word2vec(self):
-        parser = argparse.ArgumentParser(description='Arguments for the kmer2vec algorithm')
-        for k in ['-dn', '-k', '-w', '-lf', '-pg', '-pa', '-pm', '-pl', '-rl', '-nsl', '-nb',
-                  '-B', '-E', '-S', '-R', '-V', '-VS', '-VW', '-NS', '-NL', '-NSIM', '-cl']:
-            if k == "-pm":
-                self.D_parser[k]["arg"]["default"] = "/tmp"
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_word2vec_genome(self):
-        parser = argparse.ArgumentParser(description='Arguments for the kmer2vec algorithm')
-        for k in ['-pd', '-pa', '-E', '-S', '-R', '-w', '-k', '-s', '-ca', '-sc', '-pg', '-lf', '-nc', '-pt']:
-            if k == "-pd":
-                self.D_parser[k]["arg"]["help"] = "path to the text file that is the corpus to learn."
-            if k == '-pt':
-                self.D_parser[k]["arg"]["default"] = './'
-            if k == "-R":
-                self.D_parser[k]["arg"]["default"] = 0.025
-            if k == "-S":
-                self.D_parser[k]["arg"]["default"] = 1
-            if k == '-s':
+    def parser_deepsets(self):
+        parser = self.subparsers.add_parser('deepsets')
+        for k in ['-pd', '-pmd', '-pm', '-ps', '-dn', '-B', '-S', '-R', '-D', '-TS',
+                  '-DO', '-DS', '-ig', '-nm', '-TU', '-I', '-r', '-CL', '-pt', '-d', '-cv']:
+            if k == '-dn':
+                self.D_parser[k]["arg"]["help"] = "The name of the model to save"
+                self.D_parser[k]["arg"]["default"] = "deepsets"
+            if k == '-pm':
+                self.D_parser[k]["arg"]["help"] = "Path to the folder to save tunning files and model"
                 self.D_parser[k]["arg"]["required"] = True
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-
-    def parser_GloVe(self):
-        parser = argparse.ArgumentParser(description='Arguments for glove learning')
-        for k in ['-pl', '-pa', '-vfn', '-cfn', '-mo', '-S', '-E', '-X', '-R',
-                  '-k', '-w', '-lf', '-dn', '-pg', '-ps', '-nc']:
-            if k == '-R':
-                self.D_parser[k]["arg"]["default"] = 0.05
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_GloVe_genome(self):
-        parser = argparse.ArgumentParser(description='Arguments for glove learning')
-        for k in ['-pd', '-pa', '-vfn', '-cfn', '-S', '-E', '-X', '-R', '-w', '-ps', '-nc', '-k', '-s', '-ca', '-pg',
-                  '-lf', '-pt']:
-            if k == '-R':
-                self.D_parser[k]["arg"]["default"] = 0.05
-            if k == '-pt':
-                self.D_parser[k]["arg"]["default"] = './'
             if k == '-ps':
+                self.D_parser[k]["arg"]["help"] = "Complete path to the file where is saved the deepsets scores"
                 self.D_parser[k]["arg"]["required"] = True
-            if k == '-s':
+            if k == '-pd':
+                self.D_parser[k]["arg"]["help"] = "Complete path to the MIL matrix file"
                 self.D_parser[k]["arg"]["required"] = True
-            if k == "-pd":
-                self.D_parser[k]["arg"]["help"] = "path to the text file that is the corpus to learn."
+            if k == '-I':
+                self.D_parser[k]["arg"]["help"] = "Number of model trained when tunning"
+                self.D_parser[k]["arg"]["default"] = 10
+            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
+
+    def parser_vae(self):
+        parser = self.subparsers.add_parser('VAE')
+        for k in ['-pd', '-pmd', '-pm', '-dn', '-B', '-S', '-R', '-D', '-d', '-ct',
+                  '-DO', '-DV', '-ig', '-nm', '-TU', '-I', '-r', '-CL', '-pt', '-cv', '-TS', '-AF']:
+            if k == '-dn':
+                self.D_parser[k]["arg"]["help"] = "The name of the model to save"
+                self.D_parser[k]["arg"]["default"] = "vae"
+            if k == '-ct':
+                self.D_parser[k]["arg"]["help"] = "If vae uses variational auto encoder, else if ae uses auto encoder"
+                self.D_parser[k]["arg"]["choices"] = ["vae", "ae"]
+                self.D_parser[k]["arg"]["default"] = "vae"
+                self.D_parser[k]["arg"]["type"] = str
+            if k == '-pm':
+                self.D_parser[k]["arg"]["help"] = "Path to the folder to save tunning files and model"
+                self.D_parser[k]["arg"]["required"] = True
+            if k == '-pd':
+                self.D_parser[k]["arg"]["help"] = "Complete path to the MIL matrix file"
+                self.D_parser[k]["arg"]["required"] = True
+            if k == '-I':
+                self.D_parser[k]["arg"]["help"] = "Number of model trained when tunning"
+                self.D_parser[k]["arg"]["default"] = 10
+            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
+
+    def parser_snn(self):
+        parser = self.subparsers.add_parser('SNN')
+        for k in ['-pd', '-pmd', '-pm', '-dn', '-B', '-S', '-R', '-D', '-d',
+                  '-DO', '-DV', '-ig', '-nm', '-TU', '-I', '-r', '-CL', '-pt', '-cv', '-TS']:
+            if k == '-dn':
+                self.D_parser[k]["arg"]["help"] = "The name of the model to save"
+                self.D_parser[k]["arg"]["default"] = "vae"
+            if k == '-ct':
+                self.D_parser[k]["arg"]["help"] = "If vae uses variational auto encoder, else if ae uses auto encoder"
+                self.D_parser[k]["arg"]["choices"] = ["vae", "ae"]
+                self.D_parser[k]["arg"]["default"] = "vae"
+                self.D_parser[k]["arg"]["type"] = str
+            if k == '-pm':
+                self.D_parser[k]["arg"]["help"] = "Path to the folder to save tunning files and model"
+                self.D_parser[k]["arg"]["required"] = True
+            if k == '-pd':
+                self.D_parser[k]["arg"]["help"] = "Complete path to the MIL matrix file"
+                self.D_parser[k]["arg"]["required"] = True
+            if k == '-I':
+                self.D_parser[k]["arg"]["help"] = "Number of model trained when tunning"
+                self.D_parser[k]["arg"]["default"] = 10
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
         return parser.parse_args()
 
-    def parser_fasttext(self):
-        parser = argparse.ArgumentParser(description='Arguments for the fasttext algorithm')
-        for k in ['-E', '-S', '-R', '-w', '-pg', '-pa', '-dn',
-                  '-k', '-lf', '-mng', '-Mng', '-pd', '-nc']:
-            if k == "-pd":
-                self.D_parser[k]["arg"]["help"] = "path to the text file that is the corpus to learn."
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_fasttext_genome(self):
-        parser = argparse.ArgumentParser(description='Arguments for the fasttext algorithm')
-        for k in ['-pd', '-pa', '-E', '-S', '-R', '-w', '-mng', '-Mng', '-nc', '-k', '-s', '-ca', '-pg', '-lf', '-pt']:
-            if k == '-pt':
-                self.D_parser[k]["arg"]["default"] = './'
-            if k == "-pd":
-                self.D_parser[k]["arg"]["help"] = "path to the text file that is the corpus to learn."
-            if k == '-s':
-                self.D_parser[k]["arg"]["required"] = True
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
+    ##############################
+    ##############################
+    ##############################
 
     def parser_analyse_embeddings(self):
         parser = argparse.ArgumentParser(description='Arguments for the embeddings analysis')
@@ -761,76 +764,6 @@ class ParserCreator(object):
     def parser_analyse_matrix_distance(self):
         parser = argparse.ArgumentParser(description='Arguments for the distance matrix analysis')
         for k in ['-pl', '-dn', '-k', '-w', '-ps', '-mo']:
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_deepsets(self):
-        parser = argparse.ArgumentParser(description='Arguments for deepsets script')
-        for k in ['-pd', '-pmd', '-pm', '-ps', '-dn', '-B', '-S', '-R', '-D', '-TS',
-                  '-DO', '-DS', '-ig', '-nm', '-TU', '-I', '-r', '-CL', '-pt', '-d', '-cv']:
-            if k == '-dn':
-                self.D_parser[k]["arg"]["help"] = "The name of the model to save"
-                self.D_parser[k]["arg"]["default"] = "deepsets"
-            if k == '-pm':
-                self.D_parser[k]["arg"]["help"] = "Path to the folder to save tunning files and model"
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-ps':
-                self.D_parser[k]["arg"]["help"] = "Complete path to the file where is saved the deepsets scores"
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "Complete path to the MIL matrix file"
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-I':
-                self.D_parser[k]["arg"]["help"] = "Number of model trained when tunning"
-                self.D_parser[k]["arg"]["default"] = 10
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_vae(self):
-        parser = argparse.ArgumentParser(description='Arguments for VAE script')
-        for k in ['-pd', '-pmd', '-pm', '-dn', '-B', '-S', '-R', '-D', '-d', '-ct',
-                  '-DO', '-DV', '-ig', '-nm', '-TU', '-I', '-r', '-CL', '-pt', '-cv', '-TS', '-AF']:
-            if k == '-dn':
-                self.D_parser[k]["arg"]["help"] = "The name of the model to save"
-                self.D_parser[k]["arg"]["default"] = "vae"
-            if k == '-ct':
-                self.D_parser[k]["arg"]["help"] = "If vae uses variational auto encoder, else if ae uses auto encoder"
-                self.D_parser[k]["arg"]["choices"] = ["vae", "ae"]
-                self.D_parser[k]["arg"]["default"] = "vae"
-                self.D_parser[k]["arg"]["type"] = str
-            if k == '-pm':
-                self.D_parser[k]["arg"]["help"] = "Path to the folder to save tunning files and model"
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "Complete path to the MIL matrix file"
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-I':
-                self.D_parser[k]["arg"]["help"] = "Number of model trained when tunning"
-                self.D_parser[k]["arg"]["default"] = 10
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_snn(self):
-        parser = argparse.ArgumentParser(description='Arguments for SNN script')
-        for k in ['-pd', '-pmd', '-pm', '-dn', '-B', '-S', '-R', '-D', '-d',
-                  '-DO', '-DV', '-ig', '-nm', '-TU', '-I', '-r', '-CL', '-pt', '-cv', '-TS']:
-            if k == '-dn':
-                self.D_parser[k]["arg"]["help"] = "The name of the model to save"
-                self.D_parser[k]["arg"]["default"] = "vae"
-            if k == '-ct':
-                self.D_parser[k]["arg"]["help"] = "If vae uses variational auto encoder, else if ae uses auto encoder"
-                self.D_parser[k]["arg"]["choices"] = ["vae", "ae"]
-                self.D_parser[k]["arg"]["default"] = "vae"
-                self.D_parser[k]["arg"]["type"] = str
-            if k == '-pm':
-                self.D_parser[k]["arg"]["help"] = "Path to the folder to save tunning files and model"
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "Complete path to the MIL matrix file"
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-I':
-                self.D_parser[k]["arg"]["help"] = "Number of model trained when tunning"
-                self.D_parser[k]["arg"]["default"] = 10
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
         return parser.parse_args()
 
@@ -875,125 +808,6 @@ class ParserCreator(object):
             if k == '-pmd':
                 self.D_parser[k]["arg"][
                     "help"] = "Absolute path to a csv file containing 2 columns : 'id.fasta' (the metagenome's id) and 'group' that is the class of a metagenome"
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_generate_local_kmerized_metagenome(self):
-        parser = argparse.ArgumentParser(description='Arguments for ELMo files generation')
-        for k in ['-pd', '-pl', '-dn', '-k', '-w', '-ps', '-mo', '-ns', '-pg', '-lf', '-np']:
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_seq2seq(self):
-        parser = argparse.ArgumentParser(description="Arguments for transformation metagenomes' reads to embeddings")
-        for k in ['-k', '-w', '-pa', '-pal', '-s', '-kea', '-dn', '-ca', '-S', '-B', '-ig', '-R', '-E', '-pd',
-                  '-I', '-nco', '-Ml', "-nc", '-lf', '-pg', '-lm']:
-            if k == '-pd':
-                self.D_parser[k]["arg"]["required"] = True
-                self.D_parser[k]["arg"]["help"] = "Comma separated path first for training second for validation"
-            if k == '-f':
-                self.D_parser[k]["arg"]["required"] = True
-                self.D_parser[k]["arg"]["help"] = "The file name to save the pytorch model learnt"
-            if k == '-ca':
-                self.D_parser[k]["arg"]["required"] = False
-            if k == '-S':
-                self.D_parser[k]["arg"]["default"] = 10
-            if k == "-w":
-                self.D_parser[k]["arg"]["required"] = False
-                self.D_parser[k]["arg"]["default"] = None
-            if k == "-k":
-                self.D_parser[k]["arg"]["required"] = False
-            if k == "-pal":
-                self.D_parser[k]["arg"]["required"] = False
-                self.D_parser[k]["arg"]["default"] = None
-            if k == "-kea":
-                self.D_parser[k]["arg"]["default"] = None
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_transformer(self):
-        parser = argparse.ArgumentParser(description="Arguments for transofmers model")
-        for k in ['-k', '-f', '-S', '-I', '-B', '-ig', '-nc', '-R', '-E', '-nco', '-DO', '-mv',
-                  '-pkv', '-pa', '-pd', '-Ml', '-pg', '-lf', '-H', '-lm', '-nh', '-nl', '-pkc', '-o', '-CL']:
-            if k == '-pd':
-                self.D_parser[k]["arg"]["required"] = True
-                self.D_parser[k]["arg"]["help"] = "Comma separated path first for training second for validation"
-            if k == '-f':
-                self.D_parser[k]["arg"]["required"] = True
-                self.D_parser[k]["arg"]["help"] = "The file name to save the pytorch model learnt"
-            if k == '-S':
-                self.D_parser[k]["arg"]["default"] = 10
-            if k == '-E':
-                self.D_parser[k]["arg"]["default"] = 200
-            if k == '-H':
-                self.D_parser[k]["arg"]["default"] = 200
-            if k == '-DO':
-                self.D_parser[k]["arg"]["default"] = 0.2
-            if k == '-DO':
-                self.D_parser[k]["arg"]["default"] = 0.001
-            if k == "-k":
-                self.D_parser[k]["arg"]["required"] = False
-            if k == "-pal":
-                self.D_parser[k]["arg"]["required"] = False
-                self.D_parser[k]["arg"]["default"] = None
-            if k == "-kea":
-                self.D_parser[k]["arg"]["default"] = None
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_transformer_classifier(self):
-        parser = argparse.ArgumentParser(description="Arguments for transofmers model")
-        for k in ['-k', '-f', '-S', '-I', '-B', '-ig', '-nc', '-R', '-E', '-DO',
-                  '-pkv', '-pa', '-pd', '-Ml', '-pg', '-lf', '-H', '-nh', '-nl', "-tl"]:
-            if k == '-pd':
-                self.D_parser[k]["arg"]["required"] = True
-                self.D_parser[k]["arg"]["help"] = "Comma separated path first for training second for validation"
-            if k == '-f':
-                self.D_parser[k]["arg"]["required"] = True
-                self.D_parser[k]["arg"]["help"] = "The file name to save the pytorch model learnt"
-            if k == '-S':
-                self.D_parser[k]["arg"]["default"] = 10
-            if k == '-E':
-                self.D_parser[k]["arg"]["default"] = 200
-            if k == '-H':
-                self.D_parser[k]["arg"]["default"] = 200
-            if k == '-DO':
-                self.D_parser[k]["arg"]["default"] = 0.2
-            if k == '-DO':
-                self.D_parser[k]["arg"]["default"] = 0.001
-            if k == "-k":
-                self.D_parser[k]["arg"]["required"] = False
-            if k == "-pal":
-                self.D_parser[k]["arg"]["required"] = False
-                self.D_parser[k]["arg"]["default"] = None
-            if k == "-kea":
-                self.D_parser[k]["arg"]["default"] = None
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_train_h2o_model(self):
-        parser = argparse.ArgumentParser(description="Arguments for transformation metagenomes' reads to embeddings")
-        for k in ['-k', '-rv', '-pd', '-o', '-pm', '-f', "-mla", "-mm",
-                  '-pmwc', '-pg', '-lf', '-ig', '-mo', '-np', '-tl', '-nsl', '-ps', '-tt', '-nf',
-                  '-prv', '-pt', '-ot', '-pmd']:
-            if k == '-f':
-                self.D_parser[k]["arg"]["help"] = "Name of the read2genome model when saved"
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-k':
-                self.D_parser[k]["arg"]["required"] = False
-            if k == '-pd':
-                self.D_parser[k]["arg"]["required"] = False
-                self.D_parser[k]["arg"][
-                    "help"] = "Two complete path separated by a coma respectively for train and valid data set"
-                self.D_parser[k]["arg"]["default"] = 10
-            if k == '-np':
-                self.D_parser[k]["arg"]["default"] = None
-            if k == '-nsl':
-                self.D_parser[k]["arg"]["default"] = -1
-            if k == "-ps":
-                self.D_parser[k]["arg"]["required"] = True
-                self.D_parser[k]["arg"][
-                    "help"] = "Path were is save the parquet file after reads transformation of simulation data"
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
         return parser.parse_args()
 
@@ -1048,12 +862,6 @@ class ParserCreator(object):
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
         return parser.parse_args()
     
-    def parser_download_metagenomic_data(self):
-        parser = self.subparsers.add_parser('download_metagenomic_data')
-        for k in ['-pd', '-ps']:
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        
-
 
 if __name__ == "__main__":
 
@@ -1071,7 +879,10 @@ if __name__ == "__main__":
                             "create_simulated_metagenome2vec_dataset": {"path_log": "simulation", "log_file": "create_simulated_metagenome2vec_dataset.log", "need_spark": False},
                             "fastdna": {"path_log": "read2genome", "log_file": "fastdna.log", "need_spark": False},
                             "bok": {"path_log": "metagenome2vec", "log_file": "bok.log", "need_spark": True},
-                            "metagenome2vec": {"path_log": "metagenome2vec", "log_file": "metagenome2vec.log", "need_spark": True}}
+                            "metagenome2vec": {"path_log": "metagenome2vec", "log_file": "metagenome2vec.log", "need_spark": True},
+                            "deepsets": {"path_log": "model", "log_file": "deepsets.log", "need_spark": False},
+                            "snn": {"path_log": "model", "log_file": "snn.log", "need_spark": False},
+                            "vae": {"path_log": "model", "log_file": "vae.log", "need_spark": False},}
     
     command_metadata = dict_commands_metadata[args.command]
     path_log, log_file, need_spark = os.path.join(SCRIPT_DIR, "logs", command_metadata["path_log"]), command_metadata["log_file"], command_metadata["need_spark"]
@@ -1156,38 +967,85 @@ if __name__ == "__main__":
         # Then aggregate the outputs
         from metagenome2vec.utils.string_names import metagenome_embeddings_folder
         embedding.create_finale_files(os.path.join(args.path_save, metagenome_embeddings_folder))
+
+    if args.command == "deepsets":
+
+
+        # Script variables
+        path_data = args.path_data
+        path_metadata = args.path_metadata
+        disease = args.disease
+        path_save = args.path_save
+        dataset_name = args.dataset_name
+        path_model = args.path_model
+        path_tmp = args.path_tmp_folder
+        if path_tmp is None:
+            path_tmp = os.environ["TMP"] if "TMP" in os.environ else "~/"
+
+        hidden_init_phi_, hidden_init_rho_, n_layer_phi_, n_layer_rho_ = [int(x) for x in args.deepsets_struct.split(",")]
+        resources = {str(x.split(':')[0]): float(x.split(':')[1]) for x in args.resources.split(",")}
+        D_resource = {"worker": 1, "cpu": 1, "gpu": 0}
+        for resource in args.resources.split(","):
+            name, value = resource.split(":")
+            D_resource[name] = int(value) if name == "worker" else float(value)
+
+        n_memory = args.n_memory * 1000 * 1024 * 1024  # To convert in giga
+        tuning = args.tuning
+        num_samples = args.n_iterations
+        device = nn_utils.set_device(args.id_gpu)
+
+        cv = args.cross_validation
+        resources_per_trial = {"cpu": D_resource["cpu"], "gpu": D_resource["gpu"]}
+        test_size = args.test_size
+
+        params = {batch_size: args.batch_size,
+                n_epoch: args.n_steps,
+                learning_rate: args.learning_rate,
+                mil_layer: "attention",
+                weight_decay: args.weight_decay,
+                hidden_init_phi: hidden_init_phi_,
+                hidden_init_rho: hidden_init_rho_,
+                n_layer_phi: n_layer_phi_,
+                n_layer_rho: n_layer_rho_,
+                dropout: args.dropout,
+                clip: args.clip}
+
+        # Load data
+        X, y_ = data_manager.load_several_matrix_for_learning(path_data, path_metadata, disease)
+        output_size = 1 if len(np.unique(y_)) == 2 else len(np.unique(y_))
+        average = "binary" if output_size <= 2 else "micro"  # when compute scores, change average if binary or multi class
+        multi_class = "raise" if output_size <= 2 else "ovr"
+        col_features = nn_utils.get_features(X)
+        embed_size = X.shape[1] - 2  # - id_subject and genome
+
+        file_best_parameters = os.path.join(path_model, 'best_parameters')
+        # Tune
+        if tuning:
+            nn_utils.ray_hyperparameter_search(path_model, path_results, train_evaluate, D_resource, num_samples=10, random_seed=42)
+
+        # Train and test with cross validation
+        if os.path.exists(file_best_parameters):
+            logging.info("Best parameters used")
+            with open(file_best_parameters, 'r') as fp:
+                best_parameters = json.load(fp)
+        else:
+            logging.info("Default parameters used")
+            best_parameters = {}
+
+        # Change the parameters with the best ones
+        for k, v in best_parameters.items():
+            params[k] = v
+        logging.info("Best parameters: {}".format(params))
+        # cross val scores
+        scores = deepsets.cross_val_score(params, cv, prediction_best_model_name=dataset_name + ".csv")
+        data_manager.write_file_res_benchmarck_classif(path_save, dataset_name, "deepsets", scores)
+
+
+    if args.command == "snn":
+        pass
+    if args.command == "vae":
+        pass
+        
+    
     logging.info("End computing")
 
-
-"""
-if __name__ == "__main__":
-    logging.getLogger('pyspark').setLevel(logging.ERROR)
-    logging.getLogger("py4j").setLevel(logging.ERROR)
-
-    spark = spark_manager.createSparkSession("clean_raw_data")
-
-    preprocess_metagenomic_data(args.path_data, args.path_save, spark, args.n_sample_load, args.mode,
-                                overwrite=args.overwrite, num_partitions=args.num_partitions, in_memory=args.in_memory)
-
-if __name__ == "__main__":
-    args = parser_creator.ParserCreator().parser_bok_merge()
-
-    logging.basicConfig(filename=os.path.join(args.path_log, args.log_file), level=logging.DEBUG)
-
-    spark = spark_manager.createSparkSession("BoK merge")
-
-    logging.info("Start computing")
-    bok_merge(spark, args.path_data, args.nb_metagenome, args.num_partitions, args.mode, args.overwrite)
-    logging.info("End computing")
-
-
-if __name__ == "__main__":
-    args = parser_creator.ParserCreator().parser_metagenomic_kmerization()
-
-    logging.basicConfig(filename=os.path.join(args.path_log, args.log_file), level=logging.DEBUG)
-
-    spark = spark_manager.createSparkSession("Metagenome kmerization")
-
-    kmerize_metagenomic_data(spark, args.path_data, args.path_save, args.k_mer_size, args.n_sample_load,
-                             num_partitions=args.num_partitions, in_memory=args.in_memory)
-"""

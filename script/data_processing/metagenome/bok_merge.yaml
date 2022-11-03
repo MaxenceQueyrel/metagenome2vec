@@ -1,7 +1,0 @@
-num_partitions: 100
-mode: "local"
-path_log: "$METAGENOME2VEC_PATH/logs/bok_merge"
-overwrite: "True"
-path_data: $METAGENOME2VEC_PATH/data/metagenome/cirrhosis_small_bok
-k: 6
-s: 1

@@ -1,5 +1,0 @@
-overwrite: "True"
-path_data: $METAGENOME2VEC_PATH/data/genome/sim_db_concatenated_506.fa
-path_save: $METAGENOME2VEC_PATH/data/genome/kmerized_k_6_sim_db_concatenated_506
-k: 6
-s: 1

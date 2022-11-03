@@ -1,6 +1,0 @@
-reads_file: /home/mqueyrel/Documents/work/tmp/simulation_files/camisim/dataset/illumina_abundance_balanced_species_V2_2/2022.03.02_23.07.35_sample_0/reads/anonymous_reads.fq.gz
-reads_mapping_file: /home/mqueyrel/Documents/work/tmp/simulation_files/camisim/dataset/illumina_abundance_balanced_species_V2_2/2022.03.02_23.07.35_sample_0/reads/reads_mapping.tsv.gz
-path_save: /home/mqueyrel/Documents/work/tmp/simulation_files/camisim/dataset/illumina_abundance_balanced_species_V2_2_read2genome
-n_reads_taken: 10000
-valid_size: 0.3
-path_metadata: /home/mqueyrel/Documents/work/tmp/simulation_files/fasta_metadata.csv

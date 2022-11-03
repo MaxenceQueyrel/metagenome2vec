@@ -4,21 +4,28 @@ import pandas as pd
 import os
 import time
 import math
+import sys
 from tqdm import tqdm
+import json
 
 import torch
 from torch import nn
 import torch.nn.functional as F
 from torch import optim
-from torch.utils.data import DataLoader
+from torch.utils.data import Dataset, DataLoader
+import pytorch_lightning as pl
 import random
 
 from sklearn.metrics import accuracy_score, roc_auc_score, f1_score, precision_score, recall_score
 from sklearn.model_selection import StratifiedShuffleSplit
 from sklearn.preprocessing import StandardScaler
 
+from ax.service.ax_client import AxClient
 import logging
+import ray
 from ray import tune
+from ray.tune.suggest.ax import AxSearch
+from ray.tune.schedulers import AsyncHyperBandScheduler
 logger = logging.getLogger(tune.__name__)
 logger.setLevel(level=logging.CRITICAL)
 
@@ -30,26 +37,87 @@ torch.manual_seed(SEED)
 torch.cuda.manual_seed(SEED)
 
 from metagenome2vec.utils.string_names import *
-from metagenome2vec.data_processing.metagenomeNNDataset import MetagenomeNNDataset
+from metagenome2vec.utils import data_manager
+
+############################################
+############ Global variables ##############
+############################################
+
+learning_rate = "learning_rate"
+batch_size = "batch_size"
+n_epoch = "n_epoch"
+mil_layer = "mil_layer"
+weight_decay = "weight_decay"
+step_size = "step_size"
+gamma = "gamma"
+hidden_init_phi = "hidden_init_phi"
+hidden_init_rho = "hidden_init_rho"
+n_layer_phi = "n_layer_phi"
+n_layer_rho = "n_layer_rho"
+dropout = "dropout"
+clip = "clip"
+
+
+############################################
+#### Functions to load and generate data ###
+############################################
+
+
+class metagenomeDataset(pl.LightningDataModule):
+    def __init__(self, X, y_, batch_size=32):
+        self.data = X
+        self.data[group_name] = y_
+        self.labels = self.data.drop_duplicates(subset=[id_subject_name])[group_name].to_numpy()
+        self.IDs = pd.unique(self.data[id_subject_name])
+        self.D_data = {
+            id_subject: self.data[self.data[id_subject_name] == id_subject].drop([group_name, genome_name, id_subject_name],
+                                                                               axis=1).to_numpy() for id_subject in self.IDs}
+        self.D_genome = {id_subject: self.data[self.data[id_subject_name] == id_subject][genome_name].to_numpy() for id_subject in
+                         self.IDs}
+        self.batch_size = batch_size
+
+    def setup(self) -> None:
+        self.data[group_name] = y_
+        X_uniq = self.data.drop_duplicates(subset=[id_subject_name, group_name])[[id_subject_name, group_name]]
+        sss = StratifiedShuffleSplit(n_splits=1, test_size=test_size)
+        for id_train, id_valid in sss.split(X_uniq[id_subject_name], X_uniq[group_name]):
+            id_train = X[id_subject_name].isin(X_uniq[id_subject_name].iloc[id_train])
+            id_valid = X[id_subject_name].isin(X_uniq[id_subject_name].iloc[id_valid])
+            X_train, X_valid, y_train, y_valid = X[id_train].reset_index(drop=True).drop(group_name, axis=1), X[id_valid].reset_index(drop=True).drop(group_name, axis=1), y_[id_train], y_[id_valid]
+            scalar = StandardScaler()
+            X_train[col_features] = scalar.fit_transform(X_train[col_features])
+            X_valid[col_features] = scalar.transform(X_valid[col_features])
+            yield X_train, X_valid, y_train, y_valid
+
+    def __len__(self):
+        return len(self.IDs)
+
+    def __getitem__(self, idx):
+        id_subject, labels = self.IDs[idx], self.labels[idx]
+        if isinstance(idx, slice):
+            items = [self.D_data[x] for x in id_subject]
+            genomes = [self.D_genome[x] for x in id_subject]
+        else:
+            items = self.D_data[id_subject]
+            genomes = self.D_genome[id_subject]
+        return items, labels, genomes
 
 
 #############################
 ######## Class Model ########
 #############################
 
-class DeepSets(nn.Module):
-    def __init__(self, phi, rho, mil_layer, device):
+class DeepSets(pl.LightningModule):
+    def __init__(self, phi, rho, mil_layer):
         super(DeepSets, self).__init__()
         self.phi = phi
         self.rho = rho
         self.mil_layer = mil_layer
-        self.device = device
-        if mil_layer == "attention":
-            self.attention = nn.Sequential(
-                nn.Linear(self.phi.last_hidden_size, self.phi.last_hidden_size // 3),
-                nn.Tanh(),
-                nn.Linear(self.phi.last_hidden_size // 3, 1)
-            ).to(self.device)
+        self.attention = nn.Sequential(
+            nn.Linear(self.phi.last_hidden_size, self.phi.last_hidden_size // 3),
+            nn.Tanh(),
+            nn.Linear(self.phi.last_hidden_size // 3, 1)
+        )
 
     def forward(self, x):
         # compute the representation for each data point
@@ -128,7 +196,7 @@ def collate_fn(batch, device):
     return data, torch.tensor(target, dtype=torch.float, device=device), genome
 
 
-class Phi(nn.Module):
+class Phi(pl.LightningModule):
     def __init__(self, embed_size, hidden_init=200, n_layer=1, dropout=0.2):
         super(Phi, self).__init__()
         layer_size = [embed_size, hidden_init]
@@ -150,7 +218,7 @@ class Phi(nn.Module):
         return self.nets(x)
 
 
-class Rho(nn.Module):
+class Rho(pl.LightningModule):
     def __init__(self, phi_hidden_size, hidden_init=100, n_layer=1, dropout=0.2, output_size=1):
         super(Rho, self).__init__()
         self.output_size = output_size
@@ -219,7 +287,7 @@ def init_weights(m):
 def train(model, loader, optimizer, criterion, clip=-1):
     model.train()
     epoch_loss = 0
-    for _, (X, y_, _) in enumerate(loader):
+    for it, (X, y_, _) in enumerate(loader):
         # Initialize the optimizer
         optimizer.zero_grad()
         # Compute the result of data in the batch
@@ -240,7 +308,7 @@ def evaluate(model, loader, criterion):
     model.eval()
     epoch_loss = 0
     with torch.no_grad():
-        for _, (X, y_, _) in enumerate(loader):
+        for it, (X, y_, _) in enumerate(loader):
             y = model.forward_batch(X)
             if model.rho.output_size == 1:
                 loss = criterion(y, y_)  # Compute the loss value
@@ -250,7 +318,7 @@ def evaluate(model, loader, criterion):
     return epoch_loss / len(loader)
 
 
-def score(model, loader, average, all_metrics=False, multi_class="raise"):
+def score(model, loader, all_metrics=False):
     model.eval()
     with torch.no_grad():
         y_, y_pred, y_prob = prediction(model, loader)
@@ -322,7 +390,7 @@ def fit_for_optimization(model, loader_train, loader_valid, optimizer, criterion
                          scheduler=None, early_stopping=5):
     best_valid_loss = np.inf
     cpt_epoch_no_improvement = 0
-    for _ in range(n_epoch):
+    for epoch in range(n_epoch):
         train(model, loader_train, optimizer, criterion, clip)
         valid_loss = evaluate(model, loader_valid, criterion)
         cpt_epoch_no_improvement += 1
@@ -340,8 +408,8 @@ def cross_val_score_for_optimization(params, cv=10):
     scores = np.zeros(cv)
     for i, (X_train, X_valid, y_train, y_valid) in enumerate(tqdm(train_test_split_mil(X, y_, col_features, n_splits=cv,
                                                                                        test_size=test_size), total=cv)):
-        dataset_train = MetagenomeNNDataset(X_train, y_train)
-        dataset_valid = MetagenomeNNDataset(X_valid, y_valid)
+        dataset_train = metagenomeDataset(X_train, y_train)
+        dataset_valid = metagenomeDataset(X_valid, y_valid)
         params_loader = {'batch_size': params[batch_size],
                          'collate_fn': lambda x: collate_fn(x, device),
                          'shuffle': True}
@@ -382,8 +450,8 @@ def cross_val_score(params, cv=10, prediction_best_model_name=None):
     A_score_time = np.zeros(cv)
     for i, (X_train, X_valid, y_train, y_valid) in enumerate(tqdm(train_test_split_mil(X, y_, col_features, n_splits=cv,
                                                                                        test_size=test_size), total=cv)):
-        dataset_train = MetagenomeNNDataset(X_train, y_train)
-        dataset_valid = MetagenomeNNDataset(X_valid, y_valid)
+        dataset_train = metagenomeDataset(X_train, y_train)
+        dataset_valid = metagenomeDataset(X_valid, y_valid)
         params_loader = {'batch_size': params[batch_size],
                          'collate_fn': lambda x: collate_fn(x, device),
                          'shuffle': True}
@@ -499,3 +567,138 @@ def train_evaluate(parameterization):
     mean_accuracy, std_accuracy = cross_val_score_for_optimization(parameterization, cv=cv)
     tune.report(mean_accuracy=mean_accuracy, std_accuracy=std_accuracy)
 
+
+def set_device(id_gpu):
+    id_gpu = [int(x) for x in id_gpu.split(',')]
+    if id_gpu != [-1]:
+        os.environ["CUDA_VISIBLE_DEVICES"] = ','.join([str(x) for x in id_gpu])
+    return torch.device("cuda:%s" % id_gpu[0] if id_gpu != [-1] else "cpu")
+
+
+def get_features(X):
+    return [count_name] + [col for col in X.columns.values if str(col).isdigit()]
+
+
+if __name__ == "__main__":
+    parser = parser_creator.ParserCreator()
+    args = parser.parser_deepsets()
+
+    # Script variables
+    path_data = args.path_data
+    path_metadata = args.path_metadata
+    disease = args.disease
+    path_save = args.path_save
+    dataset_name = args.dataset_name
+    path_model = args.path_model
+    batch_size_ = args.batch_size
+    n_steps_ = args.n_steps
+    learning_rate_ = args.learning_rate
+    weight_decay_ = args.weight_decay
+    dropout_ = args.dropout
+    clip_ = args.clip
+    path_tmp = args.path_tmp_folder
+    if path_tmp is None:
+        path_tmp = os.environ["TMP"] if "TMP" in os.environ else "~/"
+
+    hidden_init_phi_, hidden_init_rho_, n_layer_phi_, n_layer_rho_ = [int(x) for x in args.deepsets_struct.split(",")]
+
+    resources = {str(x.split(':')[0]): float(x.split(':')[1]) for x in args.resources.split(",")}
+    D_resource = {"worker": 1, "cpu": 1, "gpu": 0}
+    for resource in args.resources.split(","):
+        name, value = resource.split(":")
+        if name == "worker":
+            D_resource[name] = int(value)
+        else:
+            D_resource[name] = float(value)
+
+    n_memory = args.n_memory * 1000 * 1024 * 1024  # To convert in giga
+    tuning = args.tuning
+    num_samples = args.n_iterations
+    device = set_device(args.id_gpu)
+
+    cv = args.cross_validation
+    resources_per_trial = {"cpu": D_resource["cpu"], "gpu": D_resource["gpu"]}
+    test_size = args.test_size
+
+    params = {batch_size: batch_size_,
+              n_epoch: n_steps_,
+              learning_rate: learning_rate_,
+              mil_layer: "attention",
+              weight_decay: weight_decay_,
+              hidden_init_phi: hidden_init_phi_,
+              hidden_init_rho: hidden_init_rho_,
+              n_layer_phi: n_layer_phi_,
+              n_layer_rho: n_layer_rho_,
+              dropout: dropout_,
+              clip: clip_}
+
+    # Load data
+    X, y_ = data_manager.load_several_matrix_for_learning(path_data, path_metadata, disease)
+    output_size = 1 if len(np.unique(y_)) == 2 else len(np.unique(y_))
+    average = "binary" if output_size <= 2 else "micro"  # when compute scores, change average if binary or multi class
+    multi_class = "raise" if output_size <= 2 else "ovr"
+    col_features = get_features(X)
+    embed_size = X.shape[1] - 2  # - id_subject and genome
+
+    file_best_parameters = os.path.join(path_model, 'best_parameters')
+    # Tune
+    if tuning:
+        ray.init(num_cpus=np.int(np.ceil(D_resource["cpu"] * D_resource["worker"])),
+                 #memory=n_memory,
+                 num_gpus=np.int(np.ceil(D_resource["gpu"] * D_resource["worker"])))
+        parameters = [{"name": learning_rate, "type": "range", "bounds": [1e-5, 1e-2], "log_scale": True},
+                      {"name": weight_decay, "type": "fixed", "value": 0.0002},
+                      {"name": dropout, "type": "choice", "values": [0.0, 0.3]},
+                      {"name": batch_size, "type": "fixed", "value": 6},
+                      {"name": n_epoch, "type": "fixed", "value": 100},
+                      {"name": n_layer_phi, "type": "choice", "values": [1, 3]},
+                      {"name": n_layer_rho, "type": "choice", "values": [1, 3]},
+                      {"name": hidden_init_phi, "type": "choice", "values": [50, 100]},
+                      {"name": hidden_init_rho, "type": "choice", "values": [50, 100]},
+                      {"name": mil_layer, "type": "choice", "values": ["sum", "attention"]},
+                      {"name": clip, "type": "fixed", "value": -1.}]
+
+        ax = AxClient(enforce_sequential_optimization=False, random_seed=SEED)
+        metric_to_tune = "mean_accuracy"
+        ax.create_experiment(
+            name="deepsets_experiment",
+            parameters=parameters,
+            objective_name=metric_to_tune,
+        )
+
+        algo = AxSearch(ax_client=ax, max_concurrent=D_resource["worker"])
+        scheduler = AsyncHyperBandScheduler()
+
+        analyse = tune.run(train_evaluate,
+                           num_samples=num_samples,
+                           search_alg=algo,
+                           scheduler=scheduler,
+                           mode="max",
+                           metric=metric_to_tune,
+                           verbose=1,
+                           resources_per_trial=resources_per_trial,
+                           local_dir=os.path.join(path_tmp, "ray_results_" + dataset_name)
+                           )
+        file_manager.create_dir(path_model, mode="local")
+        analyse.dataframe().to_csv(os.path.join(path_model, "tuning_results.csv"), index=False)
+        # best_parameters, values = ax.get_best_parameters()
+        best_parameters = analyse.get_best_config(metric=metric_to_tune, mode="max")
+        with open(file_best_parameters, 'w') as fp:
+            json.dump(best_parameters, fp)
+
+    # Train and test with cross validation
+    if os.path.exists(file_best_parameters):
+        print("Best parameters used")
+        with open(file_best_parameters, 'r') as fp:
+            best_parameters = json.load(fp)
+    else:
+        print("Default parameters used")
+        best_parameters = {}
+
+    # Change the parameters with the best ones
+    for k, v in best_parameters.items():
+        params[k] = v
+    print(params)
+    # cross val scores
+    scores = cross_val_score(params, cv, prediction_best_model_name=dataset_name + ".csv")
+    data_manager.write_file_res_benchmarck_classif(path_save, dataset_name, "deepsets", scores)
