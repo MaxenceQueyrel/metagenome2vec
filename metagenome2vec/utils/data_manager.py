@@ -117,7 +117,7 @@ def load_matrix_for_learning(path_matrix, path_metadata, disease, is_bok=False, 
         - id.fasta, String, the id of the metagenome file
         - group, String, the class value => empty for unknown (rows are removed), Control (switch to 0) and a disease name (switch to 1)
     :param: path_metadata: Path to the info about metagenome
-    :param disease: String, The disease class une metadata file
+    :param disease: String, The disease class in metadata file
     :param: is_bok: Boolean, True if it is a bok matrix, then a group by sum is applied instead of group by mean
     :param: nan_to_control: Boolean, True to transform nan into control case else delete these elements
     :return: X, Pandas 2D DataFrame and y_, numpy 1D array the vs

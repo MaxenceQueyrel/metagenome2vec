@@ -31,7 +31,7 @@ torch.cuda.manual_seed(SEED)
 
 from metagenome2vec.utils.string_names import *
 from metagenome2vec.data_processing.metagenomeNNDataset import MetagenomeNNDataset
-
+from metagenome2vec.NN.utils import get_features
 
 #############################
 ######## Class Model ########
@@ -178,17 +178,17 @@ class Rho(nn.Module):
 #############################
 
 
-def train_test_split_mil(X, y_, col_features, n_splits=1, test_size=0.2):
+def train_test_split_mil(X, y_, n_splits=1, test_size=0.2):
     """
     Initialise a train and a valid fold
     :param X: Matrix
     :param y_: class
-    :param col_features: List of str, feature columns used for normalization
     :param n_splits: int, number of split in the stratifiedKFolds
     :param test_size: float, percentage of the test size
     :return: X_train, y_train, X_valid, y_valid
     """
     X[group_name] = y_
+    col_features = get_features(X)
     X_uniq = X.drop_duplicates(subset=[id_subject_name, group_name])[[id_subject_name, group_name]]
     sss = StratifiedShuffleSplit(n_splits, test_size=test_size)
     for id_train, id_valid in sss.split(X_uniq[id_subject_name], X_uniq[group_name]):
@@ -250,7 +250,7 @@ def evaluate(model, loader, criterion):
     return epoch_loss / len(loader)
 
 
-def score(model, loader, average, all_metrics=False, multi_class="raise"):
+def score(model, loader, average="macro", all_metrics=False, multi_class="raise"):
     model.eval()
     with torch.no_grad():
         y_, y_pred, y_prob = prediction(model, loader)
@@ -336,10 +336,9 @@ def fit_for_optimization(model, loader_train, loader_valid, optimizer, criterion
     return model
 
 
-def cross_val_score_for_optimization(params, cv=10):
+def cross_val_score_for_optimization(X, y_, params, embed_size, output_size, cv=10, test_size=0.2, device=torch.device("cpu")):
     scores = np.zeros(cv)
-    for i, (X_train, X_valid, y_train, y_valid) in enumerate(tqdm(train_test_split_mil(X, y_, col_features, n_splits=cv,
-                                                                                       test_size=test_size), total=cv)):
+    for i, (X_train, X_valid, y_train, y_valid) in enumerate(tqdm(train_test_split_mil(X, y_, n_splits=cv, test_size=test_size), total=cv)):
         dataset_train = MetagenomeNNDataset(X_train, y_train)
         dataset_valid = MetagenomeNNDataset(X_valid, y_valid)
         params_loader = {'batch_size': params[batch_size],
@@ -350,23 +349,23 @@ def cross_val_score_for_optimization(params, cv=10):
         # init model
         phi = Phi(embed_size, params[hidden_init_phi], params[n_layer_phi], params[dropout])
         rho = Rho(phi.last_hidden_size, params[hidden_init_rho], params[n_layer_rho], params[dropout], output_size)
-        deepsets = DeepSets(phi, rho, params[mil_layer], device).to(device)
-        #deepsets.apply(init_weights)
-        optimizer = optim.Adam(deepsets.parameters(), lr=params[learning_rate], weight_decay=params[weight_decay])
-        #optimizer = optim.SGD(deepsets.parameters(), lr=params[learning_rate], weight_decay=params[weight_decay])
+        model = DeepSets(phi, rho, params[mil_layer], device).to(device)
+        #model.apply(init_weights)
+        optimizer = optim.Adam(model.parameters(), lr=params[learning_rate], weight_decay=params[weight_decay])
+        #optimizer = optim.SGD(model.parameters(), lr=params[learning_rate], weight_decay=params[weight_decay])
         if output_size <= 2:
             criterion = nn.BCEWithLogitsLoss()
         else:
             criterion = nn.CrossEntropyLoss()
         # fitting and scoring
         scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.3)
-        deepsets = fit_for_optimization(deepsets, loader_train, loader_valid, optimizer, criterion, params[n_epoch],
-                                        params[clip], scheduler=scheduler)
-        scores[i] = score(deepsets, loader_valid)
+        model = fit_for_optimization(model, loader_train, loader_valid, optimizer, criterion, params[n_epoch],
+                                     params[clip], scheduler=scheduler)
+        scores[i] = score(model, loader_valid)
     return np.mean(scores), np.std(scores)
 
 
-def cross_val_score(params, cv=10, prediction_best_model_name=None):
+def cross_val_score(X, y_, path_model, params, embed_size, output_size, cv=10, test_size=0.2, device=torch.device("cpu"), prediction_best_model_name=None):
     best_acc = -1
     A_acc_train = np.zeros(cv)
     A_pre_train = np.zeros(cv)
@@ -380,8 +379,7 @@ def cross_val_score(params, cv=10, prediction_best_model_name=None):
     A_auc_valid = np.zeros(cv)
     A_fit_time = np.zeros(cv)
     A_score_time = np.zeros(cv)
-    for i, (X_train, X_valid, y_train, y_valid) in enumerate(tqdm(train_test_split_mil(X, y_, col_features, n_splits=cv,
-                                                                                       test_size=test_size), total=cv)):
+    for i, (X_train, X_valid, y_train, y_valid) in enumerate(tqdm(train_test_split_mil(X, y_, n_splits=cv, test_size=test_size), total=cv)):
         dataset_train = MetagenomeNNDataset(X_train, y_train)
         dataset_valid = MetagenomeNNDataset(X_valid, y_valid)
         params_loader = {'batch_size': params[batch_size],
@@ -392,10 +390,10 @@ def cross_val_score(params, cv=10, prediction_best_model_name=None):
         # model
         phi = Phi(embed_size, params[hidden_init_phi], params[n_layer_phi], params[dropout])
         rho = Rho(phi.last_hidden_size, params[hidden_init_rho], params[n_layer_rho], params[dropout], output_size)
-        deepsets = DeepSets(phi, rho, params[mil_layer], device).to(device)
-        #deepsets.apply(init_weights)
-        optimizer = optim.Adam(deepsets.parameters(), lr=params[learning_rate], weight_decay=params[weight_decay])
-        #optimizer = optim.SGD(deepsets.parameters(), lr=params[learning_rate], weight_decay=params[weight_decay])
+        model = DeepSets(phi, rho, params[mil_layer], device).to(device)
+        #model.apply(init_weights)
+        optimizer = optim.Adam(model.parameters(), lr=params[learning_rate], weight_decay=params[weight_decay])
+        #optimizer = optim.SGD(model.parameters(), lr=params[learning_rate], weight_decay=params[weight_decay])
         if output_size <= 2:
             criterion = nn.BCEWithLogitsLoss()
         else:
@@ -403,19 +401,19 @@ def cross_val_score(params, cv=10, prediction_best_model_name=None):
         scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.3)
         # fitting
         d = time.time()
-        deepsets = fit(deepsets, loader_train, loader_valid, optimizer, criterion, params[n_epoch], params[clip], scheduler,
+        model = fit(model, loader_train, loader_valid, optimizer, criterion, params[n_epoch], params[clip], scheduler,
             path_model=path_model, name_model=".checkpoint.pt")
         A_fit_time[i] = time.time() - d
         # scoring on train
         d = time.time()
-        acc, pre, rec, f1, auc = score(deepsets, loader_train, all_metrics=True)
+        acc, pre, rec, f1, auc = score(model, loader_train, all_metrics=True)
         A_acc_train[i] = acc
         A_pre_train[i] = pre
         A_rec_train[i] = rec
         A_f1_train[i] = f1
         A_auc_train[i] = auc
         # scoring on valid
-        acc, pre, rec, f1, auc = score(deepsets, loader_valid, all_metrics=True)
+        acc, pre, rec, f1, auc = score(model, loader_valid, all_metrics=True)
         A_score_time[i] = time.time() - d
         A_acc_valid[i] = acc
         A_pre_valid[i] = pre
@@ -425,11 +423,11 @@ def cross_val_score(params, cv=10, prediction_best_model_name=None):
         if prediction_best_model_name is not None and best_acc < acc:
             best_acc = acc
             if params[mil_layer] == "attention":
-                table_prediction_with_attention(deepsets, dataset_train).to_csv(os.path.join(path_model, "train_" + prediction_best_model_name), index=False)
-                table_prediction_with_attention(deepsets, dataset_valid).to_csv(os.path.join(path_model, "valid_" + prediction_best_model_name), index=False)
+                table_prediction_with_attention(model, dataset_train).to_csv(os.path.join(path_model, "train_" + prediction_best_model_name), index=False)
+                table_prediction_with_attention(model, dataset_valid).to_csv(os.path.join(path_model, "valid_" + prediction_best_model_name), index=False)
             else:
-                table_prediction(deepsets, dataset_train).to_csv(os.path.join(path_model, "train_" + prediction_best_model_name), index=False)
-                table_prediction(deepsets, dataset_valid).to_csv(os.path.join(path_model, "valid_" + prediction_best_model_name), index=False)
+                table_prediction(model, dataset_train).to_csv(os.path.join(path_model, "train_" + prediction_best_model_name), index=False)
+                table_prediction(model, dataset_valid).to_csv(os.path.join(path_model, "valid_" + prediction_best_model_name), index=False)
     return {"test_accuracy": A_acc_valid,
             "fit_time": A_fit_time, "score_time": A_score_time,
             "test_accuracy": A_acc_valid, "train_accuracy": A_acc_train,
@@ -439,7 +437,7 @@ def cross_val_score(params, cv=10, prediction_best_model_name=None):
             "test_roc_auc": A_auc_valid, "train_roc_auc": A_auc_train}
 
 
-def table_prediction(model, dataset):
+def table_prediction(model, dataset, device=torch.device("cpu")):
     df_res = pd.DataFrame(columns=["subject.id", "group", "prediction", "percentage_prediction"])
     for i in range(len(dataset)):
         fasta_id = dataset.IDs[i]
@@ -450,7 +448,7 @@ def table_prediction(model, dataset):
     return df_res
 
 
-def table_prediction_with_attention(model, dataset):
+def table_prediction_with_attention(model, dataset, device=torch.device("cpu")):
     df_res = pd.DataFrame(columns=["subject.id", "group", "prediction", "percentage_prediction",
                                    "tax_1", "attention_1", "tax_2", "attention_2", "tax_3", "attention_3",
                                    "tax_4", "attention_4", "tax_5", "attention_5"])
@@ -477,7 +475,7 @@ def table_prediction_with_attention(model, dataset):
             else:
                 d_tax_prob["%sa_tax" % j] = -1
                 d_tax_prob["%sb_prob" % j] = -1
-        df_res.loc[i] = [fasta_id, group, y.int().item(), torch.max(y_prob).item()] + [v for k, v in sorted(d_tax_prob.items())]
+        df_res.loc[i] = [fasta_id, group, y.int().item(), torch.max(y_prob).item()] + sorted(d_tax_prob.values())
     return df_res
 
 
@@ -495,7 +493,16 @@ def genome_dummies_and_normalize_count(df, col_features):
     return df
 
 
-def train_evaluate(parameterization):
-    mean_accuracy, std_accuracy = cross_val_score_for_optimization(parameterization, cv=cv)
-    tune.report(mean_accuracy=mean_accuracy, std_accuracy=std_accuracy)
+# def train_evaluate(params, X, y_, embed_size, output_size, cv=10, test_size=0.2, device=torch.device("cpu")):
+#     mean_accuracy, std_accuracy = cross_val_score_for_optimization(X, y_, params, embed_size, output_size, cv, test_size, device)
+#     tune.report(mean_accuracy=mean_accuracy, std_accuracy=std_accuracy)
+
+
+# def train_evaluate_factory(X, y_, parameterization, embed_size, output_size, cv=10, test_size=0.2, device=torch.device("cpu")):
+#     def train_evaluate_decorator(function):
+#         def wrapper(*args, **kwargs):
+#             mean_accuracy, std_accuracy = function(X, y_, parameterization, embed_size, output_size, cv, test_size, device)
+#             tune.report(mean_accuracy=mean_accuracy, std_accuracy=std_accuracy)
+#         return wrapper
+#     return train_evaluate_decorator
 

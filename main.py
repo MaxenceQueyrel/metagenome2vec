@@ -10,8 +10,8 @@ from metagenome2vec.data_processing.simulation import *
 from metagenome2vec.read2genome.fastDnaPred import FastDnaPred
 from metagenome2vec.read2vec.fastDnaEmbed import FastDnaEmbed
 from metagenome2vec.metagenome2vec import bok, embedding
-from metagenome2vec.NN import utils as nn_utils
 from metagenome2vec.NN import deepsets
+from metagenome2vec.NN import utils as nn_utils
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -468,7 +468,7 @@ class ParserCreator(object):
         self.D_parser["-d"] = {"name": "--disease", "arg": {"metavar": "disease",
                                                             "type": str,
                                                             "required": True,
-                                                            "help": "Comma separated list of the string corresponding the disease class for each dataset"}}
+                                                            "help": "Comma separated list of the string corresponding to the disease class for each dataset"}}
         self.D_parser["-aa"] = {"name": "--add_abundance", "arg": {"metavar": "add_abundance",
                                                                    "type": str,
                                                                    "default": "no",
@@ -672,16 +672,13 @@ class ParserCreator(object):
 
     def parser_deepsets(self):
         parser = self.subparsers.add_parser('deepsets')
-        for k in ['-pd', '-pmd', '-pm', '-ps', '-dn', '-B', '-S', '-R', '-D', '-TS',
+        for k in ['-pd', '-pmd', '-ps', '-dn', '-B', '-S', '-R', '-D', '-TS',
                   '-DO', '-DS', '-ig', '-nm', '-TU', '-I', '-r', '-CL', '-pt', '-d', '-cv']:
             if k == '-dn':
                 self.D_parser[k]["arg"]["help"] = "The name of the model to save"
                 self.D_parser[k]["arg"]["default"] = "deepsets"
-            if k == '-pm':
-                self.D_parser[k]["arg"]["help"] = "Path to the folder to save tunning files and model"
-                self.D_parser[k]["arg"]["required"] = True
             if k == '-ps':
-                self.D_parser[k]["arg"]["help"] = "Complete path to the file where is saved the deepsets scores"
+                self.D_parser[k]["arg"]["help"] = "Complete path to the file where is saved the deepsets models and scores"
                 self.D_parser[k]["arg"]["required"] = True
             if k == '-pd':
                 self.D_parser[k]["arg"]["help"] = "Complete path to the MIL matrix file"
@@ -693,7 +690,7 @@ class ParserCreator(object):
 
     def parser_vae(self):
         parser = self.subparsers.add_parser('VAE')
-        for k in ['-pd', '-pmd', '-pm', '-dn', '-B', '-S', '-R', '-D', '-d', '-ct',
+        for k in ['-pd', '-pmd', '-ps', '-dn', '-B', '-S', '-R', '-D', '-d', '-ct',
                   '-DO', '-DV', '-ig', '-nm', '-TU', '-I', '-r', '-CL', '-pt', '-cv', '-TS', '-AF']:
             if k == '-dn':
                 self.D_parser[k]["arg"]["help"] = "The name of the model to save"
@@ -703,8 +700,8 @@ class ParserCreator(object):
                 self.D_parser[k]["arg"]["choices"] = ["vae", "ae"]
                 self.D_parser[k]["arg"]["default"] = "vae"
                 self.D_parser[k]["arg"]["type"] = str
-            if k == '-pm':
-                self.D_parser[k]["arg"]["help"] = "Path to the folder to save tunning files and model"
+            if k == '-ps':
+                self.D_parser[k]["arg"]["help"] = "Complete path to the file where is saved the VAE models and scores"
                 self.D_parser[k]["arg"]["required"] = True
             if k == '-pd':
                 self.D_parser[k]["arg"]["help"] = "Complete path to the MIL matrix file"
@@ -716,7 +713,7 @@ class ParserCreator(object):
 
     def parser_snn(self):
         parser = self.subparsers.add_parser('SNN')
-        for k in ['-pd', '-pmd', '-pm', '-dn', '-B', '-S', '-R', '-D', '-d',
+        for k in ['-pd', '-pmd', '-ps', '-dn', '-B', '-S', '-R', '-D', '-d',
                   '-DO', '-DV', '-ig', '-nm', '-TU', '-I', '-r', '-CL', '-pt', '-cv', '-TS']:
             if k == '-dn':
                 self.D_parser[k]["arg"]["help"] = "The name of the model to save"
@@ -726,8 +723,8 @@ class ParserCreator(object):
                 self.D_parser[k]["arg"]["choices"] = ["vae", "ae"]
                 self.D_parser[k]["arg"]["default"] = "vae"
                 self.D_parser[k]["arg"]["type"] = str
-            if k == '-pm':
-                self.D_parser[k]["arg"]["help"] = "Path to the folder to save tunning files and model"
+            if k == '-ps':
+                self.D_parser[k]["arg"]["help"] = "Complete path to the file where is saved the SNN models and scores"
                 self.D_parser[k]["arg"]["required"] = True
             if k == '-pd':
                 self.D_parser[k]["arg"]["help"] = "Complete path to the MIL matrix file"
@@ -736,7 +733,6 @@ class ParserCreator(object):
                 self.D_parser[k]["arg"]["help"] = "Number of model trained when tunning"
                 self.D_parser[k]["arg"]["default"] = 10
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
 
     ##############################
     ##############################
@@ -889,9 +885,7 @@ if __name__ == "__main__":
     os.makedirs(path_log, exist_ok=True)
     logging.basicConfig(filename=os.path.join(path_log, log_file), level=logging.INFO)
 
-    spark = None
-    if need_spark:
-        spark = spark_manager.createSparkSession(args.command)
+    spark = spark_manager.createSparkSession(args.command) if need_spark else None
 
     if args.command == "download_metagenomic_data":
         download_from_tsv_file(args.path_data, args.path_save, args.index_sample_id, args.index_url)
@@ -969,18 +963,8 @@ if __name__ == "__main__":
         embedding.create_finale_files(os.path.join(args.path_save, metagenome_embeddings_folder))
 
     if args.command == "deepsets":
-
-
         # Script variables
-        path_data = args.path_data
-        path_metadata = args.path_metadata
-        disease = args.disease
         path_save = args.path_save
-        dataset_name = args.dataset_name
-        path_model = args.path_model
-        path_tmp = args.path_tmp_folder
-        if path_tmp is None:
-            path_tmp = os.environ["TMP"] if "TMP" in os.environ else "~/"
 
         hidden_init_phi_, hidden_init_rho_, n_layer_phi_, n_layer_rho_ = [int(x) for x in args.deepsets_struct.split(",")]
         resources = {str(x.split(':')[0]): float(x.split(':')[1]) for x in args.resources.split(",")}
@@ -1011,38 +995,35 @@ if __name__ == "__main__":
                 clip: args.clip}
 
         # Load data
-        X, y_ = data_manager.load_several_matrix_for_learning(path_data, path_metadata, disease)
+        X, y_ = data_manager.load_several_matrix_for_learning(args.path_data, args.path_metadata, args.disease)
         output_size = 1 if len(np.unique(y_)) == 2 else len(np.unique(y_))
         average = "binary" if output_size <= 2 else "micro"  # when compute scores, change average if binary or multi class
         multi_class = "raise" if output_size <= 2 else "ovr"
         col_features = nn_utils.get_features(X)
         embed_size = X.shape[1] - 2  # - id_subject and genome
 
-        file_best_parameters = os.path.join(path_model, 'best_parameters')
+        path_best_parameters = os.path.join(path_save, 'best_parameters.json')
+        path_res_benchmark = os.path.join(path_save, 'benchmark.csv')
         # Tune
         if tuning:
-            nn_utils.ray_hyperparameter_search(path_model, path_results, train_evaluate, D_resource, num_samples=10, random_seed=42)
+            nn_utils.ray_hyperparameter_search(X, y_, deepsets.cross_val_score_for_optimization, path_save, embed_size, output_size, D_resource, 
+                                               num_samples=num_samples, cv=cv, test_size=test_size, device=device, random_seed=SEED)
 
         # Train and test with cross validation
-        if os.path.exists(file_best_parameters):
-            logging.info("Best parameters used")
-            with open(file_best_parameters, 'r') as fp:
-                best_parameters = json.load(fp)
-        else:
-            logging.info("Default parameters used")
-            best_parameters = {}
-
+        best_parameters = nn_utils.load_best_parameters(path_best_parameters)
         # Change the parameters with the best ones
         for k, v in best_parameters.items():
             params[k] = v
         logging.info("Best parameters: {}".format(params))
-        # cross val scores
-        scores = deepsets.cross_val_score(params, cv, prediction_best_model_name=dataset_name + ".csv")
-        data_manager.write_file_res_benchmarck_classif(path_save, dataset_name, "deepsets", scores)
 
+        # cross val scores
+        scores = deepsets.cross_val_score(X, y_, path_save, params, embed_size, output_size, cv=cv, test_size=test_size,
+                                          device=device, prediction_best_model_name=args.dataset_name + ".csv")
+        data_manager.write_file_res_benchmarck_classif(path_res_benchmark, args.dataset_name, "deepsets", scores)
 
     if args.command == "snn":
         pass
+
     if args.command == "vae":
         pass
         
