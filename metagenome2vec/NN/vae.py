@@ -4,7 +4,6 @@ import pandas as pd
 import os
 import time
 import math
-import sys
 from tqdm import tqdm
 import pickle
 import abc
@@ -12,11 +11,11 @@ import abc
 import torch
 from torch import nn
 from torch import optim
-from torch.utils.data import Dataset, DataLoader
+from torch.utils.data import DataLoader
 import random
 
 from sklearn.model_selection import StratifiedShuffleSplit
-from sklearn.preprocessing import StandardScaler, MaxAbsScaler
+from sklearn.preprocessing import StandardScaler
 
 from ax.service.ax_client import AxClient
 import logging
@@ -34,34 +33,11 @@ np.random.seed(SEED)
 torch.manual_seed(SEED)
 torch.cuda.manual_seed(SEED)
 
+from metagenome2vec.data_processing.metagenomeNNDataset import MetagenomeNNDataset
 from metagenome2vec.utils import parser_creator
 from metagenome2vec.utils import data_manager
 from metagenome2vec.utils import file_manager
 from metagenome2vec.utils.string_names import *
-
-file_name_parameters = "hyper_parameters.pkl"
-vae_name = 'vae.pt'
-vae_fine_tuned_name = 'vae_fine_tuned.pt'
-
-############################################
-#### Functions to load and generate data ###
-############################################
-
-class metagenomeDataset(Dataset):
-    def __init__(self, X, y_):
-        self.data = X.copy()
-        self.data[group_name] = y_.copy()
-        self.IDs = pd.unique(self.data[id_subject_name])
-        self.labels = self.data.drop_duplicates(subset=[id_subject_name])[group_name].to_numpy()
-        del self.data[group_name]
-        self.data = np.array([np.array(self.data[self.data[id_subject_name] == id_])[:, 1:] for id_ in self.IDs],
-                             dtype=float)
-
-    def __len__(self):
-        return len(self.IDs)
-
-    def __getitem__(self, idx):
-        return self.data[idx], self.labels[idx]
 
 
 #############################
@@ -555,8 +531,8 @@ def cross_val_score_for_optimization(params, cv=10):
     scores = np.zeros(cv)
     for i, (X_train, X_valid, y_train, y_valid) in enumerate(tqdm(train_test_split(X, y_, col_features, n_splits=cv,
                                                                                        test_size=test_size), total=cv)):
-        dataset_train = metagenomeDataset(X_train, y_train)
-        dataset_valid = metagenomeDataset(X_valid, y_valid)
+        dataset_train = MetagenomeNNDataset(X_train, y_train)
+        dataset_valid = MetagenomeNNDataset(X_valid, y_valid)
         input_dim = dataset_train.data.shape[1:]
         params_loader = {'batch_size': params[batch_size],
                          'shuffle': True}
@@ -585,8 +561,8 @@ def cross_val_score(params, cv=10):
     best_score = np.inf
     for i, (X_train, X_valid, y_train, y_valid) in enumerate(tqdm(train_test_split(X, y_, col_features, n_splits=cv,
                                                                                        test_size=test_size), total=cv)):
-        dataset_train = metagenomeDataset(X_train, y_train)
-        dataset_valid = metagenomeDataset(X_valid, y_valid)
+        dataset_train = MetagenomeNNDataset(X_train, y_train)
+        dataset_valid = MetagenomeNNDataset(X_valid, y_valid)
         params_loader = {'batch_size': params[batch_size],
                          'shuffle': True}
         loader_train = DataLoader(dataset_train, **params_loader)

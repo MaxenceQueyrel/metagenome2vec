@@ -6,20 +6,10 @@ import numpy as np
 import subprocess
 import dill as pickle
 import re
-#import fasttext
-
-
 from tqdm import tqdm
 
 from metagenome2vec.utils.stat_func import ttest_cv
 from metagenome2vec.utils.string_names import *
-from metagenome2vec.read2vec.basic import BasicReadEmbeddings
-from metagenome2vec.read2vec.fastTextEmbed import FastTextReadEmbeddings
-# from metagenome2vec.read2vec.transformer import Seq2Seq
-from metagenome2vec.read2vec.fastDnaEmbed import FastDnaEmbed
-# from metagenome2vec.read2genome.h2oModel import H2oModel
-# from metagenome2vec.read2genome.fastDnaPred import FastDnaPred
-# from metagenome2vec.read2genome.transformerClassifier import TransformerClassifier
 
 
 def load_embeddings(path_embeddings, skip_kmer_name=True, L_kmer_to_del=None):

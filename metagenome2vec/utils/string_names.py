@@ -71,3 +71,6 @@ n_layer_phi = "n_layer_phi"
 n_layer_rho = "n_layer_rho"
 mil_layer = "mil_layer"
 gamma = "gamma"
+file_name_parameters = "hyper_parameters.pkl"
+vae_name = 'vae.pt'
+vae_fine_tuned_name = 'vae_fine_tuned.pt'

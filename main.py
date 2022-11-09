@@ -962,24 +962,24 @@ if __name__ == "__main__":
         from metagenome2vec.utils.string_names import metagenome_embeddings_folder
         embedding.create_finale_files(os.path.join(args.path_save, metagenome_embeddings_folder))
 
+    if args.command in ["deepsets", "snn", "vae"]:
+        
+
+        # Define parameters for ray tune
+        if args.tuning:
+            n_memory = args.n_memory * 1000 * 1024 * 1024  # To convert in giga
+            D_resource = {"worker": 1, "cpu": 1, "gpu": 0}
+            for resource in args.resources.split(","):
+                name, value = resource.split(":")
+                D_resource[name] = int(value) if name == "worker" else float(value)
+        resources_per_trial = {"cpu": D_resource["cpu"], "gpu": D_resource["gpu"]}
+
     if args.command == "deepsets":
         # Script variables
         path_save = args.path_save
-
         hidden_init_phi_, hidden_init_rho_, n_layer_phi_, n_layer_rho_ = [int(x) for x in args.deepsets_struct.split(",")]
-        resources = {str(x.split(':')[0]): float(x.split(':')[1]) for x in args.resources.split(",")}
-        D_resource = {"worker": 1, "cpu": 1, "gpu": 0}
-        for resource in args.resources.split(","):
-            name, value = resource.split(":")
-            D_resource[name] = int(value) if name == "worker" else float(value)
-
-        n_memory = args.n_memory * 1000 * 1024 * 1024  # To convert in giga
-        tuning = args.tuning
-        num_samples = args.n_iterations
         device = nn_utils.set_device(args.id_gpu)
-
         cv = args.cross_validation
-        resources_per_trial = {"cpu": D_resource["cpu"], "gpu": D_resource["gpu"]}
         test_size = args.test_size
 
         params = {batch_size: args.batch_size,
@@ -999,15 +999,14 @@ if __name__ == "__main__":
         output_size = 1 if len(np.unique(y_)) == 2 else len(np.unique(y_))
         average = "binary" if output_size <= 2 else "micro"  # when compute scores, change average if binary or multi class
         multi_class = "raise" if output_size <= 2 else "ovr"
-        col_features = nn_utils.get_features(X)
         embed_size = X.shape[1] - 2  # - id_subject and genome
 
         path_best_parameters = os.path.join(path_save, 'best_parameters.json')
         path_res_benchmark = os.path.join(path_save, 'benchmark.csv')
         # Tune
-        if tuning:
-            nn_utils.ray_hyperparameter_search(X, y_, deepsets.cross_val_score_for_optimization, path_save, embed_size, output_size, D_resource, 
-                                               num_samples=num_samples, cv=cv, test_size=test_size, device=device, random_seed=SEED)
+        if args.tuning:
+            nn_utils.ray_hyperparameter_search(X, y_, args.command, nn_utils.cross_val_score, path_save, embed_size, output_size, D_resource, 
+                                               num_samples=args.n_iterations, cv=cv, test_size=test_size, device=device, random_seed=SEED)
 
         # Train and test with cross validation
         best_parameters = nn_utils.load_best_parameters(path_best_parameters)
@@ -1017,8 +1016,7 @@ if __name__ == "__main__":
         logging.info("Best parameters: {}".format(params))
 
         # cross val scores
-        scores = deepsets.cross_val_score(X, y_, path_save, params, embed_size, output_size, cv=cv, test_size=test_size,
-                                          device=device, prediction_best_model_name=args.dataset_name + ".csv")
+        scores = nn_utils.cross_val_score(X, y_, args.command, params, embed_size, output_size, cv=cv, test_size=test_size, path_model=os.path.join(path_save, "deepsets.pt"), device=device)
         data_manager.write_file_res_benchmarck_classif(path_res_benchmark, args.dataset_name, "deepsets", scores)
 
     if args.command == "snn":
