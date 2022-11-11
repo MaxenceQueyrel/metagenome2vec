@@ -5,9 +5,13 @@ import torch
 from torch.utils.data import DataLoader
 from torch import nn, optim
 import numpy as np
+import pickle
 from metagenome2vec.utils.string_names import *
 from metagenome2vec.utils import file_manager
-from metagenome2vec.NN.deepsets import Phi, Rho, DeepSets, score, fit, table_prediction
+from metagenome2vec.NN.deepsets import Phi, Rho, DeepSets, score as score_deepsets, fit as fit_deepsets, table_prediction
+from metagenome2vec.NN.vae import VAE, AE, fit as fit_ae, evaluate as evaluate_ae
+from metagenome2vec.NN.snn import SiameseNetwork, fit as fit_snn, evaluate as evaluate_snn
+
 from metagenome2vec.data_processing.metagenomeNNDataset import MetagenomeNNDataset, collate_fn, train_test_split_mil
 import ray
 from ray import tune
@@ -16,6 +20,22 @@ from ray.tune.suggest.ax import AxSearch
 from ray.tune.schedulers import AsyncHyperBandScheduler
 import logging
 from tqdm import tqdm
+
+
+def epoch_time(start_time, end_time):
+    elapsed_time = end_time - start_time
+    elapsed_mins = int(elapsed_time / 60)
+    elapsed_secs = int(elapsed_time - (elapsed_mins * 60))
+    return elapsed_mins, elapsed_secs
+
+
+def init_weights(m):
+    for name, param in m.named_parameters():
+        if 'weight' in name:
+            nn.init.kaiming_normal_(param.data, a=0.01)
+        else:
+            nn.init.constant_(param.data, 0)
+
 
 def set_device(id_gpu):
     id_gpu = [int(x) for x in id_gpu.split(',')]
@@ -94,8 +114,8 @@ def load_best_parameters(path_best_parameters):
 
 
 def cross_val_score(X, y_, model_type, params, embed_size, output_size, cv=10, 
-                    test_size=0.2, device=torch.device("cpu"), path_model="./deepsets.pt", is_optimization=False):
-    best_acc = -1
+                    test_size=0.2, device=torch.device("cpu"), path_model="./model.pt", is_optimization=False):
+    best_acc = best_score = np.inf
     A_acc_train = np.zeros(cv)
     A_pre_train = np.zeros(cv)
     A_rec_train = np.zeros(cv)
@@ -108,16 +128,15 @@ def cross_val_score(X, y_, model_type, params, embed_size, output_size, cv=10,
     A_auc_valid = np.zeros(cv)
     A_fit_time = np.zeros(cv)
     A_score_time = np.zeros(cv)
+    A_score_train = np.zeros(cv)
+    A_score_valid = np.zeros(cv)
     for i, (X_train, X_valid, y_train, y_valid) in enumerate(tqdm(train_test_split_mil(X, y_, n_splits=cv, test_size=test_size), total=cv)):
-        dataset_train = MetagenomeNNDataset(X_train, y_train)
-        dataset_valid = MetagenomeNNDataset(X_valid, y_valid)
         params_loader = {'batch_size': params[batch_size],
-                         'collate_fn': lambda x: collate_fn(x, device),
                          'shuffle': True}
-        loader_train = DataLoader(dataset_train, **params_loader)
-        loader_valid = DataLoader(dataset_valid, **params_loader)
-        # model
+
+        # Create the model
         if model_type == "deepsets":
+            params_loader["collate_fn"] = lambda x: collate_fn(x, device)
             phi = Phi(embed_size, params[hidden_init_phi], params[n_layer_phi], params[dropout])
             rho = Rho(phi.last_hidden_size, params[hidden_init_rho], params[n_layer_rho], params[dropout], output_size)
             model = DeepSets(phi, rho, params[mil_layer], device).to(device)
@@ -125,43 +144,108 @@ def cross_val_score(X, y_, model_type, params, embed_size, output_size, cv=10,
                 criterion = nn.BCEWithLogitsLoss()
             else:
                 criterion = nn.CrossEntropyLoss()
+        elif model_type == "vae" or model_type == "ae":
+            NN = VAE if model_type == "vae" else AE
+            model = NN(input_dim=params[input_dim], hidden_dim=params[hidden_dim],
+                   n_layer_before_flatten=params[n_layer_before_flatten],
+                   n_layer_after_flatten=params[n_layer_after_flatten],
+                   device=device, activation_function=params[activation_function]).to(device)
+        
+        # Create the datasets
+        # TODO check if same for deepsets and vae
+        dataset_train = MetagenomeNNDataset(X_train, y_train)
+        dataset_valid = MetagenomeNNDataset(X_valid, y_valid)
+
+        loader_train = DataLoader(dataset_train, **params_loader)
+        loader_valid = DataLoader(dataset_valid, **params_loader)
         
         optimizer = optim.Adam(model.parameters(), lr=params[learning_rate], weight_decay=params[weight_decay])
         scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.3)
         
-        # fitting
         d = time.time()
-        model = fit(model, loader_train, loader_valid, optimizer, criterion, params[n_epoch],
-                    params[clip], scheduler, path_model=path_model, is_optimization=is_optimization)
-        A_fit_time[i] = time.time() - d
-        # scoring on train
-        d = time.time()
-        acc, pre, rec, f1, auc = score(model, loader_train)
-        A_acc_train[i] = acc
-        A_pre_train[i] = pre
-        A_rec_train[i] = rec
-        A_f1_train[i] = f1
-        A_auc_train[i] = auc
-        # scoring on valid
-        acc, pre, rec, f1, auc = score(model, loader_valid)
-        A_score_time[i] = time.time() - d
-        A_acc_valid[i] = acc
-        A_pre_valid[i] = pre
-        A_rec_valid[i] = rec
-        A_f1_valid[i] = f1
-        A_auc_valid[i] = auc
-        if model_type == "deepsets" and best_acc < acc:
-            best_acc = acc
-            if params[mil_layer] == "attention":
-                path_model_parent = os.path.dirname(path_model)
-                table_prediction(model, dataset_train).to_csv(os.path.join(path_model_parent, "train_best_model.csv"), index=False)
-                table_prediction(model, dataset_valid).to_csv(os.path.join(path_model_parent, "valid_best_model.csv"), index=False)
-    if is_optimization:
-        return np.mean(A_acc_valid), np.std(A_acc_valid)
-    return {"test_accuracy": A_acc_valid,
-            "fit_time": A_fit_time, "score_time": A_score_time,
-            "test_accuracy": A_acc_valid, "train_accuracy": A_acc_train,
-            "test_f1": A_f1_valid, "train_f1": A_f1_train,
-            "test_precision": A_pre_valid, "train_precision": A_pre_train,
-            "test_recall": A_rec_valid, "train_recall": A_rec_train,
-            "test_roc_auc": A_auc_valid, "train_roc_auc": A_auc_train}
+        # DeepSets
+        if model_type == "deepsets":
+            fit_deepsets(model, loader_train, loader_valid, optimizer, criterion, params[n_epoch],
+                params[clip], scheduler, path_model=path_model, is_optimization=is_optimization)
+            A_fit_time[i] = time.time() - d
+            d = time.time()
+            acc, pre, rec, f1, auc = score_deepsets(model, loader_train)
+            A_acc_train[i], A_pre_train[i], A_rec_train[i], A_f1_train[i], A_auc_train[i]  = acc, pre, rec, f1, auc
+            # scoring on valid
+            acc, pre, rec, f1, auc = score_deepsets(model, loader_valid)
+            A_acc_valid[i], A_pre_valid[i], A_rec_valid[i], A_f1_valid[i], A_auc_valid[i]  = acc, pre, rec, f1, auc
+            A_score_time[i] = time.time() - d
+            if best_acc < acc:
+                torch.save(model.state_dict(), path_model)
+                if params[mil_layer] == "attention":
+                    path_model_parent = os.path.dirname(path_model)
+                    table_prediction(model, dataset_train).to_csv(os.path.join(path_model_parent, "train_best_model.csv"), index=False)
+                    table_prediction(model, dataset_valid).to_csv(os.path.join(path_model_parent, "valid_best_model.csv"), index=False)
+            if is_optimization:
+                return np.mean(A_acc_valid), np.std(A_acc_valid)
+            return {"test_accuracy": A_acc_valid,
+                "fit_time": A_fit_time, "score_time": A_score_time,
+                "test_accuracy": A_acc_valid, "train_accuracy": A_acc_train,
+                "test_f1": A_f1_valid, "train_f1": A_f1_train,
+                "test_precision": A_pre_valid, "train_precision": A_pre_train,
+                "test_recall": A_rec_valid, "train_recall": A_rec_train,
+                "test_roc_auc": A_auc_valid, "train_roc_auc": A_auc_train}
+        # Auto Encoder
+        elif model_type == "vae" or model_type == "ae":
+            fit_ae(model, loader_train, loader_valid, optimizer, params[n_epoch], params[clip],
+                scheduler, path_model=path_model, is_optimization=is_optimization)
+            A_fit_time[i] = time.time() - d
+            d = time.time()
+            score_train = evaluate_ae(model, loader_train)
+            score_valid = evaluate_ae(model, loader_train)
+            A_score_train[i], A_score_valid[i] = score_train, score_valid
+            A_score_time[i] = time.time() - d
+            if score_valid < best_score:
+                best_score = score_valid
+                torch.save(model.state_dict(), path_model)
+            if is_optimization:
+                return np.mean(A_score_valid), np.std(A_score_valid)
+            return {"score_train": A_score_train,
+                "score_valid": A_score_valid,
+                "fit_time": A_fit_time, "score_time": A_score_time}
+        elif model_type == "snn":
+            input_dim = dataset_train.data.shape[1:]
+            model = SiameseNetwork(input_dim, hidden_dim=params[hidden_dim],
+                   n_layer_before_flatten=params[n_layer_before_flatten],
+                   n_layer_after_flatten=params[n_layer_after_flatten],
+                   device=device, activation_function=params[activation_function]).to(device)
+            d = time.time()
+            fit_snn(model, loader_train, loader_valid, optimizer, params[n_epoch], params[clip], scheduler)
+            A_fit_time[i] = time.time() - d
+            score_train = evaluate_snn(model, loader_train)
+            score_valid = evaluate_snn(model, loader_train)
+            A_score_train[i], A_score_valid[i] = score_train, score_valid
+            if score_valid < best_score:
+                best_score = score_valid
+                torch.save(model.state_dict(), path_model)
+                # TODO check this
+                pickle.dump({"input_dim": input_dim, hidden_dim: params[hidden_dim],
+                  n_layer_before_flatten: params[n_layer_before_flatten],
+                  n_layer_after_flatten: params[n_layer_after_flatten],
+                  activation_function: params[activation_function]}, open(os.path.join(path_model, 'snn_parameters.pkl'), 'wb'))
+            if is_optimization:
+                return np.mean(A_score_valid), np.std(A_score_valid)
+            return {"score_train": score_train,
+                "score_valid": score_valid,
+                "fit_time": A_fit_time, "score_time": A_score_time}
+        else:
+            raise "%s model type does not exist" % model_type
+
+def save_model(path_model, parameters, genomes):
+    with open(os.path.join(path_model, file_name_parameters), 'wb') as fp:
+        pickle.dump(parameters, fp)
+    with open(os.path.join(path_model, 'genomes'), 'wb') as fp:
+        pickle.dump(genomes, fp)
+
+
+def load_model(path_model):
+    with open(os.path.join(path_model, file_name_parameters), 'rb') as fp:
+        parameters = pickle.load(fp)
+    with open(os.path.join(path_model, 'genomes'), 'rb') as fp:
+        genomes = pickle.load(fp)
+    return parameters, genomes

@@ -1019,11 +1019,258 @@ if __name__ == "__main__":
         scores = nn_utils.cross_val_score(X, y_, args.command, params, embed_size, output_size, cv=cv, test_size=test_size, path_model=os.path.join(path_save, "deepsets.pt"), device=device)
         data_manager.write_file_res_benchmarck_classif(path_res_benchmark, args.dataset_name, "deepsets", scores)
 
-    if args.command == "snn":
-        pass
-
     if args.command == "vae":
-        pass
+        parser = parser_creator.ParserCreator()
+        args = parser.parser_vae()
+        # Script variables
+        path_data = args.path_data
+        path_metadata = args.path_metadata
+        disease = args.disease
+        dataset_name = args.dataset_name
+        path_model = os.path.join(args.path_model, dataset_name)
+        batch_size_ = args.batch_size
+        n_steps_ = args.n_steps
+        learning_rate_ = args.learning_rate
+        weight_decay_ = args.weight_decay
+        dropout_ = args.dropout
+        clip_ = args.clip
+        activation_function_= args.activation_function
+        path_tmp = args.path_tmp_folder
+        n_memory = args.n_memory * 1000 * 1024 * 1024  # To convert in giga
+        computation_type = args.computation_type
+        NN = VAE if computation_type == "vae" else AE
+
+        if path_tmp is None:
+            path_tmp = os.environ["TMP"] if "TMP" in os.environ else "~/"
+
+        hidden_dim_, n_layer_before_flatten_, n_layer_after_flatten_ = [int(x) for x in args.vae_struct.split(",")]
+        device = set_device(args.id_gpu)
+
+        resources = {str(x.split(':')[0]): float(x.split(':')[1]) for x in args.resources.split(",")}
+        D_resource = {"worker": 1, "cpu": 1, "gpu": 0}
+        for resource in args.resources.split(","):
+            name, value = resource.split(":")
+            if name == "worker":
+                D_resource[name] = int(value)
+            else:
+                D_resource[name] = float(value)
+
+        tuning = args.tuning
+        num_samples = args.n_iterations
+
+        cv = args.cross_validation
+        resources_per_trial = {"cpu": D_resource["cpu"], "gpu": D_resource["gpu"]}
+        test_size = args.test_size
+
+        # Load data
+        X, y_ = data_manager.load_several_matrix_for_learning(path_data, path_metadata, disease)
+        col_features = get_features(X)
+
+        X, y_, genomes = mil_data_processing(X, y_)
+        input_dim_ = (len(genomes), X.shape[1] - 1)  # input dimension of the auto encoder
+        path_file_parameters = os.path.join(path_model, file_name_parameters)
+
+        params = {input_dim: input_dim_,
+                batch_size: batch_size_,
+                activation_function: activation_function_,
+                n_epoch: n_steps_,
+                learning_rate: learning_rate_,
+                weight_decay: weight_decay_,
+                hidden_dim: hidden_dim_,
+                n_layer_before_flatten: n_layer_before_flatten_,
+                n_layer_after_flatten: n_layer_after_flatten_,
+                dropout: dropout_,
+                clip: clip_}
+
+        n_output = len(set(y_.tolist()))
+        n_output = 1 if n_output == 2 else n_output
+
+        file_manager.create_dir(path_model, mode="local")
+
+        # Tune
+        if tuning:
+            os.environ["RAY_PICKLE_VERBOSE_DEBUG"] = "1"
+            ray.init(num_cpus=np.int(np.ceil(D_resource["cpu"] * D_resource["worker"])),
+                    object_store_memory=n_memory,
+                    num_gpus=np.int(np.ceil(D_resource["gpu"] * D_resource["worker"])))
+            parameters = [{"name": learning_rate, "type": "range", "bounds": [1e-4, 1e-1], "log_scale": True},
+                        {"name": weight_decay, "type": "choice", "values": [0.0, 1e-3], "value_type": "float"},
+                        {"name": dropout, "type": "choice", "values": [0.0, 0.1]},
+                        {"name": activation_function, "type": "choice", "values": ["nn.ReLU", "nn.LeakyReLU"], "value_type": "str"},
+                        {"name": batch_size, "type": "fixed", "value": 6, "value_type": "int"},
+                        {"name": n_epoch, "type": "fixed", "value": 100, "value_type": "int"},
+                        {"name": n_layer_before_flatten, "type": "choice", "values": [2, 3, 4], "value_type": "int"},
+                        {"name": n_layer_after_flatten, "type": "choice", "values": [2, 3, 4], "value_type": "int"},
+                        {"name": hidden_dim, "type": "choice", "values": [30, 50], "value_type": "int"},
+                        {"name": clip, "type": "fixed", "value": -1., "value_type": "float"}]
+
+            ax = AxClient(enforce_sequential_optimization=False, random_seed=SEED)
+            metric_to_tune = "mean_score"
+            ax.create_experiment(
+                name="autoencoder_experiment",
+                parameters=parameters,
+                objective_name=metric_to_tune,
+            )
+
+            algo = AxSearch(ax_client=ax, max_concurrent=D_resource["worker"])
+            scheduler = AsyncHyperBandScheduler()
+
+            analyse = tune.run(train_evaluate,
+                            num_samples=num_samples,
+                            search_alg=algo,
+                            scheduler=scheduler,
+                            mode="min",
+                            metric=metric_to_tune,
+                            verbose=1,
+                            resources_per_trial=resources_per_trial,
+                            local_dir=os.path.join(path_tmp, "ray_results_" + dataset_name))
+
+            analyse.dataframe().to_csv(os.path.join(path_model, "tuning_results.csv"), index=False)
+            best_parameters = analyse.get_best_config(metric=metric_to_tune, mode="min")
+            best_parameters[input_dim] = input_dim_
+            save_model(path_model, best_parameters, genomes)
+
+        # Train and test with cross validation
+        if os.path.exists(path_file_parameters):
+            print("Best parameters used")
+            with open(path_file_parameters, 'rb') as fp:
+                best_parameters = pickle.load(fp)
+        else:
+            print("Default parameters used")
+            best_parameters = {}
+
+        # Change the parameters with the best ones
+        for k, v in best_parameters.items():
+            params[k] = v
+
+        # cross val scores
+        print(params)
+        scores = cross_val_score(params, cv)
+        print(scores)
+
+
+    if args.command == "snn":
+        parser = parser_creator.ParserCreator()
+        args = parser.parser_snn()
+        path_data = args.path_data
+        path_metadata = args.path_metadata
+        disease = args.disease
+        dataset_name = args.dataset_name
+        path_model = os.path.join(args.path_model, dataset_name)
+        batch_size_ = args.batch_size
+        n_steps_ = args.n_steps
+        learning_rate_ = args.learning_rate
+        weight_decay_ = args.weight_decay
+        dropout_ = args.dropout
+        clip_ = args.clip
+        path_tmp = args.path_tmp_folder
+        n_memory = args.n_memory * 1000 * 1024 * 1024  # To convert in giga
+
+        if path_tmp is None:
+            path_tmp = os.environ["TMP"] if "TMP" in os.environ else "~/"
+
+        hidden_dim_, n_layer_before_flatten_, n_layer_after_flatten_ = [int(x) for x in args.vae_struct.split(",")]
+        device = set_device(args.id_gpu)
+
+        resources = {str(x.split(':')[0]): float(x.split(':')[1]) for x in args.resources.split(",")}
+        D_resource = {"worker": 1, "cpu": 1, "gpu": 0}
+        for resource in args.resources.split(","):
+            name, value = resource.split(":")
+            if name == "worker":
+                D_resource[name] = int(value)
+            else:
+                D_resource[name] = float(value)
+
+        tuning = args.tuning
+        num_samples = args.n_iterations
+
+        cv = args.cross_validation
+        resources_per_trial = {"cpu": D_resource["cpu"], "gpu": D_resource["gpu"]}
+        test_size = args.test_size
+
+        # Load data
+        X, y_ = data_manager.load_several_matrix_for_learning(path_data, path_metadata, disease)
+        col_features = get_features(X)
+
+        X, y_, genomes = mil_data_processing(X, y_)
+        input_dim_ = (len(genomes), X.shape[1] - 1)  # input dimension of the auto encoder
+        path_file_parameters = os.path.join(path_model, file_name_parameters)
+
+        params = {input_dim: input_dim_,
+                batch_size: batch_size_,
+                n_epoch: n_steps_,
+                learning_rate: learning_rate_,
+                weight_decay: weight_decay_,
+                hidden_dim: hidden_dim_,
+                n_layer_before_flatten: n_layer_before_flatten_,
+                n_layer_after_flatten: n_layer_after_flatten_,
+                dropout: dropout_,
+                clip: clip_}
+
+        n_output = len(set(y_.tolist()))
+        n_output = 1 if n_output == 2 else n_output
+
+        # Tune
+        if tuning:
+            os.environ["RAY_PICKLE_VERBOSE_DEBUG"] = "1"
+            ray.init(num_cpus=np.int(np.ceil(D_resource["cpu"] * D_resource["worker"])),
+                    object_store_memory=n_memory,
+                    num_gpus=np.int(np.ceil(D_resource["gpu"] * D_resource["worker"])))
+            parameters = [{"name": learning_rate, "type": "range", "bounds": [1e-4, 1e-1], "log_scale": True},
+                        {"name": weight_decay, "type": "choice", "values": [0.0, 1e-3], "value_type": "float"},
+                        {"name": dropout, "type": "choice", "values": [0.0, 0.1]},
+                        {"name": activation_function, "type": "choice", "values": ["nn.ReLU", "nn.LeakyReLU"], "value_type": "str"},
+                        {"name": batch_size, "type": "fixed", "value": 6, "value_type": "int"},
+                        {"name": n_epoch, "type": "fixed", "value": 100, "value_type": "int"},
+                        {"name": n_layer_before_flatten, "type": "choice", "values": [2, 3, 4], "value_type": "int"},
+                        {"name": n_layer_after_flatten, "type": "choice", "values": [2, 3, 4], "value_type": "int"},
+                        {"name": hidden_dim, "type": "choice", "values": [30, 50], "value_type": "int"},
+                        {"name": clip, "type": "fixed", "value": -1., "value_type": "float"}]
+
+            ax = AxClient(enforce_sequential_optimization=False, random_seed=SEED)
+            metric_to_tune = "mean_score"
+            ax.create_experiment(
+                name="autoencoder_experiment",
+                parameters=parameters,
+                objective_name=metric_to_tune,
+            )
+
+            algo = AxSearch(ax_client=ax, max_concurrent=D_resource["worker"])
+            scheduler = AsyncHyperBandScheduler()
+
+            analyse = tune.run(train_evaluate,
+                            num_samples=num_samples,
+                            search_alg=algo,
+                            scheduler=scheduler,
+                            mode="min",
+                            metric=metric_to_tune,
+                            verbose=1,
+                            resources_per_trial=resources_per_trial,
+                            local_dir=os.path.join(path_tmp, "ray_results_" + dataset_name)
+                            )
+            hdfs.create_dir(path_model, mode="local")
+            analyse.dataframe().to_csv(os.path.join(path_model, "tuning_results.csv"), index=False)
+            best_parameters = analyse.get_best_config(metric=metric_to_tune, mode="min")
+            best_parameters[input_dim] = input_dim_
+            save_model(path_model, best_parameters, genomes)
+
+        # Train and test with cross validation
+        if os.path.exists(path_file_parameters):
+            print("Best parameters used")
+            with open(path_file_parameters, 'rb') as fp:
+                best_parameters = pickle.load(fp)
+        else:
+            print("Default parameters used")
+            best_parameters = {}
+
+        # Change the parameters with the best ones
+        for k, v in best_parameters.items():
+            params[k] = v
+
+        # cross val scores
+        print(params)
+        scores = cross_val_score(params, cv)
+        print(scores)
         
     
     logging.info("End computing")

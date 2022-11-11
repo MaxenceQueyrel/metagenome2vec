@@ -26,6 +26,7 @@ torch.cuda.manual_seed(SEED)
 
 from metagenome2vec.utils.string_names import *
 from metagenome2vec.data_processing.metagenomeNNDataset import item_batch_to_tensor
+from metagenome2vec.NN.utils import epoch_time
 
 #############################
 ######## Class Model ########
@@ -155,20 +156,6 @@ class Rho(nn.Module):
 #############################
 
 
-def epoch_time(start_time, end_time):
-    elapsed_time = end_time - start_time
-    elapsed_mins = int(elapsed_time / 60)
-    elapsed_secs = int(elapsed_time - (elapsed_mins * 60))
-    return elapsed_mins, elapsed_secs
-
-
-def init_weights(m):
-    for name, param in m.named_parameters():
-        if 'weight' in name:
-            nn.init.kaiming_normal_(param.data, a=0.01)
-        else:
-            nn.init.constant_(param.data, 0)
-
 
 def train(model, loader, optimizer, criterion, clip=-1):
     model.train()
@@ -259,8 +246,8 @@ def fit(model, loader_train, loader_valid, optimizer, criterion, n_epoch, clip=-
             if not is_optimization:
                 print("Stopping earlier because no improvement")
                 model.load_state_dict(torch.load(path_model))
-            return model
-
+            return
+        
         if not is_optimization:
             print(f'Epoch: {epoch + 1:02} | Time: {epoch_mins}m {epoch_secs}s')
             try:
@@ -269,7 +256,6 @@ def fit(model, loader_train, loader_valid, optimizer, criterion, n_epoch, clip=-
             except OverflowError:
                 print(f'\tTrain Loss: {train_loss:.3f}')
                 print(f'\t Val. Loss: {valid_loss:.3f}')
-    return model
 
 
 def table_prediction(model, dataset, device=torch.device("cpu")):
