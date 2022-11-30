@@ -6,12 +6,7 @@ import abc
 import torch
 from torch import nn
 
-import logging
-from ray import tune
-logger = logging.getLogger(tune.__name__)
-logger.setLevel(level=logging.CRITICAL)
-
-from metagenome2vec.NN.utils import epoch_time
+import metagenome2vec.NN.utils as utils
 from metagenome2vec.utils.string_names import *
 
 
@@ -326,7 +321,7 @@ def loss_function_ae(recon_x, x):
 def train_finetune(model, loader, optimizer, clip=-1):
     model.train()
     train_loss = 0
-    for batch_idx, data in enumerate(loader):
+    for _, data in enumerate(loader):
         if len(data) == 2:
             data, y_ = data
         else:
@@ -347,7 +342,7 @@ def evaluate_finetune(model, loader):
     model.eval()
     test_loss = 0
     with torch.no_grad():
-        for i, data in enumerate(loader):
+        for _, data in enumerate(loader):
             if len(data) == 2:
                 data, y_ = data
             else:
@@ -363,14 +358,11 @@ def evaluate_finetune(model, loader):
 def train(model, loader, optimizer, clip=-1):
     model.train()
     train_loss = 0
-    for batch_idx, (data, _) in enumerate(loader):
-        data = model.processing(data)
+    for _, (data, _, _) in enumerate(loader):
+        data = torch.concat([x.unsqueeze(0) for x in data])
         optimizer.zero_grad()
         output = model(data)
-        if isinstance(output, tuple):
-            loss = model.loss_function(data, *output)
-        else:
-            loss = model.loss_function(data, output)
+        loss = model.loss_function(data, *output) if isinstance(output, tuple) else  model.loss_function(data, output)
         loss.backward()
         if clip >= 0.:
             torch.nn.utils.clip_grad_norm_(model.parameters(), clip)
@@ -383,13 +375,9 @@ def evaluate(model, loader):
     model.eval()
     test_loss = 0
     with torch.no_grad():
-        for i, (data, _) in enumerate(loader):
-            data = model.processing(data)
+        for _, (data, _, _) in enumerate(loader):
             output = model(data)
-            if isinstance(output, tuple):
-                test_loss += model.loss_function(data, *output).item()
-            else:
-                test_loss += model.loss_function(data, output).item()
+            test_loss += model.loss_function(data, *output).item() if isinstance(output, tuple) else model.loss_function(data, output).item()
     test_loss /= len(loader.dataset)
     return test_loss
 
@@ -413,7 +401,7 @@ def fit(model, loader_train, loader_valid, optimizer, n_epoch, clip=-1, schedule
             scheduler.step()
 
         end_time = time.time()
-        epoch_mins, epoch_secs = epoch_time(start_time, end_time)
+        epoch_mins, epoch_secs = utils.epoch_time(start_time, end_time)
 
         if valid_loss < best_valid_loss:
             cpt_epoch_no_improvement = 0

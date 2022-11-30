@@ -6,10 +6,7 @@ import os
 import time
 import re
 from tqdm import tqdm
-import json
 from ete3 import NCBITaxa
-import numpy as np
-import shutil
 
 from metagenome2vec.utils import file_manager, transformation_ADN
 from metagenome2vec.utils.string_names import *
@@ -24,7 +21,7 @@ def get_fasta_file(path_data):
     """
     # Get all the
     L_fasta_file = []
-    for (dirpath, dirnames, filenames) in os.walk(path_data):
+    for (_, _, filenames) in os.walk(path_data):
         L_fasta_file.extend(list(filter(lambda x: x.endswith(".fna") or x.endswith(".fasta"), filenames)))
         break
     return L_fasta_file
@@ -50,7 +47,7 @@ def get_taxonomy_id(path_fasta_file):
     """
     Return the taxonomic id of a fasta file by scraping the ncbi website
     :param path_fasta_file: String, complete path to the fasta file
-    :return: int, bp_length of the fasta file
+    :return: int, tax id
     """
     tax_id = None
     with open(path_fasta_file, 'r') as fasta_file:

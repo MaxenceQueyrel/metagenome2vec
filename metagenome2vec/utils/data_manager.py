@@ -100,57 +100,6 @@ def save_embeddings(path_embeddings, embeddings, dico_index, reverse_index=None,
             json.dump(reverse_index, fp)
 
 
-def load_matrix_for_learning(path_matrix, path_metadata, disease, is_bok=False, nan_to_control=True):
-    """
-    Load a matrix to feed into machine learning algorithm
-    :param path_matrix: String, Complete path to the matrix formed with almost 2 columns:
-        - id.fasta, String, the id of the metagenome file
-        - group, String, the class value => empty for unknown (rows are removed), Control (switch to 0) and a disease name (switch to 1)
-    :param: path_metadata: Path to the info about metagenome
-    :param disease: String, The disease class in metadata file
-    :param: is_bok: Boolean, True if it is a bok matrix, then a group by sum is applied instead of group by mean
-    :param: nan_to_control: Boolean, True to transform nan into control case else delete these elements
-    :return: X, Pandas 2D DataFrame and y_, numpy 1D array the vs
-    """
-    X = pd.read_csv(path_matrix, sep=",")
-    if pair_name in X.columns.values:
-        del X[pair_name]
-    metadata = pd.read_csv(path_metadata, delimiter=",")[[id_fasta_name, group_name, id_subject_name]].astype(str)
-    if group_name in X.columns.values:
-        del metadata[group_name]
-    X = X.merge(metadata, on=id_fasta_name)
-    if nan_to_control:
-        X.loc[X[group_name].isna(), group_name] = control_category
-    X = X[~X.isnull().any(axis=1)]
-    if count_name in X.columns.values:  # Case MIL
-        #count = X.groupby(by=[id_subject_name, group_name, genome_name], as_index=False).agg({count_name: "sum"})[[count_name]]
-        #del X[count_name]
-        #X = X.groupby(by=[id_subject_name, group_name, genome_name], as_index=False).mean()
-        #X = pd.concat([count, X], axis=1)
-        X = X.groupby(by=[id_subject_name, group_name, genome_name], as_index=False).sum()
-    else:  # case SIL
-        if is_bok:
-            X = X.groupby(by=[id_subject_name, group_name], as_index=False).sum()
-        else:
-            X = X.groupby(by=[id_subject_name, group_name], as_index=False).mean()
-    y_ = np.where(np.array(X[group_name].astype(str)) == disease, 1, 0)
-    del X[group_name]
-    return X, y_
-
-
-def load_several_matrix_for_learning(path_data, path_metadata, disease):
-    cpt_class = 2
-    X = y_ = None
-    for path_d, path_m, d in zip(path_data.split(","), path_metadata.split(","), disease.split(",")):
-        X_tmp, y_tmp = load_matrix_for_learning(path_d, path_m, d)
-        if X is None:
-            X, y_ = X_tmp, y_tmp
-        else:
-            X = pd.concat([X, X_tmp])
-            y_ = np.concatenate([y_, np.where(y_tmp == 1, cpt_class, y_tmp)])
-            cpt_class += 1
-    return X, y_
-
 def balance_data(df, name_col, n_sample_by_class=1000, mode="both"):
     """
     Resample a dataset with n_sample_by_class elements for each class

@@ -1,22 +1,12 @@
 import numpy as np
 
-import os
 import time
 import math
-from tqdm import tqdm
-import pickle
 
 import torch
 from torch import nn
-from torch import optim
-from torch.utils.data import DataLoader
 
-import logging
-from ray import tune
-logger = logging.getLogger(tune.__name__)
-logger.setLevel(level=logging.CRITICAL)
-
-from metagenome2vec.NN.utils import epoch_time
+import metagenome2vec.NN.utils as utils
 from metagenome2vec.utils.string_names import *
 
 
@@ -37,6 +27,7 @@ class SiameseNetwork(nn.Module):
         self.n_layer_before_flatten = n_layer_before_flatten
         self.activation_function = activation_function
         self.embed_dim = None
+        self.criterion = torch.nn.BCEWithLogitsLoss(reduction="mean")
 
         # to save the encoder dimension
         L_hidden_dim = []
@@ -108,7 +99,7 @@ class SiameseNetwork(nn.Module):
         add_abundance: str, "no": without, "yes" with, "only" don't use embeddings
         """
         X_res = y_res = None
-        for batch_id, (d1, d2, y, y1) in enumerate(dataloader):
+        for _, (d1, d2, y, y1) in enumerate(dataloader):
             # Get abundance from original data
             if add_abundance != "no":
                 abundance = d1[:, :, 0].cpu().detach().numpy()
@@ -150,18 +141,17 @@ class ContrastiveLoss(torch.nn.Module):
         return loss
 
 
-criterion = torch.nn.BCEWithLogitsLoss(reduction="mean")
-
-
 def train(model, loader, optimizer, clip=-1):
     model.train()
     train_loss = 0
-    for batch_idx, data in enumerate(loader):
+    for _, data in enumerate(loader):
         d1, d2, y, _ = data
+        import pdb
+        pdb.set_trace()
         d1, d2, y = model.processing(d1, d2, y)
         optimizer.zero_grad()
         output = model(d1, d2)
-        loss = criterion(output, y)
+        loss = model.criterion(output, y)
         loss.backward()
         if clip >= 0.:
             torch.nn.utils.clip_grad_norm_(model.parameters(), clip)
@@ -174,21 +164,19 @@ def evaluate(model, loader):
     model.eval()
     test_loss = 0
     with torch.no_grad():
-        for i, data in enumerate(loader):
+        for _, data in enumerate(loader):
             d1, d2, y, _ = data
             d1, d2, y = model.processing(d1, d2, y)
             output = model(d1, d2)
-            test_loss += criterion(output, y).item()
+            test_loss += model.criterion(output, y).item()
     test_loss /= len(loader.dataset)
     return test_loss
 
 
 def fit(model, loader_train, loader_valid, optimizer, n_epoch, clip=-1, scheduler=None,
-        early_stopping=5, path_model="./", name_model=None):
+        early_stopping=5, path_model="./snn.pt", is_optimization=False):
     best_valid_loss = np.inf
     cpt_epoch_no_improvement = 0
-    if name_model is None:
-        name_model = siamese_name
     for epoch in range(n_epoch):
         start_time = time.time()
         train_loss = train(model, loader_train, optimizer, clip)
@@ -198,25 +186,28 @@ def fit(model, loader_train, loader_valid, optimizer, n_epoch, clip=-1, schedule
             scheduler.step()
 
         end_time = time.time()
-        epoch_mins, epoch_secs = epoch_time(start_time, end_time)
+        epoch_mins, epoch_secs = utils.epoch_time(start_time, end_time)
 
         if valid_loss < best_valid_loss:
             cpt_epoch_no_improvement = 0
             best_valid_loss = valid_loss
-            torch.save(model.state_dict(), os.path.join(path_model, name_model))
+            if not is_optimization:
+                torch.save(model.state_dict(), path_model)
 
         if cpt_epoch_no_improvement == early_stopping:
             print("Stopping earlier because no improvement")
-            model.load_state_dict(torch.load(os.path.join(path_model, name_model)))
+            if not is_optimization:
+                model.load_state_dict(torch.load(path_model))
             return
 
-        print(f'Epoch: {epoch + 1:02} | Time: {epoch_mins}m {epoch_secs}s')
-        try:
-            print(f'\tTrain Loss: {train_loss:.3f} | Train PPL: {math.exp(train_loss):7.3f}')
-            print(f'\t Val. Loss: {valid_loss:.3f} |  Val. PPL: {math.exp(valid_loss):7.3f}')
-        except OverflowError:
-            print(f'\tTrain Loss: {train_loss:.3f}')
-            print(f'\t Val. Loss: {valid_loss:.3f}')
+        if not is_optimization:
+            print(f'Epoch: {epoch + 1:02} | Time: {epoch_mins}m {epoch_secs}s')
+            try:
+                print(f'\tTrain Loss: {train_loss:.3f} | Train PPL: {math.exp(train_loss):7.3f}')
+                print(f'\t Val. Loss: {valid_loss:.3f} |  Val. PPL: {math.exp(valid_loss):7.3f}')
+            except OverflowError:
+                print(f'\tTrain Loss: {train_loss:.3f}')
+                print(f'\t Val. Loss: {valid_loss:.3f}')
 
 
 

@@ -1,32 +1,17 @@
 import numpy as np
 import pandas as pd
 
-import os
 import time
 import math
 
 import torch
 from torch import nn
 import torch.nn.functional as F
-import random
-
 from sklearn.metrics import accuracy_score, roc_auc_score, f1_score, precision_score, recall_score
 
-import logging
-from ray import tune
-logger = logging.getLogger(tune.__name__)
-logger.setLevel(level=logging.CRITICAL)
-
-SEED = 1234
-
-random.seed(SEED)
-np.random.seed(SEED)
-torch.manual_seed(SEED)
-torch.cuda.manual_seed(SEED)
-
 from metagenome2vec.utils.string_names import *
-from metagenome2vec.data_processing.metagenomeNNDataset import item_batch_to_tensor
-from metagenome2vec.NN.utils import epoch_time
+from metagenome2vec.NN.data import item_batch_to_tensor
+import metagenome2vec.NN.utils as nn_utils
 
 #############################
 ######## Class Model ########
@@ -45,6 +30,8 @@ class DeepSets(nn.Module):
                 nn.Tanh(),
                 nn.Linear(self.phi.last_hidden_size // 3, 1)
             ).to(self.device)
+        self.criterion = nn.BCEWithLogitsLoss() if self.rho.output_size <= 2 else nn.CrossEntropyLoss()
+
 
     def forward(self, x):
         # compute the representation for each data point
@@ -156,8 +143,7 @@ class Rho(nn.Module):
 #############################
 
 
-
-def train(model, loader, optimizer, criterion, clip=-1):
+def train(model, loader, optimizer, clip=-1):
     model.train()
     epoch_loss = 0
     for _, (X, y_, _) in enumerate(loader):
@@ -165,10 +151,7 @@ def train(model, loader, optimizer, criterion, clip=-1):
         optimizer.zero_grad()
         # Compute the result of data in the batch
         y = model.forward_batch(X)
-        if model.rho.output_size == 1:
-            loss = criterion(y, y_)  # Compute the loss value
-        else:
-            loss = criterion(y, y_.long())
+        loss = model.criterion(y, y_) if model.rho.output_size == 1 else model.criterion(y, y_.long())
         loss.backward()
         if clip >= 0.:
             torch.nn.utils.clip_grad_norm_(model.parameters(), clip)
@@ -177,16 +160,13 @@ def train(model, loader, optimizer, criterion, clip=-1):
     return epoch_loss / len(loader)
 
 
-def evaluate(model, loader, criterion):
+def evaluate(model, loader):
     model.eval()
     epoch_loss = 0
     with torch.no_grad():
         for _, (X, y_, _) in enumerate(loader):
             y = model.forward_batch(X)
-            if model.rho.output_size == 1:
-                loss = criterion(y, y_)  # Compute the loss value
-            else:
-                loss = criterion(y, y_.long())
+            loss = model.criterion(y, y_) if model.rho.output_size == 1 else model.criterion(y, y_.long())
             epoch_loss += loss.item()
     return epoch_loss / len(loader)
 
@@ -201,7 +181,6 @@ def score(model, loader, average="macro", multi_class="raise"):
         rec = recall_score(y_, y_pred, average=average)
         auc = roc_auc_score(y_, y_prob, multi_class=multi_class)
         return acc, pre, rec, f1, auc
-
 
 
 def prediction(model, loader):
@@ -219,22 +198,22 @@ def prediction(model, loader):
     return y_, y_pred, y_prob
 
 
-def fit(model, loader_train, loader_valid, optimizer, criterion, n_epoch, clip=-1, scheduler=None,
+def fit(model, loader_train, loader_valid, optimizer, n_epoch, clip=-1, scheduler=None,
         early_stopping=5, path_model="./deepsets.pt", is_optimization=False):
     best_valid_loss = np.inf
     cpt_epoch_no_improvement = 0
     for epoch in range(n_epoch):
         start_time = time.time()
 
-        train_loss = train(model, loader_train, optimizer, criterion, clip)
-        valid_loss = evaluate(model, loader_valid, criterion)
+        train_loss = train(model, loader_train, optimizer, clip)
+        valid_loss = evaluate(model, loader_valid)
 
         cpt_epoch_no_improvement += 1
         if scheduler is not None:
             scheduler.step()
 
         end_time = time.time()
-        epoch_mins, epoch_secs = epoch_time(start_time, end_time)
+        epoch_mins, epoch_secs = nn_utils.epoch_time(start_time, end_time)
 
         if valid_loss < best_valid_loss:
             cpt_epoch_no_improvement = 0
@@ -311,18 +290,4 @@ def genome_dummies_and_normalize_count(df, col_features):
     df[count_name] = df[count_name] / df[count_sum_name]
     del df[count_sum_name]
     return df
-
-
-# def train_evaluate(params, X, y_, embed_size, output_size, cv=10, test_size=0.2, device=torch.device("cpu")):
-#     mean_accuracy, std_accuracy = cross_val_score_for_optimization(X, y_, params, embed_size, output_size, cv, test_size, device)
-#     tune.report(mean_accuracy=mean_accuracy, std_accuracy=std_accuracy)
-
-
-# def train_evaluate_factory(X, y_, parameterization, embed_size, output_size, cv=10, test_size=0.2, device=torch.device("cpu")):
-#     def train_evaluate_decorator(function):
-#         def wrapper(*args, **kwargs):
-#             mean_accuracy, std_accuracy = function(X, y_, parameterization, embed_size, output_size, cv, test_size, device)
-#             tune.report(mean_accuracy=mean_accuracy, std_accuracy=std_accuracy)
-#         return wrapper
-#     return train_evaluate_decorator
 

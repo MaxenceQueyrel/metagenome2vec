@@ -12,9 +12,12 @@ from metagenome2vec.NN.deepsets import Phi, Rho, DeepSets, score as score_deepse
 from metagenome2vec.NN.vae import VAE, AE, fit as fit_ae, evaluate as evaluate_ae
 from metagenome2vec.NN.snn import SiameseNetwork, fit as fit_snn, evaluate as evaluate_snn
 
-from metagenome2vec.data_processing.metagenomeNNDataset import MetagenomeNNDataset, collate_fn, train_test_split_mil
+from metagenome2vec.NN.data import MetagenomeNNDataset, MetagenomeSNNDataset, collate_fn, train_test_split_mil
 import ray
 from ray import tune
+import logging
+logger = logging.getLogger(tune.__name__)
+logger.setLevel(level=logging.CRITICAL)
 from ax.service.ax_client import AxClient
 from ray.tune.suggest.ax import AxSearch
 from ray.tune.schedulers import AsyncHyperBandScheduler
@@ -44,35 +47,47 @@ def set_device(id_gpu):
     return torch.device("cuda:%s" % id_gpu[0] if id_gpu != [-1] else "cpu")
 
 
-def train_evaluate_factory(X, y_, model_type, embed_size, output_size, cv=10, test_size=0.2, device=torch.device("cpu")):
+def train_evaluate_factory(X, y_, model_type, input_dim, output_size, cv=10, test_size=0.2, device=torch.device("cpu")):
     def train_evaluate_decorator(function):
         def wrapper(parameterization):
-            mean_accuracy, std_accuracy = function(X, y_, model_type, parameterization, embed_size=embed_size, output_size=output_size,
+            mean_accuracy, std_accuracy = function(X, y_, model_type, parameterization, input_dim=input_dim, output_size=output_size,
                                                     cv=cv, test_size=test_size, device=device, is_optimization=True)
             tune.report(mean_accuracy=mean_accuracy, std_accuracy=std_accuracy)
         return wrapper
     return train_evaluate_decorator
 
 
-def ray_hyperparameter_search(X, y_, model_type, optimization_function, path_model, embed_size, output_size, D_resource, num_samples=10, cv=10, test_size=0.2,
-                             minimize=False, device=torch.device("cpu"), random_seed=42):
+def ray_hyperparameter_search(X, y_, model_type, optimization_function, path_model, input_dim, D_resource, output_size=None, num_samples=10, cv=10, test_size=0.2,
+                            device=torch.device("cpu"), random_seed=42):
+    assert model_type in ["deepsets", "ae", "vae", "snn"]
+    os.environ["RAY_PICKLE_VERBOSE_DEBUG"] = "1"
     ray.init(num_cpus=np.int(np.ceil(D_resource["cpu"] * D_resource["worker"])),
         num_gpus=np.int(np.ceil(D_resource["gpu"] * D_resource["worker"])))
     parameters = [{"name": learning_rate, "type": "range", "bounds": [1e-5, 1e-2], "log_scale": True},
-                        {"name": weight_decay, "type": "fixed", "value": 0.0002},
-                        {"name": dropout, "type": "choice", "values": [0.0, 0.3]},
-                        {"name": batch_size, "type": "fixed", "value": 6},
-                        {"name": n_epoch, "type": "fixed", "value": 100},
-                        {"name": n_layer_phi, "type": "choice", "values": [1, 3]},
-                        {"name": n_layer_rho, "type": "choice", "values": [1, 3]},
-                        {"name": hidden_init_phi, "type": "choice", "values": [50, 100]},
-                        {"name": hidden_init_rho, "type": "choice", "values": [50, 100]},
-                        {"name": mil_layer, "type": "choice", "values": ["sum", "attention"]},
-                        {"name": clip, "type": "fixed", "value": -1.}]
-    
+                  {"name": weight_decay, "type": "fixed", "value": 0.0002},
+                  {"name": dropout, "type": "choice", "values": [0.0, 0.3]},
+                  {"name": batch_size, "type": "fixed", "value": 6},
+                  {"name": n_epoch, "type": "fixed", "value": 100},
+                  {"name": clip, "type": "fixed", "value": -1.}]
+    if model_type == "deepsets":
+        metric_to_tune = "mean_accuracy"
+        minimize = False
+        parameters.append({"name": n_layer_phi, "type": "choice", "values": [1, 3]})
+        parameters.append({"name": n_layer_rho, "type": "choice", "values": [1, 3]})
+        parameters.append({"name": hidden_init_phi, "type": "choice", "values": [50, 100]})
+        parameters.append({"name": hidden_init_rho, "type": "choice", "values": [50, 100]})
+        parameters.append({"name": mil_layer, "type": "choice", "values": ["sum", "attention"]})
+    else:  # vae, ae or snn
+        metric_to_tune = "mean_score"
+        minimize = True
+        parameters.append({"name": activation_function, "type": "choice", "values": ["nn.ReLU", "nn.LeakyReLU"], "value_type": "str"})
+        parameters.append({"name": n_layer_before_flatten, "type": "choice", "values": [2, 3, 4], "value_type": "int"})
+        parameters.append({"name": n_layer_after_flatten, "type": "choice", "values": [2, 3, 4], "value_type": "int"})
+        parameters.append({"name": hidden_dim, "type": "choice", "values": [30, 50], "value_type": "int"})
+
     resources_per_trial = {"cpu": D_resource["cpu"], "gpu": D_resource["gpu"]}
     ax = AxClient(enforce_sequential_optimization=False, random_seed=random_seed)
-    metric_to_tune = "mean_accuracy"
+    
     ax.create_experiment(
         name="deepsets_experiment",
         parameters=parameters,
@@ -83,7 +98,8 @@ def ray_hyperparameter_search(X, y_, model_type, optimization_function, path_mod
     algo = AxSearch(ax_client=ax, max_concurrent=D_resource["worker"])
     scheduler = AsyncHyperBandScheduler()
 
-    train_evaluate = train_evaluate_factory(X=X, y_=y_, model_type=model_type, embed_size=embed_size, output_size=output_size, cv=cv, test_size=test_size, device=device)(optimization_function)
+    train_evaluate = train_evaluate_factory(X=X, y_=y_, model_type=model_type, input_dim=input_dim, output_size=output_size,
+                                            cv=cv, test_size=test_size, device=device)(optimization_function)
 
     file_manager.create_dir(path_model, mode="local")
     analyse = tune.run(train_evaluate,
@@ -103,17 +119,25 @@ def ray_hyperparameter_search(X, y_, model_type, optimization_function, path_mod
         json.dump(best_parameters, fp)
 
 
-def load_best_parameters(path_best_parameters):
-    if os.path.exists(path_best_parameters):
+def load_and_update_parameters(path_parameters, default_parameters=None):
+    if os.path.exists(path_parameters):
         logging.info("Best parameters used")
-        with open(path_best_parameters, 'r') as fp:
-            return json.load(fp)
+        with open(path_parameters, 'r') as fp:
+            parameters = json.load(fp)
+        if default_parameters:
+            # Change the parameters with the best ones
+            for k, v in parameters.items():
+                default_parameters[k] = v
+            return default_parameters
+        return parameters
     else:
         logging.info("Default parameters used")
+        if default_parameters:
+            return default_parameters
         return {}
 
 
-def cross_val_score(X, y_, model_type, params, embed_size, output_size, cv=10, 
+def cross_val_score(X, y_, model_type, params, input_dim, output_size=None, cv=10, 
                     test_size=0.2, device=torch.device("cpu"), path_model="./model.pt", is_optimization=False):
     best_acc = best_score = np.inf
     A_acc_train = np.zeros(cv)
@@ -133,39 +157,45 @@ def cross_val_score(X, y_, model_type, params, embed_size, output_size, cv=10,
     for i, (X_train, X_valid, y_train, y_valid) in enumerate(tqdm(train_test_split_mil(X, y_, n_splits=cv, test_size=test_size), total=cv)):
         params_loader = {'batch_size': params[batch_size],
                          'shuffle': True}
-
         # Create the model
         if model_type == "deepsets":
-            params_loader["collate_fn"] = lambda x: collate_fn(x, device)
-            phi = Phi(embed_size, params[hidden_init_phi], params[n_layer_phi], params[dropout])
+            assert output_size is not None, "output_size must be define for deepsets model"
+            phi = Phi(input_dim, params[hidden_init_phi], params[n_layer_phi], params[dropout])
             rho = Rho(phi.last_hidden_size, params[hidden_init_rho], params[n_layer_rho], params[dropout], output_size)
             model = DeepSets(phi, rho, params[mil_layer], device).to(device)
-            if output_size <= 2:
-                criterion = nn.BCEWithLogitsLoss()
-            else:
-                criterion = nn.CrossEntropyLoss()
+            # Create the datasets
+            dataset_train = MetagenomeNNDataset(X_train, y_train)
+            dataset_valid = MetagenomeNNDataset(X_valid, y_valid)
+            params_loader["collate_fn"] = lambda x: collate_fn(x, device, batch_format=False)
         elif model_type == "vae" or model_type == "ae":
             NN = VAE if model_type == "vae" else AE
-            model = NN(input_dim=params[input_dim], hidden_dim=params[hidden_dim],
+            model = NN(input_dim=input_dim, hidden_dim=params[hidden_dim],
                    n_layer_before_flatten=params[n_layer_before_flatten],
                    n_layer_after_flatten=params[n_layer_after_flatten],
                    device=device, activation_function=params[activation_function]).to(device)
-        
-        # Create the datasets
-        # TODO check if same for deepsets and vae
-        dataset_train = MetagenomeNNDataset(X_train, y_train)
-        dataset_valid = MetagenomeNNDataset(X_valid, y_valid)
-
+            # Create the datasets
+            dataset_train = MetagenomeNNDataset(X_train, y_train)
+            dataset_valid = MetagenomeNNDataset(X_valid, y_valid)
+            params_loader["collate_fn"] = lambda x: collate_fn(x, device, batch_format=True)
+        elif model_type == "snn":
+            model = SiameseNetwork(input_dim=input_dim, hidden_dim=params[hidden_dim],
+                   n_layer_before_flatten=params[n_layer_before_flatten],
+                   n_layer_after_flatten=params[n_layer_after_flatten],
+                   device=device, activation_function=params[activation_function]).to(device)
+            # Create the datasets
+            dataset_train = MetagenomeSNNDataset(X_train, y_train)
+            dataset_valid = MetagenomeSNNDataset(X_valid, y_valid)
+     
         loader_train = DataLoader(dataset_train, **params_loader)
         loader_valid = DataLoader(dataset_valid, **params_loader)
         
         optimizer = optim.Adam(model.parameters(), lr=params[learning_rate], weight_decay=params[weight_decay])
         scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.3)
-        
+
         d = time.time()
         # DeepSets
         if model_type == "deepsets":
-            fit_deepsets(model, loader_train, loader_valid, optimizer, criterion, params[n_epoch],
+            fit_deepsets(model, loader_train, loader_valid, optimizer, params[n_epoch],
                 params[clip], scheduler, path_model=path_model, is_optimization=is_optimization)
             A_fit_time[i] = time.time() - d
             d = time.time()
@@ -209,25 +239,17 @@ def cross_val_score(X, y_, model_type, params, embed_size, output_size, cv=10,
                 "score_valid": A_score_valid,
                 "fit_time": A_fit_time, "score_time": A_score_time}
         elif model_type == "snn":
-            input_dim = dataset_train.data.shape[1:]
-            model = SiameseNetwork(input_dim, hidden_dim=params[hidden_dim],
-                   n_layer_before_flatten=params[n_layer_before_flatten],
-                   n_layer_after_flatten=params[n_layer_after_flatten],
-                   device=device, activation_function=params[activation_function]).to(device)
-            d = time.time()
-            fit_snn(model, loader_train, loader_valid, optimizer, params[n_epoch], params[clip], scheduler)
+            fit_snn(model, loader_train, loader_valid, optimizer, params[n_epoch], params[clip], 
+                    scheduler, path_model=path_model)
             A_fit_time[i] = time.time() - d
+            d = time.time()
             score_train = evaluate_snn(model, loader_train)
             score_valid = evaluate_snn(model, loader_train)
             A_score_train[i], A_score_valid[i] = score_train, score_valid
+            A_score_time[i] = time.time() - d
             if score_valid < best_score:
                 best_score = score_valid
                 torch.save(model.state_dict(), path_model)
-                # TODO check this
-                pickle.dump({"input_dim": input_dim, hidden_dim: params[hidden_dim],
-                  n_layer_before_flatten: params[n_layer_before_flatten],
-                  n_layer_after_flatten: params[n_layer_after_flatten],
-                  activation_function: params[activation_function]}, open(os.path.join(path_model, 'snn_parameters.pkl'), 'wb'))
             if is_optimization:
                 return np.mean(A_score_valid), np.std(A_score_valid)
             return {"score_train": score_train,
@@ -236,6 +258,7 @@ def cross_val_score(X, y_, model_type, params, embed_size, output_size, cv=10,
         else:
             raise "%s model type does not exist" % model_type
 
+# TODO use this function
 def save_model(path_model, parameters, genomes):
     with open(os.path.join(path_model, file_name_parameters), 'wb') as fp:
         pickle.dump(parameters, fp)
