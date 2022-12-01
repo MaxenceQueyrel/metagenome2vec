@@ -146,8 +146,6 @@ def train(model, loader, optimizer, clip=-1):
     train_loss = 0
     for _, data in enumerate(loader):
         d1, d2, y, _ = data
-        import pdb
-        pdb.set_trace()
         d1, d2, y = model.processing(d1, d2, y)
         optimizer.zero_grad()
         output = model(d1, d2)
