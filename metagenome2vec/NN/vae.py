@@ -10,10 +10,6 @@ import metagenome2vec.NN.utils as utils
 from metagenome2vec.utils.string_names import *
 
 
-#############################
-######## Class Model ########
-#############################
-
 class AutoEncoder(nn.Module):
     def __init__(self, input_dim, hidden_dim=50, n_layer_after_flatten=1, n_layer_before_flatten=1, device="cpu",
                  activation_function="nn.ReLU"):
@@ -61,7 +57,7 @@ class AutoEncoder(nn.Module):
         add_abundance: str, "no": without, "yes" with, "only" don't use embeddings
         """
         X_res = y_res = None
-        for batch_id, (data, y) in enumerate(dataloader):
+        for _, (data, y) in enumerate(dataloader):
             # Get abundance from original data
             if add_abundance != "no":
                 abundance = data[:, :, 0].cpu().detach().numpy()

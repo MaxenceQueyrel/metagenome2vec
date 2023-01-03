@@ -10,10 +10,6 @@ import metagenome2vec.NN.utils as utils
 from metagenome2vec.utils.string_names import *
 
 
-#############################
-######## Class Model ########
-#############################
-
 class SiameseNetwork(nn.Module):
     def __init__(self, input_dim, hidden_dim=50, n_layer_after_flatten=1, n_layer_before_flatten=1, device="cpu",
                  activation_function="nn.ReLU"):

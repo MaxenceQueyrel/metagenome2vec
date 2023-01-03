@@ -13,9 +13,6 @@ from metagenome2vec.utils.string_names import *
 from metagenome2vec.NN.data import item_batch_to_tensor
 import metagenome2vec.NN.utils as nn_utils
 
-#############################
-######## Class Model ########
-#############################
 
 class DeepSets(nn.Module):
     def __init__(self, phi, rho, mil_layer, device):
@@ -136,11 +133,6 @@ class Rho(nn.Module):
 
     def forward(self, x):
         return self.nets(x)
-
-
-#############################
-##### Learning functions ####
-#############################
 
 
 def train(model, loader, optimizer, clip=-1):
