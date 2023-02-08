@@ -31,6 +31,7 @@ python $METAGENOME2VEC_PATH/main.py download_metagenomic_data -pd /path/to/file/
 ```
 
 ##### Run data preprocessing (cleaning metagenomic data)
+From a folder containing metagenomic samples, it cleans these samples and store them in a new folder.
 ```bash
 python $METAGENOME2VEC_PATH/main.py clean_raw_metagenomic_data -pd /path/to/data -ps /path/to/clean_data -nsl 10000
 ```
@@ -44,15 +45,16 @@ python $METAGENOME2VEC_PATH/main.py bok_merge -pd /path/to/bok
 
 ##### Run simulation
 ###### Create metadata
+From a folder of genomes, it downloads the metadata information on NCBI and save it in a new folder. The new folder will contain the 2 files "fasta\_metadata.csv" and "fasta\_metadata.csv" which represent the metadata of the genomes except that the second one has abundance columns to be included in CAMISIM, and 1 folder named camisim containing the config files for CAMISIM.
 ```bash
 python $METAGENOME2VEC_PATH/main.py create_df_fasta_metadata -pd /path/to/genomic/data -ps /path/to/metadata
 ```
 
 ###### Create config files for camisim
+Creates a init file in camisim/config_files considering the different parameter in the command line and it creates an empty folder in camisim/dataset that will be used to saved the simulated data.
 ```bash
 python $METAGENOME2VEC_PATH/main.py create_camisim_config_file -ps /path/to/simulation/folder -nc 3 -nsc 2 -ct both -pt /tmp -go 1.0 -pap /path/to/abundance_file.tsv
 ```
-The script creates a init file in camisim/config_files and an empty folder in camisim/dataset
 
 
 
@@ -69,11 +71,13 @@ docker exec -i camisim python $CAMISIM/metagenomesimulation.py --debug $METAGENO
 The first line initiate the docker container and the second one run the simulation that simulates metagenomic samples in the folder camisim/dataset/my_folder_in_init_file
 
 ###### Create a read2genome / fastdna datasets from CAMISIM output
+From the simulated data, it creates a dataframe to train and test the read2genome step.
 ```bash
-python $METAGENOME2VEC_PATH/main.py create_simulated_read2genome_dataset -pfq /to/to/reads.fq.gz -pmf /pat/to/reads_mapping.tsv.gz -ps /path/to/save/output -nsl 500000 -pmd /path/to/metadata.csv
+python $METAGENOME2VEC_PATH/main.py create_simulated_read2genome_dataset -pfq /path/to/reads.fq.gz -pmf /path/to/reads_mapping.tsv.gz -ps /path/to/save/output -nsl 500000 -pmd /path/to/metadata.csv
 ```
 
 ###### Create a metagenome2vec dataset from CAMISIM output
+From the simulated data, it creates a dataframe to train and test the metagenome2vec step.
 ```bash
 python $METAGENOME2VEC_PATH/main.py create_simulated_metagenome2vec_dataset -pd /path/to/simulated/data -ps /path/to/save/output
 ```
@@ -85,9 +89,27 @@ python $METAGENOME2VEC_PATH/main.py fastdna -k 6 -pd /path/to/reads_fastdna,/pat
 
 ##### Run metagenome2vec
 ###### Bag of kmers
-
+```bash
 python $METAGENOME2VEC_PATH/main.py bok -pd /path/to/folder/with/bok_files -pmd /path/to/metadata.csv -k 6
+```
 
 ###### Embeddings
-
+From a preprocessed folder of metagenomic data, it will embed the metagenomes with the read2genome and read2vec models.
+```bash
 python $METAGENOME2VEC_PATH/main.py metagenome2vec -k 6 -pd /path/to/folder/with/metagenomes/preprocessed/ -ps /path/to/save/ -pmd /path/to/metadata.csv -prv /path/to/read2vec -prg /path/to/read2genome
+```
+
+
+##### Train a neural network classifier model
+###### Deepsets
+```bash
+python $METAGENOME2VEC_PATH/main.py deepsets -pd /path/to/the/data -pmd /path/to/the/metadata -dn name_of_the_dataset -B 1 -S 3 -R 0.001 -d target -TU -cv 3 -TS 0.3 -ps /path/to/the/saved/model
+```
+###### VAE
+```bash
+python $METAGENOME2VEC_PATH/main.py vae -pd /path/to/the/data -pmd /path/to/the/metadata -dn name_of_the_dataset -B 1 -S 3 -R 0.001 -d target -TU -cv 3 -TS 0.3 -ps /path/to/the/saved/model
+```
+###### Siamese Network
+```bash
+python $METAGENOME2VEC_PATH/main.py snn -pd /path/to/the/data -pmd /path/to/the/metadata -dn name_of_the_dataset -B 1 -S 3 -R 0.001 -d target -TU -cv 3 -TS 0.3 -ps /path/to/the/saved/model
+```
