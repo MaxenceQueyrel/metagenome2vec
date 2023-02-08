@@ -1,5 +1,6 @@
 from abc import abstractmethod
 
+
 class Read2Genome(object):
     def __init__(self, name):
         self.name = name

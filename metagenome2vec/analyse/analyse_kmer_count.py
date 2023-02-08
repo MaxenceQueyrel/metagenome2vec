@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 from tqdm import tqdm
 import matplotlib
+
 matplotlib.use("agg")
 
 root_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
@@ -42,12 +43,14 @@ def kmer_count(path_data, path_save, mode="word_count_matrix"):
     os.makedirs(path_save, exist_ok=True)
     if len(labels) < 5000:
         plot(os.path.join(path_save, "plot.png"), occurrence, labels)
-    pd.DataFrame(np.array([labels, occurrence]).T, columns=[kmer_name, count_name]).to_csv(os.path.join(path_save, "matrix.csv"), index=False)
+    pd.DataFrame(
+        np.array([labels, occurrence]).T, columns=[kmer_name, count_name]
+    ).to_csv(os.path.join(path_save, "matrix.csv"), index=False)
 
 
 def plot(path_save, occurrence, labels):
     fig, ax = plt.subplots(figsize=(10, 10))  # in inches
-    ax.set_xticklabels(labels, rotation='vertical')
+    ax.set_xticklabels(labels, rotation="vertical")
     ax.bar(range(len(occurrence)), occurrence)
     ax.set_xlabel("kmers")
     ax.set_ylabel("occurrence")

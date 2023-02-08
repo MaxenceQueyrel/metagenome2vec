@@ -7,7 +7,13 @@ import math
 import torch
 from torch import nn
 import torch.nn.functional as F
-from sklearn.metrics import accuracy_score, roc_auc_score, f1_score, precision_score, recall_score
+from sklearn.metrics import (
+    accuracy_score,
+    roc_auc_score,
+    f1_score,
+    precision_score,
+    recall_score,
+)
 
 from metagenome2vec.utils.string_names import *
 from metagenome2vec.NN.data import item_batch_to_tensor
@@ -25,10 +31,13 @@ class DeepSets(nn.Module):
             self.attention = nn.Sequential(
                 nn.Linear(self.phi.last_hidden_size, self.phi.last_hidden_size // 3),
                 nn.Tanh(),
-                nn.Linear(self.phi.last_hidden_size // 3, 1)
+                nn.Linear(self.phi.last_hidden_size // 3, 1),
             ).to(self.device)
-        self.criterion = nn.BCEWithLogitsLoss() if self.rho.output_size <= 2 else nn.CrossEntropyLoss()
-
+        self.criterion = (
+            nn.BCEWithLogitsLoss()
+            if self.rho.output_size <= 2
+            else nn.CrossEntropyLoss()
+        )
 
     def forward(self, x):
         # compute the representation for each data point
@@ -60,7 +69,9 @@ class DeepSets(nn.Module):
         with torch.no_grad():
             if self.rho.output_size < 2:
                 return torch.ge(torch.sigmoid(self.forward_batch(X)), threshold).int()
-            return torch.argmax(torch.nn.functional.softmax(self.forward_batch(X), dim=1), dim=1)
+            return torch.argmax(
+                torch.nn.functional.softmax(self.forward_batch(X), dim=1), dim=1
+            )
 
     def predict_proba(self, X, threshold=0.5):
         self.eval()
@@ -87,7 +98,7 @@ class DeepSets(nn.Module):
         self.eval()
         y = self.predict(X, threshold)
         score = (y.int() == y_.int()).sum().item()
-        return score * 1. / len(X)
+        return score * 1.0 / len(X)
 
 
 class Phi(nn.Module):
@@ -103,9 +114,7 @@ class Phi(nn.Module):
             self.layers.append(nn.Linear(layer_size[i], layer_size[i + 1]))
             self.layers.append(nn.LeakyReLU())
             self.layers.append(nn.Dropout(dropout))
-        self.nets = nn.Sequential(
-            *self.layers[:-1]  # Remove the last drop out
-        )
+        self.nets = nn.Sequential(*self.layers[:-1])  # Remove the last drop out
         self.last_hidden_size = layer_size[-1]
 
     def forward(self, x):
@@ -113,7 +122,9 @@ class Phi(nn.Module):
 
 
 class Rho(nn.Module):
-    def __init__(self, phi_hidden_size, hidden_init=100, n_layer=1, dropout=0.2, output_size=1):
+    def __init__(
+        self, phi_hidden_size, hidden_init=100, n_layer=1, dropout=0.2, output_size=1
+    ):
         super(Rho, self).__init__()
         self.output_size = output_size
         layer_size = [phi_hidden_size, hidden_init]
@@ -127,9 +138,7 @@ class Rho(nn.Module):
             self.layers.append(nn.LeakyReLU()),
             self.layers.append(nn.Dropout(dropout))
         self.layers.append(nn.Linear(layer_size[-1], output_size))
-        self.nets = nn.Sequential(
-            *self.layers
-        )
+        self.nets = nn.Sequential(*self.layers)
 
     def forward(self, x):
         return self.nets(x)
@@ -143,9 +152,13 @@ def train(model, loader, optimizer, clip=-1):
         optimizer.zero_grad()
         # Compute the result of data in the batch
         y = model.forward_batch(X)
-        loss = model.criterion(y, y_) if model.rho.output_size == 1 else model.criterion(y, y_.long())
+        loss = (
+            model.criterion(y, y_)
+            if model.rho.output_size == 1
+            else model.criterion(y, y_.long())
+        )
         loss.backward()
-        if clip >= 0.:
+        if clip >= 0.0:
             torch.nn.utils.clip_grad_norm_(model.parameters(), clip)
         optimizer.step()
         epoch_loss += loss.item()
@@ -158,7 +171,11 @@ def evaluate(model, loader):
     with torch.no_grad():
         for _, (X, y_, _) in enumerate(loader):
             y = model.forward_batch(X)
-            loss = model.criterion(y, y_) if model.rho.output_size == 1 else model.criterion(y, y_.long())
+            loss = (
+                model.criterion(y, y_)
+                if model.rho.output_size == 1
+                else model.criterion(y, y_.long())
+            )
             epoch_loss += loss.item()
     return epoch_loss / len(loader)
 
@@ -190,8 +207,18 @@ def prediction(model, loader):
     return y_, y_pred, y_prob
 
 
-def fit(model, loader_train, loader_valid, optimizer, n_epoch, clip=-1, scheduler=None,
-        early_stopping=5, path_model="./deepsets.pt", is_optimization=False):
+def fit(
+    model,
+    loader_train,
+    loader_valid,
+    optimizer,
+    n_epoch,
+    clip=-1,
+    scheduler=None,
+    early_stopping=5,
+    path_model="./deepsets.pt",
+    is_optimization=False,
+):
     best_valid_loss = np.inf
     cpt_epoch_no_improvement = 0
     for epoch in range(n_epoch):
@@ -218,22 +245,41 @@ def fit(model, loader_train, loader_valid, optimizer, n_epoch, clip=-1, schedule
                 print("Stopping earlier because no improvement")
                 model.load_state_dict(torch.load(path_model))
             return
-        
+
         if not is_optimization:
-            print(f'Epoch: {epoch + 1:02} | Time: {epoch_mins}m {epoch_secs}s')
+            print(f"Epoch: {epoch + 1:02} | Time: {epoch_mins}m {epoch_secs}s")
             try:
-                print(f'\tTrain Loss: {train_loss:.3f} | Train PPL: {math.exp(train_loss):7.3f}')
-                print(f'\t Val. Loss: {valid_loss:.3f} |  Val. PPL: {math.exp(valid_loss):7.3f}')
+                print(
+                    f"\tTrain Loss: {train_loss:.3f} | Train PPL: {math.exp(train_loss):7.3f}"
+                )
+                print(
+                    f"\t Val. Loss: {valid_loss:.3f} |  Val. PPL: {math.exp(valid_loss):7.3f}"
+                )
             except OverflowError:
-                print(f'\tTrain Loss: {train_loss:.3f}')
-                print(f'\t Val. Loss: {valid_loss:.3f}')
+                print(f"\tTrain Loss: {train_loss:.3f}")
+                print(f"\t Val. Loss: {valid_loss:.3f}")
 
 
 def table_prediction(model, dataset, device=torch.device("cpu")):
     if model.mil_layer == "attention":
-        df_res = pd.DataFrame(columns=["subject.id", "group", "prediction", "percentage_prediction",
-                                   "tax_1", "attention_1", "tax_2", "attention_2", "tax_3", "attention_3",
-                                   "tax_4", "attention_4", "tax_5", "attention_5"])
+        df_res = pd.DataFrame(
+            columns=[
+                "subject.id",
+                "group",
+                "prediction",
+                "percentage_prediction",
+                "tax_1",
+                "attention_1",
+                "tax_2",
+                "attention_2",
+                "tax_3",
+                "attention_3",
+                "tax_4",
+                "attention_4",
+                "tax_5",
+                "attention_5",
+            ]
+        )
         for i in range(len(dataset)):
             fasta_id = dataset.IDs[i]
             group = dataset.labels[i]
@@ -252,15 +298,22 @@ def table_prediction(model, dataset, device=torch.device("cpu")):
 
             for j in range(1, 6):
                 if j == 1 or len(g_best) >= j:
-                    d_tax_prob["%sa_tax" % j] = g_best[j-1].item()
-                    d_tax_prob["%sb_prob" % j] = A_best[j-1].item()
+                    d_tax_prob["%sa_tax" % j] = g_best[j - 1].item()
+                    d_tax_prob["%sb_prob" % j] = A_best[j - 1].item()
                 else:
                     d_tax_prob["%sa_tax" % j] = -1
                     d_tax_prob["%sb_prob" % j] = -1
-            df_res.loc[i] = [fasta_id, group, y.int().item(), torch.max(y_prob).item()] + sorted(d_tax_prob.values())
+            df_res.loc[i] = [
+                fasta_id,
+                group,
+                y.int().item(),
+                torch.max(y_prob).item(),
+            ] + sorted(d_tax_prob.values())
         return df_res
     else:
-        df_res = pd.DataFrame(columns=["subject.id", "group", "prediction", "percentage_prediction"])
+        df_res = pd.DataFrame(
+            columns=["subject.id", "group", "prediction", "percentage_prediction"]
+        )
         for i in range(len(dataset)):
             fasta_id = dataset.IDs[i]
             group = dataset.labels[i]
@@ -275,11 +328,12 @@ def genome_dummies_and_normalize_count(df, col_features):
     col_features.remove(count_name)
     genome_dummies = pd.get_dummies(df[genome_name], prefix=genome_name)
     df = pd.concat([df, genome_dummies], axis=1)
-    df_genome_count = df[[id_subject_name, count_name]].groupby(id_subject_name).sum().reset_index()
+    df_genome_count = (
+        df[[id_subject_name, count_name]].groupby(id_subject_name).sum().reset_index()
+    )
     df_genome_count = df_genome_count.rename(columns={count_name: count_sum_name})
     df = pd.merge(df, df_genome_count, on=id_subject_name)
     df[col_features] = df[col_features].values / df[[count_name]].values
     df[count_name] = df[count_name] / df[count_sum_name]
     del df[count_sum_name]
     return df
-

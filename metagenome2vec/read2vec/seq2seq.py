@@ -65,7 +65,9 @@ class Encoder(nn.Module):
 
         # initial decoder hidden is final hidden state of the forwards and backwards
         #  encoder RNNs fed through a linear layer
-        hidden = torch.tanh(self.fc(torch.cat((hidden[-2, :, :], hidden[-1, :, :]), dim=1)))
+        hidden = torch.tanh(
+            self.fc(torch.cat((hidden[-2, :, :], hidden[-1, :, :]), dim=1))
+        )
 
         # outputs = [src sent len, batch size, enc hid dim * 2]
         # hidden = [batch size, dec hid dim]
@@ -106,7 +108,17 @@ class Attention(nn.Module):
 
 
 class Decoder(nn.Module):
-    def __init__(self, output_dim, emb_dim, enc_hid_dim, dec_hid_dim, dropout, attention, cutoffs=None, div_value=None):
+    def __init__(
+        self,
+        output_dim,
+        emb_dim,
+        enc_hid_dim,
+        dec_hid_dim,
+        dropout,
+        attention,
+        cutoffs=None,
+        div_value=None,
+    ):
         super(Decoder, self).__init__()
 
         self.emb_dim = emb_dim
@@ -125,10 +137,12 @@ class Decoder(nn.Module):
         self.dropout = nn.Dropout(dropout)
 
         if self.cutoffs is not None and self.div_value is not None:
-            self.adaptiveSoftmax = AdaptiveLogSoftmaxWithLoss((enc_hid_dim * 2) + dec_hid_dim + emb_dim,
-                                                              output_dim,
-                                                              cutoffs=self.cutoffs,
-                                                              div_value=self.div_value)
+            self.adaptiveSoftmax = AdaptiveLogSoftmaxWithLoss(
+                (enc_hid_dim * 2) + dec_hid_dim + emb_dim,
+                output_dim,
+                cutoffs=self.cutoffs,
+                div_value=self.div_value,
+            )
         else:
             self.out = nn.Linear((enc_hid_dim * 2) + dec_hid_dim + emb_dim, output_dim)
             self.adaptiveSoftmax = None
@@ -184,7 +198,9 @@ class Decoder(nn.Module):
             output = self.out(torch.cat((output, weighted, embedded), dim=1))
             # output = [bsz, output dim]
         else:
-            output = self.adaptiveSoftmax.log_prob(torch.cat((output, weighted, embedded), dim=1))
+            output = self.adaptiveSoftmax.log_prob(
+                torch.cat((output, weighted, embedded), dim=1)
+            )
         return output, hidden.squeeze(0)
 
 
@@ -223,14 +239,26 @@ class Sequence2Sequence(nn.Module):
             top1 = output.max(1)[1]
             outputs[t] = output
             teacher_force = random.random() < teacher_forcing_ratio
-            output = (trg[t] if teacher_force else top1)
+            output = trg[t] if teacher_force else top1
         return outputs
 
 
 class Seq2Seq(Read2Vec):
-    def __init__(self, k_size, max_length=30, learning_rate=0.001,
-                 teacher_forcing_ratio=0.5, id_gpu=[-1], batch_size=64, hid_dim=256, drop_out=0.3,
-                 n_iterations=None, p_permute=0.05, p_remove=0.05, emb_dim=None):
+    def __init__(
+        self,
+        k_size,
+        max_length=30,
+        learning_rate=0.001,
+        teacher_forcing_ratio=0.5,
+        id_gpu=[-1],
+        batch_size=64,
+        hid_dim=256,
+        drop_out=0.3,
+        n_iterations=None,
+        p_permute=0.05,
+        p_remove=0.05,
+        emb_dim=None,
+    ):
         """
         TODO
         :param embedding: 2-D Numpy array, matrix of embeddings
@@ -264,7 +292,9 @@ class Seq2Seq(Read2Vec):
         self.MIN_LENGTH = 5
         self.emb_dim = emb_dim
 
-    def create_field_iterator(self, path_data_train, path_data_valid, path_embeddings, nb_cutoffs=None):
+    def create_field_iterator(
+        self, path_data_train, path_data_valid, path_embeddings, nb_cutoffs=None
+    ):
         """
         Create the field and the iterator
         :param path_data_train: String, path of the training data
@@ -273,26 +303,49 @@ class Seq2Seq(Read2Vec):
         :return:
         """
         tokenize = lambda x: x.split()
-        self.TEXT = ReversibleField(init_token='<sos>', eos_token='<eos>', tokenize=tokenize)
-        lmDataset_train = LanguageModelingDataset(path_data_train, self.TEXT, newline_eos=True)
-        lmDataset_valid = LanguageModelingDataset(path_data_valid, self.TEXT, newline_eos=True)
+        self.TEXT = ReversibleField(
+            init_token="<sos>", eos_token="<eos>", tokenize=tokenize
+        )
+        lmDataset_train = LanguageModelingDataset(
+            path_data_train, self.TEXT, newline_eos=True
+        )
+        lmDataset_valid = LanguageModelingDataset(
+            path_data_valid, self.TEXT, newline_eos=True
+        )
         if path_embeddings is not None:
-            vectors = vocab.Vectors(os.path.join(path_embeddings, "embeddings.csv"), cache="./cache")
+            vectors = vocab.Vectors(
+                os.path.join(path_embeddings, "embeddings.csv"), cache="./cache"
+            )
         else:
             vectors = None
-        self.TEXT.build_vocab(lmDataset_train, lmDataset_valid, min_freq=2, vectors=vectors)
-        stoi, itos, self.cutoffs = self.init_stoi_itos_cutoffs([path_data_train, path_data_valid],
-                                                                   nb_cutoffs=nb_cutoffs)
+        self.TEXT.build_vocab(
+            lmDataset_train, lmDataset_valid, min_freq=2, vectors=vectors
+        )
+        stoi, itos, self.cutoffs = self.init_stoi_itos_cutoffs(
+            [path_data_train, path_data_valid], nb_cutoffs=nb_cutoffs
+        )
         self.TEXT.vocab.itos = itos
         self.TEXT.vocab.stoi = stoi
-        self.index_pad = self.TEXT.vocab.stoi['<pad>']
-        self.index_unk = self.TEXT.vocab.stoi['<unk>']
-        self.index_sos = self.TEXT.vocab.stoi['<sos>']
-        self.index_eos = self.TEXT.vocab.stoi['<eos>']
-        self.train_iterator = BPTTIterator(lmDataset_train, batch_size=self.batch_size, repeat=True,
-                                           bptt_len=self.max_length, device=self.device, shuffle=True)
-        self.valid_iterator = BPTTIterator(lmDataset_valid, batch_size=self.batch_size, repeat=True,
-                                           bptt_len=self.max_length, device=self.device, shuffle=True)
+        self.index_pad = self.TEXT.vocab.stoi["<pad>"]
+        self.index_unk = self.TEXT.vocab.stoi["<unk>"]
+        self.index_sos = self.TEXT.vocab.stoi["<sos>"]
+        self.index_eos = self.TEXT.vocab.stoi["<eos>"]
+        self.train_iterator = BPTTIterator(
+            lmDataset_train,
+            batch_size=self.batch_size,
+            repeat=True,
+            bptt_len=self.max_length,
+            device=self.device,
+            shuffle=True,
+        )
+        self.valid_iterator = BPTTIterator(
+            lmDataset_valid,
+            batch_size=self.batch_size,
+            repeat=True,
+            bptt_len=self.max_length,
+            device=self.device,
+            shuffle=True,
+        )
         self.length_train = len(self.train_iterator)
         self.length_valid = len(self.valid_iterator)
         self.train_iterator = iter(self.train_iterator)
@@ -307,17 +360,31 @@ class Seq2Seq(Read2Vec):
 
         def init_weights(m):
             for name, param in m.named_parameters():
-                if 'weight' in name:
+                if "weight" in name:
                     nn.init.normal_(param.data, mean=0, std=0.01)
                 else:
                     nn.init.constant_(param.data, 0)
 
-        INPUT_DIM = self.TEXT.vocab.vectors.shape[0] if self.TEXT.vocab.vectors is not None else len(
-            self.TEXT.vocab.stoi)
-        OUTPUT_DIM = self.TEXT.vocab.vectors.shape[0] if self.TEXT.vocab.vectors is not None else len(
-            self.TEXT.vocab.stoi)
-        ENC_EMB_DIM = self.TEXT.vocab.vectors.shape[1] if self.TEXT.vocab.vectors is not None else self.emb_dim
-        DEC_EMB_DIM = self.TEXT.vocab.vectors.shape[1] if self.TEXT.vocab.vectors is not None else self.emb_dim
+        INPUT_DIM = (
+            self.TEXT.vocab.vectors.shape[0]
+            if self.TEXT.vocab.vectors is not None
+            else len(self.TEXT.vocab.stoi)
+        )
+        OUTPUT_DIM = (
+            self.TEXT.vocab.vectors.shape[0]
+            if self.TEXT.vocab.vectors is not None
+            else len(self.TEXT.vocab.stoi)
+        )
+        ENC_EMB_DIM = (
+            self.TEXT.vocab.vectors.shape[1]
+            if self.TEXT.vocab.vectors is not None
+            else self.emb_dim
+        )
+        DEC_EMB_DIM = (
+            self.TEXT.vocab.vectors.shape[1]
+            if self.TEXT.vocab.vectors is not None
+            else self.emb_dim
+        )
         ENC_HID_DIM = self.hid_dim
         DEC_HID_DIM = self.hid_dim
         ENC_DROPOUT = self.drop_out
@@ -325,8 +392,16 @@ class Seq2Seq(Read2Vec):
 
         attn = Attention(ENC_HID_DIM, DEC_HID_DIM)
         enc = Encoder(INPUT_DIM, ENC_EMB_DIM, ENC_HID_DIM, DEC_HID_DIM, ENC_DROPOUT)
-        dec = Decoder(OUTPUT_DIM, DEC_EMB_DIM, ENC_HID_DIM, DEC_HID_DIM, DEC_DROPOUT, attn, self.cutoffs,
-                      self.div_value)
+        dec = Decoder(
+            OUTPUT_DIM,
+            DEC_EMB_DIM,
+            ENC_HID_DIM,
+            DEC_HID_DIM,
+            DEC_DROPOUT,
+            attn,
+            self.cutoffs,
+            self.div_value,
+        )
 
         self.model = Sequence2Sequence(enc, dec, self.device)
 
@@ -335,13 +410,19 @@ class Seq2Seq(Read2Vec):
             # cuda1 = torch.device('cuda:%s' % self.id_gpu[1])
             # self.model.encoder.to(cuda0)
             # self.model.decoder.to(cuda1)
-            self.model = nn.DataParallel(self.model, device_ids=self.id_gpu).to(self.device)
+            self.model = nn.DataParallel(self.model, device_ids=self.id_gpu).to(
+                self.device
+            )
             # self.model = nn.DataParallel(self.model, device_ids=self.id_gpu)
             # self.model = nn.parallel.DistributedDataParallel(self.model, device_ids=self.id_gpu).to(self.device)
             self.model.module.apply(init_weights)
             if self.TEXT.vocab.vectors is not None:
-                self.model.module.encoder.embedding.weight.data.copy_(self.TEXT.vocab.vectors)
-                self.model.module.decoder.embedding.weight.data.copy_(self.TEXT.vocab.vectors)
+                self.model.module.encoder.embedding.weight.data.copy_(
+                    self.TEXT.vocab.vectors
+                )
+                self.model.module.decoder.embedding.weight.data.copy_(
+                    self.TEXT.vocab.vectors
+                )
         else:
             self.model = self.model.to(self.device)
             self.model.apply(init_weights)
@@ -357,8 +438,11 @@ class Seq2Seq(Read2Vec):
         self.model.train()
 
         epoch_loss = 0
-        n_iterations = self.length_train if (
-                    self.n_iterations is None or self.n_iterations > self.length_train) else self.n_iterations
+        n_iterations = (
+            self.length_train
+            if (self.n_iterations is None or self.n_iterations > self.length_train)
+            else self.n_iterations
+        )
 
         for i, batch in enumerate(tqdm(self.train_iterator, total=self.length_train)):
             if i > n_iterations:
@@ -372,8 +456,8 @@ class Seq2Seq(Read2Vec):
             try:
                 output = self.model(src, trg)
             except RuntimeError as e:
-                if 'out of memory' in str(e):
-                    print('| WARNING: ran out of memory, retrying batch')
+                if "out of memory" in str(e):
+                    print("| WARNING: ran out of memory, retrying batch")
                     for p in self.model.parameters():
                         if p.grad is not None:
                             del p.grad  # free some memory
@@ -400,17 +484,22 @@ class Seq2Seq(Read2Vec):
             self.optimizer.step()
 
             epoch_loss += loss.detach().item()
-        return epoch_loss * 1. / i
+        return epoch_loss * 1.0 / i
 
     def evaluate(self):
         self.model.eval()
 
         epoch_loss = 0
-        n_iterations = self.length_valid if (
-                    self.n_iterations is None or self.n_iterations > self.length_valid) else self.n_iterations
+        n_iterations = (
+            self.length_valid
+            if (self.n_iterations is None or self.n_iterations > self.length_valid)
+            else self.n_iterations
+        )
 
         with torch.no_grad():
-            for i, batch in enumerate(tqdm(self.valid_iterator, total=self.length_valid)):
+            for i, batch in enumerate(
+                tqdm(self.valid_iterator, total=self.length_valid)
+            ):
                 if i > n_iterations:
                     src = self.batch_noiser(batch.text)
                     embeddings, _ = self.model(src[:, :2], None, 0, get_embeddings=True)
@@ -422,8 +511,8 @@ class Seq2Seq(Read2Vec):
                 try:
                     output = self.model(src, trg, 0)  # turn off teacher forcing
                 except RuntimeError as e:
-                    if 'out of memory' in str(e):
-                        print('| WARNING: ran out of memory, retrying batch')
+                    if "out of memory" in str(e):
+                        print("| WARNING: ran out of memory, retrying batch")
                         for p in self.model.parameters():
                             if p.grad is not None:
                                 del p.grad  # free some memory
@@ -443,7 +532,7 @@ class Seq2Seq(Read2Vec):
                 loss = self.criterion(output, trg)
 
                 epoch_loss += loss.detach().item()
-        return epoch_loss * 1. / i
+        return epoch_loss * 1.0 / i
 
     def fit(self, n_epoch=10, clip=1, path_model="./seq2seq_attention.pt"):
         """
@@ -464,7 +553,7 @@ class Seq2Seq(Read2Vec):
 
         print("Number of batchs in the train iterator : %s" % self.length_train)
         print("Number of batchs in the valid iterator : %s" % self.length_valid)
-        best_valid_loss = float('inf')
+        best_valid_loss = float("inf")
         for epoch in range(n_epoch):
             log.write("Epoch numero : %s" % epoch)
             if torch.cuda.is_available():
@@ -483,13 +572,21 @@ class Seq2Seq(Read2Vec):
                 best_valid_loss = valid_loss
                 self.saveModel(path_model)
 
-            log.write('Time %sm %ss' % (epoch_mins, epoch_secs))
+            log.write("Time %sm %ss" % (epoch_mins, epoch_secs))
             if train_loss < 50 and valid_loss < 50:
-                log.write('\tTrain Loss: {0:.3f} | Train PPL: {1:.3f}'.format(train_loss, math.exp(train_loss)))
-                log.write('\t Val. Loss: {0:.3f} |  Val. PPL: {1:.3f}'.format(valid_loss, math.exp(valid_loss)))
+                log.write(
+                    "\tTrain Loss: {0:.3f} | Train PPL: {1:.3f}".format(
+                        train_loss, math.exp(train_loss)
+                    )
+                )
+                log.write(
+                    "\t Val. Loss: {0:.3f} |  Val. PPL: {1:.3f}".format(
+                        valid_loss, math.exp(valid_loss)
+                    )
+                )
             else:
-                log.write('\tTrain Loss: {0:.3f}'.format(train_loss))
-                log.write('\t Val. Loss: {0:.3f}'.format(valid_loss))
+                log.write("\tTrain Loss: {0:.3f}".format(train_loss))
+                log.write("\t Val. Loss: {0:.3f}".format(valid_loss))
             torch.cuda.empty_cache()
 
     def sampleToTensor(self, X):
@@ -538,11 +635,13 @@ class Seq2Seq(Read2Vec):
         :return:
         """
         assert path_model[-3:] == ".pt", "The file name should end by .pt (.pytorch)"
-        self.TEXT = pickle.load(open(path_model.replace(".pt", "-field.pt"), 'rb'))
+        self.TEXT = pickle.load(open(path_model.replace(".pt", "-field.pt"), "rb"))
         # Replace default index_pad and index_unk
-        self.index_pad = self.TEXT.vocab.stoi['<pad>']
-        self.index_unk = self.TEXT.vocab.stoi[' UNK ']
-        parameters = pickle.load(open(path_model.replace(".pt", "-parameters.pt"), 'rb'))
+        self.index_pad = self.TEXT.vocab.stoi["<pad>"]
+        self.index_unk = self.TEXT.vocab.stoi[" UNK "]
+        parameters = pickle.load(
+            open(path_model.replace(".pt", "-parameters.pt"), "rb")
+        )
         self.hid_dim = parameters["hid_dim"]
         self.drop_out = parameters["drop_out"]
         self.cutoffs = parameters["cutoffs"]
@@ -565,14 +664,27 @@ class Seq2Seq(Read2Vec):
 
         attn = Attention(ENC_HID_DIM, DEC_HID_DIM)
         enc = Encoder(INPUT_DIM, ENC_EMB_DIM, ENC_HID_DIM, DEC_HID_DIM, ENC_DROPOUT)
-        dec = Decoder(OUTPUT_DIM, DEC_EMB_DIM, ENC_HID_DIM, DEC_HID_DIM, DEC_DROPOUT, attn, self.cutoffs,
-                      self.div_value)
+        dec = Decoder(
+            OUTPUT_DIM,
+            DEC_EMB_DIM,
+            ENC_HID_DIM,
+            DEC_HID_DIM,
+            DEC_DROPOUT,
+            attn,
+            self.cutoffs,
+            self.div_value,
+        )
 
         self.model = Sequence2Sequence(enc, dec, self.device).to(self.device)
         parameters = torch.load(path_model, map_location=self.device)
         if self.id_gpu[0] != -1 and len(self.id_gpu) > 1:
-            self.model = nn.DataParallel(self.model, device_ids=self.id_gpu).to(self.device)
-            parameters = {"module." + k if k[:7] != "module." else k: v for k, v in parameters.items()}
+            self.model = nn.DataParallel(self.model, device_ids=self.id_gpu).to(
+                self.device
+            )
+            parameters = {
+                "module." + k if k[:7] != "module." else k: v
+                for k, v in parameters.items()
+            }
         else:
             # In order to key match if the model is saved as DataParallel
             parameters = {k.replace("module.", ""): v for k, v in parameters.items()}
@@ -587,19 +699,40 @@ class Seq2Seq(Read2Vec):
         assert path_model[-3:] == ".pt", "The file name should end by .pt (.pytorch)"
 
         torch.save(self.model.state_dict(), path_model)
-        pickle.dump(self.TEXT, open(os.path.join(path_analysis, "read2vec", f_name.replace(".pt", "-field.pt")), 'wb'),
-                    protocol=pickle.HIGHEST_PROTOCOL)
-        parameters = {"device": self.device, "hid_dim": self.hid_dim, "drop_out": self.drop_out,
-                      "cutoffs": self.cutoffs, "div_value": self.div_value, "max_length": self.max_length}
+        pickle.dump(
+            self.TEXT,
+            open(
+                os.path.join(
+                    path_analysis, "read2vec", f_name.replace(".pt", "-field.pt")
+                ),
+                "wb",
+            ),
+            protocol=pickle.HIGHEST_PROTOCOL,
+        )
+        parameters = {
+            "device": self.device,
+            "hid_dim": self.hid_dim,
+            "drop_out": self.drop_out,
+            "cutoffs": self.cutoffs,
+            "div_value": self.div_value,
+            "max_length": self.max_length,
+        }
         if self.TEXT.vocab.vectors is not None:
             parameters["emb_dim"] = self.TEXT.vocab.vectors.shape[1]
             parameters["input_dim"] = self.TEXT.vocab.vectors.shape[0]
         else:
             parameters["emb_dim"] = self.emb_dim
             parameters["input_dim"] = len(self.TEXT.vocab.stoi)
-        pickle.dump(parameters,
-                    open(os.path.join(path_analysis, "read2vec", f_name.replace(".pt", "-parameters.pt")), 'wb'),
-                    protocol=pickle.HIGHEST_PROTOCOL)
+        pickle.dump(
+            parameters,
+            open(
+                os.path.join(
+                    path_analysis, "read2vec", f_name.replace(".pt", "-parameters.pt")
+                ),
+                "wb",
+            ),
+            protocol=pickle.HIGHEST_PROTOCOL,
+        )
 
 
 if __name__ == "__main__":
@@ -622,7 +755,7 @@ if __name__ == "__main__":
     n_steps = args.n_steps
     n_iterations = args.n_iterations
     batch_size = args.batch_size
-    id_gpu = [int(x) for x in args.id_gpu.split(',')]
+    id_gpu = [int(x) for x in args.id_gpu.split(",")]
     n_cpus = args.n_cpus
     torch.set_num_threads(n_cpus)
     learning_rate = args.learning_rate
@@ -631,16 +764,24 @@ if __name__ == "__main__":
     nb_cutoffs = args.nb_cutoffs
 
     path_analysis = args.path_analysis
-    path_data_train, path_data_valid = args.path_data.split(',')
+    path_data_train, path_data_valid = args.path_data.split(",")
     max_length = args.max_length
 
     path_log = args.path_log
     log_file = args.log_file
 
-    log = logger.Logger(path_log, log_file, log_file,
-                        variable_time={"k": k,  "embedding_size": embedding_size,
-                                       "n_steps": n_steps, "batch_size": batch_size},
-                        **vars(args))
+    log = logger.Logger(
+        path_log,
+        log_file,
+        log_file,
+        variable_time={
+            "k": k,
+            "embedding_size": embedding_size,
+            "n_steps": n_steps,
+            "batch_size": batch_size,
+        },
+        **vars(args)
+    )
 
     # create the model name
     f_name = "seq2seq_attention_noise"
@@ -650,10 +791,10 @@ if __name__ == "__main__":
     if window is not None:
         f_name = f_name + "_w" + str(window)
     if parameter_learning is not None:
-        f_name = f_name + "_%semb" % str(parameter_learning.split('_')[1])
-    f_name = f_name + '_%semb' % str(embedding_size)
-    f_name = f_name + '_%sit' % str(n_iterations)
-    f_name = f_name + '_{:.0e}.pt'.format(learning_rate)
+        f_name = f_name + "_%semb" % str(parameter_learning.split("_")[1])
+    f_name = f_name + "_%semb" % str(embedding_size)
+    f_name = f_name + "_%sit" % str(n_iterations)
+    f_name = f_name + "_{:.0e}.pt".format(learning_rate)
 
     assert f_name[-3:] == ".pt", "The file name should end by .pt (.pytorch)"
 
@@ -661,24 +802,52 @@ if __name__ == "__main__":
     if kmer_embeddings_algorithm is not None:
         log.write("loading embeedings")
         if gene_catalog is not None:
-            path_embeddings = os.path.join(path_analysis, "kmer2vec", "genome", gene_catalog, kmer_embeddings_algorithm,
-                                           parameter_structu, parameter_learning)
+            path_embeddings = os.path.join(
+                path_analysis,
+                "kmer2vec",
+                "genome",
+                gene_catalog,
+                kmer_embeddings_algorithm,
+                parameter_structu,
+                parameter_learning,
+            )
         else:
-            path_embeddings = os.path.join(path_analysis, "kmer2vec", "metagenome", dataset_name,
-                                           kmer_embeddings_algorithm, parameter_structu, parameter_learning)
+            path_embeddings = os.path.join(
+                path_analysis,
+                "kmer2vec",
+                "metagenome",
+                dataset_name,
+                kmer_embeddings_algorithm,
+                parameter_structu,
+                parameter_learning,
+            )
 
     p_permute = 0.05
     p_remove = 0.02
     teacher_forcing_ratio = 0.5
     print("Initializing seq2seq model")
-    model = Seq2Seq(k, max_length=max_length, teacher_forcing_ratio=teacher_forcing_ratio,
-                    learning_rate=learning_rate, id_gpu=id_gpu, batch_size=batch_size, hid_dim=hid_dim,
-                    n_iterations=n_iterations, p_permute=p_permute, p_remove=p_remove, emb_dim=embedding_size)
+    model = Seq2Seq(
+        k,
+        max_length=max_length,
+        teacher_forcing_ratio=teacher_forcing_ratio,
+        learning_rate=learning_rate,
+        id_gpu=id_gpu,
+        batch_size=batch_size,
+        hid_dim=hid_dim,
+        n_iterations=n_iterations,
+        p_permute=p_permute,
+        p_remove=p_remove,
+        emb_dim=embedding_size,
+    )
     print("Creating field iterator")
-    model.create_field_iterator(path_data_train, path_data_valid, path_embeddings, nb_cutoffs)
+    model.create_field_iterator(
+        path_data_train, path_data_valid, path_embeddings, nb_cutoffs
+    )
     model.create_model()
     hdfs.create_dir(os.path.join(path_analysis, "read2vec"), mode="local")
     clip = 1
-    model.fit(n_epoch=n_steps, clip=clip, path_model=os.path.join(path_analysis, "read2vec", f_name))
-
-
+    model.fit(
+        n_epoch=n_steps,
+        clip=clip,
+        path_model=os.path.join(path_analysis, "read2vec", f_name),
+    )

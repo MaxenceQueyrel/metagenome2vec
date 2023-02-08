@@ -15,10 +15,22 @@ from metagenome2vec.data_processing import genome
 SEED = 42
 
 # from create_simulated_read2genome_dataset
-def dataframe_to_fastdna_input(path_data, path_metadata, name_reads_fastdna="reads_fastdna", name_ids_fastdna="ids_fastdna",
-name_species_fastdna="species_fastdna", name_genus_fastdna="genus_fastdna", name_family_fastdna="family_fastdna"):
+def dataframe_to_fastdna_input(
+    path_data,
+    path_metadata,
+    name_reads_fastdna="reads_fastdna",
+    name_ids_fastdna="ids_fastdna",
+    name_species_fastdna="species_fastdna",
+    name_genus_fastdna="genus_fastdna",
+    name_family_fastdna="family_fastdna",
+):
     df_taxonomy_ref = pd.read_csv(path_metadata)
-    D_taxonomy_mapping = df_taxonomy_ref[[ncbi_id_name, species_name, genus_name, family_name]].astype(str).set_index(ncbi_id_name).to_dict()
+    D_taxonomy_mapping = (
+        df_taxonomy_ref[[ncbi_id_name, species_name, genus_name, family_name]]
+        .astype(str)
+        .set_index(ncbi_id_name)
+        .to_dict()
+    )
     path_save = os.path.dirname(path_data)
     name_reads_fastdna = os.path.join(path_save, name_reads_fastdna)
     name_ids_fastdna = os.path.join(path_save, name_ids_fastdna)
@@ -34,29 +46,44 @@ name_species_fastdna="species_fastdna", name_genus_fastdna="genus_fastdna", name
                             for i, line in tqdm(enumerate(f)):
                                 if i == 0:
                                     continue
-                                read, tax_id, _, _ = line.split('\t')
+                                read, tax_id, _, _ = line.split("\t")
                                 out_reads.write(">%s\n" % str(i))
                                 out_reads.write(read + "\n")
                                 out_tax_id.write(tax_id + "\n")
-                                out_genus.write(D_taxonomy_mapping[genus_name][tax_id] + "\n")
-                                out_family.write(D_taxonomy_mapping[family_name][tax_id] + "\n")
-                                out_species.write(D_taxonomy_mapping[species_name][tax_id] + "\n")
+                                out_genus.write(
+                                    D_taxonomy_mapping[genus_name][tax_id] + "\n"
+                                )
+                                out_family.write(
+                                    D_taxonomy_mapping[family_name][tax_id] + "\n"
+                                )
+                                out_species.write(
+                                    D_taxonomy_mapping[species_name][tax_id] + "\n"
+                                )
 
 
 # from create_simulated_read2genome_dataset TODO Add the clean output simulation in it
-def create_simulated_read2genome_dataset(path_fastq_file, path_mapping_file, path_metadata, path_save,
-                                        valid_size=0.3, n_sample_load=-1, overwrite=False):
+def create_simulated_read2genome_dataset(
+    path_fastq_file,
+    path_mapping_file,
+    path_metadata,
+    path_save,
+    valid_size=0.3,
+    n_sample_load=-1,
+    overwrite=False,
+):
     """
     # TODO
     """
     assert valid_size >= 0 and valid_size <= 1, "Valid size should be between 0 and 1."
-    
+
     # Clean output simulation if does not exist
     path_mapping_read_genome = os.path.join(path_save, mapping_read_file_name)
     path_reads = os.path.join(path_save, reads_file_name)
-    if not ( os.path.exists(path_mapping_read_genome) and os.path.exists(path_reads) ):
-        clean_output_simulation(path_fastq_file, path_mapping_file, path_save, path_metadata)
-    
+    if not (os.path.exists(path_mapping_read_genome) and os.path.exists(path_reads)):
+        clean_output_simulation(
+            path_fastq_file, path_mapping_file, path_save, path_metadata
+        )
+
     # Create the read2genome datasets
     if overwrite or not os.path.exists(path_save):
 
@@ -65,29 +92,53 @@ def create_simulated_read2genome_dataset(path_fastq_file, path_mapping_file, pat
         path_final_matrix = os.path.join(path_save, name_matrix_save)
         path_final_matrix_valid = os.path.join(path_save, name_matrix_save_valid)
 
-        mapping_read_genome = pd.read_csv(path_mapping_read_genome, sep="\t", dtype=str)[[tax_id_name, anonymous_read_id_name]]
+        mapping_read_genome = pd.read_csv(
+            path_mapping_read_genome, sep="\t", dtype=str
+        )[[tax_id_name, anonymous_read_id_name]]
         reads = pd.read_csv(path_reads, sep="\t")  # 1 min
         if n_sample_load > 0:
             reads = reads.sample(n=n_sample_load, random_state=SEED)
-        reads[anonymous_read_id_name] = reads[anonymous_read_id_name].apply(lambda x: re.sub("(.*)-.*$", "\\1", x.replace("@", "")))
-        reads = reads.merge(mapping_read_genome, on=anonymous_read_id_name)[[read_name, tax_id_name, sim_id_name]]
+        reads[anonymous_read_id_name] = reads[anonymous_read_id_name].apply(
+            lambda x: re.sub("(.*)-.*$", "\\1", x.replace("@", ""))
+        )
+        reads = reads.merge(mapping_read_genome, on=anonymous_read_id_name)[
+            [read_name, tax_id_name, sim_id_name]
+        ]
 
         def compute_proportion(df):
             sim_ids = df[sim_id_name].unique()
             df[prop_name] = np.zeros(df.shape[0], dtype=np.float)
             for sim_id in tqdm(sim_ids):
                 tmp = df[df[sim_id_name] == sim_id]
-                tmp = tmp.groupby(tax_id_name).transform("count")[prop_name] * 1. / tmp.shape[0]
+                tmp = (
+                    tmp.groupby(tax_id_name).transform("count")[prop_name]
+                    * 1.0
+                    / tmp.shape[0]
+                )
                 df.loc[tmp.index, prop_name] = tmp
             return df
 
         try:
-            reads, reads_valid = train_test_split(reads, test_size=valid_size, random_state=SEED, stratify=reads[tax_id_name])
+            reads, reads_valid = train_test_split(
+                reads,
+                test_size=valid_size,
+                random_state=SEED,
+                stratify=reads[tax_id_name],
+            )
         except:
             # Try to stratify at the species level if the stratification at the genome level didn't work
             df_taxonomy_ref = pd.read_csv(path_metadata).astype(str)
-            reads = reads.merge(df_taxonomy_ref[[ncbi_id_name, species_name]].astype(str), left_on=tax_id_name, right_on=ncbi_id_name)
-            reads, reads_valid = train_test_split(reads, test_size=valid_size, random_state=SEED, stratify=reads[species_name])
+            reads = reads.merge(
+                df_taxonomy_ref[[ncbi_id_name, species_name]].astype(str),
+                left_on=tax_id_name,
+                right_on=ncbi_id_name,
+            )
+            reads, reads_valid = train_test_split(
+                reads,
+                test_size=valid_size,
+                random_state=SEED,
+                stratify=reads[species_name],
+            )
             reads = reads.drop([species_name, ncbi_id_name], axis=1)
             reads_valid = reads_valid.drop([species_name, ncbi_id_name], axis=1)
         reads_valid = compute_proportion(reads_valid)
@@ -97,16 +148,27 @@ def create_simulated_read2genome_dataset(path_fastq_file, path_mapping_file, pat
 
         # create files in fastdna format
         dataframe_to_fastdna_input(path_final_matrix, path_metadata)
-        dataframe_to_fastdna_input(path_final_matrix_valid, path_metadata, name_reads_fastdna="reads_fastdna_valid", name_ids_fastdna="ids_fastdna_valid",
-                        name_species_fastdna="species_fastdna_valid", name_genus_fastdna="genus_fastdna_valid", name_family_fastdna="family_fastdna_valid")
+        dataframe_to_fastdna_input(
+            path_final_matrix_valid,
+            path_metadata,
+            name_reads_fastdna="reads_fastdna_valid",
+            name_ids_fastdna="ids_fastdna_valid",
+            name_species_fastdna="species_fastdna_valid",
+            name_genus_fastdna="genus_fastdna_valid",
+            name_family_fastdna="family_fastdna_valid",
+        )
 
 
-def create_simulated_metagenome2vec_dataset(path_data: str, path_save: str, overwrite: bool = False, to_merge: bool = False):
+def create_simulated_metagenome2vec_dataset(
+    path_data: str, path_save: str, overwrite: bool = False, to_merge: bool = False
+):
     if overwrite and os.path.exists(path_save):
         shutil.rmtree(path_save)
     os.makedirs(path_save, exist_ok=True)
-    csvfile = open(os.path.join(path_save, 'metadata.csv'), 'w', newline='')
-    writter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+    csvfile = open(os.path.join(path_save, "metadata.csv"), "w", newline="")
+    writter = csv.writer(
+        csvfile, delimiter=",", quotechar="|", quoting=csv.QUOTE_MINIMAL
+    )
     writter.writerow(["id.fasta", "group", "id.subject"])
     cpt = 0
 
@@ -120,9 +182,14 @@ def create_simulated_metagenome2vec_dataset(path_data: str, path_save: str, over
                 os.makedirs(dir_dst, exist_ok=True)
                 if to_merge:
                     if os.path.isfile(os.path.join(dir_dst, merge_file_name)):
-                        subprocess.call("rm %s" % os.path.join(dir_dst, merge_file_name), shell=True)
-                    subprocess.call("cat %s/*.fq.gz > %s" % (root, os.path.join(dir_dst, merge_file_name)),
-                                    shell=True)
+                        subprocess.call(
+                            "rm %s" % os.path.join(dir_dst, merge_file_name), shell=True
+                        )
+                    subprocess.call(
+                        "cat %s/*.fq.gz > %s"
+                        % (root, os.path.join(dir_dst, merge_file_name)),
+                        shell=True,
+                    )
                     writter.writerow([sample_name, class_name, sample_name])
                     cpt += 1
                 else:
@@ -130,16 +197,28 @@ def create_simulated_metagenome2vec_dataset(path_data: str, path_save: str, over
                         if "fq.gz" in file:
                             if os.path.exists(os.path.join(dir_dst, file)):
                                 os.remove(os.path.join(dir_dst, file))
-                            shutil.copy(os.path.join(root, file), os.path.join(dir_dst, file))
+                            shutil.copy(
+                                os.path.join(root, file), os.path.join(dir_dst, file)
+                            )
                             writter.writerow([sample_name, class_name, sample_name])
                             cpt += 1
     csvfile.close()
 
-def create_simulated_config_file(n_cpus, n_sample_by_class, computation_type, size,
-                                 path_tmp_folder, path_save, path_abundance_profile):
+
+def create_simulated_config_file(
+    n_cpus,
+    n_sample_by_class,
+    computation_type,
+    size,
+    path_tmp_folder,
+    path_save,
+    path_abundance_profile,
+):
     name_config_folder = "config_files"
     name_camisim_folder = "camisim"
-    path_save_config = os.path.abspath(os.path.join(path_save, name_camisim_folder, name_config_folder))
+    path_save_config = os.path.abspath(
+        os.path.join(path_save, name_camisim_folder, name_config_folder)
+    )
 
     file_name_metadata = "metadata.tsv"
     file_name_genome_to_id = "genome_to_id.tsv"
@@ -160,7 +239,12 @@ def create_simulated_config_file(n_cpus, n_sample_by_class, computation_type, si
     else:
         L_file_abundance = []
     os.makedirs(path_save_config, exist_ok=True)
-    n_genomes = sum(1 for _ in open(os.path.join(path_save, name_camisim_folder, file_name_genome_to_id)))
+    n_genomes = sum(
+        1
+        for _ in open(
+            os.path.join(path_save, name_camisim_folder, file_name_genome_to_id)
+        )
+    )
 
     L_computation_type = ["illumina"]
     if computation_type == "both":
@@ -169,11 +253,22 @@ def create_simulated_config_file(n_cpus, n_sample_by_class, computation_type, si
         L_computation_type = ["nanosim"]
     for computation_type in L_computation_type:
         name_abundance = path_abundance_profile.split("/")[-1]
-        if not L_file_abundance:  # Change name_abundance if path_abundance_profile is a file
+        if (
+            not L_file_abundance
+        ):  # Change name_abundance if path_abundance_profile is a file
             name_abundance = name_abundance.rsplit(".", 1)[0]
-        with open(os.path.join(path_save_config, "%s_%s.ini" % (computation_type, name_abundance)), "w") as f_res:
-            name_simulation = computation_type + "_" + name_abundance + "_" + str(n_sample_by_class)
-            path_save_simulation = os.path.abspath(os.path.join(path_save, name_camisim_folder, "dataset", name_simulation))
+        with open(
+            os.path.join(
+                path_save_config, "%s_%s.ini" % (computation_type, name_abundance)
+            ),
+            "w",
+        ) as f_res:
+            name_simulation = (
+                computation_type + "_" + name_abundance + "_" + str(n_sample_by_class)
+            )
+            path_save_simulation = os.path.abspath(
+                os.path.join(path_save, name_camisim_folder, "dataset", name_simulation)
+            )
             if os.path.exists(path_save_simulation):
                 shutil.rmtree(path_save_simulation)
             os.makedirs(path_save_simulation)
@@ -190,29 +285,63 @@ def create_simulated_config_file(n_cpus, n_sample_by_class, computation_type, si
             s += "compress=1\n"
             s += "\n"
             s += "[ReadSimulator]\n"
-            readsim = os.path.join(path_nanosim, 'src/simulator.py') if computation_type == "nanosim" else os.path.join(path_camisim, "tools/art_illumina-2.3.6/art_illumina")
+            readsim = (
+                os.path.join(path_nanosim, "src/simulator.py")
+                if computation_type == "nanosim"
+                else os.path.join(path_camisim, "tools/art_illumina-2.3.6/art_illumina")
+            )
             s += "readsim=%s\n" % readsim
-            error = os.path.join(path_camisim, "tools/nanosim_profile/") if computation_type == "nanosim" else os.path.join(path_camisim, "tools/art_illumina-2.3.6/profiles")
+            error = (
+                os.path.join(path_camisim, "tools/nanosim_profile/")
+                if computation_type == "nanosim"
+                else os.path.join(path_camisim, "tools/art_illumina-2.3.6/profiles")
+            )
             s += "error_profiles=%s\n" % error
-            s += "samtools=%s\n" % os.path.join(path_camisim, "tools/samtools-1.3/samtools")
+            s += "samtools=%s\n" % os.path.join(
+                path_camisim, "tools/samtools-1.3/samtools"
+            )
             s += "profil=mbarc\n"
             s += "size=%s\n" % size
             type = "nanosim" if computation_type == "nanosim" else "art"
             s += "type=%s\n" % type
             fragments_size_mean = "" if computation_type == "nanosim" else "270"
             s += "fragments_size_mean=%s\n" % fragments_size_mean
-            fragment_size_standard_deviation = "" if computation_type == "nanosim" else "27"
-            s += "fragment_size_standard_deviation=%s\n" % fragment_size_standard_deviation
+            fragment_size_standard_deviation = (
+                "" if computation_type == "nanosim" else "27"
+            )
+            s += (
+                "fragment_size_standard_deviation=%s\n"
+                % fragment_size_standard_deviation
+            )
             s += "\n"
             s += "[CommunityDesign]\n"
-            s += "distribution_file_paths=%s\n" % (",".join([path_abundance_profile] * n_sample_by_class) if not L_file_abundance else ",".join([os.path.join(path_abundance_profile, file_abundance) for file_abundance in L_file_abundance]))
-            s += "ncbi_taxdump=%s\n" % os.path.join(path_camisim, "tools/ncbi-taxonomy_20170222.tar.gz")
-            s += "strain_simulation_template=%s\n" % os.path.join(path_camisim, "scripts/StrainSimulationWrapper/sgEvolver/simulation_dir")
-            s += "number_of_samples=%s\n" % (n_sample_by_class if not L_file_abundance else len(L_file_abundance))
+            s += "distribution_file_paths=%s\n" % (
+                ",".join([path_abundance_profile] * n_sample_by_class)
+                if not L_file_abundance
+                else ",".join(
+                    [
+                        os.path.join(path_abundance_profile, file_abundance)
+                        for file_abundance in L_file_abundance
+                    ]
+                )
+            )
+            s += "ncbi_taxdump=%s\n" % os.path.join(
+                path_camisim, "tools/ncbi-taxonomy_20170222.tar.gz"
+            )
+            s += "strain_simulation_template=%s\n" % os.path.join(
+                path_camisim, "scripts/StrainSimulationWrapper/sgEvolver/simulation_dir"
+            )
+            s += "number_of_samples=%s\n" % (
+                n_sample_by_class if not L_file_abundance else len(L_file_abundance)
+            )
             s += "\n"
             s += "[community0]\n"
-            s += "metadata=%s\n" % os.path.join(path_save, name_camisim_folder, file_name_metadata)
-            s += "id_to_genome_file=%s\n" % os.path.join(path_save, name_camisim_folder, file_name_genome_to_id)
+            s += "metadata=%s\n" % os.path.join(
+                path_save, name_camisim_folder, file_name_metadata
+            )
+            s += "id_to_genome_file=%s\n" % os.path.join(
+                path_save, name_camisim_folder, file_name_genome_to_id
+            )
             s += "id_to_gff_file=\n"
             s += "genomes_total=%s\n" % n_genomes
             s += "genomes_real=%s\n" % n_genomes
@@ -242,17 +371,28 @@ def randomly_alterate_abundance(df_fasta_metadata, path_save, tax_level="species
             if L == 0 and H == 0:
                 continue
             A_tax_to_higher = np.random.choice(L_taxa, size=H, replace=False)
-            A_tax_to_lower = np.random.choice(list(set(L_taxa).difference(set(A_tax_to_higher))), size=L, replace=False)
+            A_tax_to_lower = np.random.choice(
+                list(set(L_taxa).difference(set(A_tax_to_higher))),
+                size=L,
+                replace=False,
+            )
             modif = {str(x): 5.0 for x in A_tax_to_higher}
             modif.update({str(x): 0.2 for x in A_tax_to_lower})
-            D_res["NT_%s_H_%s_L_%s" % (len(L_taxa), H, L)] = {tax_level_name: tax_level,
-                                                              "modif": dict(modif)}
+            D_res["NT_%s_H_%s_L_%s" % (len(L_taxa), H, L)] = {
+                tax_level_name: tax_level,
+                "modif": dict(modif),
+            }
     with open(path_save, "w") as f:
         json.dump(D_res, f)
     return D_res
 
 
-def clean_output_simulation(path_fastq_file: str, path_mapping_file: str, path_save_folder: str, path_metadata: str):
+def clean_output_simulation(
+    path_fastq_file: str,
+    path_mapping_file: str,
+    path_save_folder: str,
+    path_metadata: str,
+):
     """_summary_
 
     Args:
@@ -261,8 +401,18 @@ def clean_output_simulation(path_fastq_file: str, path_mapping_file: str, path_s
         path_save_folder (str): _description_
         path_metadata (str): _description_
     """
-    path_script: str = os.path.join(os.path.dirname(os.path.abspath(__file__)), "clean_output_simulation.sh")
-    subprocess.call([path_script, path_fastq_file, path_mapping_file, path_save_folder, path_metadata])
+    path_script: str = os.path.join(
+        os.path.dirname(os.path.abspath(__file__)), "clean_output_simulation.sh"
+    )
+    subprocess.call(
+        [
+            path_script,
+            path_fastq_file,
+            path_mapping_file,
+            path_save_folder,
+            path_metadata,
+        ]
+    )
 
 
 def _generate_abundance_name(abundance_name, tax_level):
@@ -288,46 +438,74 @@ def complete_fasta_metadata_with_abundance(df, D_modif_abundance=None):
     # Create balanced abundance for species and genus level V1
     L_tax_level = [species_name, genus_name]
     for tax_level in L_tax_level:
-        abundance_tax_balanced_name = _generate_abundance_name(abundance_balanced_name, tax_level)
+        abundance_tax_balanced_name = _generate_abundance_name(
+            abundance_balanced_name, tax_level
+        )
         bp_length_name_by_taxa = "%s_by_%s" % (bp_length_name, tax_level)
-        gb = df.groupby(tax_level)[bp_length_name].sum().reset_index().rename(columns={bp_length_name: bp_length_name_by_taxa})
+        gb = (
+            df.groupby(tax_level)[bp_length_name]
+            .sum()
+            .reset_index()
+            .rename(columns={bp_length_name: bp_length_name_by_taxa})
+        )
         gb[bp_length_name_by_taxa] = 1 / gb[bp_length_name_by_taxa]
         gb[bp_length_name_by_taxa] /= gb[bp_length_name_by_taxa].sum()
         df = df.merge(gb, on=tax_level)
         df[abundance_tax_balanced_name] = 1 / df[bp_length_name]
-        df[abundance_tax_balanced_name] = df.groupby(tax_level)[abundance_tax_balanced_name].apply(lambda x: x / x.sum())
+        df[abundance_tax_balanced_name] = df.groupby(tax_level)[
+            abundance_tax_balanced_name
+        ].apply(lambda x: x / x.sum())
         df[abundance_tax_balanced_name] *= df[bp_length_name_by_taxa]
         del df[bp_length_name_by_taxa]
     # Create balanced abundance for species and genus level V2
     bp_length_sum_name = bp_length_name + "_sum"
     bp_length_norm_name = bp_length_name + "_norm"
     for tax_level in L_tax_level:
-        abundance_tax_balanced_name = _generate_abundance_name(abundance_balanced_name, tax_level) + "_V2"
+        abundance_tax_balanced_name = (
+            _generate_abundance_name(abundance_balanced_name, tax_level) + "_V2"
+        )
         gb = df[[tax_level, bp_length_name]].groupby(tax_level).sum().reset_index()
         gb = gb.rename(columns={bp_length_name: bp_length_sum_name})
         gb[bp_length_norm_name] = gb[bp_length_sum_name] / gb[bp_length_sum_name].sum()
-        df = df.merge(gb[[tax_level, bp_length_sum_name, bp_length_norm_name]], on=tax_level)
-        df[abundance_tax_balanced_name] = 1 / (df[bp_length_norm_name] * (df[bp_length_name] / df[bp_length_sum_name]))
-        df[abundance_tax_balanced_name] /= df.groupby(tax_level)[abundance_tax_balanced_name].transform("sum")
+        df = df.merge(
+            gb[[tax_level, bp_length_sum_name, bp_length_norm_name]], on=tax_level
+        )
+        df[abundance_tax_balanced_name] = 1 / (
+            df[bp_length_norm_name] * (df[bp_length_name] / df[bp_length_sum_name])
+        )
+        df[abundance_tax_balanced_name] /= df.groupby(tax_level)[
+            abundance_tax_balanced_name
+        ].transform("sum")
         df[abundance_tax_balanced_name] /= df[abundance_tax_balanced_name].sum()
         del df[bp_length_norm_name]
         del df[bp_length_sum_name]
     # Create balanced abundance for ncbi ids with respect of real uniformity
-    df[abundance_balanced_name+"_uniform"] = 1 / df.shape[0]
+    df[abundance_balanced_name + "_uniform"] = 1 / df.shape[0]
     # Create modified abundance for a special taxonomic level
     if D_modif_abundance is not None:
         for abundance_modif_name, D_specificities in D_modif_abundance.items():
-            tax_level, D_modif = D_specificities[tax_level_name], D_specificities["modif"]
-            abundance_modif_name = _generate_abundance_name(abundance_modif_name, tax_level)
-            abundance_tax_balanced_name = _generate_abundance_name(abundance_balanced_name, tax_level)
+            tax_level, D_modif = (
+                D_specificities[tax_level_name],
+                D_specificities["modif"],
+            )
+            abundance_modif_name = _generate_abundance_name(
+                abundance_modif_name, tax_level
+            )
+            abundance_tax_balanced_name = _generate_abundance_name(
+                abundance_balanced_name, tax_level
+            )
             df[abundance_modif_name] = df[abundance_tax_balanced_name]
             for id_, factor in D_modif.items():
                 df.loc[df[tax_level] == int(id_), abundance_modif_name] *= int(factor)
-                df[abundance_modif_name] = df[abundance_modif_name] / df[abundance_modif_name].sum()
+                df[abundance_modif_name] = (
+                    df[abundance_modif_name] / df[abundance_modif_name].sum()
+                )
     return df
 
 
-def create_files_camisim(df_fasta_metadata, path_folder_save, path_fasta_folder, D_modif_abundance=None):
+def create_files_camisim(
+    df_fasta_metadata, path_folder_save, path_fasta_folder, D_modif_abundance=None
+):
     """
     From the fasta metadata dataset created by the function 'create_df_fasta_metadata', it writes the files to use with camisim.
     :param df_fasta_metadata: DataFrame Pandas, the complete metadata fatadrame with abundance
@@ -339,26 +517,54 @@ def create_files_camisim(df_fasta_metadata, path_folder_save, path_fasta_folder,
     os.makedirs(path_folder_save, exist_ok=True)
     # Write genome_to_id.tsv
     df_tmp = df_fasta_metadata[[genome_id_name, fasta_name]].copy()
-    df_tmp[fasta_name] = df_tmp[fasta_name].apply(lambda x: os.path.join(os.path.abspath(path_fasta_folder), x))
-    df_tmp.to_csv(os.path.join(path_folder_save, "genome_to_id.tsv"), sep="\t", index=False, header=False)
+    df_tmp[fasta_name] = df_tmp[fasta_name].apply(
+        lambda x: os.path.join(os.path.abspath(path_fasta_folder), x)
+    )
+    df_tmp.to_csv(
+        os.path.join(path_folder_save, "genome_to_id.tsv"),
+        sep="\t",
+        index=False,
+        header=False,
+    )
     # Write metadata.tsv, renome genome_id_name to genome_ID for camisim
-    df_fasta_metadata[[genome_id_name, OTU_name, ncbi_id_name, novelty_category_name]].rename(columns={genome_id_name: "genome_ID"}, )\
-        .to_csv(os.path.join(path_folder_save, "metadata.tsv"), sep="\t", index=False)
+    df_fasta_metadata[
+        [genome_id_name, OTU_name, ncbi_id_name, novelty_category_name]
+    ].rename(columns={genome_id_name: "genome_ID"},).to_csv(
+        os.path.join(path_folder_save, "metadata.tsv"), sep="\t", index=False
+    )
     # Write abundance.tsv with balanced abundance
     df_fasta_metadata[[genome_id_name, abundance_balanced_name]].to_csv(
-        os.path.join(path_folder_save, abundance_balanced_name + ".tsv"), sep="\t", header=False, index=False)
-    df_fasta_metadata[[genome_id_name, abundance_balanced_name+"_uniform"]].to_csv(
-        os.path.join(path_folder_save, abundance_balanced_name+"_uniform.tsv"), sep="\t", header=False, index=False)
+        os.path.join(path_folder_save, abundance_balanced_name + ".tsv"),
+        sep="\t",
+        header=False,
+        index=False,
+    )
+    df_fasta_metadata[[genome_id_name, abundance_balanced_name + "_uniform"]].to_csv(
+        os.path.join(path_folder_save, abundance_balanced_name + "_uniform.tsv"),
+        sep="\t",
+        header=False,
+        index=False,
+    )
     # Write abundance.tsv with balanced abundance for a special taxonomic level
     L_tax_level = [species_name, genus_name]
     for tax_level in L_tax_level:
         abundance_name = _generate_abundance_name(abundance_balanced_name, tax_level)
         df_fasta_metadata[[genome_id_name, abundance_name]].to_csv(
-            os.path.join(path_folder_save, abundance_name + ".tsv"), sep="\t", header=False, index=False)
+            os.path.join(path_folder_save, abundance_name + ".tsv"),
+            sep="\t",
+            header=False,
+            index=False,
+        )
     for tax_level in L_tax_level:
-        abundance_name = _generate_abundance_name(abundance_balanced_name, tax_level) + "_V2"
+        abundance_name = (
+            _generate_abundance_name(abundance_balanced_name, tax_level) + "_V2"
+        )
         df_fasta_metadata[[genome_id_name, abundance_name]].to_csv(
-            os.path.join(path_folder_save, abundance_name + ".tsv"), sep="\t", header=False, index=False)
+            os.path.join(path_folder_save, abundance_name + ".tsv"),
+            sep="\t",
+            header=False,
+            index=False,
+        )
     # Write abundance.tsv with a modified abundance for a special taxonomic level
     if D_modif_abundance is not None:
         os.makedirs(os.path.join(path_folder_save, "abundance_profile"), exist_ok=True)
@@ -366,10 +572,22 @@ def create_files_camisim(df_fasta_metadata, path_folder_save, path_fasta_folder,
             tax_level = D_specificities[tax_level_name]
             abundance_name = _generate_abundance_name(abundance_name, tax_level)
             df_fasta_metadata[[genome_id_name, abundance_name]].to_csv(
-                os.path.join(path_folder_save, "abundance_profile", abundance_name + ".tsv"), sep="\t", header=False, index=False)
+                os.path.join(
+                    path_folder_save, "abundance_profile", abundance_name + ".tsv"
+                ),
+                sep="\t",
+                header=False,
+                index=False,
+            )
 
 
-def create_df_fasta_metadata(path_fasta_folder: str, path_folder_save: str, path_json_modif_abundance: str = None, path_metadata: str = None, simulate_abundance: bool = False):
+def create_df_fasta_metadata(
+    path_fasta_folder: str,
+    path_folder_save: str,
+    path_json_modif_abundance: str = None,
+    path_metadata: str = None,
+    simulate_abundance: bool = False,
+):
     """_summary_
 
     Args:
@@ -395,18 +613,25 @@ def create_df_fasta_metadata(path_fasta_folder: str, path_folder_save: str, path
 
     # Complete metadata with abundance and save fasta metadata with abundance
     if path_json_modif_abundance is not None:
-        D_modif_abundance = json.load(open(path_json_modif_abundance, 'r'))
+        D_modif_abundance = json.load(open(path_json_modif_abundance, "r"))
     elif simulate_abundance is True:
-        D_modif_abundance = randomly_alterate_abundance(df_fasta_metadata, os.path.join(path_folder_save, "config_abundance.json"))
+        D_modif_abundance = randomly_alterate_abundance(
+            df_fasta_metadata, os.path.join(path_folder_save, "config_abundance.json")
+        )
     else:
         D_modif_abundance = None
-    name_fasta_metadata_with_abundance = os.path.join(path_folder_save, "fasta_metadata_with_abundance.csv")
-    df_fasta_metadata = complete_fasta_metadata_with_abundance(df_fasta_metadata, D_modif_abundance)
+    name_fasta_metadata_with_abundance = os.path.join(
+        path_folder_save, "fasta_metadata_with_abundance.csv"
+    )
+    df_fasta_metadata = complete_fasta_metadata_with_abundance(
+        df_fasta_metadata, D_modif_abundance
+    )
     df_fasta_metadata.to_csv(name_fasta_metadata_with_abundance, sep=",", index=False)
 
     # create and save files for camisim
     path_camisim = os.path.join(path_folder_save, "camisim")
     if os.path.exists(path_camisim):
         shutil.rmtree(path_camisim)
-    create_files_camisim(df_fasta_metadata, path_camisim, path_fasta_folder, D_modif_abundance)
-
+    create_files_camisim(
+        df_fasta_metadata, path_camisim, path_fasta_folder, D_modif_abundance
+    )

@@ -12,14 +12,26 @@ from h2o.estimators.random_forest import H2ORandomForestEstimator
 from h2o.automl import H2OAutoML
 from h2o.grid.grid_search import H2OGridSearch
 import logging
-from metagenome2vec.utils import file_manager, spark_manager, parser_creator, data_manager
+from metagenome2vec.utils import (
+    file_manager,
+    spark_manager,
+    parser_creator,
+    data_manager,
+)
 from metagenome2vec.utils.string_names import *
 
 
 SEED = 42
 
 
-def run_read2vec(spark, path_matrix, df_metadata, path_save_read2vec, num_partitions=None, overwrite=False):
+def run_read2vec(
+    spark,
+    path_matrix,
+    df_metadata,
+    path_save_read2vec,
+    num_partitions=None,
+    overwrite=False,
+):
     """
     Runs read2vec algorithm on simulation reads and creates/saves the final data frame for read2genome
     :param spark: SQL spark context
@@ -44,11 +56,18 @@ def run_read2vec(spark, path_matrix, df_metadata, path_save_read2vec, num_partit
             df_simulated = df_simulated.sample(n_sample_load, random_state=SEED)
         log.write("Data loaded, contains %s reads." % (df_simulated.shape[0]))
         # Transform dataset to spark dataframe
-        schema = T.StructType([T.StructField(tax_id_name, T.StringType(), False),
-                               T.StructField(sim_id_name, T.StringType(), False),
-                               T.StructField(prop_name, T.DoubleType(), False),
-                               T.StructField(read_name, T.StringType(), True)])
-        df_simulated = spark.createDataFrame(df_simulated[[tax_id_name, sim_id_name, prop_name, read_name]], schema=schema)
+        schema = T.StructType(
+            [
+                T.StructField(tax_id_name, T.StringType(), False),
+                T.StructField(sim_id_name, T.StringType(), False),
+                T.StructField(prop_name, T.DoubleType(), False),
+                T.StructField(read_name, T.StringType(), True),
+            ]
+        )
+        df_simulated = spark.createDataFrame(
+            df_simulated[[tax_id_name, sim_id_name, prop_name, read_name]],
+            schema=schema,
+        )
         # repartitioning
         if num_partitions is not None:
             df_simulated = df_simulated.repartition(num_partitions)
@@ -57,7 +76,9 @@ def run_read2vec(spark, path_matrix, df_metadata, path_save_read2vec, num_partit
         log.write("Number of line in df_simulated %s" % df_simulated.count())
         df_simulated = r2v.read2vec(df_simulated, drop_col_name=False)
         # Add taxonomy level
-        df_simulated = df_simulated.withColumn(tax_id_name, df_simulated.tax_id.cast(T.StringType()))
+        df_simulated = df_simulated.withColumn(
+            tax_id_name, df_simulated.tax_id.cast(T.StringType())
+        )
         df_simulated = df_simulated.join(df_metadata, on=tax_id_name)
         df_simulated.write.save(path_save_read2vec, mode=saving_mode, format="parquet")
     else:
@@ -89,15 +110,21 @@ if __name__ == "__main__":
     args = parser.parser_train_h2o_model()
 
     read2vec = args.read2vec
-    assert len(args.path_data.split(",")) == 2, "You have to give one path for training and another one for validation"
+    assert (
+        len(args.path_data.split(",")) == 2
+    ), "You have to give one path for training and another one for validation"
     path_data_train, path_data_valid = args.path_data.split(",")
-    path_data_train = path_data_train[:-1] if path_data_train.endswith('/') else path_data_train
-    path_data_valid = path_data_valid[:-1] if path_data_valid.endswith('/') else path_data_valid
+    path_data_train = (
+        path_data_train[:-1] if path_data_train.endswith("/") else path_data_train
+    )
+    path_data_valid = (
+        path_data_valid[:-1] if path_data_valid.endswith("/") else path_data_valid
+    )
     path_save = args.path_save
     overwrite = args.overwrite
 
     k = args.k_mer_size
-    id_gpu = [int(x) for x in args.id_gpu.split(',')]
+    id_gpu = [int(x) for x in args.id_gpu.split(",")]
     path_metagenome_word_count = args.path_metagenome_word_count
     path_log = args.path_log
     log_file = args.log_file
@@ -108,7 +135,11 @@ if __name__ == "__main__":
     y_name = args.tax_level
     path_model = args.path_model
     read2genome_name = args.f_name
-    tax_taken = None if (args.tax_taken is None or args.tax_taken == "None") else [str(x) for x in args.tax_taken.split('.')]
+    tax_taken = (
+        None
+        if (args.tax_taken is None or args.tax_taken == "None")
+        else [str(x) for x in args.tax_taken.split(".")]
+    )
     n_tax_taken = len(tax_taken) if isinstance(tax_taken, list) else None
     nfolds = args.nfolds
     machine_learning_algorithm = args.machine_learning_algorithm
@@ -118,10 +149,13 @@ if __name__ == "__main__":
     only_transform = args.only_transform
     path_metadata = args.path_metadata
 
-    log = logger.Logger(path_log, log_file, log_file,
-                        variable_time={"k": k,
-                                       "read2vec": read2vec},
-                        **vars(args))
+    log = logger.Logger(
+        path_log,
+        log_file,
+        log_file,
+        variable_time={"k": k, "read2vec": read2vec},
+        **vars(args)
+    )
 
     ####################################
     # ---------- Spark Conf -----------#
@@ -133,12 +167,18 @@ if __name__ == "__main__":
     # --- Preparing read2vec ---#
     #############################
 
-    r2v = data_manager.load_read2vec(read2vec, path_read2vec=path_read2vec, spark=spark,
-                                     path_metagenome_word_count=path_metagenome_word_count, k=k, id_gpu=id_gpu,
-                                     path_tmp_folder=path_tmp_folder)
+    r2v = data_manager.load_read2vec(
+        read2vec,
+        path_read2vec=path_read2vec,
+        spark=spark,
+        path_metagenome_word_count=path_metagenome_word_count,
+        k=k,
+        id_gpu=id_gpu,
+        path_tmp_folder=path_tmp_folder,
+    )
 
     #############################
-    #--- load data and model ---#
+    # --- load data and model ---#
     #############################
 
     # Defining a name for the read2genome algorithm
@@ -148,35 +188,63 @@ if __name__ == "__main__":
     path_save_read2vec_train = path_save_read2vec + "_" + path_data_train.split("/")[-1]
     path_save_read2vec_valid = path_save_read2vec + "_" + path_data_valid.split("/")[-1]
 
-    df_metadata = df_taxonomy_ref = pd.read_csv(path_metadata).astype(str).rename(columns={ncbi_id_name: tax_id_name})
+    df_metadata = df_taxonomy_ref = (
+        pd.read_csv(path_metadata)
+        .astype(str)
+        .rename(columns={ncbi_id_name: tax_id_name})
+    )
 
     if tax_taken is not None:
         path_save_read2vec_valid = path_save_read2vec_valid + "_n_tax_%s" % n_tax_taken
         path_save_read2vec_train = path_save_read2vec_train + "_n_tax_%s" % n_tax_taken
         # Change the list of tax taken at the taxonomy level if for example y_name is at the genus level
-        tax_taken = list(df_metadata[df_metadata[y_name].isin(tax_taken)][tax_id_name].drop_duplicates())
+        tax_taken = list(
+            df_metadata[df_metadata[y_name].isin(tax_taken)][
+                tax_id_name
+            ].drop_duplicates()
+        )
     if n_sample_load > 0:
-        path_save_read2vec_valid = path_save_read2vec_valid + "_n_sample_%s" % n_sample_load
-        path_save_read2vec_train = path_save_read2vec_train + "_n_sample_%s" % n_sample_load
+        path_save_read2vec_valid = (
+            path_save_read2vec_valid + "_n_sample_%s" % n_sample_load
+        )
+        path_save_read2vec_train = (
+            path_save_read2vec_train + "_n_sample_%s" % n_sample_load
+        )
 
-    df_metadata = spark.createDataFrame(df_metadata[[tax_id_name, species_name, genus_name, family_name]])
+    df_metadata = spark.createDataFrame(
+        df_metadata[[tax_id_name, species_name, genus_name, family_name]]
+    )
 
     #############################
-    #--- read to embeddings ----#
+    # --- read to embeddings ----#
     #############################
     log.write("Running read2vec")
 
     log.writeExecutionTime()
-    run_read2vec(spark, path_data_train, df_metadata, path_save_read2vec_train, num_partitions, overwrite)
+    run_read2vec(
+        spark,
+        path_data_train,
+        df_metadata,
+        path_save_read2vec_train,
+        num_partitions,
+        overwrite,
+    )
     log.writeExecutionTime()
     log.writeExecutionTime()
     # the valid dataset is by default reads_genomes_valid
-    run_read2vec(spark, path_data_valid, df_metadata, path_save_read2vec_valid, num_partitions, overwrite)
+    run_read2vec(
+        spark,
+        path_data_valid,
+        df_metadata,
+        path_save_read2vec_valid,
+        num_partitions,
+        overwrite,
+    )
     log.writeExecutionTime()
     log.write("read2vec done !")
 
     #############################
-    #------ running bench ------#
+    # ------ running bench ------#
     #############################
 
     if only_transform:
@@ -198,44 +266,59 @@ if __name__ == "__main__":
     if machine_learning_algorithm == "aml":
         params = None
         max_models = 1 if max_models <= 0 else max_models
-        model = H2OAutoML(exclude_algos=["XGBoost", "DRF", "GLM", "GBM", "StackedEnsemble"],
-                          max_models=max_models,
-                          seed=SEED,
-                          nfolds=nfolds,
-                          max_runtime_secs=86400,
-                          )
+        model = H2OAutoML(
+            exclude_algos=["XGBoost", "DRF", "GLM", "GBM", "StackedEnsemble"],
+            max_models=max_models,
+            seed=SEED,
+            nfolds=nfolds,
+            max_runtime_secs=86400,
+        )
     elif machine_learning_algorithm == "gbm":
-        params = {'learn_rate': [i * 0.01 for i in range(1, 11)],
-                  'ntrees': list(range(10, 60)),
-                  'max_depth': list(range(2, 11)),
-                  'sample_rate': [i * 0.1 for i in range(5, 11)],
-                  'col_sample_rate': [i * 0.1 for i in range(1, 11)]}
+        params = {
+            "learn_rate": [i * 0.01 for i in range(1, 11)],
+            "ntrees": list(range(10, 60)),
+            "max_depth": list(range(2, 11)),
+            "sample_rate": [i * 0.1 for i in range(5, 11)],
+            "col_sample_rate": [i * 0.1 for i in range(1, 11)],
+        }
         model = H2OGradientBoostingEstimator
     elif machine_learning_algorithm == "glm":
         model = H2OGeneralizedLinearEstimator
-        params = {"family": "multinomial",
-                  "alpha": ["L1", "L2"],
-                  'lambda': [i * 0.01 for i in range(1, 11)]}
+        params = {
+            "family": "multinomial",
+            "alpha": ["L1", "L2"],
+            "lambda": [i * 0.01 for i in range(1, 11)],
+        }
     elif machine_learning_algorithm == "dl":
-        params = {"epochs": list(range(10, 60)),
-                  "hidden": [[100, 100], [50, 200, 50], [400, 300, 200, 100]],
-                  "activation": ["Rectifier", "RectifierWithDropout"],
-                  'rate': [i * 0.01 for i in range(1, 11)]}
+        params = {
+            "epochs": list(range(10, 60)),
+            "hidden": [[100, 100], [50, 200, 50], [400, 300, 200, 100]],
+            "activation": ["Rectifier", "RectifierWithDropout"],
+            "rate": [i * 0.01 for i in range(1, 11)],
+        }
         model = H2ODeepLearningEstimator
     else:  # Random Forest
-        params = {'ntrees': list(range(10, 60)),
-                  'max_depth': list(range(2, 11)),
-                  'sample_rate': [i * 0.1 for i in range(5, 11)]}
+        params = {
+            "ntrees": list(range(10, 60)),
+            "max_depth": list(range(2, 11)),
+            "sample_rate": [i * 0.1 for i in range(5, 11)],
+        }
         model = H2ORandomForestEstimator
 
     if max_models > 1 and machine_learning_algorithm != "aml":
         # Search criteria
-        search_criteria = {'strategy': 'RandomDiscrete', 'max_models': max_models, 'seed': SEED}
+        search_criteria = {
+            "strategy": "RandomDiscrete",
+            "max_models": max_models,
+            "seed": SEED,
+        }
 
-        model = H2OGridSearch(model=model,
-                              grid_id='grid_search',
-                              hyper_params=params,
-                              search_criteria=search_criteria)
+        model = H2OGridSearch(
+            model=model,
+            grid_id="grid_search",
+            hyper_params=params,
+            search_criteria=search_criteria,
+        )
     elif machine_learning_algorithm != "aml":
         # Use default values
         model = model(distribution="multinomial")
@@ -251,15 +334,11 @@ if __name__ == "__main__":
     log.writeExecutionTime()
     log.write("Training H2O model")
     if max_models > 1 and machine_learning_algorithm != "aml":
-        model.train(x=features,
-                    y=y_name,
-                    training_frame=h2o_train,
-                    seed=SEED,
-                    nfolds=nfolds)
+        model.train(
+            x=features, y=y_name, training_frame=h2o_train, seed=SEED, nfolds=nfolds
+        )
     elif machine_learning_algorithm == "aml":
-        model.train(x=features,
-                    y=y_name,
-                    training_frame=h2o_train)
+        model.train(x=features, y=y_name, training_frame=h2o_train)
     else:  # not AML and not grid search
         df_valid = spark.read.parquet(path_save_read2vec_valid)
         if num_partitions is not None:
@@ -269,14 +348,15 @@ if __name__ == "__main__":
         else:
             h2o_valid = hc.as_h2o_frame(df_valid, framename="train")
         h2o_valid[y_name] = h2o_valid[y_name].asfactor()
-        model.train(x=features,
-                    y=y_name,
-                    training_frame=h2o_train,
-                    validation_frame=h2o_valid)
+        model.train(
+            x=features, y=y_name, training_frame=h2o_train, validation_frame=h2o_valid
+        )
     log.writeExecutionTime()
 
     if max_models > 1 and machine_learning_algorithm != "aml":
-        model = model.get_grid(sort_by='mean_per_class_accuracy', decreasing=True).models[0]
+        model = model.get_grid(
+            sort_by="mean_per_class_accuracy", decreasing=True
+        ).models[0]
     elif machine_learning_algorithm == "aml":
         lb = model.leaderboard
         log.write(model.leaderboard.head(rows=lb.nrows))

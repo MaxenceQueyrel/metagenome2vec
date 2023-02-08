@@ -3,7 +3,15 @@ from metagenome2vec.read2vec.read2vec import Read2Vec
 
 
 class BasicReadEmbeddings(Read2Vec):
-    def __init__(self, embeddings, dico_index, reverse_index, k_size, word_count=None, agg_func=np.mean):
+    def __init__(
+        self,
+        embeddings,
+        dico_index,
+        reverse_index,
+        k_size,
+        word_count=None,
+        agg_func=np.mean,
+    ):
         """
         :param self: Read2Vec object
         :param embeddings: numpy 2D array, the kmers embeddings
@@ -22,20 +30,21 @@ class BasicReadEmbeddings(Read2Vec):
             self.tfidf = np.ones(len(self.dico_index))
             for k, v in word_count.items():
                 try:
-                    self.tfidf[self.dico_index[k]] = np.log(1./(v*1./tot))
+                    self.tfidf[self.dico_index[k]] = np.log(1.0 / (v * 1.0 / tot))
                 except:
                     continue
-            #self.tfidf = {k: np.log(1./(v*1./tot)) for k, v in word_count.iteritems()}
+            # self.tfidf = {k: np.log(1./(v*1./tot)) for k, v in word_count.iteritems()}
 
     @staticmethod
     def l2_norm(x):
-        return np.sqrt(np.sum(x ** 2, axis=1))
+        return np.sqrt(np.sum(x**2, axis=1))
 
     @staticmethod
     def div_norm(x):
         norm_value = BasicReadEmbeddings.l2_norm(x)
-        return np.array([xx * (1.0 / nv) if nv > 0 else xx
-                         for xx, nv in zip(x, norm_value)])
+        return np.array(
+            [xx * (1.0 / nv) if nv > 0 else xx for xx, nv in zip(x, norm_value)]
+        )
 
     def _transform(self, x):
         """
@@ -44,7 +53,9 @@ class BasicReadEmbeddings(Read2Vec):
         :return: 1-D Numpy array
         """
         # remove pad and unk index
-        x = np.delete(x, np.where((x == self.index_pad) | (x < 0))[0])  # Case unk kmer and "<unk>" is not defined in the vocabulary because -1 is default
+        x = np.delete(
+            x, np.where((x == self.index_pad) | (x < 0))[0]
+        )  # Case unk kmer and "<unk>" is not defined in the vocabulary because -1 is default
         if x.shape[0] == 0:
             return np.zeros(self.embeddings.shape[1])
         if self.tfidf is not None:
@@ -61,5 +72,3 @@ class BasicReadEmbeddings(Read2Vec):
         :return: Numpy 2-D array
         """
         return np.apply_along_axis(lambda x: self._transform(x), axis=1, arr=X)
-
-

@@ -31,6 +31,7 @@ class FastTextReadEmbeddings(Read2Vec):
         :return: Numpy 2-D array
         """
         model = fasttext.load_model(self.path_model)
-        vfunc = np.vectorize(lambda x: model.get_sentence_vector(x), signature='()->(n)')
+        vfunc = np.vectorize(
+            lambda x: model.get_sentence_vector(x), signature="()->(n)"
+        )
         return vfunc(X)
-

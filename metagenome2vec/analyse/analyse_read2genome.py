@@ -2,7 +2,8 @@ from pysparkling import H2OContext
 import pandas as pd
 import numpy as np
 import matplotlib
-matplotlib.use('Agg')
+
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import re
 import seaborn
@@ -15,7 +16,8 @@ from sklearn.metrics import precision_score, recall_score, f1_score, accuracy_sc
 from multiprocessing import Pool
 import subprocess
 from matplotlib import rcParams
-rcParams.update({'figure.autolayout': True})
+
+rcParams.update({"figure.autolayout": True})
 import os
 import sys
 
@@ -60,11 +62,24 @@ def get_f1_score(y_true, y_pred):
 
 
 def compute_rate_reject_class(df_count_reject, df_count_label):
-    df_count_reject = df_count_reject.merge(df_count_label.rename(columns={tax_level: tax_level + "_2"}), how="left", left_index=True, right_index=True)
+    df_count_reject = df_count_reject.merge(
+        df_count_label.rename(columns={tax_level: tax_level + "_2"}),
+        how="left",
+        left_index=True,
+        right_index=True,
+    )
     return df_count_reject[tax_level] / df_count_reject[tax_level + "_2"]
 
 
-def save_bowtie_score(path_save, df, threshold, path_tmp_folder=None, n_reads=-1, dataset="train", file_mode="w"):
+def save_bowtie_score(
+    path_save,
+    df,
+    threshold,
+    path_tmp_folder=None,
+    n_reads=-1,
+    dataset="train",
+    file_mode="w",
+):
     df[pred_threshold_name] = df[pred_name].where(df[prob_name] > threshold, other=-1)
     mask = df[pred_threshold_name] != -1
     df_accepted, df_reject = df[mask], df[~mask]
@@ -74,9 +89,15 @@ def save_bowtie_score(path_save, df, threshold, path_tmp_folder=None, n_reads=-1
 
     def compute_score_bowtie_df(df):
         df.iloc[:n_reads][read_name].to_csv(tmp_file, header=False, index=False)
-        res = int(subprocess.check_output(
-            "%s/bowtie --threads %s -a -v 2 %s --suppress 1,5,6,7 -r %s | grep '\n' | wc -l" % (os.getenv("BOWTIE"), bowtie_index, n_cpus, tmp_file),
-            shell=True).decode().replace("\n", ""))
+        res = int(
+            subprocess.check_output(
+                "%s/bowtie --threads %s -a -v 2 %s --suppress 1,5,6,7 -r %s | grep '\n' | wc -l"
+                % (os.getenv("BOWTIE"), bowtie_index, n_cpus, tmp_file),
+                shell=True,
+            )
+            .decode()
+            .replace("\n", "")
+        )
         subprocess.call(["rm", tmp_file])
         return res / n_reads
 
@@ -86,7 +107,15 @@ def save_bowtie_score(path_save, df, threshold, path_tmp_folder=None, n_reads=-1
     with open(path_save, file_mode) as f:
         writer = csv.writer(f)
         if file_mode == "w":
-            writer.writerow(["dataset", "n_reads", "threshold", "bowtie_mean_score_accepted", "bowtie_mean_score_reject"])
+            writer.writerow(
+                [
+                    "dataset",
+                    "n_reads",
+                    "threshold",
+                    "bowtie_mean_score_accepted",
+                    "bowtie_mean_score_reject",
+                ]
+            )
         writer.writerow([dataset, n_reads, threshold, res_accepted, res_reject])
 
 
@@ -102,12 +131,14 @@ def compute_metrics(df, threshold, df_count_label):
     reject_rate = df_reject.shape[0] / df.shape[0]
     reject_class_rate = compute_rate_reject_class(df_count_reject, df_count_label)
     df_reject.shape[0] / df.shape[0]
-    return reject_rate, \
-           accuracy_threshold, \
-           precision_threshold, \
-           recall_threshold, \
-           f1_score_threshold, \
-           reject_class_rate
+    return (
+        reject_rate,
+        accuracy_threshold,
+        precision_threshold,
+        recall_threshold,
+        f1_score_threshold,
+        reject_class_rate,
+    )
 
 
 def compute_metrics_mp(args):
@@ -123,7 +154,10 @@ def compute_metrics_by_threshold(df, df_count_label, range_threshold):
     D_label_index = {v: k for k, v in enumerate(df_count_label.index)}
     A_rate_reject_class = np.zeros(len(df_count_label))
     pool = Pool(processes=n_cpus)
-    res = pool.map(compute_metrics_mp, [(df, threshold, df_count_label) for threshold in range_threshold])
+    res = pool.map(
+        compute_metrics_mp,
+        [(df, threshold, df_count_label) for threshold in range_threshold],
+    )
     for rej_rate, acc, prec, rec, f1, rate_rej_class in res:
         L_accuracy.append(acc)
         L_reject_rate.append(rej_rate)
@@ -132,30 +166,44 @@ def compute_metrics_by_threshold(df, df_count_label, range_threshold):
         L_f1_score.append(f1)
         for i, r in rate_rej_class.iteritems():
             A_rate_reject_class[D_label_index[i]] += r
-    return np.array(L_reject_rate), np.array(L_accuracy), np.array(L_precision), np.array(L_recall), np.array(L_f1_score), A_rate_reject_class
+    return (
+        np.array(L_reject_rate),
+        np.array(L_accuracy),
+        np.array(L_precision),
+        np.array(L_recall),
+        np.array(L_f1_score),
+        A_rate_reject_class,
+    )
 
 
 def heatmap(y_true, y_pred, D_id, path_save, dataset, title):
     for normallize in ["true", "all"]:
-        path_save_fig = os.path.join(path_save, "heatmap_%s_norm_%s.png" % (dataset, normallize))
+        path_save_fig = os.path.join(
+            path_save, "heatmap_%s_norm_%s.png" % (dataset, normallize)
+        )
         plt.figure(figsize=(15, 15))
         df = confusion_matrix(y_true, y_pred, labels=list(map(int, D_id.keys())))
-        df = df * 1. / df.sum(axis=1).reshape(len(df), 1)
+        df = df * 1.0 / df.sum(axis=1).reshape(len(df), 1)
         df = np.where(np.isnan(df), 0, df)
         m = df.max()
         if m == 0:
             m = 1
         labels = D_id.values()
-        ax = seaborn.heatmap(df,
-                             cmap="YlGnBu",
-                             xticklabels=labels,
-                             yticklabels=labels,
-                             annot=False,
-                             vmin=0, vmax=m)
+        ax = seaborn.heatmap(
+            df,
+            cmap="YlGnBu",
+            xticklabels=labels,
+            yticklabels=labels,
+            annot=False,
+            vmin=0,
+            vmax=m,
+        )
         ax.set_xticklabels(labels, fontsize=10)
         ax.set_yticklabels(labels, fontsize=10)
         cbar = ax.collections[0].colorbar
-        cbar.set_ticklabels([str(round(x, 1)) + "%" for x in np.arange(0, m + m / 5., m / 5.)])
+        cbar.set_ticklabels(
+            [str(round(x, 1)) + "%" for x in np.arange(0, m + m / 5.0, m / 5.0)]
+        )
         ax.set_xlabel("True labels", fontsize=14)
         ax.set_ylabel("Predictions", fontsize=14)
         ax.set_title(title, fontsize=14)
@@ -169,7 +217,7 @@ def plot_reject_by_abundance(path_save, df_count_label, A_count_reject, D_id, ti
     fig = plt.figure(figsize=(10, 10))
     ax = plt.subplot(111)
     labels = [D_id[str(idx)] for idx in index]
-    ax.set_xticklabels(labels, rotation='vertical')
+    ax.set_xticklabels(labels, rotation="vertical")
     ax.bar(range(len(A_count_reject)), A_count_reject)
     ax.set_xlabel("Index for the species id")
     ax.set_ylabel("Rejected reads rate")
@@ -181,7 +229,13 @@ def plot_reject_by_abundance(path_save, df_count_label, A_count_reject, D_id, ti
 def plot_proportion_true_pred(path_save, df_proportion, sim_id, title):
     df_proportion = df_proportion[df_proportion[sim_id_name] == sim_id]
     plt.figure(figsize=(8, 8))
-    ax = seaborn.regplot(x=prop_true_name, y=prop_pred_name, data=df_proportion, scatter=True, fit_reg=True)
+    ax = seaborn.regplot(
+        x=prop_true_name,
+        y=prop_pred_name,
+        data=df_proportion,
+        scatter=True,
+        fit_reg=True,
+    )
     ax.set_xlabel("True abundance proportion")
     ax.set_ylabel("Predicted abundance proportion")
     ax.set_title(title)
@@ -189,15 +243,31 @@ def plot_proportion_true_pred(path_save, df_proportion, sim_id, title):
     plt.close()
 
 
-def save_score(path_save, df, df_count_label, threshold=0., dataset="train", file_mode="w"):
+def save_score(
+    path_save, df, df_count_label, threshold=0.0, dataset="train", file_mode="w"
+):
     df.to_csv(os.path.join(path_save, "res_prob_%s.csv" % dataset), index=False)
     with open(os.path.join(path_save, "metrics.csv"), file_mode) as f:
         writer = csv.writer(f)
         nb_class = len(df_count_label)
-        _, accuracy, precision, recall, F1_score, _ = compute_metrics(df, threshold, df_count_label)
+        _, accuracy, precision, recall, F1_score, _ = compute_metrics(
+            df, threshold, df_count_label
+        )
         if file_mode == "w":
-            writer.writerow(["dataset", "nb_class", "threshold", "accuracy", "precision", "recall", "F1_score"])
-        writer.writerow([dataset, nb_class, threshold, accuracy, precision, recall, F1_score])
+            writer.writerow(
+                [
+                    "dataset",
+                    "nb_class",
+                    "threshold",
+                    "accuracy",
+                    "precision",
+                    "recall",
+                    "F1_score",
+                ]
+            )
+        writer.writerow(
+            [dataset, nb_class, threshold, accuracy, precision, recall, F1_score]
+        )
 
 
 def save_cv_metrics(path_save, model):
@@ -213,13 +283,24 @@ def create_correlation_table(path_save, df_proportion):
     L_res = []
     for name_sim in df_proportion[sim_id_name].values:
         df_tmp = df_proportion[df_proportion[sim_id_name] == name_sim]
-        correlation = round(stats.spearmanr(df_tmp[prop_true_name], df_tmp[prop_pred_name])[0], 2)
+        correlation = round(
+            stats.spearmanr(df_tmp[prop_true_name], df_tmp[prop_pred_name])[0], 2
+        )
         L_res.append([name_sim, correlation])
     df = pd.DataFrame(L_res, columns=[sim_id_name, "Spearman Correlation"])
     df.to_csv(path_save, index=False)
 
 
-def plot_score(path_save, range_threshold, A_reject_rate, A_accuracy, A_precision, A_recall, A_f1_score, title):
+def plot_score(
+    path_save,
+    range_threshold,
+    A_reject_rate,
+    A_accuracy,
+    A_precision,
+    A_recall,
+    A_f1_score,
+    title,
+):
     fig = plt.figure(figsize=(8, 8))
     ax = plt.subplot(111)
     ax.plot(range_threshold, A_reject_rate, label="Rejected rate")
@@ -234,7 +315,9 @@ def plot_score(path_save, range_threshold, A_reject_rate, A_accuracy, A_precisio
     fig.savefig(path_save)
 
 
-def plot_score2(path_save, A_reject_rate, A_accuracy, A_precision, A_recall, A_f1_score, title):
+def plot_score2(
+    path_save, A_reject_rate, A_accuracy, A_precision, A_recall, A_f1_score, title
+):
     fig = plt.figure(figsize=(8, 8))
     ax = plt.subplot(111)
     ax.plot(A_reject_rate, A_accuracy, label="Accuracy")
@@ -252,10 +335,16 @@ if __name__ == "__main__":
     parser = parser_creator.ParserCreator()
     args = parser.parser_analyse_read2genome()
     mode = args.mode
-    assert len(args.path_data.split(",")) == 2, "You have to give one path for training and another one for validation"
+    assert (
+        len(args.path_data.split(",")) == 2
+    ), "You have to give one path for training and another one for validation"
     path_data_train, path_data_valid = args.path_data.split(",")
-    path_data_train = path_data_train if path_data_train[-1] != "/" else path_data_train[:-1]
-    path_data_valid = path_data_valid if path_data_valid[-1] != "/" else path_data_valid[:-1]
+    path_data_train = (
+        path_data_train if path_data_train[-1] != "/" else path_data_train[:-1]
+    )
+    path_data_valid = (
+        path_data_valid if path_data_valid[-1] != "/" else path_data_valid[:-1]
+    )
     log_file = args.log_file
     path_log = args.path_log
     n_sample_load = args.n_sample_load
@@ -271,14 +360,26 @@ if __name__ == "__main__":
     log = logger.Logger(path_log, log_file, log_file, **vars(args))
     n_cpus = args.n_cpus
     read2genome = args.read2genome
-    tax_taken = None if (args.tax_taken is None or args.tax_taken == "None") else [str(x) for x in args.tax_taken.split('.')]
+    tax_taken = (
+        None
+        if (args.tax_taken is None or args.tax_taken == "None")
+        else [str(x) for x in args.tax_taken.split(".")]
+    )
     path_tmp_folder = args.path_tmp_folder
-    spark = hdfs.createSparkSession("read2genome", **{"spark.driver.memory": "50g", "spark.driver.maxResultSize": "10g",})
+    spark = hdfs.createSparkSession(
+        "read2genome",
+        **{
+            "spark.driver.memory": "50g",
+            "spark.driver.maxResultSize": "10g",
+        }
+    )
     hc = None
     if read2genome == "h2oModel":
         hc = H2OContext.getOrCreate(spark)
     log.write("Loading read2genome model")
-    r2g = data_manager.load_read2genome(read2genome, path_model, hc, path_tmp_folder, device="cpu")
+    r2g = data_manager.load_read2genome(
+        read2genome, path_model, hc, path_tmp_folder, device="cpu"
+    )
     log.write("Loading data")
 
     if read2genome == "fastDNA" or read2genome == "transformer":
@@ -297,16 +398,33 @@ if __name__ == "__main__":
     df_taxonomy_ref = pd.read_csv(path_metadata).astype(str)
 
     col_name = "%s_name" % tax_level
-    D_id = {key: value for key, value in df_taxonomy_ref[[tax_level, col_name]].set_index(tax_level).to_dict()[col_name].items()}
+    D_id = {
+        key: value
+        for key, value in df_taxonomy_ref[[tax_level, col_name]]
+        .set_index(tax_level)
+        .to_dict()[col_name]
+        .items()
+    }
     if tax_taken is not None:
-        D_id = {key: value for key, value in
-                df_taxonomy_ref[[tax_level, col_name]].set_index(tax_level).to_dict()[col_name].items() if
-                key in tax_taken}
+        D_id = {
+            key: value
+            for key, value in df_taxonomy_ref[[tax_level, col_name]]
+            .set_index(tax_level)
+            .to_dict()[col_name]
+            .items()
+            if key in tax_taken
+        }
         # take the tax_id rather than the tax level in order to make a filter
-        tax_taken = df_taxonomy_ref[df_taxonomy_ref[tax_level].isin(tax_taken)][ncbi_id_name].tolist()
-        df_train = df_train.filter(df_train.tax_id.isin([int(x) for x in tax_taken])).persist()
+        tax_taken = df_taxonomy_ref[df_taxonomy_ref[tax_level].isin(tax_taken)][
+            ncbi_id_name
+        ].tolist()
+        df_train = df_train.filter(
+            df_train.tax_id.isin([int(x) for x in tax_taken])
+        ).persist()
         df_train.count()
-        df_valid = df_valid.filter(df_valid.tax_id.isin([int(x) for x in tax_taken])).persist()
+        df_valid = df_valid.filter(
+            df_valid.tax_id.isin([int(x) for x in tax_taken])
+        ).persist()
         df_valid.count()
 
     log.write("Prediction on train")
@@ -316,77 +434,195 @@ if __name__ == "__main__":
     # If tax_level different than species, we have to change the y true
     range_threshold = np.arange(0, 1, 0.01)[::-1]
 
-    if (read2genome == "transformer" or read2genome == "fastDNA") and tax_level != tax_id_name:
+    if (
+        read2genome == "transformer" or read2genome == "fastDNA"
+    ) and tax_level != tax_id_name:
         D_convert = dict(zip(df_taxonomy_ref[ncbi_id_name], df_taxonomy_ref[tax_level]))
-        df_train_pd[tax_level] = df_train_pd[tax_id_name].apply(lambda x: int(D_convert[str(x)]))
-        df_valid_pd[tax_level] = df_valid_pd[tax_id_name].apply(lambda x: int(D_convert[str(x)]))
+        df_train_pd[tax_level] = df_train_pd[tax_id_name].apply(
+            lambda x: int(D_convert[str(x)])
+        )
+        df_valid_pd[tax_level] = df_valid_pd[tax_id_name].apply(
+            lambda x: int(D_convert[str(x)])
+        )
 
     # Computing scores
     df_count_label_train = pd.DataFrame(df_train_pd[tax_level].value_counts())
     log.write("Computing metric scores on train")
-    save_score(path_save, df_train_pd, df_count_label_train,
-               threshold=0., dataset="train", file_mode="w")
+    save_score(
+        path_save,
+        df_train_pd,
+        df_count_label_train,
+        threshold=0.0,
+        dataset="train",
+        file_mode="w",
+    )
     log.write("Computing metric scores by threshold on train")
-    A_reject_rate, A_accuracy, A_precision, A_recall, A_f1_score, A_count_reject = compute_metrics_by_threshold(
-        df_train_pd, df_count_label_train, range_threshold)
+    (
+        A_reject_rate,
+        A_accuracy,
+        A_precision,
+        A_recall,
+        A_f1_score,
+        A_count_reject,
+    ) = compute_metrics_by_threshold(df_train_pd, df_count_label_train, range_threshold)
     log.write("Plot scores train")
-    plot_score(os.path.join(path_save, "metrics_by_threshold_train.png"), range_threshold, A_reject_rate,
-               A_accuracy, A_precision, A_recall, A_f1_score, "Metrics on train dataset by reject threshold")
-    plot_score2(os.path.join(path_save, "metrics_by_reject_rate_train.png"), A_reject_rate, A_accuracy, A_precision,
-                A_recall, A_f1_score, "Metrics on train dataset by reject rate")
+    plot_score(
+        os.path.join(path_save, "metrics_by_threshold_train.png"),
+        range_threshold,
+        A_reject_rate,
+        A_accuracy,
+        A_precision,
+        A_recall,
+        A_f1_score,
+        "Metrics on train dataset by reject threshold",
+    )
+    plot_score2(
+        os.path.join(path_save, "metrics_by_reject_rate_train.png"),
+        A_reject_rate,
+        A_accuracy,
+        A_precision,
+        A_recall,
+        A_f1_score,
+        "Metrics on train dataset by reject rate",
+    )
     log.write("Plot reject train")
-    plot_reject_by_abundance(os.path.join(path_save, "reject_rate_train.png"), df_count_label_train,
-                               A_count_reject, D_id, "Rejected rate on train dataset")
+    plot_reject_by_abundance(
+        os.path.join(path_save, "reject_rate_train.png"),
+        df_count_label_train,
+        A_count_reject,
+        D_id,
+        "Rejected rate on train dataset",
+    )
     log.write("Plot heatmap train")
-    heatmap(df_train_pd[tax_level], df_train_pd[pred_name], D_id, path_save,
-            "train", "Heatmap classification rate on train dataset")
+    heatmap(
+        df_train_pd[tax_level],
+        df_train_pd[pred_name],
+        D_id,
+        path_save,
+        "train",
+        "Heatmap classification rate on train dataset",
+    )
     log.write("Computing Bowtie score and scores with best threshold on train")
-    best_threashold = range_threshold[np.argmax(A_precision / (A_reject_rate + 1) ** 3)]  # precision / (reject_rate + 1)^3
+    best_threashold = range_threshold[
+        np.argmax(A_precision / (A_reject_rate + 1) ** 3)
+    ]  # precision / (reject_rate + 1)^3
     if bowtie_index is not None or bowtie_index == "None":
-        save_bowtie_score(os.path.join(path_save, "bowtie_score.csv"), df_train_pd, best_threashold, path_tmp_folder, n_instance, "train", file_mode="w")
+        save_bowtie_score(
+            os.path.join(path_save, "bowtie_score.csv"),
+            df_train_pd,
+            best_threashold,
+            path_tmp_folder,
+            n_instance,
+            "train",
+            file_mode="w",
+        )
     log.write("Computing with best threshold on train")
-    save_score(path_save, df_train_pd, df_count_label_train,
-               threshold=best_threashold, dataset="train", file_mode="a")
+    save_score(
+        path_save,
+        df_train_pd,
+        df_count_label_train,
+        threshold=best_threashold,
+        dataset="train",
+        file_mode="a",
+    )
     del df_train_pd
 
     df_count_label_valid = pd.DataFrame(df_valid_pd[tax_level].value_counts())
     log.write("Computing metric scores on valid")
-    save_score(path_save, df_valid_pd, df_count_label_valid, dataset="valid", file_mode="a")
+    save_score(
+        path_save, df_valid_pd, df_count_label_valid, dataset="valid", file_mode="a"
+    )
     log.write("Computing metric scores by threshold on valid")
     df_count_label = pd.DataFrame(df_valid_pd[tax_level].value_counts())
-    A_reject_rate, A_accuracy, A_precision, A_recall, A_f1_score, A_count_reject = compute_metrics_by_threshold(
-        df_valid_pd, df_count_label, range_threshold)
+    (
+        A_reject_rate,
+        A_accuracy,
+        A_precision,
+        A_recall,
+        A_f1_score,
+        A_count_reject,
+    ) = compute_metrics_by_threshold(df_valid_pd, df_count_label, range_threshold)
     log.write("Plot scores valid")
-    plot_score(os.path.join(path_save, "metrics_by_threshold_valid.png"), range_threshold, A_reject_rate,
-               A_accuracy, A_precision, A_recall, A_f1_score, "Metrics on valid dataset by reject threshold")
-    plot_score2(os.path.join(path_save, "metrics_by_reject_rate_valid.png"), A_reject_rate, A_accuracy, A_precision,
-                A_recall, A_f1_score, "Metrics on valid dataset by reject rate")
+    plot_score(
+        os.path.join(path_save, "metrics_by_threshold_valid.png"),
+        range_threshold,
+        A_reject_rate,
+        A_accuracy,
+        A_precision,
+        A_recall,
+        A_f1_score,
+        "Metrics on valid dataset by reject threshold",
+    )
+    plot_score2(
+        os.path.join(path_save, "metrics_by_reject_rate_valid.png"),
+        A_reject_rate,
+        A_accuracy,
+        A_precision,
+        A_recall,
+        A_f1_score,
+        "Metrics on valid dataset by reject rate",
+    )
     log.write("Plot reject valid")
-    plot_reject_by_abundance(os.path.join(path_save, "reject_rate_valid.png"), df_count_label,
-                               A_count_reject, D_id, "Rejected rate on valid dataset")
+    plot_reject_by_abundance(
+        os.path.join(path_save, "reject_rate_valid.png"),
+        df_count_label,
+        A_count_reject,
+        D_id,
+        "Rejected rate on valid dataset",
+    )
     log.write("Plot heatmap valid")
-    heatmap(df_valid_pd[tax_level], df_valid_pd[pred_name], D_id, path_save,
-            "valid", "Heatmap classification rate on valid dataset")
+    heatmap(
+        df_valid_pd[tax_level],
+        df_valid_pd[pred_name],
+        D_id,
+        path_save,
+        "valid",
+        "Heatmap classification rate on valid dataset",
+    )
     log.write("Computing Bowtie score with best threshold on valid")
 
-    best_threashold = range_threshold[np.argmax(A_precision / (A_reject_rate + 1) ** 3)]  # precision / (reject_rate + 1)^3
+    best_threashold = range_threshold[
+        np.argmax(A_precision / (A_reject_rate + 1) ** 3)
+    ]  # precision / (reject_rate + 1)^3
     if os.getenv("BOWTIE") is not None:
-        save_bowtie_score(os.path.join(path_save, "bowtie_score.csv"), df_valid_pd, best_threashold, path_tmp_folder, n_instance, "valid", file_mode="a")
+        save_bowtie_score(
+            os.path.join(path_save, "bowtie_score.csv"),
+            df_valid_pd,
+            best_threashold,
+            path_tmp_folder,
+            n_instance,
+            "valid",
+            file_mode="a",
+        )
     log.write("Computing with best threshold on valid")
-    save_score(path_save, df_valid_pd, df_count_label_valid,
-               threshold=best_threashold, dataset="valid", file_mode="a")
+    save_score(
+        path_save,
+        df_valid_pd,
+        df_count_label_valid,
+        threshold=best_threashold,
+        dataset="valid",
+        file_mode="a",
+    )
 
     log.write("Computing plot true proportion vs pred proportion")
     df_valid = spark.createDataFrame(df_valid_pd)
     del df_valid_pd
     win_sim = Window.partitionBy(df_valid[sim_id_name])
     df_proportion_pred = df_valid.groupBy(sim_id_name, pred_name).count()
-    df_proportion_pred = df_proportion_pred.withColumn(prop_pred_name, F.col("count") / F.sum("count").over(win_sim)).select(
-        sim_id_name, pred_name, prop_pred_name).withColumnRenamed(pred_name, tax_level)
+    df_proportion_pred = (
+        df_proportion_pred.withColumn(
+            prop_pred_name, F.col("count") / F.sum("count").over(win_sim)
+        )
+        .select(sim_id_name, pred_name, prop_pred_name)
+        .withColumnRenamed(pred_name, tax_level)
+    )
     df_proportion = df_valid.groupBy(sim_id_name, tax_level).count()
-    df_proportion = df_proportion.withColumn(prop_true_name, F.col("count") / F.sum("count").over(win_sim)).select(sim_id_name, tax_level,
-                                                                                                 prop_true_name)
-    df_proportion = df_proportion.join(df_proportion_pred, on=[sim_id_name, tax_level], how="fullouter")
+    df_proportion = df_proportion.withColumn(
+        prop_true_name, F.col("count") / F.sum("count").over(win_sim)
+    ).select(sim_id_name, tax_level, prop_true_name)
+    df_proportion = df_proportion.join(
+        df_proportion_pred, on=[sim_id_name, tax_level], how="fullouter"
+    )
     df_proportion = df_proportion.toPandas()
     df_proportion = df_proportion.fillna(0)
     sim_ids = df_proportion[sim_id_name].values
@@ -395,11 +631,17 @@ if __name__ == "__main__":
     hdfs.create_dir(path_proportion, mode="local")
     for sim_id in sim_ids:
         path_save_ = os.path.join(path_proportion, sim_id + ".png")
-        plot_proportion_true_pred(path_save_, df_proportion, sim_id, "Plot between true and predicted abundance proportion for simulation %s" % sim_id)
+        plot_proportion_true_pred(
+            path_save_,
+            df_proportion,
+            sim_id,
+            "Plot between true and predicted abundance proportion for simulation %s"
+            % sim_id,
+        )
 
     log.write("Saving the correlation matrix")
-    create_correlation_table(os.path.join(path_save, "proportion_correlation_table_valid.csv"), df_proportion)
+    create_correlation_table(
+        os.path.join(path_save, "proportion_correlation_table_valid.csv"), df_proportion
+    )
     log.write("Analyse finished")
     log.close()
-
-

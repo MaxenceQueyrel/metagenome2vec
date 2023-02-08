@@ -1,5 +1,3 @@
-
-
 from .read2vec import Read2Vec
 
 from io import open
@@ -40,7 +38,9 @@ class EncoderRNN(nn.Module):
 
 
 class AttnDecoderRNN(nn.Module):
-    def __init__(self, output_size, hidden_size, device, dropout_p=0.1, max_length=MAX_LENGHT+1):
+    def __init__(
+        self, output_size, hidden_size, device, dropout_p=0.1, max_length=MAX_LENGHT + 1
+    ):
         super(AttnDecoderRNN, self).__init__()
         self.hidden_size = hidden_size
         self.output_size = output_size
@@ -60,9 +60,11 @@ class AttnDecoderRNN(nn.Module):
         embedded = self.dropout(embedded)
 
         attn_weights = F.softmax(
-            self.attn(torch.cat((embedded[0], hidden[0]), 1)), dim=1)
-        attn_applied = torch.bmm(attn_weights.unsqueeze(0),
-                                 encoder_outputs.unsqueeze(0))
+            self.attn(torch.cat((embedded[0], hidden[0]), 1)), dim=1
+        )
+        attn_applied = torch.bmm(
+            attn_weights.unsqueeze(0), encoder_outputs.unsqueeze(0)
+        )
 
         output = torch.cat((embedded[0], attn_applied[0]), 1)
         output = self.attn_combine(output).unsqueeze(0)
@@ -78,7 +80,16 @@ class AttnDecoderRNN(nn.Module):
 
 
 class LanguageModel(Read2Vec):
-    def __init__(self, embeddings, dico_index, k_size, path_model, device="cuda", path_data_for_learning=None, n_iters=1e5):
+    def __init__(
+        self,
+        embeddings,
+        dico_index,
+        k_size,
+        path_model,
+        device="cuda",
+        path_data_for_learning=None,
+        n_iters=1e5,
+    ):
         """
         :param read2vec: Read2Vec object
         :param embeddings: 2-D Numpy array, matrix of embeddings
@@ -103,21 +114,25 @@ class LanguageModel(Read2Vec):
         dico_index["EOS"] = self.EOS_token
         if not os.path.isfile(path_model):
             print("Init encoder")
-            self.encoder = EncoderRNN(self.embeddings.shape[0], self.embeddings.shape[1], self.device)#.to(self.device)
+            self.encoder = EncoderRNN(
+                self.embeddings.shape[0], self.embeddings.shape[1], self.device
+            )  # .to(self.device)
             print("Chargement des embeddings encoder")
             self.encoder.embedding.weight.data.copy_(torch.from_numpy(self.embeddings))
             print("Parallelization encoder")
             self.encoder = nn.DataParallel(self.encoder)
             self.encoder.to(device)
             print("Init decoder")
-            attn_decoder = AttnDecoderRNN(self.embeddings.shape[0], self.embeddings.shape[1], self.device)#.to(self.device)
+            attn_decoder = AttnDecoderRNN(
+                self.embeddings.shape[0], self.embeddings.shape[1], self.device
+            )  # .to(self.device)
             print("Chargement des embeddings decoder")
             attn_decoder.embedding.weight.data.copy_(torch.from_numpy(self.embeddings))
             print("Parallelization decoder")
             attn_decoder = nn.DataParallel(attn_decoder)
             attn_decoder.to(device)
             print("Debut tu training")
-            self.trainIters(self.encoder, attn_decoder, n_iters, n_iters/20)
+            self.trainIters(self.encoder, attn_decoder, n_iters, n_iters / 20)
             torch.save(self.encoder, path_model)
         else:
             self.encoder = torch.load(path_model)
@@ -129,15 +144,29 @@ class LanguageModel(Read2Vec):
             line = line.split()
             i = 0
             while i * length_sequence < len(line):
-                pairs.append([' '.join(line[i * length_sequence:i * length_sequence + length_sequence]),
-                              ' '.join(line[i * length_sequence:i * length_sequence + length_sequence])])
+                pairs.append(
+                    [
+                        " ".join(
+                            line[
+                                i * length_sequence : i * length_sequence
+                                + length_sequence
+                            ]
+                        ),
+                        " ".join(
+                            line[
+                                i * length_sequence : i * length_sequence
+                                + length_sequence
+                            ]
+                        ),
+                    ]
+                )
                 i += 1
         f_read.close()
         return pairs
 
     def indexesFromSentence(self, sentence):
         res = []
-        for word in sentence.split(' '):
+        for word in sentence.split(" "):
             try:
                 res.append(self.dico_index[word])
             except:
@@ -153,8 +182,18 @@ class LanguageModel(Read2Vec):
         tensor = self.tensorFromSentence(pair[0])
         return tensor, tensor
 
-    def train(self, input_tensor, target_tensor, encoder, decoder, encoder_optimizer, decoder_optimizer, criterion,
-              max_length=MAX_LENGHT+1, teacher_forcing_ratio=0.5):
+    def train(
+        self,
+        input_tensor,
+        target_tensor,
+        encoder,
+        decoder,
+        encoder_optimizer,
+        decoder_optimizer,
+        criterion,
+        max_length=MAX_LENGHT + 1,
+        teacher_forcing_ratio=0.5,
+    ):
         encoder_hidden = encoder.initHidden()
         encoder_optimizer.zero_grad()
         decoder_optimizer.zero_grad()
@@ -162,13 +201,14 @@ class LanguageModel(Read2Vec):
         input_length = input_tensor.size(0)
         target_length = target_tensor.size(0)
 
-        encoder_outputs = torch.zeros(max_length, encoder.hidden_size, device=self.device)
+        encoder_outputs = torch.zeros(
+            max_length, encoder.hidden_size, device=self.device
+        )
 
         loss = 0
 
         for ei in range(input_length):
-            encoder_output, encoder_hidden = encoder(
-                input_tensor[ei], encoder_hidden)
+            encoder_output, encoder_hidden = encoder(input_tensor[ei], encoder_hidden)
             encoder_outputs[ei] = encoder_output[0, 0]
 
         decoder_input = torch.tensor([[self.SOS_token]], device=self.device)
@@ -181,7 +221,8 @@ class LanguageModel(Read2Vec):
             # Teacher forcing: Feed the target as the next input
             for di in range(target_length):
                 decoder_output, decoder_hidden, decoder_attention = decoder(
-                    decoder_input, decoder_hidden, encoder_outputs)
+                    decoder_input, decoder_hidden, encoder_outputs
+                )
                 loss += criterion(decoder_output, target_tensor[di])
                 decoder_input = target_tensor[di]  # Teacher forcing
 
@@ -189,7 +230,8 @@ class LanguageModel(Read2Vec):
             # Without teacher forcing: use its own predictions as the next input
             for di in range(target_length):
                 decoder_output, decoder_hidden, decoder_attention = decoder(
-                    decoder_input, decoder_hidden, encoder_outputs)
+                    decoder_input, decoder_hidden, encoder_outputs
+                )
                 topv, topi = decoder_output.topk(1)
                 decoder_input = topi.squeeze().detach()  # detach from history as input
 
@@ -207,16 +249,18 @@ class LanguageModel(Read2Vec):
     def asMinutes(self, s):
         m = math.floor(s / 60)
         s -= m * 60
-        return '%dm %ds' % (m, s)
+        return "%dm %ds" % (m, s)
 
     def timeSince(self, since, percent):
         now = time.time()
         s = now - since
         es = s / (percent)
         rs = es - s
-        return '%s (- %s)' % (self.asMinutes(s), self.asMinutes(rs))
+        return "%s (- %s)" % (self.asMinutes(s), self.asMinutes(rs))
 
-    def trainIters(self, encoder, decoder, n_iters, print_every=1000, learning_rate=0.01):
+    def trainIters(
+        self, encoder, decoder, n_iters, print_every=1000, learning_rate=0.01
+    ):
         start = time.time()
         print_loss_total = 0  # Reset every print_every
         plot_loss_total = 0  # Reset every plot_every
@@ -224,8 +268,9 @@ class LanguageModel(Read2Vec):
         encoder_optimizer = optim.SGD(encoder.parameters(), lr=learning_rate)
         decoder_optimizer = optim.SGD(decoder.parameters(), lr=learning_rate)
         pairs = self.prepare_data(self.path_data_for_learning, MAX_LENGHT)
-        training_pairs = [self.tensorsFromPair(random.choice(pairs))
-                          for i in range(n_iters)]
+        training_pairs = [
+            self.tensorsFromPair(random.choice(pairs)) for i in range(n_iters)
+        ]
         criterion = nn.NLLLoss()
 
         for iter in range(1, n_iters + 1):
@@ -234,16 +279,30 @@ class LanguageModel(Read2Vec):
             input_tensor = training_pair[0]
             target_tensor = training_pair[1]
 
-            loss = self.train(input_tensor, target_tensor, encoder,
-                         decoder, encoder_optimizer, decoder_optimizer, criterion)
+            loss = self.train(
+                input_tensor,
+                target_tensor,
+                encoder,
+                decoder,
+                encoder_optimizer,
+                decoder_optimizer,
+                criterion,
+            )
             print_loss_total += loss
             plot_loss_total += loss
 
             if iter % print_every == 0:
                 print_loss_avg = print_loss_total / print_every
                 print_loss_total = 0
-                print('%s (%d %d%%) %.4f' % (self.timeSince(start, iter / n_iters),
-                                             iter, iter / n_iters * 100, print_loss_avg))
+                print(
+                    "%s (%d %d%%) %.4f"
+                    % (
+                        self.timeSince(start, iter / n_iters),
+                        iter,
+                        iter / n_iters * 100,
+                        print_loss_avg,
+                    )
+                )
 
     def getEmbedding(self, encoder, sentence):
         with torch.no_grad():
@@ -252,8 +311,9 @@ class LanguageModel(Read2Vec):
             encoder_hidden = encoder.initHidden()
 
             for ei in range(input_length):
-                encoder_output, encoder_hidden = encoder(input_tensor[ei],
-                                                         encoder_hidden)
+                encoder_output, encoder_hidden = encoder(
+                    input_tensor[ei], encoder_hidden
+                )
             encoder_hidden = encoder_hidden.cpu().numpy()
             return encoder_hidden.reshape(encoder_hidden.shape[2])
 

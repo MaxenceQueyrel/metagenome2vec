@@ -11,10 +11,19 @@ from metagenome2vec.utils.string_names import *
 
 
 class SiameseNetwork(nn.Module):
-    def __init__(self, input_dim, hidden_dim=50, n_layer_after_flatten=1, n_layer_before_flatten=1, device="cpu",
-                 activation_function="nn.ReLU"):
+    def __init__(
+        self,
+        input_dim,
+        hidden_dim=50,
+        n_layer_after_flatten=1,
+        n_layer_before_flatten=1,
+        device="cpu",
+        activation_function="nn.ReLU",
+    ):
         super(SiameseNetwork, self).__init__()
-        assert n_layer_after_flatten >= 0 and n_layer_before_flatten >= 0, "Number of layers should be a positive integer"
+        assert (
+            n_layer_after_flatten >= 0 and n_layer_before_flatten >= 0
+        ), "Number of layers should be a positive integer"
         # Get the number of instance and the input dim
         self.n_instance, self.n_dim = input_dim
         self.hidden_dim = hidden_dim
@@ -33,7 +42,7 @@ class SiameseNetwork(nn.Module):
         hidden_current = self.n_dim
         hidden_next = self.hidden_dim
         # create the encoder linear before the flatten operation
-        coef = 1.
+        coef = 1.0
         for i in range(self.n_layer_before_flatten):
             self.encoder.append(nn.Linear(hidden_current, hidden_next))
             L_hidden_dim.append((hidden_next, hidden_current))
@@ -44,7 +53,7 @@ class SiameseNetwork(nn.Module):
         hidden_at_flatten = hidden_current
         self.encoder.append(nn.Flatten())
         hidden_current = self.n_instance * hidden_current
-        div, coef = self.get_coefs(1., stage="decoder")
+        div, coef = self.get_coefs(1.0, stage="decoder")
         hidden_next = int(hidden_current / div)
         # Add the encoder layers
         for i in range(self.n_layer_after_flatten):
@@ -57,15 +66,13 @@ class SiameseNetwork(nn.Module):
         self.encoder.append(nn.Linear(hidden_current, hidden_next))
         self.embed_dim = hidden_next
         # create sequentials
-        self.encoder = nn.Sequential(
-            *self.encoder
-        )
+        self.encoder = nn.Sequential(*self.encoder)
         self.predictor = nn.Linear(hidden_next, 1)
 
     def get_coefs(self, coef, imputation=0.75, stage="encoder"):
         if stage == "encoder":
-            return 1. + 1. * coef, coef * imputation
-        return 1. + 3. * coef, coef * imputation
+            return 1.0 + 1.0 * coef, coef * imputation
+        return 1.0 + 3.0 * coef, coef * imputation
 
     def processing(self, *args):
         res = tuple([x.float().to(self.device) for x in args])
@@ -147,7 +154,7 @@ def train(model, loader, optimizer, clip=-1):
         output = model(d1, d2)
         loss = model.criterion(output, y)
         loss.backward()
-        if clip >= 0.:
+        if clip >= 0.0:
             torch.nn.utils.clip_grad_norm_(model.parameters(), clip)
         train_loss += loss.item()
         optimizer.step()
@@ -167,8 +174,18 @@ def evaluate(model, loader):
     return test_loss
 
 
-def fit(model, loader_train, loader_valid, optimizer, n_epoch, clip=-1, scheduler=None,
-        early_stopping=5, path_model="./snn.pt", is_optimization=False):
+def fit(
+    model,
+    loader_train,
+    loader_valid,
+    optimizer,
+    n_epoch,
+    clip=-1,
+    scheduler=None,
+    early_stopping=5,
+    path_model="./snn.pt",
+    is_optimization=False,
+):
     best_valid_loss = np.inf
     cpt_epoch_no_improvement = 0
     for epoch in range(n_epoch):
@@ -195,13 +212,14 @@ def fit(model, loader_train, loader_valid, optimizer, n_epoch, clip=-1, schedule
             return
 
         if not is_optimization:
-            print(f'Epoch: {epoch + 1:02} | Time: {epoch_mins}m {epoch_secs}s')
+            print(f"Epoch: {epoch + 1:02} | Time: {epoch_mins}m {epoch_secs}s")
             try:
-                print(f'\tTrain Loss: {train_loss:.3f} | Train PPL: {math.exp(train_loss):7.3f}')
-                print(f'\t Val. Loss: {valid_loss:.3f} |  Val. PPL: {math.exp(valid_loss):7.3f}')
+                print(
+                    f"\tTrain Loss: {train_loss:.3f} | Train PPL: {math.exp(train_loss):7.3f}"
+                )
+                print(
+                    f"\t Val. Loss: {valid_loss:.3f} |  Val. PPL: {math.exp(valid_loss):7.3f}"
+                )
             except OverflowError:
-                print(f'\tTrain Loss: {train_loss:.3f}')
-                print(f'\t Val. Loss: {valid_loss:.3f}')
-
-
-
+                print(f"\tTrain Loss: {train_loss:.3f}")
+                print(f"\t Val. Loss: {valid_loss:.3f}")

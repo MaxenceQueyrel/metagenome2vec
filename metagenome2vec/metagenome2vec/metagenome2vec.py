@@ -10,12 +10,27 @@ import h2o
 import pickle
 import logging
 
-from metagenome2vec.utils import file_manager, spark_manager, parser_creator, data_manager
+from metagenome2vec.utils import (
+    file_manager,
+    spark_manager,
+    parser_creator,
+    data_manager,
+)
 from metagenome2vec.utils.string_names import *
 
 
-def _embed(df_metagenoome, target, metagenome_name, spark, read2vec, n_sample_load=-1, read2genome=None,
-            overwrite=False, hc=None, path_save_read2genome=None):
+def _embed(
+    df_metagenoome,
+    target,
+    metagenome_name,
+    spark,
+    read2vec,
+    n_sample_load=-1,
+    read2genome=None,
+    overwrite=False,
+    hc=None,
+    path_save_read2genome=None,
+):
     """
     Compute the structuring matrix for one metagenome
     :param df: spark dataframe, contains reads to process
@@ -45,7 +60,11 @@ def _embed(df_metagenoome, target, metagenome_name, spark, read2vec, n_sample_lo
     if r2g is not None:
         logging.info("Begin read2genome")
         # read2genome never computed
-        if not overwrite and path_save_read2genome is not None and os.path.exists(os.path.join(path_save_read2genome, metagenome_name)):
+        if (
+            not overwrite
+            and path_save_read2genome is not None
+            and os.path.exists(os.path.join(path_save_read2genome, metagenome_name))
+        ):
             df_pred = pd.read_csv(os.path.join(path_save_read2genome, metagenome_name))
         else:
             if read2genome == "fastDNA":
@@ -53,7 +72,9 @@ def _embed(df_metagenoome, target, metagenome_name, spark, read2vec, n_sample_lo
             else:
                 df_pred = r2g.read2genome(df_embed)
             if path_save_read2genome is not None:
-                df_pred.to_csv(os.path.join(path_save_read2genome, metagenome_name), index=False)
+                df_pred.to_csv(
+                    os.path.join(path_save_read2genome, metagenome_name), index=False
+                )
         logging.info("End read2genome")
 
         if hc is None:  # pandas
@@ -75,29 +96,47 @@ def _embed(df_metagenoome, target, metagenome_name, spark, read2vec, n_sample_lo
                     df = df.drop(col_name)
             df = df.concat(df_pred, axis=1)
             del df_pred
-            #df = df.as_data_frame()
+            # df = df.as_data_frame()
             logging.info("concatenation embed pred")
         # Remove reads under the threshold
         logging.info("Begin filter proba")
         if threshold > 0.0:
-            i = 1.
+            i = 1.0
             while len(df[df[prob_name] >= threshold / i]) == 0:
                 i += 1
             df = df[df[prob_name] >= threshold / i]
         logging.info("End filter proba")
         logging.info("Begin compute pair prediction")
         if paired_prediction:
+
             def get_pred(prob, pred=None):
                 if pred is None:
-                    return max([float(x) for x in prob.split(",")]) if "," in prob else float(prob)
+                    return (
+                        max([float(x) for x in prob.split(",")])
+                        if "," in prob
+                        else float(prob)
+                    )
                 else:
-                    return pred.split(",")[np.argmax([float(x) for x in prob.split(",")])] if "," in prob else pred
+                    return (
+                        pred.split(",")[np.argmax([float(x) for x in prob.split(",")])]
+                        if "," in prob
+                        else pred
+                    )
+
             read_id_tmp_name = "read_id_tmp"
             if hc is None:
-                df[read_id_tmp_name] = df[read_id_name].apply(lambda x: str(x)[:-2] if x.endswith('/1') or x.endswith('/2') else str(x))
+                df[read_id_tmp_name] = df[read_id_name].apply(
+                    lambda x: str(x)[:-2]
+                    if x.endswith("/1") or x.endswith("/2")
+                    else str(x)
+                )
                 df[[pred_name, prob_name]] = df[[pred_name, prob_name]].astype(str)
-                df_gb = df.groupby(read_id_tmp_name).agg({pred_name: ",".join, prob_name: ",".join})
-                df_gb[pred_name] = df_gb[[prob_name, pred_name]].apply(lambda x: get_pred(*x), axis=1)
+                df_gb = df.groupby(read_id_tmp_name).agg(
+                    {pred_name: ",".join, prob_name: ",".join}
+                )
+                df_gb[pred_name] = df_gb[[prob_name, pred_name]].apply(
+                    lambda x: get_pred(*x), axis=1
+                )
                 df_gb[prob_name] = df_gb[prob_name].apply(get_pred)
                 del df[pred_name]
                 del df[prob_name]
@@ -106,17 +145,35 @@ def _embed(df_metagenoome, target, metagenome_name, spark, read2vec, n_sample_lo
             else:
                 col_to_add = df[read_id_name].as_data_frame()
                 col_to_add[read_id_tmp_name] = col_to_add[read_id_name].apply(
-                    lambda x: hash(str(x)[:-2]) if x.endswith('/1') or x.endswith('/2') else hash(str(x)))
-                df = df.concat(hc.asH2OFrame(spark.createDataFrame(col_to_add[[read_id_tmp_name]])))
-                col_to_add = df[[read_id_tmp_name, pred_name, prob_name]].as_data_frame()
-                col_to_add[[pred_name, prob_name]] = col_to_add[[pred_name, prob_name]].astype(str)
-                df_gb = col_to_add.groupby(read_id_tmp_name).agg({pred_name: ",".join, prob_name: ",".join})
-                df_gb[pred_name] = df_gb[[prob_name, pred_name]].apply(lambda x: get_pred(*x), axis=1)
+                    lambda x: hash(str(x)[:-2])
+                    if x.endswith("/1") or x.endswith("/2")
+                    else hash(str(x))
+                )
+                df = df.concat(
+                    hc.asH2OFrame(spark.createDataFrame(col_to_add[[read_id_tmp_name]]))
+                )
+                col_to_add = df[
+                    [read_id_tmp_name, pred_name, prob_name]
+                ].as_data_frame()
+                col_to_add[[pred_name, prob_name]] = col_to_add[
+                    [pred_name, prob_name]
+                ].astype(str)
+                df_gb = col_to_add.groupby(read_id_tmp_name).agg(
+                    {pred_name: ",".join, prob_name: ",".join}
+                )
+                df_gb[pred_name] = df_gb[[prob_name, pred_name]].apply(
+                    lambda x: get_pred(*x), axis=1
+                )
                 df_gb[prob_name] = df_gb[prob_name].apply(get_pred)
                 df = df.drop([pred_name, prob_name])
                 df_gb = hc.asH2OFrame(spark.createDataFrame(df_gb.reset_index()))
-                df = df.merge(df_gb, all_x=True, by_x=[read_id_tmp_name], by_y=[read_id_tmp_name], method="hash").drop(
-                    read_id_tmp_name)
+                df = df.merge(
+                    df_gb,
+                    all_x=True,
+                    by_x=[read_id_tmp_name],
+                    by_y=[read_id_tmp_name],
+                    method="hash",
+                ).drop(read_id_tmp_name)
             del df_gb
         logging.info("End compute pair prediction")
         logging.info("Begin drop columns")
@@ -133,46 +190,111 @@ def _embed(df_metagenoome, target, metagenome_name, spark, read2vec, n_sample_lo
         # random prediction
         if hc is None:  # pandas
             df_embed = df_embed.toPandas()
-            df = pd.concat([df_embed, pd.DataFrame(np.random.randint(0, n_instance, df.count()), columns=[pred_name])], axis=1)
+            df = pd.concat(
+                [
+                    df_embed,
+                    pd.DataFrame(
+                        np.random.randint(0, n_instance, df.count()),
+                        columns=[pred_name],
+                    ),
+                ],
+                axis=1,
+            )
         else:
             df_embed = hc.asH2OFrame(df_embed)
-            df = df_embed.cbind(h2o.H2OFrame.from_python(np.random.randint(0, n_instance, df.count()), column_names=[pred_name]))
+            df = df_embed.cbind(
+                h2o.H2OFrame.from_python(
+                    np.random.randint(0, n_instance, df.count()),
+                    column_names=[pred_name],
+                )
+            )
     logging.info("Begin compute groupby")
     if hc is None:  # pandas
-        df = df.groupby(pred_name).agg(
-            {**{col: 'sum' for col in df.columns.values if col.isdigit()}, **{pred_name: count_name}}).rename(
-            columns={pred_name: count_name}).reset_index().rename(columns={pred_name: genome_name})
-        df = pd.concat([pd.DataFrame(np.array([[metagenome_name] * df.shape[0], [target] * df.shape[0]]).T,
-                                     columns=[id_fasta_name, group_name]), df], axis=1)
+        df = (
+            df.groupby(pred_name)
+            .agg(
+                {
+                    **{col: "sum" for col in df.columns.values if col.isdigit()},
+                    **{pred_name: count_name},
+                }
+            )
+            .rename(columns={pred_name: count_name})
+            .reset_index()
+            .rename(columns={pred_name: genome_name})
+        )
+        df = pd.concat(
+            [
+                pd.DataFrame(
+                    np.array(
+                        [[metagenome_name] * df.shape[0], [target] * df.shape[0]]
+                    ).T,
+                    columns=[id_fasta_name, group_name],
+                ),
+                df,
+            ],
+            axis=1,
+        )
     else:  # h2o
         gb = df.group_by(pred_name)
-        df = gb.count().sum().get_frame().rename(columns={"nrow": count_name, pred_name: genome_name})
+        df = (
+            gb.count()
+            .sum()
+            .get_frame()
+            .rename(columns={"nrow": count_name, pred_name: genome_name})
+        )
         df.col_names = [re.sub("^sum_", "", col) for col in df.col_names]
-        df = h2o.H2OFrame.from_python(np.array([[metagenome_name] * df.shape[0], [target] * df.shape[0]]).T,
-                                      column_names=[id_fasta_name, group_name]).cbind(df)
+        df = h2o.H2OFrame.from_python(
+            np.array([[metagenome_name] * df.shape[0], [target] * df.shape[0]]).T,
+            column_names=[id_fasta_name, group_name],
+        ).cbind(df)
         df = df.as_data_frame()
     logging.info("End compute groupby")
     return res_sil, df
 
 
-def metagenome2vec(df_metagenoome, target, metagenome_name, spark, read2vec, n_sample_load,
-                path_save_metagenomes, read2genome=None, overwrite=False, hc=None, path_save_read2genome=None):
+def metagenome2vec(
+    df_metagenoome,
+    target,
+    metagenome_name,
+    spark,
+    read2vec,
+    n_sample_load,
+    path_save_metagenomes,
+    read2genome=None,
+    overwrite=False,
+    hc=None,
+    path_save_read2genome=None,
+):
     """
     Compute the transformation for each metagenome and save it
     :param spark: SparkSession
     """
     d = time.time()
-    if overwrite is False and os.path.exists(os.path.join(path_save_metagenomes, metagenome_name)):
+    if overwrite is False and os.path.exists(
+        os.path.join(path_save_metagenomes, metagenome_name)
+    ):
         return
     if path_save_read2genome is not None:
         file_manager.create_dir(path_save_read2genome, mode="local")
     path_save_metagenomes = os.path.join(path_save, "metagenoome_embedded")
     file_manager.create_dir(path_save_metagenomes, "local")
     # Only if we are testing the code
-    x_sil, x_mil = _embed(df_metagenoome, target, metagenome_name, spark, read2vec, n_sample_load, read2genome, overwrite, hc)
-    pickle.dump({"x_sil": x_sil, "x_mil": x_mil}, open(os.path.join(path_save_metagenomes, metagenome_name), "wb"))
-    logging.info("Duration: %s" % (time.time()-d))
-
+    x_sil, x_mil = _embed(
+        df_metagenoome,
+        target,
+        metagenome_name,
+        spark,
+        read2vec,
+        n_sample_load,
+        read2genome,
+        overwrite,
+        hc,
+    )
+    pickle.dump(
+        {"x_sil": x_sil, "x_mil": x_mil},
+        open(os.path.join(path_save_metagenomes, metagenome_name), "wb"),
+    )
+    logging.info("Duration: %s" % (time.time() - d))
 
 
 def create_finale_files(path_save, path_metagenomes):
@@ -182,7 +304,11 @@ def create_finale_files(path_save, path_metagenomes):
     file_name_res_sil = os.path.join(path_save, "tabular.csv")
     file_name_res_mil = os.path.join(path_save, "mil.csv")
     file_name_res_abundance_table = os.path.join(path_save, "abundance_table.csv")
-    L_tmp_file = [f for f in os.listdir(path_metagenomes) if os.path.isfile(os.path.join(path_metagenomes, f))]
+    L_tmp_file = [
+        f
+        for f in os.listdir(path_metagenomes)
+        if os.path.isfile(os.path.join(path_metagenomes, f))
+    ]
 
     X_sil = list()
     X_mil = list()
@@ -193,11 +319,17 @@ def create_finale_files(path_save, path_metagenomes):
             X_sil.append(x_sil)
         if x_mil is not None:
             X_mil.append(x_mil)
-    assert X_sil is None or (X_sil is not None and len(X_sil) == len(L_tmp_file)), "sil: All metagenomes have not been well transformed"
-    assert X_mil is None or (X_mil is not None and len(X_mil) == len(L_tmp_file)), "mil: All metagenomes have not been well transformed"
+    assert X_sil is None or (
+        X_sil is not None and len(X_sil) == len(L_tmp_file)
+    ), "sil: All metagenomes have not been well transformed"
+    assert X_mil is None or (
+        X_mil is not None and len(X_mil) == len(L_tmp_file)
+    ), "mil: All metagenomes have not been well transformed"
     X_mil = pd.concat(X_mil)
     X_sil = pd.concat(X_sil)
-    X_abundance_table = X_mil.pivot_table(columns=genome_name, index=id_fasta_name, values=count_name).fillna(0)
+    X_abundance_table = X_mil.pivot_table(
+        columns=genome_name, index=id_fasta_name, values=count_name
+    ).fillna(0)
     X_abundance_table = X_abundance_table.div(X_abundance_table.sum(axis=1), axis=0)
     X_sil.to_csv(file_name_res_sil, index=False)
     X_mil.to_csv(file_name_res_mil, index=False)
@@ -226,18 +358,38 @@ def compute_cut_matrix_read_embeddings(D_L_metagenome, r2v, pct_cut=0.1, n_cut=1
                 df = df.sample(False, pct_cut) if to_cut else df
                 df = df.persist()
                 df.count()
-                x_sil, _ = compute(df, r2v, metagenome_name,
-                                   str(metadata[metadata[id_fasta_name] == metagenome_name][group_name]),
-                                   computation_type=[0], n_sample_load=n_sample_load)
+                x_sil, _ = compute(
+                    df,
+                    r2v,
+                    metagenome_name,
+                    str(
+                        metadata[metadata[id_fasta_name] == metagenome_name][group_name]
+                    ),
+                    computation_type=[0],
+                    n_sample_load=n_sample_load,
+                )
                 if df_res is None:
-                    df_res = pd.DataFrame([[x_sil.loc[0, id_fasta_name], to_cut] + x_sil.iloc[0].values[1:].tolist()], columns=[id_fasta_name, "is_cut"] + x_sil.columns.values[1:].tolist())
+                    df_res = pd.DataFrame(
+                        [
+                            [x_sil.loc[0, id_fasta_name], to_cut]
+                            + x_sil.iloc[0].values[1:].tolist()
+                        ],
+                        columns=[id_fasta_name, "is_cut"]
+                        + x_sil.columns.values[1:].tolist(),
+                    )
                 else:
-                    df_tmp = pd.DataFrame([[x_sil.loc[0, id_fasta_name], to_cut] + x_sil.iloc[0].values[1:].tolist()], columns=[id_fasta_name, "is_cut"] + x_sil.columns.values[1:].tolist())
+                    df_tmp = pd.DataFrame(
+                        [
+                            [x_sil.loc[0, id_fasta_name], to_cut]
+                            + x_sil.iloc[0].values[1:].tolist()
+                        ],
+                        columns=[id_fasta_name, "is_cut"]
+                        + x_sil.columns.values[1:].tolist(),
+                    )
                     df_res = df_res.append(df_tmp, ignore_index=True)
                 logging.info("Duration : %s" % (time.time() - d))
     logging.info("Saving final table")
-    df_res.to_csv(file_name_res_cut_matrix, sep=',', index=False)
-
+    df_res.to_csv(file_name_res_cut_matrix, sep=",", index=False)
 
 
 if __name__ == "__main__":
@@ -260,10 +412,16 @@ if __name__ == "__main__":
     read2vec = args.read2vec
     path_metagenome_word_count = args.path_metagenome_word_count
     n_sample_load = args.n_sample_load
-    computation_type = [int(x) for x in args.computation_type.split(',') if int(x) in [0, 1, 2, 3]]
+    computation_type = [
+        int(x) for x in args.computation_type.split(",") if int(x) in [0, 1, 2, 3]
+    ]
     path_read2genome = args.path_read2genome
     path_metagenome_cut_analyse = args.path_metagenome_cut_analyse
-    path_folder_save_read2genome = args.path_folder_save_read2genome if args.path_folder_save_read2genome != "None" else None
+    path_folder_save_read2genome = (
+        args.path_folder_save_read2genome
+        if args.path_folder_save_read2genome != "None"
+        else None
+    )
     if path_folder_save_read2genome is not None:
         file_manager.create_dir(path_folder_save_read2genome, mode="local")
     n_instance = args.n_instance
@@ -275,35 +433,49 @@ if __name__ == "__main__":
     paired_prediction = args.paired_prediction
     path_metadata = None if args.path_metadata == "None" else args.path_metadata
     id_label = None if args.id_label == "None" else args.id_label
-    assert all([x not in computation_type for x in [0, 1, 2]]) or path_metadata is not None or id_label is not None, "path_metadata or id_label should be defined"
+    assert (
+        all([x not in computation_type for x in [0, 1, 2]])
+        or path_metadata is not None
+        or id_label is not None
+    ), "path_metadata or id_label should be defined"
     path_save_tmp = os.path.join(path_save, "tmp")
     if id_label is not None:
-        id_label = id_label.split(',')
+        id_label = id_label.split(",")
         assert len(id_label) == 2, "2 values are mandatory id.fasta and group"
         file_manager.create_dir(path_save_tmp, "local")
 
     file_manager.create_dir(path_save, mode="local")
-    id_gpu = [int(x) for x in args.id_gpu.split(',')]
+    id_gpu = [int(x) for x in args.id_gpu.split(",")]
 
-    logging.basicConfig(filename=os.path.join(args.path_log, args.log_file), level=logging.DEBUG)
+    logging.basicConfig(
+        filename=os.path.join(args.path_log, args.log_file), level=logging.DEBUG
+    )
 
     # Init Spark
     spark = spark_manager.createSparkSession("metagenome2vec")
     # Init h2o
     hc = H2OContext.getOrCreate() if in_memory is False else None
-    
+
     beg = time.time()
 
     if path_metadata is not None:
-        metadata = pd.read_csv(path_metadata, delimiter=",")[[id_fasta_name, group_name]]
+        metadata = pd.read_csv(path_metadata, delimiter=",")[
+            [id_fasta_name, group_name]
+        ]
 
     #############################
     # --- Preparing read2vec ----#
     #############################
 
-    r2v = data_manager.load_read2vec(read2vec, path_read2vec=path_read2vec, spark=spark,
-                                     path_metagenome_word_count=path_metagenome_word_count, k=k, id_gpu=id_gpu,
-                                     path_tmp_folder=path_tmp_folder)
+    r2v = data_manager.load_read2vec(
+        read2vec,
+        path_read2vec=path_read2vec,
+        spark=spark,
+        path_metagenome_word_count=path_metagenome_word_count,
+        k=k,
+        id_gpu=id_gpu,
+        path_tmp_folder=path_tmp_folder,
+    )
 
     ###################################
     # ---- Compute transformation -----#
@@ -312,7 +484,9 @@ if __name__ == "__main__":
 
     if path_read2genome is not None:
         logging.info("Loading read2genome model")
-        r2g = data_manager.load_read2genome(read2genome, path_read2genome, hc, path_tmp_folder)
+        r2g = data_manager.load_read2genome(
+            read2genome, path_read2genome, hc, path_tmp_folder
+        )
     else:
         r2g = None
     if 0 in computation_type or 1 in computation_type:
@@ -329,4 +503,3 @@ if __name__ == "__main__":
         metagenome2vec_merge()
         logging.info("End computation")
     logging.info("Total time spending for the script : %s" % (time.time() - beg))
-

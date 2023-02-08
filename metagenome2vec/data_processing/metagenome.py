@@ -6,8 +6,16 @@ from pyspark import SparkContext
 from metagenome2vec.utils import file_manager, spark_manager, transformation_ADN
 
 
-def preprocess_metagenomic_data(spark: SparkContext, path_data: str, path_save: str, n_sample_load: int = -1, num_partitions: int = None,
-                                mode: str = "local", in_memory: bool = True, overwrite: bool = False):
+def preprocess_metagenomic_data(
+    spark: SparkContext,
+    path_data: str,
+    path_save: str,
+    n_sample_load: int = -1,
+    num_partitions: int = None,
+    mode: str = "local",
+    in_memory: bool = True,
+    overwrite: bool = False,
+):
     """From a fastq sample located at path_data, it creates a parquet file with the preprocessed metagenomic data.
     It can create multiple samples if path_data is a folder.
 
@@ -22,20 +30,32 @@ def preprocess_metagenomic_data(spark: SparkContext, path_data: str, path_save: 
         overwrite (bool, optional): If True it will overwrite an existing file or folder at path_save. Defaults to False.
     """
     saving_mode = "overwrite" if overwrite else None
-    path_save = os.path.join(path_save, os.path.basename(path_data.strip('/')))
+    path_save = os.path.join(path_save, os.path.basename(path_data.strip("/")))
     if overwrite is False and file_manager.dir_exists(path_save, mode):
         logging.info("%s already exists" % path_save)
         return
     logging.info("Begin preprocessing of %s" % path_data)
-    df = spark_manager.read_raw_fastq_file_to_df(spark, path_data, n_sample_load=n_sample_load,
-                                                 num_partitions=num_partitions, in_memory=in_memory)
+    df = spark_manager.read_raw_fastq_file_to_df(
+        spark,
+        path_data,
+        n_sample_load=n_sample_load,
+        num_partitions=num_partitions,
+        in_memory=in_memory,
+    )
     df.write.save(path_save, mode=saving_mode, format="parquet")
     logging.info("End preprocessing")
 
 
-def bok_split(spark: SparkContext, path_data: str, path_save: str, 
-              k_mer_size: int, step: int, mode: str ="local", 
-              num_partitions: int=50, overwrite: bool=False):
+def bok_split(
+    spark: SparkContext,
+    path_data: str,
+    path_save: str,
+    k_mer_size: int,
+    step: int,
+    mode: str = "local",
+    num_partitions: int = 50,
+    overwrite: bool = False,
+):
     """Split each read into a coutning of kmers.
 
     Args:
@@ -56,7 +76,7 @@ def bok_split(spark: SparkContext, path_data: str, path_save: str,
     # result of the other folder to create a big database
     # All computation are saved for each folder
     logging.info("Computing BoK for file %s\n" % path_data)
-    path_bok = os.path.join(path_save, os.path.basename(path_data.strip('/')))
+    path_bok = os.path.join(path_save, os.path.basename(path_data.strip("/")))
     # Check if files already exists, if overwrite is False return the already computed files
     if overwrite is False:
         if file_manager.dir_exists(path_bok, mode):
@@ -64,7 +84,9 @@ def bok_split(spark: SparkContext, path_data: str, path_save: str,
     # Reading, cleaning and concatanation for each file in list_rdd_file
     df = spark.read.parquet(path_data)
     # Create the df context
-    df_word_count = spark_manager.df_to_df_word_count(df, k_mer_size, step, num_partitions=num_partitions)
+    df_word_count = spark_manager.df_to_df_word_count(
+        df, k_mer_size, step, num_partitions=num_partitions
+    )
     logging.info("Saving df bok")
     df_word_count.write.save(path_bok, mode=saving_mode, format="parquet")
     logging.info("df bok saved")
@@ -105,21 +127,36 @@ def bok_merge(spark, path_data, nb_metagenome, num_partitions, mode, overwrite):
         logging.info("%s %s\n" % (i, str(os.path.basename(df_file))))
         df_word_count = spark.read.parquet(df_file)
         # Merge the ancient df with the new one
-        df_word_count_tmp = spark_manager.merge_df_count(df_word_count_tmp, df_word_count, ["kmer"], num_partitions)
+        df_word_count_tmp = spark_manager.merge_df_count(
+            df_word_count_tmp, df_word_count, ["kmer"], num_partitions
+        )
         df_word_count_tmp = df_word_count_tmp.persist()
         df_word_count_tmp.count()
-        df_word_count_tmp.write.save(path_word_count_tmp, format="parquet", mode="overwrite")
-        file_manager.remove_dir(os.path.join(path_data, "bok_%s.parquet" % (i - 1)), mode)
+        df_word_count_tmp.write.save(
+            path_word_count_tmp, format="parquet", mode="overwrite"
+        )
+        file_manager.remove_dir(
+            os.path.join(path_data, "bok_%s.parquet" % (i - 1)), mode
+        )
         logging.info("Iteration %s : %s en %s" % (i, df_file, time.time() - d))
         spark.catalog.clearCache()
     path_word_count = os.path.join(path_data, "bok.parquet")
-    df_word_count = spark_manager.df_word_add_index(df_word_count_tmp, num_partitions=num_partitions)
+    df_word_count = spark_manager.df_word_add_index(
+        df_word_count_tmp, num_partitions=num_partitions
+    )
     df_word_count.write.save(path_word_count, mode=saving_mode, format="parquet")
     file_manager.remove_dir(path_word_count_tmp, mode)
 
 
-def kmerize_metagenomic_data(spark: SparkContext, path_data: str, path_save: str, k_mer_size: int,
-                             n_sample_load=-1, num_partitions: int=None, in_memory: bool=True):
+def kmerize_metagenomic_data(
+    spark: SparkContext,
+    path_data: str,
+    path_save: str,
+    k_mer_size: int,
+    n_sample_load=-1,
+    num_partitions: int = None,
+    in_memory: bool = True,
+):
     """
 
     Args:
@@ -134,9 +171,14 @@ def kmerize_metagenomic_data(spark: SparkContext, path_data: str, path_save: str
     col_name = "read"
     open_mode = "a" if os.path.exists(path_save) else "w"
     with open(path_save, open_mode) as f_res:
-        df = spark_manager.read_raw_fastq_file_to_df(spark, path_data, n_sample_load=n_sample_load,
-                                                     num_partitions=num_partitions, in_memory=in_memory)
+        df = spark_manager.read_raw_fastq_file_to_df(
+            spark,
+            path_data,
+            n_sample_load=n_sample_load,
+            num_partitions=num_partitions,
+            in_memory=in_memory,
+        )
         L_reads = [x[0] for x in df.select(col_name).collect()]
-        transformation_ADN.cut_and_write_reads(L_reads, f_res, k_mer_size, s=1, mode="c", remove_unk=False)
-
-
+        transformation_ADN.cut_and_write_reads(
+            L_reads, f_res, k_mer_size, s=1, mode="c", remove_unk=False
+        )

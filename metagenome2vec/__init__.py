@@ -1,4 +1,4 @@
-__all__ = ['utils', 'analyse', 'data_processing', 'NN', 'read2genome', 'read2vec']
+__all__ = ["utils", "analyse", "data_processing", "NN", "read2genome", "read2vec"]
 
 from . import utils
 from . import analyse

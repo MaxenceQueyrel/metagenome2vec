@@ -22,7 +22,11 @@ def get_fasta_file(path_data):
     # Get all the
     L_fasta_file = []
     for (_, _, filenames) in os.walk(path_data):
-        L_fasta_file.extend(list(filter(lambda x: x.endswith(".fna") or x.endswith(".fasta"), filenames)))
+        L_fasta_file.extend(
+            list(
+                filter(lambda x: x.endswith(".fna") or x.endswith(".fasta"), filenames)
+            )
+        )
         break
     return L_fasta_file
 
@@ -33,13 +37,15 @@ def count_bp_length(path_fasta_file):
     :param path_fasta_file: String, complete path to the fasta file
     :return: int, bp_length of the fasta file
     """
-    with open(path_fasta_file, 'r') as fasta_file:
+    with open(path_fasta_file, "r") as fasta_file:
         total_length = 0
         for cur_record in SeqIO.parse(fasta_file, "fasta"):
-            total_length += cur_record.seq.count('A') + \
-                            cur_record.seq.count('C') + \
-                            cur_record.seq.count('G') + \
-                            cur_record.seq.count('T')
+            total_length += (
+                cur_record.seq.count("A")
+                + cur_record.seq.count("C")
+                + cur_record.seq.count("G")
+                + cur_record.seq.count("T")
+            )
     return total_length
 
 
@@ -50,7 +56,7 @@ def get_taxonomy_id(path_fasta_file):
     :return: int, tax id
     """
     tax_id = None
-    with open(path_fasta_file, 'r') as fasta_file:
+    with open(path_fasta_file, "r") as fasta_file:
         # get the id of the fasta
         for cur_record in SeqIO.parse(fasta_file, "fasta"):
             id_ = cur_record.id.rsplit(".", 1)[0]
@@ -69,10 +75,19 @@ def get_taxonomy_id(path_fasta_file):
             # Get the taxonomic link
             if tax_link == "":
                 try:
-                    page = requests.get('https://www.ncbi.nlm.nih.gov/assembly/{}/'.format(id_))
-                    soup = BeautifulSoup(page.content, 'html.parser')
-                    tax_link = "https://www.ncbi.nlm.nih.gov/" + re.sub('.*"(.*)".*', '\\1', str(
-                        soup.find(id="summary").findAll('a', href=re.compile('^/Taxonomy.*'))[0])).replace("&amp;", "&")
+                    page = requests.get(
+                        "https://www.ncbi.nlm.nih.gov/assembly/{}/".format(id_)
+                    )
+                    soup = BeautifulSoup(page.content, "html.parser")
+                    tax_link = "https://www.ncbi.nlm.nih.gov/" + re.sub(
+                        '.*"(.*)".*',
+                        "\\1",
+                        str(
+                            soup.find(id="summary").findAll(
+                                "a", href=re.compile("^/Taxonomy.*")
+                            )[0]
+                        ),
+                    ).replace("&amp;", "&")
                     cpt = 0
                 except:
                     cpt += 1
@@ -82,7 +97,7 @@ def get_taxonomy_id(path_fasta_file):
             try:
                 page = requests.get(tax_link)
                 soup = BeautifulSoup(page.content, "html.parser")
-                tax_id = re.search('Taxonomy ID: ([0-9]*)', str(soup))[1]
+                tax_id = re.search("Taxonomy ID: ([0-9]*)", str(soup))[1]
             except:
                 cpt += 1
                 time.sleep(0.5)
@@ -103,7 +118,10 @@ def get_ranks(taxid, L_rank, ncbi):
     lineage = ncbi.get_lineage(taxid)
     lineage2ranks = ncbi.get_rank(lineage)
     ranks2lineage = dict((rank, taxid) for (taxid, rank) in lineage2ranks.items())
-    return {'{}_id'.format(rank): ranks2lineage.get(rank, '<not present>') for rank in L_rank}
+    return {
+        "{}_id".format(rank): ranks2lineage.get(rank, "<not present>")
+        for rank in L_rank
+    }
 
 
 def complete_df_with_all_phylo_id(df, taxa_id="NCBI_ID"):
@@ -113,14 +131,31 @@ def complete_df_with_all_phylo_id(df, taxa_id="NCBI_ID"):
     :param taxa_id: String, name of the column containing taxa ids
     :return:
     """
-    L_rank = [kingdom_name, phylum_name, class_name, order_name, family_name, genus_name, species_name, strain_name]
+    L_rank = [
+        kingdom_name,
+        phylum_name,
+        class_name,
+        order_name,
+        family_name,
+        genus_name,
+        species_name,
+        strain_name,
+    ]
     ncbi = NCBITaxa()
     for i, tax in tqdm(df[taxa_id].iteritems()):
         D_res = get_ranks(int(tax), L_rank, ncbi)
         for rank in L_rank:
-            df.loc[i, rank] = int(D_res[rank + "_id"]) if D_res[rank + "_id"] != "<not present>" else -1
+            df.loc[i, rank] = (
+                int(D_res[rank + "_id"])
+                if D_res[rank + "_id"] != "<not present>"
+                else -1
+            )
         for rank in L_rank:
-            df.loc[i, rank + "_name"] = ncbi.translate_to_names([int(D_res[rank + "_id"])])[0] if D_res[rank + "_id"] != "<not present>" else -1
+            df.loc[i, rank + "_name"] = (
+                ncbi.translate_to_names([int(D_res[rank + "_id"])])[0]
+                if D_res[rank + "_id"] != "<not present>"
+                else -1
+            )
     for rank in L_rank:
         df[rank] = df[rank].apply(int)
     for i in range(2, len(L_rank) + 1):
@@ -139,11 +174,15 @@ def create_df_fasta_metadata(path_fasta_folder):
     """
     L_fasta_file = get_fasta_file(path_fasta_folder)
     df_fasta_metadata = pd.DataFrame(L_fasta_file, columns=[fasta_name])
-    df_fasta_metadata[genome_id_name] = ["genome_{}".format(x) for x in range(len(df_fasta_metadata))]
+    df_fasta_metadata[genome_id_name] = [
+        "genome_{}".format(x) for x in range(len(df_fasta_metadata))
+    ]
     df_fasta_metadata[novelty_category_name] = known_strain_name
     df_fasta_metadata[OTU_name] = [x for x in range(len(df_fasta_metadata))]
-    df_fasta_metadata[ncbi_id_name] = [get_taxonomy_id(os.path.join(path_fasta_folder, fasta_file)) for fasta_file in
-                                       tqdm(L_fasta_file)]
+    df_fasta_metadata[ncbi_id_name] = [
+        get_taxonomy_id(os.path.join(path_fasta_folder, fasta_file))
+        for fasta_file in tqdm(L_fasta_file)
+    ]
     # Change ncbi id if same
     """
     D_ncbi_id = {}
@@ -155,8 +194,10 @@ def create_df_fasta_metadata(path_fasta_folder):
             df_fasta_metadata[ncbi_id_name].iloc[i] = "%s_%s" % (ncbi_id, str(D_ncbi_id[ncbi_id]))
             D_ncbi_id[ncbi_id] += 1
     """
-    df_fasta_metadata[bp_length_name] = [count_bp_length(os.path.join(path_fasta_folder, fasta_file)) for fasta_file in
-                                         tqdm(L_fasta_file)]
+    df_fasta_metadata[bp_length_name] = [
+        count_bp_length(os.path.join(path_fasta_folder, fasta_file))
+        for fasta_file in tqdm(L_fasta_file)
+    ]
     complete_df_with_all_phylo_id(df_fasta_metadata)
     df_fasta_metadata = df_fasta_metadata.rename(columns={"strain_name": tax_name})
     return df_fasta_metadata
@@ -167,9 +208,9 @@ def kmerization(path_data, path_save, k_mer_size, step):
     k = k_mer_size
     s = step
 
-    n_lines = sum(1 for _ in open(path_data, 'r'))
-    with open(path_data, 'r') as genome:
-        with open(path_save, 'w') as f_res:
+    n_lines = sum(1 for _ in open(path_data, "r"))
+    with open(path_data, "r") as genome:
+        with open(path_save, "w") as f_res:
             for line in tqdm(genome, total=n_lines):
                 if line[0] == ">" or line == "\n":
                     continue

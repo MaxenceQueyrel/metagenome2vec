@@ -64,13 +64,24 @@ class Read2Vec(object):
     def readProjectionWrapper(self):
         # case batch pandas udf
         if not getattr(self.transform_all, "__isabstractmethod__", False):
+
             def readProjection(L_read):
-                return pd.Series([elem for elem in self.transform_all(self.preprocess_several_reads(list(L_read)))])
+                return pd.Series(
+                    [
+                        elem
+                        for elem in self.transform_all(
+                            self.preprocess_several_reads(list(L_read))
+                        )
+                    ]
+                )
+
             return F.pandas_udf(readProjection, T.ArrayType(T.DoubleType()))
         # case normal udf
         else:
+
             def readProjection(read):
                 return self.transform(self.preprocess_read(read))
+
             return F.udf(readProjection, T.ArrayType(T.DoubleType()))
 
     def preprocess_read(self, read):
@@ -80,11 +91,18 @@ class Read2Vec(object):
         :return: numpy 1D array int, idx of kmer
         """
         if self.to_int:
-            return transformation_ADN.preprocess_read(read, self.k_size, self.dico_index,
-                                                      self.index_unk, self.index_pad,
-                                                      self.max_length)
+            return transformation_ADN.preprocess_read(
+                read,
+                self.k_size,
+                self.dico_index,
+                self.index_unk,
+                self.index_pad,
+                self.max_length,
+            )
         else:
-            return transformation_ADN.preprocess_read_str(read, self.k_size, self.max_length)
+            return transformation_ADN.preprocess_read_str(
+                read, self.k_size, self.max_length
+            )
 
     def preprocess_several_reads(self, L_read):
         """
@@ -94,11 +112,18 @@ class Read2Vec(object):
         The first column is an index to retrieve the rows with the reads
         """
         if self.to_int:
-            return transformation_ADN.preprocess_several_reads(L_read, self.k_size, self.dico_index,
-                                                               self.index_unk, self.index_pad,
-                                                               self.max_length)
+            return transformation_ADN.preprocess_several_reads(
+                L_read,
+                self.k_size,
+                self.dico_index,
+                self.index_unk,
+                self.index_pad,
+                self.max_length,
+            )
         else:
-            return transformation_ADN.preprocess_several_reads_str(L_read, self.k_size, self.max_length)
+            return transformation_ADN.preprocess_several_reads_str(
+                L_read, self.k_size, self.max_length
+            )
 
     def read2vec(self, X, col_name="read", drop_col_name=True):
         """
@@ -117,8 +142,10 @@ class Read2Vec(object):
         X.count()
 
         emb_dim = len(X.select(emb_col_name).take(1)[0][0])
-        X = X.select(*[col for col in X.columns if col != emb_col_name] + \
-                      [X.embeddings[int("%s" % i)].alias("%s" % i) for i in range(0, emb_dim)]).persist()
+        X = X.select(
+            *[col for col in X.columns if col != emb_col_name]
+            + [X.embeddings[int("%s" % i)].alias("%s" % i) for i in range(0, emb_dim)]
+        ).persist()
         X.count()
         return X
 
@@ -133,9 +160,9 @@ class Read2Vec(object):
         """
         counter = Counter()
         for path_data in L_path_data:
-            with open(path_data, 'rt') as f:
+            with open(path_data, "rt") as f:
                 for line in tqdm(f):
-                    counter.update(line.strip().split(' '))
+                    counter.update(line.strip().split(" "))
 
         stoi = defaultdict()
         for i, value in enumerate(counter.most_common()):
@@ -162,8 +189,8 @@ class Read2Vec(object):
         if nb_cutoffs is not None and nb_cutoffs > 0:
             # Determine cutoffs
             cs = np.cumsum(np.array(np.array(counter.most_common())[:, 1], dtype=int))
-            cs = cs * 1. / cs[-1]
-            pct_cut = 1. / nb_cutoffs
+            cs = cs * 1.0 / cs[-1]
+            pct_cut = 1.0 / nb_cutoffs
             cutoffs = []
             i = 1
             for nb_elem_in_cutoff, pct in enumerate(cs):
@@ -175,6 +202,8 @@ class Read2Vec(object):
         else:
             cutoffs = None
         # cutoffs = [500, 1000, 10000, 20000]
-        return stoi, [x[0] for x in sorted(list(stoi.items()), key=lambda x: x[1])], cutoffs
-
-
+        return (
+            stoi,
+            [x[0] for x in sorted(list(stoi.items()), key=lambda x: x[1])],
+            cutoffs,
+        )
