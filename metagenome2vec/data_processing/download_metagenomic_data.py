@@ -5,7 +5,7 @@ import os
 def download_from_tsv_file(
     path_input: str, path_output: str, index_sample_id: int = 1, index_url: int = 10
 ) -> None:
-    """_summary_
+    """
 
     Args:
         path_input (str): _description_

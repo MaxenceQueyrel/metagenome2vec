@@ -1,10 +1,10 @@
 # The Metagenome2Vec python module is a neural network model used to learn vector representations of DNA sequences 
 
 
-### pre-requisites
+### requirements
 - Docker (https://docs.docker.com/engine/install/)
 - Define the METAGENOME2VEC_PATH environment variable which is the path to the metagenome2vec folder
-- Dowload CAMISIM (https://github.com/CAMI-challenge/CAMISIM) and NanoSim (https://github.com/bcgsc/NanoSim). Define CAMISIM and NANOSIM environment variables corresponding to the path of the CAMISIM and NanoSim softwares respectively.
+- Dowload CAMISIM (https://github.com/CAMI-challenge/CAMISIM) and NanoSim (https://github.com/bcgsc/NanoSim). Define CAMISIM and NANOSIM environment variables corresponding to the path of the CAMISIM and NanoSim folders respectively.
 
 
 ### Environment creation
@@ -23,15 +23,21 @@ docker run -i -d --rm --name=metagenome2vec -v /your/path/:/your/path/ -e METAGE
 cd $METAGENOME2VEC_PATH/Docker/CAMISIM; make
 ```
 
-### Examples to execute scripts
+### How to use the package by command line
 
-##### Data download
+##### Download metagenomic data
+Download the metagenomic data from a tsv file with the following collumns obtained on the NCBI website:
+study\_accession, sample\_accession, experiment\_accession, run\_accession, tax\_id, scientific\_name, fastq\_ftp, submitted\_ftp, sra\_ftp
+
 ```bash
-python $METAGENOME2VEC_PATH/main.py download_metagenomic_data -pd /path/to/file/mydata.tsv -ps /path/to/data -isi 1 -iu 6
+python $METAGENOME2VEC_PATH/main.py download_metagenomic_data --path_data /path/to/file/mydata.tsv --path_save /path/to/data --index_sample_id 1 --index_url 6
 ```
 
-##### Run data preprocessing (cleaning metagenomic data)
-From a folder containing metagenomic samples, it cleans these samples and store them in a new folder.
+- index\_sample\_id: Index in the tsv file of the column containing the sample ids.
+- index\_url: Index in the tsv file of the column containing the sample url.
+
+##### Run data processing (cleaning metagenomic data)
+From a folder containing metagenomic samples in fastq format, it cleans these samples and store them in a new folder in parquet format.
 ```bash
 python $METAGENOME2VEC_PATH/main.py clean_raw_metagenomic_data -pd /path/to/data -ps /path/to/clean_data -nsl 10000
 ```
