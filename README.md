@@ -1,121 +1,146 @@
-# The Metagenome2Vec python module is a neural network model used to learn vector representations of DNA sequences 
+# The Metagenome2Vec Python module is a neural network model for learning vector representations of DNA sequences. 
 
 
-### requirements
-- Docker (https://docs.docker.com/engine/install/)
-- Define the METAGENOME2VEC_PATH environment variable which is the path to the metagenome2vec folder
-- Dowload CAMISIM (https://github.com/CAMI-challenge/CAMISIM) and NanoSim (https://github.com/bcgsc/NanoSim). Define CAMISIM and NANOSIM environment variables corresponding to the path of the CAMISIM and NanoSim folders respectively.
-
-
-### Environment creation
-
-##### Build docker image of metagenome2vec
+## Requirements
+- Install Docker (https://docs.docker.com/engine/install/)
+- Clone the git repository:
 ```bash
-cd $METAGENOME2VEC_PATH/Docker/metagenome2vec; make
-```
-Exemple of command to run the container : 
-```bash
-docker run -i -d --rm --name=metagenome2vec -v /your/path/:/your/path/ -e METAGENOME2VEC_PATH=$METAGENOME2VEC_PATH -e CAMISIM=$CAMISIM -e NANOSIM=$NANNOSIM maxence27/metagenome2vec:1.0
+git clone https://github.com/MaxenceQueyrel/metagenome2vec.git
 ```
 
-##### Build docker image of CAMISIM
+
+## Creating the environment
+
+### Build the docker images
+##### metagenome2vec image
 ```bash
-cd $METAGENOME2VEC_PATH/Docker/CAMISIM; make
+cd metagenome2vec
+make
 ```
 
-### How to use the package by command line
-
-##### Download metagenomic data
-Download the metagenomic data from a tsv file with the following collumns obtained on the NCBI website:
-study\_accession, sample\_accession, experiment\_accession, run\_accession, tax\_id, scientific\_name, fastq\_ftp, submitted\_ftp, sra\_ftp
-
+##### CAMISIM image
 ```bash
-python $METAGENOME2VEC_PATH/main.py download_metagenomic_data --path_data /path/to/file/mydata.tsv --path_save /path/to/data --index_sample_id 1 --index_url 6
+cd metagenome2vec
+make build_camisim
 ```
 
+### How to use the package from the command line
+Before running the command lines, the containers can be run from the previous created images.
+Below an example to the the containers:
+##### metagenome2vec container
+```bash
+docker run -i -d --rm --name=metagenome2vec -v /local/data/path/:/container/data/path/ maxence27/metagenome2vec:2.0
+```
+##### CAMISIM container
+```bash
+docker run --rm --name camisim -dt --memory="4g" --memory-swap="4g" --cpus="4.0" -v /local/data/path/:/container/data/path/ maxence27/camisim:1.0`
+```
+
+##### Downloading Metagenomic Data
+Download the metagenomic fastq files stored in subfolders (one subfolder per sample) in /path/to/data_saved. They are downloaded from the tsv file /path/to/mydata.tsv obtained from the NCBI website, which contains the following columns
+study\_accession, sample\_accession, experiment\_accession, run\_accession, tax\_id, scientific\_name, fastq\_ftp, submitted\_ftp, sra\_ftp.
+
+
+```bash
+docker exec -i metagenome2vec python main.py download_metagenomic_data --path_data /path/to/mydata.tsv --path_save /path/to/data_saved --index_sample_id 1 --index_url 6
+```
+
+- path_data: Path to the tsv file.
+- path_save: Path where the metagenomic data will be written.
 - index\_sample\_id: Index in the tsv file of the column containing the sample ids.
-- index\_url: Index in the tsv file of the column containing the sample url.
+- index\_url: Index in the tsv file of the column containing the sample URL.
 
-##### Run data processing (cleaning metagenomic data)
-From a folder containing metagenomic samples in fastq format, it cleans these samples and store them in a new folder in parquet format.
+
+
+##### Performing Data Processing (Formatting Metagenomic Data)
+From a folder containing metagenomic samples in fastq format, it processes these samples and saves them in a new folder in parquet format (again, one subfolder per metagenome).
+
 ```bash
-python $METAGENOME2VEC_PATH/main.py clean_raw_metagenomic_data -pd /path/to/data -ps /path/to/clean_data -nsl 10000
-```
-
-##### Run BOK
-```bash
-python $METAGENOME2VEC_PATH/main.py bok_split -pd /path/to/data -ps /path/to/bok -k 6
-
-python $METAGENOME2VEC_PATH/main.py bok_merge -pd /path/to/bok
-```
-
-##### Run simulation
-###### Create metadata
-From a folder of genomes, it downloads the metadata information on NCBI and save it in a new folder. The new folder will contain the 2 files "fasta\_metadata.csv" and "fasta\_metadata.csv" which represent the metadata of the genomes except that the second one has abundance columns to be included in CAMISIM, and 1 folder named camisim containing the config files for CAMISIM.
-```bash
-python $METAGENOME2VEC_PATH/main.py create_df_fasta_metadata -pd /path/to/genomic/data -ps /path/to/metadata
-```
-
-###### Create config files for camisim
-Creates a init file in camisim/config_files considering the different parameter in the command line and it creates an empty folder in camisim/dataset that will be used to saved the simulated data.
-```bash
-python $METAGENOME2VEC_PATH/main.py create_camisim_config_file -ps /path/to/simulation/folder -nc 3 -nsc 2 -ct both -pt /tmp -go 1.0 -pap /path/to/abundance_file.tsv
+docker exec -i metagenome2vec python main.py clean_raw_metagenomic_data --path-data /path/to/data --path-save /path/to/formated_data
 ```
 
 
+##### Running a Simulation
 
-###### Run CAMISIM
-At this time you should have a folder containing a folder called 'camisim' with these files:
+###### Step 1: Create Metadata
+```bash
+docker exec -i metagenome2vec python main.py create_df_fasta_metadata --path-data /path/to/genomic/data_folder --path-save /path/to/saving_folder
+```
+- path-data: Path to the folder containing the genomic data files.
+- path-save: Path to the folder where the metadata files will be saved.
+
+Given a folder of genomes fasta files, it downloads the metadata information of the genomes from NCBI and saves it in a new folder. The new folder will contain a folder and a file, the folder is named "camisim" containing the configuration files for CAMISIM and the file is named "fasta\_metadata.csv" which represents the metadata of the genomes and the abundance columns to be included in CAMISIM.
+
+###### Step 2: Create config files for camisim
+```bash
+docker exec -i metagenome2vec python main.py create_camisim_config_file --path_save /path/to/simulation_folder --n_cpus 3 --n_sample_by_class 2 --computation_type both --path_tmp /tmp --giga_octet 1.0 --path_abundance_profile /path/to/abundance_file.tsv
+```
+- path_save: The same path as in the previous step, corresponding to the path where the configuration files and dataset folders are stored. 
+- path_tmp: Path to the tmp folder used by CAMISIM to simulate data.
+- n_cpus: Number of CPUs used during the simulation
+- n\_sample\_by\_class: The number of samples generated by class (for a given abundance profile)
+- computation_type: Can be "camisim", "nanosim" or "both" to create a simulation config file to simulate with CAMISIM, NanoSim or both. If both, 2 configuration files will be created and 2 simulations must be run.
+- giga_octet: The size of the simulated metagenomes in giga octet.
+- path\_abundance\_profile: Corresponds to the path to the abundance profiles. If it is a file only one profile will be simulated, if it is a folder it must contain multiple abundance profiles. 
+
+Creates an init file in camisim/config_files taking into account the different parameters in the command line and creates empty folder(s) in camisim/dataset where the simulated data will be stored.
+
+
+###### Step 3: Run CAMISIM
+At this point you should have a folder called 'camisim' containing these files:
 - metadata.tsv: header is "genome_ID \t OTU \t NCBI_ID \t novelty_category".
 - genome_to_id.tsv: no header, two columns as "genome_ID \t path_to_fasta_file".
-- A tsv file with abundance: no header, two columns as "genome_ID \t abundance". Notice that abundance column must sum to 1 and that this file can also be a folder containing several abundance files.
+- A tsv file with abundance: no header, two columns as "genome_ID \t abundance". Note that the abundance column must sum to 1 and that this file can also be a folder containing multiple abundance files.
 
 ```bash
-docker run --rm --name camisim -dt --memory="4g" --memory-swap="4g" --cpus="4.0" -e METAGENOME2VEC_PATH=$METAGENOME2VEC_PATH -e CAMISIM=$CAMISIM -e NANOSIM=$NANOSIM -v /your/path/:/your/path/ maxence27/camisim:1.0`
-docker exec -i camisim python $CAMISIM/metagenomesimulation.py --debug $METAGENOME2VEC_PATH/data/simulation_test/camisim/config_files/illumina_abundance_balanced_species.ini
+docker exec -i camisim python /opt/camisim/metagenomesimulation.py --debug /path/to/save_folder/camisim/config_files/config_file.ini
 ```
-The first line initiate the docker container and the second one run the simulation that simulates metagenomic samples in the folder camisim/dataset/my_folder_in_init_file
+The first line initiates the docker container and the second runs the simulation that simulates the metagenomic samples in the camisim/dataset/my_folder_in_init_file folder.
 
-###### Create a read2genome / fastdna datasets from CAMISIM output
-From the simulated data, it creates a dataframe to train and test the read2genome step.
+###### Step4: Create a read2genome / fastdna dataset from the CAMISIM output
+Create a dataframe from the simulated data to train and test the read2genome step.
 ```bash
-python $METAGENOME2VEC_PATH/main.py create_simulated_read2genome_dataset -pfq /path/to/reads.fq.gz -pmf /path/to/reads_mapping.tsv.gz -ps /path/to/save/output -nsl 500000 -pmd /path/to/metadata.csv
+docker exec -i metagenome2vec python main.py create_simulated_read2genome_dataset --path_fastq_file /path/to/anonymous_reads.fq.gz --path_mapping_file /path/to/reads_mapping.tsv.gz --path_save /path/to/save/output --n_sample_load 500000 --path_metadata /path/to/metadata.csv
 ```
+- path_fastq_file: The path to the simulated fastq file in gunzip format.
+- path_mapping_file: The path to the mapping file in gunzip format.
+- path_save: The path where the new read2genome data set will be saved. Two files "reads" and "mapping_reads_genomes" will be created, the first containing all simulated reads in the dataset and the second containing the mapping between the reads and the genome (the class).
+- path_metadata: The path to the metadata used for the simulation.
+- n_sample_load: The number of reads to load into the dataset.
 
-###### Create a metagenome2vec dataset from CAMISIM output
-From the simulated data, it creates a dataframe to train and test the metagenome2vec step.
+
+###### Step 4 bis: Create a metagenome2vec dataset from the CAMISIM output
+Create a dataframe from the simulated data to train and test the metagenome2vec step.
 ```bash
-python $METAGENOME2VEC_PATH/main.py create_simulated_metagenome2vec_dataset -pd /path/to/simulated/data -ps /path/to/save/output
+docker exec -i metagenome2vec python main.py create_simulated_metagenome2vec_dataset --path_data /path/to/simulated/data --path_save /path/to/save/output
 ```
+- path_data: Path to the folder containing all the generated metagenomes. For example, if CAMISIM was asked to simulate 10 metagenomes, then in the output folder there should be 10 folders with the date and the mention of "sample\_0", "sample\_1", etc. in the name.
+- path_save: Path where the new data set will be saved. For each sample a specific folder will be created inside the fastq file of the sample and a "metadata.csv" file will also be created to associate the sample with its class (the name of the simulation it comes from).
+
+
 
 ##### Run read2genome with fastDNA
 ```bash
-python $METAGENOME2VEC_PATH/main.py fastdna -k 6 -pd /path/to/reads_fastdna,/path/to/fastdna_labels -nc 3 -prg /path/to/save/read2genome -pkv /path/to/save/read2vec -pt /tmp -S 2 -E 50
+docker exec -i metagenome2vec python main.py fastdna -k 6 -pd /path/to/reads_fastdna,/path/to/fastdna_labels -nc 3 -prg /path/to/save/read2genome -pkv /path/to/save/read2vec -pt /tmp -S 2 -E 50
 ```
 
 ##### Run metagenome2vec
-###### Bag of kmers
-```bash
-python $METAGENOME2VEC_PATH/main.py bok -pd /path/to/folder/with/bok_files -pmd /path/to/metadata.csv -k 6
-```
-
-###### Embeddings
 From a preprocessed folder of metagenomic data, it will embed the metagenomes with the read2genome and read2vec models.
 ```bash
-python $METAGENOME2VEC_PATH/main.py metagenome2vec -k 6 -pd /path/to/folder/with/metagenomes/preprocessed/ -ps /path/to/save/ -pmd /path/to/metadata.csv -prv /path/to/read2vec -prg /path/to/read2genome
+docker exec -i metagenome2vec python main.py metagenome2vec -k 6 -pd /path/to/folder/with/metagenomes/preprocessed/ -ps /path/to/save/ -pmd /path/to/metadata.csv -prv /path/to/read2vec -prg /path/to/read2genome
 ```
 
 
 ##### Train a neural network classifier model
 ###### Deepsets
 ```bash
-python $METAGENOME2VEC_PATH/main.py deepsets -pd /path/to/the/data -pmd /path/to/the/metadata -dn name_of_the_dataset -B 1 -S 3 -R 0.001 -d target -TU -cv 3 -TS 0.3 -ps /path/to/the/saved/model
+docker exec -i metagenome2vec python main.py deepsets -pd /path/to/the/data -pmd /path/to/the/metadata -dn name_of_the_dataset -B 1 -S 3 -R 0.001 -d target -TU -cv 3 -TS 0.3 -ps /path/to/the/saved/model
 ```
 ###### VAE
 ```bash
-python $METAGENOME2VEC_PATH/main.py vae -pd /path/to/the/data -pmd /path/to/the/metadata -dn name_of_the_dataset -B 1 -S 3 -R 0.001 -d target -TU -cv 3 -TS 0.3 -ps /path/to/the/saved/model
+docker exec -i metagenome2vec python main.py vae -pd /path/to/the/data -pmd /path/to/the/metadata -dn name_of_the_dataset -B 1 -S 3 -R 0.001 -d target -TU -cv 3 -TS 0.3 -ps /path/to/the/saved/model
 ```
 ###### Siamese Network
 ```bash
-python $METAGENOME2VEC_PATH/main.py snn -pd /path/to/the/data -pmd /path/to/the/metadata -dn name_of_the_dataset -B 1 -S 3 -R 0.001 -d target -TU -cv 3 -TS 0.3 -ps /path/to/the/saved/model
+docker exec -i metagenome2vec python main.py snn -pd /path/to/the/data -pmd /path/to/the/metadata -dn name_of_the_dataset -B 1 -S 3 -R 0.001 -d target -TU -cv 3 -TS 0.3 -ps /path/to/the/saved/model
 ```

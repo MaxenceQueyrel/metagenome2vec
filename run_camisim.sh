@@ -1,2 +1,2 @@
 #!/bin/bash
-python $CAMISIM/metagenomesimulation.py --debug $1
+python $CAMISIM_PATH/metagenomesimulation.py --debug $1

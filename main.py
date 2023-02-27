@@ -441,7 +441,7 @@ class ParserCreator(object):
         self.D_parser['-sa'] = {"name": "--simulate_abundance", "arg": {"action": "store_true",
                                                                        "help": "If true create a simulation abundance, else only compute abundance balanced"}}
         self.D_parser['-im'] = {"name": "--in_memory", "arg": {"action": "store_true",
-                                                                        "help": "Compute in memory (pandas instead of h2o pysparkling or spark"}}
+                                                                        "help": "Compute in memory (pandas instead of spark"}}
         self.D_parser["-il"] = {"name": "--id_label", "arg": {"metavar": "id_label",
                                                               "type": str,
                                                               "default": None,

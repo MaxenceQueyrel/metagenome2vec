@@ -224,15 +224,15 @@ def create_simulated_config_file(
     file_name_genome_to_id = "genome_to_id.tsv"
 
     try:
-        path_camisim = os.path.abspath(os.environ["CAMISIM"])
+        path_camisim = os.path.abspath(os.environ["CAMISIM_PATH"])
     except KeyError as error:
-        raise KeyError("You must define the global variables: CAMISIM")
+        raise KeyError("You must define the global variables: CAMISIM_PATH")
 
     if computation_type == "both" or computation_type == "nanosim":
         try:
-            path_nanosim = os.path.abspath(os.environ["NANOSIM"])
+            path_nanosim = os.path.abspath(os.environ["NANOSIM_PATH"])
         except KeyError as error:
-            raise KeyError("You must define the global variables: NANOSIM")
+            raise KeyError("You must define the global variables: NANOSIM_PATH")
 
     if os.path.isdir(path_abundance_profile):
         L_file_abundance = os.listdir(path_abundance_profile)
@@ -620,13 +620,10 @@ def create_df_fasta_metadata(
         )
     else:
         D_modif_abundance = None
-    name_fasta_metadata_with_abundance = os.path.join(
-        path_folder_save, "fasta_metadata_with_abundance.csv"
-    )
     df_fasta_metadata = complete_fasta_metadata_with_abundance(
         df_fasta_metadata, D_modif_abundance
     )
-    df_fasta_metadata.to_csv(name_fasta_metadata_with_abundance, sep=",", index=False)
+    df_fasta_metadata.to_csv(name_fasta_metadata, sep=",", index=False)
 
     # create and save files for camisim
     path_camisim = os.path.join(path_folder_save, "camisim")

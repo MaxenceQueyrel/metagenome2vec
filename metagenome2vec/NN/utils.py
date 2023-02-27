@@ -36,7 +36,7 @@ import logging
 logger = logging.getLogger(tune.__name__)
 logger.setLevel(level=logging.CRITICAL)
 from ax.service.ax_client import AxClient
-from ray.tune.suggest.ax import AxSearch
+from ray.tune.search.ax import AxSearch
 from ray.tune.schedulers import AsyncHyperBandScheduler
 import logging
 from tqdm import tqdm

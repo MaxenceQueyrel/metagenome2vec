@@ -1,12 +1,13 @@
 # Distribution name
 FROM ubuntu:18.04
 
-MAINTAINER Queyrel Maxence <maxencequeyrel@hotmail.com>
+LABEL org.opencontainers.image.authors="maxencequeyrel@hotmail.com"
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
 # Install dependencies
 RUN apt-get update -y && \
+	apt-get install git -y && \
 	apt-get install bzip2 -y && \
 	apt-get install wget -y && \
 	wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
@@ -32,9 +33,22 @@ RUN ln -s /anaconda3/envs/py36/bin/pip3 /anaconda/bin/pip3 && \
 RUN /anaconda3/bin/conda update -n base -c defaults conda
 
 RUN pip3 install scikit-learn==0.20.0 && \
-	pip3 install HTSeq==0.9.1 && \
+	# pip3 install HTSeq==0.9.1 && \
 	pip3 install scipy==1.0.0 && \
 	pip3 install numpy==1.16.4 && \
- pip install numpy && \
- pip install matplotlib
+	pip3 install biopython==1.79 && \
+	pip install numpy && \
+	pip install matplotlib
+
+RUN git clone https://github.com/CAMI-challenge/CAMISIM.git && \
+	git clone https://github.com/bcgsc/NanoSim.git
+
+RUN mv /CAMISIM /opt && \
+	mv /NanoSim /opt
+
+# Add environment variables
+ENV CAMISIM=/opt/CAMISIM \
+	NANOSIM=/opt/NanoSim \
+	TMP=/tmp
+
 

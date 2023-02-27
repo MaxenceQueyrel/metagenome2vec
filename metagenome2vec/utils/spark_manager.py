@@ -53,9 +53,8 @@ def createSparkSession(name_app, **conf):
     py_files = [
         os.path.join(os.environ["METAGENOME2VEC_PATH"], m2v_zip_name),
         os.path.join(root_folder, "utils", "file_manager.py"),
-        os.path.join(root_folder, "utils", "parser_creator.py"),
         os.path.join(
-            root_folder, "utils", "transformation_ADN.cpython-38-x86_64-linux-gnu.so"
+            root_folder, "utils", "transformation_ADN.cpython-39-x86_64-linux-gnu.so"
         ),
         os.path.join(root_folder, "utils", "stat_func.py"),
         os.path.join(root_folder, "utils", "data_manager.py"),
@@ -64,7 +63,6 @@ def createSparkSession(name_app, **conf):
         os.path.join(root_folder, "read2vec", "fastTextEmbed.py"),
         os.path.join(root_folder, "read2vec", "read2vec.py"),
         os.path.join(root_folder, "read2genome", "read2genome.py"),
-        os.path.join(root_folder, "read2genome", "h2oModel.py"),
         os.path.join(root_folder, "read2genome", "fastDnaPred.py"),
     ]
     for py_file in py_files:
