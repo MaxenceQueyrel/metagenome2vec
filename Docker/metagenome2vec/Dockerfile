@@ -6,7 +6,8 @@ LABEL org.opencontainers.image.authors="maxencequeyrel@hotmail.com"
 ARG DEBIAN_FRONTEND="noninteractive"
 
 RUN apt update -y && \
-  apt install default-jdk -y
+  apt install default-jdk -y && \
+  apt install git -y
 
 RUN pip install pyspark==3.3.2 && \
   pip install dill==0.3.6 && \
@@ -29,15 +30,22 @@ RUN pip install pyspark==3.3.2 && \
   pip install umap==0.1.1
 
 
+RUN git clone https://github.com/rmenegaux/fastDNA.git && \
+	mv fastDNA /opt && \
+	cd /opt/fastDNA && \
+	make
+
 # Add metagenome2vec package
 COPY . /opt/metagenome2vec
 WORKDIR /opt/metagenome2vec
+ 
 
 # Add environment variables
 ENV CAMISIM_PATH=/opt/CAMISIM \
 	NANOSIM_PATH=/opt/NanoSim \
 	METAGENOME2VEC_PATH=/opt/metagenome2vec \
-	TMP=/tmp
+	TMP=/tmp \
+	FASTDNA=/opt/fastDNA
 
 # 
 # Pipeline==0.1

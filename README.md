@@ -104,7 +104,7 @@ docker exec -i metagenome2vec python main.py create_simulated_read2genome_datase
 ```
 - path_fastq_file: The path to the simulated fastq file in gunzip format.
 - path_mapping_file: The path to the mapping file in gunzip format.
-- path_save: The path where the new read2genome data set will be saved. Two files "reads" and "mapping_reads_genomes" will be created, the first containing all simulated reads in the dataset and the second containing the mapping between the reads and the genome (the class).
+- path_save: The path where the new read2genome data set will be saved. Two files "reads" and "mapping_reads_genomes" are created, the first containing all simulated reads in the dataset and the second containing the mapping between the reads and the genome (the class). In addition, several files are created to enable fastdna training. "reads_fastdna" and "reads_fastdna_valid" refer to the files containing the reads used to train and validate the fastdna model, respectively. The "<taxonomic_level>_fastna" files refer to the files containing the classes of reads used to train and validate the fastdna model at a specific taxonomic level. 
 - path_metadata: The path to the metadata used for the simulation.
 - n_sample_load: The number of reads to load into the dataset.
 
@@ -120,9 +120,19 @@ docker exec -i metagenome2vec python main.py create_simulated_metagenome2vec_dat
 
 
 ##### Run read2genome with fastDNA
+
 ```bash
-docker exec -i metagenome2vec python main.py fastdna -k 6 -pd /path/to/reads_fastdna,/path/to/fastdna_labels -nc 3 -prg /path/to/save/read2genome -pkv /path/to/save/read2vec -pt /tmp -S 2 -E 50
+docker exec -i metagenome2vec python main.py fastdna --k_mer_size 6 --path_data /path/to/reads_fastdna,/path/to/fastdna_labels --n_cpus 3 --path_read2genome /path/to/save/read2genome --path_kmer2vec /path/to/save/kmer2vec --path_tmp /tmp --n_step 2 --embedding_size 50
 ```
+- k_mer_size: The size of the k-mer used to train the model.
+- n_cpus: The number of CPUs used to train the model.
+- n_steps: The number of steps used to train the model.
+- embedding_size: The size of the trained embeddings.
+- path_data: Two paths separated by commas, the first path corresponds to the reads and the second to the classes. These files were created in step 4.
+- path_read2genome: The path where the fastdna model is stored.
+- path_kmer2vec: The path where the embeddings of the kmers are stored. 
+- path_tmp: The path where the temporary data will be stored.
+
 
 ##### Run metagenome2vec
 From a preprocessed folder of metagenomic data, it will embed the metagenomes with the read2genome and read2vec models.

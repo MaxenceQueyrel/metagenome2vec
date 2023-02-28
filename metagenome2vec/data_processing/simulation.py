@@ -79,13 +79,12 @@ def create_simulated_read2genome_dataset(
     # Clean output simulation if does not exist
     path_mapping_read_genome = os.path.join(path_save, mapping_read_file_name)
     path_reads = os.path.join(path_save, reads_file_name)
-    if not (os.path.exists(path_mapping_read_genome) and os.path.exists(path_reads)):
-        clean_output_simulation(
-            path_fastq_file, path_mapping_file, path_save, path_metadata
-        )
-
     # Create the read2genome datasets
     if overwrite or not os.path.exists(path_save):
+        if not (os.path.exists(path_mapping_read_genome) and os.path.exists(path_reads)):
+            clean_output_simulation(
+                path_fastq_file, path_mapping_file, path_save, path_metadata
+            )
 
         name_matrix_save = "reads_read2genome"
         name_matrix_save_valid = name_matrix_save + "_valid"
