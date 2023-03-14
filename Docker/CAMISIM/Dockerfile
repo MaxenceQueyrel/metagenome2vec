@@ -5,19 +5,21 @@ LABEL org.opencontainers.image.authors="maxencequeyrel@hotmail.com"
 
 ENV DEBIAN_FRONTEND="noninteractive"
 
+ARG miniconda3_version=Miniconda3-py38_23.1.0-1-Linux-x86_64.sh
+ARG miniconda2_version=Miniconda2-py27_4.8.3-Linux-x86_64.sh
 # Install dependencies
 RUN apt-get update -y && \
 	apt-get install git -y && \
 	apt-get install bzip2 -y && \
 	apt-get install wget -y && \
-	wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
-	chmod 755 Miniconda3-latest-Linux-x86_64.sh && \
-	bash Miniconda3-latest-Linux-x86_64.sh -b -p /anaconda3 && \
-	rm Miniconda3-latest-Linux-x86_64.sh && \
-  wget https://repo.anaconda.com/miniconda/Miniconda2-latest-Linux-x86_64.sh && \
-  chmod 755 Miniconda2-latest-Linux-x86_64.sh && \
-  bash Miniconda2-latest-Linux-x86_64.sh -b -p /anaconda && \
-  rm Miniconda2-latest-Linux-x86_64.sh
+	wget https://repo.anaconda.com/miniconda/$miniconda3_version && \
+	chmod 755 $miniconda3_version && \
+	bash $miniconda3_version -b -p /anaconda3 && \
+	rm $miniconda3_version && \
+  wget https://repo.anaconda.com/miniconda/$miniconda2_version && \
+  chmod 755 $miniconda2_version && \
+  bash $miniconda2_version -b -p /anaconda && \
+  rm $miniconda2_version
 
 # Change PATH for anaconda
 ENV PATH=$PATH:/anaconda/bin/
@@ -37,8 +39,8 @@ RUN pip3 install scikit-learn==0.20.0 && \
 	pip3 install scipy==1.0.0 && \
 	pip3 install numpy==1.16.4 && \
 	pip3 install biopython==1.79 && \
-	pip install numpy && \
-	pip install matplotlib
+	pip install numpy==1.16.0 && \
+	pip install matplotlib==2.2.5
 
 RUN git clone https://github.com/CAMI-challenge/CAMISIM.git && \
 	git clone https://github.com/bcgsc/NanoSim.git
