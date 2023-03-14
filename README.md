@@ -33,7 +33,7 @@ docker run -i -d --rm --name=metagenome2vec -v /local/data/path/:/container/data
 ```
 ##### CAMISIM container
 ```bash
-docker run --rm --name camisim -dt --memory="4g" --memory-swap="4g" --cpus="4.0" -v /local/data/path/:/container/data/path/ maxence27/camisim:1.0`
+docker run --rm --name camisim -dt --memory="4g" --memory-swap="4g" --cpus="4.0" -v /local/data/path/:/container/data/path/ maxence27/camisim:1.0
 ```
 
 ##### Downloading Metagenomic Data
@@ -42,7 +42,7 @@ study\_accession, sample\_accession, experiment\_accession, run\_accession, tax\
 
 
 ```bash
-docker exec -i metagenome2vec python main.py download_metagenomic_data --path_data /path/to/mydata.tsv --path_save /path/to/data_saved --index_sample_id 1 --index_url 6
+docker exec -i metagenome2vec python main.py download_metagenomic_data --path-data /path/to/mydata.tsv --path-save /path/to/data_saved --index-sample-id 1 --index-url 6
 ```
 
 - path_data: Path to the tsv file.
@@ -73,7 +73,7 @@ Given a folder of genomes fasta files, it downloads the metadata information of 
 
 ###### Step 2: Create config files for camisim
 ```bash
-docker exec -i metagenome2vec python main.py create_camisim_config_file --path_save /path/to/simulation_folder --n_cpus 3 --n_sample_by_class 2 --computation_type both --path_tmp /tmp --giga_octet 1.0 --path_abundance_profile /path/to/abundance_file.tsv
+docker exec -i metagenome2vec python main.py create_camisim_config_file --path-save /path/to/simulation_folder --n-cpus 3 --n-sample-by-class 2 --computation-type both --path-tmp /tmp --giga_octet 1.0 --path-abundance-profile /path/to/abundance_file.tsv
 ```
 - path_save: The same path as in the previous step, corresponding to the path where the configuration files and dataset folders are stored. 
 - path_tmp: Path to the tmp folder used by CAMISIM to simulate data.
@@ -100,7 +100,7 @@ The first line initiates the docker container and the second runs the simulation
 ###### Step4: Create a read2genome / fastdna dataset from the CAMISIM output
 Create a dataframe from the simulated data to train and test the read2genome step.
 ```bash
-docker exec -i metagenome2vec python main.py create_simulated_read2genome_dataset --path_fastq_file /path/to/anonymous_reads.fq.gz --path_mapping_file /path/to/reads_mapping.tsv.gz --path_save /path/to/save/output --n_sample_load 500000 --path_metadata /path/to/metadata.csv
+docker exec -i metagenome2vec python main.py create_simulated_read2genome_dataset --path-fastq-file /path/to/anonymous_reads.fq.gz --path-mapping-file /path/to/reads_mapping.tsv.gz --path_save /path/to/save/output --n-sample-load 500000 --path-metadata /path/to/metadata.csv
 ```
 - path_fastq_file: The path to the simulated fastq file in gunzip format.
 - path_mapping_file: The path to the mapping file in gunzip format.
@@ -112,7 +112,7 @@ docker exec -i metagenome2vec python main.py create_simulated_read2genome_datase
 ###### Step 4 bis: Create a metagenome2vec dataset from the CAMISIM output
 Create a dataframe from the simulated data to train and test the metagenome2vec step.
 ```bash
-docker exec -i metagenome2vec python main.py create_simulated_metagenome2vec_dataset --path_data /path/to/simulated/data --path_save /path/to/save/output
+docker exec -i metagenome2vec python main.py create-simulated-metagenome2vec-dataset --path-data /path/to/simulated/data --path-save /path/to/save/output
 ```
 - path_data: Path to the folder containing all the generated metagenomes. For example, if CAMISIM was asked to simulate 10 metagenomes, then in the output folder there should be 10 folders with the date and the mention of "sample\_0", "sample\_1", etc. in the name.
 - path_save: Path where the new data set will be saved. For each sample a specific folder will be created inside the fastq file of the sample and a "metadata.csv" file will also be created to associate the sample with its class (the name of the simulation it comes from).
@@ -122,7 +122,7 @@ docker exec -i metagenome2vec python main.py create_simulated_metagenome2vec_dat
 ##### Run read2genome with fastDNA
 
 ```bash
-docker exec -i metagenome2vec python main.py fastdna --k_mer_size 6 --path_data /path/to/reads_fastdna,/path/to/fastdna_labels --n_cpus 3 --path_read2genome /path/to/save/read2genome --path_kmer2vec /path/to/save/kmer2vec --path_tmp /tmp --n_step 2 --embedding_size 50
+docker exec -i metagenome2vec python main.py fastdna --k-mer-size 6 --path-data /path/to/reads_fastdna,/path/to/fastdna_labels --n-cpus 3 --path-read2genome /path/to/save/read2genome --path-kmer2vec /path/to/save/kmer2vec --path-tmp /tmp --n-step 2 --embedding-size 50
 ```
 - k_mer_size: The size of the k-mer used to train the model.
 - n_cpus: The number of CPUs used to train the model.

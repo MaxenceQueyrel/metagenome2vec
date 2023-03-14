@@ -20,7 +20,7 @@ class ParserCreator(object):
         self.parser = argparse.ArgumentParser('Main command')
         self.subparsers = self.parser.add_subparsers(help="test", dest="command")
         self.D_parser = {}
-        self.D_parser["-k"] = {"name": "--k_mer_size", "arg": {"metavar": "k_mer_size",
+        self.D_parser["-k"] = {"name": "--k-mer-size", "arg": {"metavar": "k_mer_size",
                                                                "type": int,
                                                                "required": True,
                                                                "help": "Size of the k_mer, number of nucleotides by chain for the current word"}}
@@ -36,67 +36,67 @@ class ParserCreator(object):
                                                             "type": int,
                                                             "default": 1,
                                                             "help": "The number of nucleotides that separate the k_mer and its context (could be negative => overlap"}}
-        self.D_parser["-lf"] = {"name": "--log_file", "arg": {"metavar": "log_file",
+        self.D_parser["-lf"] = {"name": "--log-file", "arg": {"metavar": "log_file",
                                                               "type": str,
                                                               "default": "log_file.txt",
                                                               "help": "Name of the log file"}}
-        self.D_parser["-pg"] = {"name": "--path_log", "arg": {"metavar": "path_log",
+        self.D_parser["-pg"] = {"name": "--path-log", "arg": {"metavar": "path_log",
                                                               "type": str,
                                                               "default": "./",
                                                               "help": "local path where is stored the log file"}}
-        self.D_parser["-pl"] = {"name": "--path_learning", "arg": {"metavar": "path_learning",
+        self.D_parser["-pl"] = {"name": "--path-learning", "arg": {"metavar": "path_learning",
                                                                    "type": str,
                                                                    "default": "hdfs://ma-1-1-t630.infiniband:8020/user/mqueyrel/deepGene/data/learning/",
                                                                    "help": "Path where are saved the structuring matrix."}}
-        self.D_parser["-pa"] = {"name": "--path_analysis", "arg": {"metavar": "path_analyses",
+        self.D_parser["-pa"] = {"name": "--path-analysis", "arg": {"metavar": "path_analyses",
                                                                    "type": str,
                                                                    "default": "/data/projects/deepgene/analyses/",
                                                                    "help": "Path where are saved the data to analyse."}}
-        self.D_parser["-pm"] = {"name": "--path_model", "arg": {"metavar": "path_model",
+        self.D_parser["-pm"] = {"name": "--path-model", "arg": {"metavar": "path_model",
                                                                 "type": str,
                                                                 "default": "./",
                                                                 "help": "Path where are stored the trained machine learning models"}}
-        self.D_parser["-pd"] = {"name": "--path_data", "arg": {"metavar": "path_data",
+        self.D_parser["-pd"] = {"name": "--path-data", "arg": {"metavar": "path_data",
                                                                "type": str,
                                                                "required": True,
                                                                "help": "Path to the data."}}
-        self.D_parser["-ps"] = {"name": "--path_save", "arg": {"metavar": "path_save",
+        self.D_parser["-ps"] = {"name": "--path-save", "arg": {"metavar": "path_save",
                                                                "type": str,
                                                                "required": True,
                                                                "help": "Path where will be saved the data."}}
-        self.D_parser["-pkc"] = {"name": "--path_kmer_count", "arg": {"metavar": "path_kmer_count",
+        self.D_parser["-pkc"] = {"name": "--path-kmer-count", "arg": {"metavar": "path_kmer_count",
                                                                       "type": str,
                                                                       "default": None,
                                                                       "help": "Path to the kmer count"}}
-        self.D_parser["-pmd"] = {"name": "--path_metadata", "arg": {"metavar": "path_metadata",
+        self.D_parser["-pmd"] = {"name": "--path-metadata", "arg": {"metavar": "path_metadata",
                                                                     "type": str,
                                                                     "required": True,
                                                                     "help": "Absolute path to the metadata file"}}
-        self.D_parser["-pfq"] = {"name": "--path_fastq_file", "arg": {"metavar": "path_fastq_file",
+        self.D_parser["-pfq"] = {"name": "--path-fastq-file", "arg": {"metavar": "path_fastq_file",
                                                                       "type": str,
                                                                       "required": True,
                                                                       "help": "Absolute path to the fastq file from the simulation"}}
-        self.D_parser["-pmf"] = {"name": "--path_mapping_file", "arg": {"metavar": "path_mapping_file",
+        self.D_parser["-pmf"] = {"name": "--path-mapping-file", "arg": {"metavar": "path_mapping_file",
                                                             "type": str,
                                                             "required": True,
                                                             "help": "Absolute path to the read mapping file from the simulation"}}
-        self.D_parser["-f"] = {"name": "--f_name", "arg": {"metavar": "f_name",
+        self.D_parser["-f"] = {"name": "--f-name", "arg": {"metavar": "f_name",
                                                            "type": str,
                                                            "default": None,
                                                            "help": "Full path name of the file to structure, if None the whole dataset is stuctured"}}
-        self.D_parser["-fl"] = {"name": "--list_file", "arg": {"metavar": "list_file",
+        self.D_parser["-fl"] = {"name": "--list-file", "arg": {"metavar": "list_file",
                                                                "type": str,
                                                                "default": None,
                                                                "help": "Comma separated string with file name"}}
-        self.D_parser["-dn"] = {"name": "--dataset_name", "arg": {"metavar": "dataset_name",
+        self.D_parser["-dn"] = {"name": "--dataset-name", "arg": {"metavar": "dataset_name",
                                                                   "type": str,
                                                                   "default": "dataset",
                                                                   "help": "If f_name is none this is the name given to the files computed and saved"}}
-        self.D_parser["-V"] = {"name": "--vocabulary_size", "arg": {"metavar": "vocabulary_size",
+        self.D_parser["-V"] = {"name": "--vocabulary-size", "arg": {"metavar": "vocabulary_size",
                                                                     "type": int,
                                                                     "default": 4 ** 6,
                                                                     "help": "Number of words/chains considered (more frequent)"}}
-        self.D_parser["-ct"] = {"name": "--computation_type", "arg": {"metavar": "computation_type",
+        self.D_parser["-ct"] = {"name": "--computation-type", "arg": {"metavar": "computation_type",
                                                                       "type": int,
                                                                       "choices": [0, 1, 2],
                                                                       "default": 0,
@@ -108,164 +108,164 @@ class ParserCreator(object):
                                                           "choices": ["hdfs", "local", "s3"],
                                                           "default": "local",
                                                           "help": "'hdfs', 'local', 's3' : correspond to the file system we use"}}
-        self.D_parser["-pas"] = {"name": "--parameter_structu", "arg": {"metavar": "parameter_structu",
+        self.D_parser["-pas"] = {"name": "--parameter-structu", "arg": {"metavar": "parameter_structu",
                                                                         "type": str,
                                                                         "required": True,
                                                                         "help": "The folder containing the file structured with these parameters"}}
-        self.D_parser["-pal"] = {"name": "--parameter_learning", "arg": {"metavar": "parameter_learning",
+        self.D_parser["-pal"] = {"name": "--parameter-learning", "arg": {"metavar": "parameter_learning",
                                                                          "type": str,
                                                                          "required": True,
                                                                          "help": "The parameters used during the embeddings learning."}}
-        self.D_parser["-rl"] = {"name": "--ratio_learning", "arg": {"metavar": "ratio_learning",
+        self.D_parser["-rl"] = {"name": "--ratio-learning", "arg": {"metavar": "ratio_learning",
                                                                     "type": float,
                                                                     "default": 1.,
                                                                     "help": "Take rl percent of the dataframe to run kmer2vec"}}
-        self.D_parser["-nsl"] = {"name": "--n_sample_load", "arg": {"metavar": "n_sample_load",
+        self.D_parser["-nsl"] = {"name": "--n-sample-load", "arg": {"metavar": "n_sample_load",
                                                                     "type": int,
                                                                     "default": 1e7,
                                                                     "help": "Number of sampled load in memory, if -1 load all the samples."}}
-        self.D_parser["-B"] = {"name": "--batch_size", "arg": {"metavar": "batch_size",
+        self.D_parser["-B"] = {"name": "--batch-size", "arg": {"metavar": "batch_size",
                                                                "type": int,
                                                                "default": 64,
                                                                "help": "Number of elements passed to the learning"}}
-        self.D_parser["-E"] = {"name": "--embedding_size", "arg": {"metavar": "embeddings_size",
+        self.D_parser["-E"] = {"name": "--embedding-size", "arg": {"metavar": "embeddings_size",
                                                                    "type": int,
                                                                    "default": 300,
                                                                    "help": "Dimension of the embedding vector"}}
-        self.D_parser["-H"] = {"name": "--hidden_size", "arg": {"metavar": "hidden_size",
+        self.D_parser["-H"] = {"name": "--hidden-size", "arg": {"metavar": "hidden_size",
                                                                 "type": int,
                                                                 "default": 200,
                                                                 "help": "Hidden dimension of the neural network"}}
-        self.D_parser["-S"] = {"name": "--n_steps", "arg": {"metavar": "n_steps",
+        self.D_parser["-S"] = {"name": "--n-steps", "arg": {"metavar": "n_steps",
                                                             "type": int,
                                                             "default": 50001,
                                                             "help": "Number of steps during learning"}}
-        self.D_parser["-I"] = {"name": "--n_iterations", "arg": {"metavar": "n_iterations",
+        self.D_parser["-I"] = {"name": "--n-iterations", "arg": {"metavar": "n_iterations",
                                                                  "type": int,
                                                                  "default": -1,
                                                                  "help": "Number of iterations in one step during learning."}}
-        self.D_parser["-R"] = {"name": "--learning_rate", "arg": {"metavar": "learning_rate",
+        self.D_parser["-R"] = {"name": "--learning-rate", "arg": {"metavar": "learning_rate",
                                                                   "type": float,
                                                                   "default": 1.,
                                                                   "help": "Learning rate for the gradient descent"}}
-        self.D_parser["-VS"] = {"name": "--valid_size", "arg": {"metavar": "valid_size",
+        self.D_parser["-VS"] = {"name": "--valid-size", "arg": {"metavar": "valid_size",
                                                                 "type": float,
                                                                 "default": 8,
                                                                 "help": "Random set for evaluation"}}
-        self.D_parser["-vs"] = {"name": "--valid_size", "arg": {"metavar": "valid_size",
+        self.D_parser["-vs"] = {"name": "--valid-size", "arg": {"metavar": "valid_size",
                                                                 "type": float,
                                                                 "default": None,
                                                                 "help": "The percentage amount of data in the validation set"}}
-        self.D_parser["-VW"] = {"name": "--valid_window", "arg": {"metavar": "valid_window",
+        self.D_parser["-VW"] = {"name": "--valid-window", "arg": {"metavar": "valid_window",
                                                                   "type": int,
                                                                   "default": 100,
                                                                   "help": "(kmer2vec) Select VS examples for the validation in the top VW of the distribution"}}
-        self.D_parser["-NS"] = {"name": "--num_sampled", "arg": {"metavar": "num_sampled",
+        self.D_parser["-NS"] = {"name": "--num-sampled", "arg": {"metavar": "num_sampled",
                                                                  "type": int,
                                                                  "default": 8,
                                                                  "help": "(kmer2vec) Number of negative examples to sample"}}
-        self.D_parser["-NL"] = {"name": "--n_compute_loss", "arg": {"metavar": "n_compute_loss",
+        self.D_parser["-NL"] = {"name": "--n-compute-loss", "arg": {"metavar": "n_compute_loss",
                                                                     "type": int,
                                                                     "default": 10,
                                                                     "help": "Number of time you want to calculate the loss"}}
-        self.D_parser["-NSIM"] = {"name": "--n_show_similarity", "arg": {"metavar": "n_show_similarity",
+        self.D_parser["-NSIM"] = {"name": "--n-show-similarity", "arg": {"metavar": "n_show_similarity",
                                                                          "type": int,
                                                                          "default": 3,
                                                                          "help": "(kmer2vec) Number of time you want to calculate the similarity in the neural network"}}
-        self.D_parser["-cl"] = {"name": "--continue_learning", "arg": {"action": "store_true",
+        self.D_parser["-cl"] = {"name": "--continue-learning", "arg": {"action": "store_true",
                                                                        "help": "If True restore the previous graph / session and continue the learning from this point"}}
         self.D_parser["-m"] = {"name": "--method", "arg": {"metavar": "method",
                                                            "type": str,
                                                            "default": "normal",
                                                            "help": "The method used to perform"}}
-        self.D_parser["-kea"] = {"name": "--kmer_embeddings_algorithm", "arg": {"metavar": "kmer_embeddings_algorithm",
+        self.D_parser["-kea"] = {"name": "--kmer-embeddings_algorithm", "arg": {"metavar": "kmer_embeddings_algorithm",
                                                                                 "type": str,
                                                                                 "default": "fasttext",
                                                                                 "help": "Name of the algorithm used for the embedding"}}
-        self.D_parser["-if"] = {"name": "--is_file", "arg": {"action": "store_true",
+        self.D_parser["-if"] = {"name": "--is-file", "arg": {"action": "store_true",
                                                              "help": "If true, sample only a file else a folder."}}
-        self.D_parser["-vfn"] = {"name": "--vocabulary_file_name", "arg": {"metavar": "vocabulary_file_name",
+        self.D_parser["-vfn"] = {"name": "--vocabulary-file-name", "arg": {"metavar": "vocabulary_file_name",
                                                                            "type": str,
                                                                            "default": "vocab.txt",
                                                                            "help": "(glove) This is the name of the word count / vocabulary file."}}
-        self.D_parser["-cfn"] = {"name": "--cooccurrence_file_name", "arg": {"metavar": "cooccurrence_file_name",
+        self.D_parser["-cfn"] = {"name": "--cooccurrence-file-name", "arg": {"metavar": "cooccurrence_file_name",
                                                                              "type": str,
                                                                              "default": "cooccurrence.bin",
                                                                              "help": "(glove) This is the name of the cooccurrence file."}}
-        self.D_parser["-cfn"] = {"name": "--cooccurrence_file_name", "arg": {"metavar": "cooccurrence_file_name",
+        self.D_parser["-cfn"] = {"name": "--cooccurrence-file-name", "arg": {"metavar": "cooccurrence_file_name",
                                                                              "type": str,
                                                                              "default": "cooccurrence.bin",
                                                                              "help": "(glove) This is the name of the cooccurrence file."}}
-        self.D_parser["-iuk"] = {"name": "--include_unk_kmer", "arg": {"action": "store_true",
+        self.D_parser["-iuk"] = {"name": "--include-unk-kmer", "arg": {"action": "store_true",
                                                                        "help": "(structuring classif) If true, make structuring with unk kmer else avoid them"}}
-        self.D_parser["-fn"] = {"name": "--file_name", "arg": {"metavar": "file_name",
+        self.D_parser["-fn"] = {"name": "--file-name", "arg": {"metavar": "file_name",
                                                                "type": str,
                                                                "required": True,
                                                                "help": "The name given to the res file"}}
-        self.D_parser["-X"] = {"name": "--x_max", "arg": {"metavar": "x_max",
+        self.D_parser["-X"] = {"name": "--x-max", "arg": {"metavar": "x_max",
                                                           "type": int,
                                                           "default": 10,
                                                           "help": "(glove) Threashold for extremely common word pairs"}}
-        self.D_parser["-lm"] = {"name": "--language_modeling", "arg": {"action": "store_true",
+        self.D_parser["-lm"] = {"name": "--language-modeling", "arg": {"action": "store_true",
                                                                        "help": "Tells  if the trasnformer train like a language modeling model or not"}}
-        self.D_parser["-mng"] = {"name": "--min_ngram", "arg": {"metavar": "min_ngram",
+        self.D_parser["-mng"] = {"name": "--min-ngram", "arg": {"metavar": "min_ngram",
                                                                 "type": int,
                                                                 "default": 3,
                                                                 "help": "Minimum size of ngram"}}
-        self.D_parser["-Mng"] = {"name": "--max_ngram", "arg": {"metavar": "max_ngram",
+        self.D_parser["-Mng"] = {"name": "--max-ngram", "arg": {"metavar": "max_ngram",
                                                                 "type": int,
                                                                 "default": 6,
                                                                 "help": "Maximuml size of ngram"}}
-        self.D_parser["-ng"] = {"name": "--nb_metagenome", "arg": {"metavar": "nb_metagenome",
+        self.D_parser["-ng"] = {"name": "--nb-metagenome", "arg": {"metavar": "nb_metagenome",
                                                                    "type": int,
                                                                    "default": 10000,
                                                                    "help": "Number of metagenome"}}
-        self.D_parser["-nsc"] = {"name": "--n_sample_by_class", "arg": {"metavar": "n_sample_by_class",
+        self.D_parser["-nsc"] = {"name": "--n-sample-by-class", "arg": {"metavar": "n_sample_by_class",
                                                                         "type": int,
                                                                         "default": 10000,
                                                                         "help": "Number of samples by class when structuring simulation data."}}
-        self.D_parser["-nc"] = {"name": "--n_cpus", "arg": {"metavar": "n_cpus",
+        self.D_parser["-nc"] = {"name": "--n-cpus", "arg": {"metavar": "n_cpus",
                                                             "type": int,
                                                             "default": 16,
                                                             "help": "Number of process used"}}
-        self.D_parser["-itf"] = {"name": "--index_tmp_file", "arg": {"metavar": "index_tmp_file",
+        self.D_parser["-itf"] = {"name": "--index-tmp-file", "arg": {"metavar": "index_tmp_file",
                                                                      "type": int,
                                                                      "default": -1,
                                                                      "help": "if stm = 2 then it will start from the index given for the next temporary matrix"}}
-        self.D_parser["-isi"] = {"name": "--index_sample_id", "arg": {"metavar": "index_sample_id",
+        self.D_parser["-isi"] = {"name": "--index-sample-id", "arg": {"metavar": "index_sample_id",
                                                                      "type": int,
                                                                      "default": 1,
                                                                      "help": "Index in the tsv file of the column containing the sample ids."}}
-        self.D_parser["-iu"] = {"name": "--index_url", "arg": {"metavar": "index_url",
+        self.D_parser["-iu"] = {"name": "--index-url", "arg": {"metavar": "index_url",
                                                                 "type": int,
                                                                 "default": 10,
                                                                 "help": "Index in the tsv file of the column containing the sample url."}}
-        self.D_parser["-np"] = {"name": "--num_partitions", "arg": {"metavar": "num_partitions",
+        self.D_parser["-np"] = {"name": "--num-partitions", "arg": {"metavar": "num_partitions",
                                                                     "type": int,
                                                                     "default": 16,
                                                                     "help": "Number of partitions of the rdd file"}}
-        self.D_parser["-ns"] = {"name": "--nb_sequences_by_metagenome", "arg": {"metavar": "nb_sequences_by_metagenome",
+        self.D_parser["-ns"] = {"name": "--nb-sequences-by-metagenome", "arg": {"metavar": "nb_sequences_by_metagenome",
                                                                                 "type": int,
                                                                                 "required": True,
                                                                                 "help": "Number of sequences by metagenome"}}
-        self.D_parser["-MIL"] = {"name": "--multi_instance_layer", "arg": {"metavar": "multi_instance_layer",
+        self.D_parser["-MIL"] = {"name": "--multi-instance-layer", "arg": {"metavar": "multi_instance_layer",
                                                                            "type": str,
                                                                            "choices": ["sum", "max", "attention"],
                                                                            "default": "sum",
                                                                            "help": "Define the type of mil layer"}}
-        self.D_parser["-TS"] = {"name": "--test_size", "arg": {"metavar": "test_size",
+        self.D_parser["-TS"] = {"name": "--test-size", "arg": {"metavar": "test_size",
                                                                "type": float,
                                                                "default": 0.2,
                                                                "help": "percentage of test data"}}
-        self.D_parser["-ig"] = {"name": "--id_gpu", "arg": {"metavar": "id_gpu",
+        self.D_parser["-ig"] = {"name": "--id-gpu", "arg": {"metavar": "id_gpu",
                                                             "type": str,
                                                             "default": "-1",
                                                             "help": "Comma separated string: Index of the gpus we want to use. If -1 use cpu"}}
-        self.D_parser["-nb"] = {"name": "--n_batch", "arg": {"metavar": "n_batch",
+        self.D_parser["-nb"] = {"name": "--n-batch", "arg": {"metavar": "n_batch",
                                                              "type": int,
                                                              "default": 1e5,
                                                              "help": "Number of batchs generated to gain in computation time. If too big can raise an OOM"}}
-        self.D_parser["-ni"] = {"name": "--n_instance", "arg": {"metavar": "n_instance",
+        self.D_parser["-ni"] = {"name": "--n-instance", "arg": {"metavar": "n_instance",
                                                                 "type": int,
                                                                 "default": 1e5,
                                                                 "help": "Number of instance in a set"}}
@@ -280,11 +280,11 @@ class ParserCreator(object):
                                                                  "required": True,
                                                                  "choices": ["fastDNA", "h2oModel", "transformer"],
                                                                  "help": "The read2genome algorithm used, fastDNA or h2oModel"}}
-        self.D_parser["-nri"] = {"name": "--n_reads_instance", "arg": {"metavar": "n_reads_instance",
+        self.D_parser["-nri"] = {"name": "--n-reads-instance", "arg": {"metavar": "n_reads_instance",
                                                                        "type": int,
                                                                        "default": 1e5,
                                                                        "help": "Number of reads in one instance of a bag for read embeddings computation."}}
-        self.D_parser["-D"] = {"name": "--weight_decay", "arg": {"metavar": "weight_decay",
+        self.D_parser["-D"] = {"name": "--weight-decay", "arg": {"metavar": "weight_decay",
                                                                  "type": float,
                                                                  "default": 1e-5,
                                                                  "help": "Decay for L2 normalization"}}
@@ -292,34 +292,34 @@ class ParserCreator(object):
                                                              "type": str,
                                                              "required": True,
                                                              "help": "Name of the catalog used"}}
-        self.D_parser["-owc"] = {"name": "--only_word_count", "arg": {"action": "store_true",
+        self.D_parser["-owc"] = {"name": "--only-word-count", "arg": {"action": "store_true",
                                                                       "help": "Compute only the word count matrix"}}
-        self.D_parser["-prt"] = {"name": "--path_read_transformed", "arg": {"metavar": "path_read_transformed",
+        self.D_parser["-prt"] = {"name": "--path-read-transformed", "arg": {"metavar": "path_read_transformed",
                                                                             "type": str,
                                                                             "required": True,
                                                                             "help": "Path where are saved the metagenomes with reads transform into embeddings"}}
-        self.D_parser["-nco"] = {"name": "--nb_cutoffs", "arg": {"metavar": "nb_cutoffs",
+        self.D_parser["-nco"] = {"name": "--nb-cutoffs", "arg": {"metavar": "nb_cutoffs",
                                                                  "type": int,
                                                                  "default": -1,
                                                                  "help": "Number of cut off for the adaptive softmax"}}
-        self.D_parser["-pmwc"] = {"name": "--path_metagenome_word_count",
+        self.D_parser["-pmwc"] = {"name": "--path-metagenome-word-count",
                                   "arg": {"metavar": "path_metagenome_word_count",
                                           "type": str,
                                           "default": None,
                                           "help": "Complet path to the metagenome word count"}}
-        self.D_parser["-pgd"] = {"name": "--path_genome_dist", "arg": {"metavar": "path_genome_dist",
+        self.D_parser["-pgd"] = {"name": "--path-genome-dist", "arg": {"metavar": "path_genome_dist",
                                                                        "type": str,
                                                                        "default": None,
                                                                        "help": "Path to the genome distance matrix computed by https://gitlab.pasteur.fr/GIPhy/JolyTree/-/blob/master/README.md"}}
-        self.D_parser["-Ml"] = {"name": "--max_length", "arg": {"metavar": "max_length",
+        self.D_parser["-Ml"] = {"name": "--max-length", "arg": {"metavar": "max_length",
                                                                 "type": int,
                                                                 "default": 20,
                                                                 "help": "Maximum size of read proceeded by the algorithm"}}
-        self.D_parser["-sc"] = {"name": "--spark_conf", "arg": {"metavar": "spark_conf",
+        self.D_parser["-sc"] = {"name": "--spark-conf", "arg": {"metavar": "spark_conf",
                                                                 "type": json.loads,
                                                                 "default": {},
                                                                 "help": "Dict to set the spark conf (avoid to use spark-submit)"}}
-        self.D_parser["-tl"] = {"name": "--tax_level", "arg": {"metavar": "tax_level",
+        self.D_parser["-tl"] = {"name": "--tax-level", "arg": {"metavar": "tax_level",
                                                                "type": str,
                                                                "choices": ["tax_id", "species", "genus", "family"],
                                                                "default": "species",
@@ -333,7 +333,7 @@ class ParserCreator(object):
                                                              "choices": [None, "under", "over", "both"],
                                                              "default": None,
                                                              "help": "Tell the method to balance the data"}}
-        self.D_parser["-tt"] = {"name": "--tax_taken", "arg": {"metavar": "tax_taken",
+        self.D_parser["-tt"] = {"name": "--tax-taken", "arg": {"metavar": "tax_taken",
                                                                "type": str,
                                                                "default": None,
                                                                "help": "Point separated string: Index of the taxa"}}
@@ -341,66 +341,66 @@ class ParserCreator(object):
                                                             "type": int,
                                                             "default": 0,
                                                             "help": "Number of folds for the grid search"}}
-        self.D_parser["-mla"] = {"name": "--machine_learning_algorithm",
+        self.D_parser["-mla"] = {"name": "--machine-learning-algorithm",
                                  "arg": {"metavar": "machine_learning_algorithm",
                                          "type": str,
                                          "default": "gmb",
                                          "choices": ["gbm", "dl", "rf", "glm", "aml"],
                                          "help": "Machine learning algorithm used"}}
-        self.D_parser["-mm"] = {"name": "--max_models", "arg": {"metavar": "max_models",
+        self.D_parser["-mm"] = {"name": "--max-models", "arg": {"metavar": "max_models",
                                                                 "type": int,
                                                                 "default": 1,
                                                                 "help": "Number of models trained in the random grid search"}}
-        self.D_parser["-prv"] = {"name": "--path_read2vec", "arg": {"metavar": "path_read2vec",
+        self.D_parser["-prv"] = {"name": "--path-read2vec", "arg": {"metavar": "path_read2vec",
                                                                     "type": str,
                                                                     "default": None,
                                                                     "help": "Complete path to read2vec model"}}
-        self.D_parser["-prg"] = {"name": "--path_read2genome", "arg": {"metavar": "path_read2genome",
+        self.D_parser["-prg"] = {"name": "--path-read2genome", "arg": {"metavar": "path_read2genome",
                                                                        "type": str,
                                                                        "default": None,
                                                                        "help": "Complete path to read2vec model"}}
-        self.D_parser["-pmca"] = {"name": "--path_metagenome_cut_analyse",
+        self.D_parser["-pmca"] = {"name": "--path-metagenome-cut-analyse",
                                   "arg": {"metavar": "path_metagenome_cut_analyse",
                                           "type": str,
                                           "default": None,
                                           "help": "Complete path to the json file containing two keys 'to_cut' and 'no_cut' with values as a list of metagenome names"}}
-        self.D_parser["-pkv"] = {"name": "--path_kmer2vec", "arg": {"metavar": "path_kmer2vec",
+        self.D_parser["-pkv"] = {"name": "--path-kmer2vec", "arg": {"metavar": "path_kmer2vec",
                                                                     "type": str,
                                                                     "default": None,
                                                                     "help": "Complete path to kmer2vec model"}}
-        self.D_parser["-pt"] = {"name": "--path_tmp_folder", "arg": {"metavar": "path_tmp_folder",
+        self.D_parser["-pt"] = {"name": "--path-tmp-folder", "arg": {"metavar": "path_tmp_folder",
                                                                      "type": str,
                                                                      "default": "./" if "TMP" not in os.environ["TMP"] else os.environ["TMP"],
                                                                      "help": "Complete path to the tmp folder used for the script"}}
-        self.D_parser["-ot"] = {"name": "--only_transform", "arg": {"action": "store_true",
+        self.D_parser["-ot"] = {"name": "--only-transform", "arg": {"action": "store_true",
                                                                     "help": "If True just compute the reads transforming not training"}}
         self.D_parser["-DO"] = {"name": "--dropout", "arg": {"metavar": "dropout",
                                                              "type": float,
                                                              "default": 0.2,
                                                              "help": "Dropout value"}}
-        self.D_parser["-DS"] = {"name": "--deepsets_struct", "arg": {"metavar": "deepsets_struct",
+        self.D_parser["-DS"] = {"name": "--deepsets-struct", "arg": {"metavar": "deepsets_struct",
                                                                      "type": str,
                                                                      "default": "200,100,1,1",
                                                                      "help": "Comma separated string, first value is the number of hidden layer for phi network, second number of hidden layer for rho network, third number of layers for phi network, fourth number of layers for rho network"}}
-        self.D_parser["-DV"] = {"name": "--vae_struct", "arg": {"metavar": "vae_struct",
+        self.D_parser["-DV"] = {"name": "--vae-struct", "arg": {"metavar": "vae_struct",
                                                                 "type": str,
                                                                 "default": "40,4,1",
                                                                 "help": "Comma separated string, first value is the number of hidden dimension, second number of hidden layer before flatten and third is after flatten"}}
 
-        self.D_parser["-nm"] = {"name": "--n_memory", "arg": {"metavar": "n_memory",
+        self.D_parser["-nm"] = {"name": "--n-memory", "arg": {"metavar": "n_memory",
                                                               "type": int,
                                                               "default": 5,
                                                               "help": "Number of memory used in giga octet"}}
         self.D_parser["-TU"] = {"name": "--tuning", "arg": {"action": "store_true",
                                                             "help": "Specify to tune or not the model"}}
-        self.D_parser["-FT"] = {"name": "--fine_tuning", "arg": {"action": "store_true",
+        self.D_parser["-FT"] = {"name": "--fine-tuning", "arg": {"action": "store_true",
                                                             "help": "Specify to fine tune or not the model"}}
-        self.D_parser["-pfsr"] = {"name": "--path_folder_save_read2genome",
+        self.D_parser["-pfsr"] = {"name": "--path-folder-save-read2genome",
                                   "arg": {"metavar": "path_folder_save_read2genome",
                                           "type": str,
                                           "default": None,
                                           "help": "If the path of the folder is given, it will save the matrix returned by read2genome in order to compute it just once"}}
-        self.D_parser["-ib"] = {"name": "--is_bok", "arg": {"action": "store_true",
+        self.D_parser["-ib"] = {"name": "--is-bok", "arg": {"action": "store_true",
                                                             "help": "If true, specify that the dataframe is formed as BoK."}}
         self.D_parser["-r"] = {"name": "--resources", "arg": {"metavar": "resources",
                                                               "type": str,
@@ -414,7 +414,7 @@ class ParserCreator(object):
                                                              "type": int,
                                                              "default": 3,
                                                              "help": "Number of layers in transformer"}}
-        self.D_parser["-mv"] = {"name": "--max_vectors", "arg": {"metavar": "max_vectors",
+        self.D_parser["-mv"] = {"name": "--max-vectors", "arg": {"metavar": "max_vectors",
                                                                  "type": int,
                                                                  "default": 100000,
                                                                  "help": "Maximum of vectors used"}}
@@ -426,53 +426,53 @@ class ParserCreator(object):
                                                            "type": int,
                                                            "default": 0,
                                                            "help": "Mutation rate"}}
-        self.D_parser['-pjma'] = {"name": "--path_json_modif_abundance", "arg": {"metavar": "path_json_modif_abundance",
+        self.D_parser['-pjma'] = {"name": "--path-json-modif-abundance", "arg": {"metavar": "path_json_modif_abundance",
                                                                                  "type": str,
                                                                                  "required": False,
                                                                                  "help": "Path to the json containing tax_id: factor where tax_id is the id at the tax_level taxonomic level and factor is the multiplicator to change the original abundance balanced"}}
-        self.D_parser["-go"] = {"name": "--giga_octet", "arg": {"metavar": "giga_octet",
+        self.D_parser["-go"] = {"name": "--giga-octet", "arg": {"metavar": "giga_octet",
                                                                 "type": float,
                                                                 "default": 1.,
                                                                 "help": "Giga octet simulation by sample"}}
-        self.D_parser['-pap'] = {"name": "--path_abundance_profile", "arg": {"metavar": "path_abundance_profile",
+        self.D_parser['-pap'] = {"name": "--path-abundance-profile", "arg": {"metavar": "path_abundance_profile",
                                                                              "type": str,
                                                                              "required": True,
                                                                               "help": "If the abundance profile is a file then this profile is replicated n_sample times, if it is a folder then n_sample is replaced by the total number of abundance profiles."}}
-        self.D_parser['-sa'] = {"name": "--simulate_abundance", "arg": {"action": "store_true",
+        self.D_parser['-sa'] = {"name": "--simulate-abundance", "arg": {"action": "store_true",
                                                                        "help": "If true create a simulation abundance, else only compute abundance balanced"}}
-        self.D_parser['-im'] = {"name": "--in_memory", "arg": {"action": "store_true",
+        self.D_parser['-im'] = {"name": "--in-memory", "arg": {"action": "store_true",
                                                                         "help": "Compute in memory (pandas instead of spark"}}
-        self.D_parser["-il"] = {"name": "--id_label", "arg": {"metavar": "id_label",
+        self.D_parser["-il"] = {"name": "--id-label", "arg": {"metavar": "id_label",
                                                               "type": str,
                                                               "default": None,
                                                               "help": "Comma separated id like id.fasta,group. If given compute only one element and path_metadata is not required."}}
-        self.D_parser["-ftd"] = {"name": "--list_file_to_del", "arg": {"metavar": "list_file_to_del",
+        self.D_parser["-ftd"] = {"name": "--list-file-to-del", "arg": {"metavar": "list_file_to_del",
                                                                        "type": str,
                                                                        "default": None,
                                                                        "required": False,
                                                                        "help": "Comma separated name of file within path_data that we don't want to process."}}
-        self.D_parser["-bi"] = {"name": "--bowtie_index", "arg": {"metavar": "bowtie_index",
+        self.D_parser["-bi"] = {"name": "--bowtie-index", "arg": {"metavar": "bowtie_index",
                                                                   "type": str,
                                                                   "default": None,
                                                                   "required": False,
                                                                   "help": "Bowtie index used for alignment"}}
-        self.D_parser["-pp"] = {"name": "--paired_prediction", "arg": {"action": "store_true",
+        self.D_parser["-pp"] = {"name": "--paired-prediction", "arg": {"action": "store_true",
                                                                "help": "Read that are paired will have the same prediction from read2genome by taking the max probability of both reads."}}
-        self.D_parser["-cv"] = {"name": "--cross_validation", "arg": {"metavar": "cross_validation",
+        self.D_parser["-cv"] = {"name": "--cross-validation", "arg": {"metavar": "cross_validation",
                                                               "type": int,
                                                               "default": 20,
                                                               "help": "Number of cross validation"}}
-        self.D_parser["-tm"] = {"name": "--to_merge", "arg": {"action": "store_true",
+        self.D_parser["-tm"] = {"name": "--to-merge", "arg": {"action": "store_true",
                                                               "help": "Merge output files from CAMISIM because anonymized was set to false."}}
         self.D_parser["-d"] = {"name": "--disease", "arg": {"metavar": "disease",
                                                             "type": str,
                                                             "required": True,
                                                             "help": "Comma separated list of the string corresponding to the disease class for each dataset"}}
-        self.D_parser["-aa"] = {"name": "--add_abundance", "arg": {"metavar": "add_abundance",
+        self.D_parser["-aa"] = {"name": "--add-abundance", "arg": {"metavar": "add_abundance",
                                                                    "type": str,
                                                                    "default": "no",
                                                                    "choices": ["no", "yes", "only"]}}
-        self.D_parser["-AF"] = {"name": "--activation_function", "arg": {"metavar": "activation_function",
+        self.D_parser["-AF"] = {"name": "--activation-function", "arg": {"metavar": "activation_function",
                                                                  "type": str,
                                                                  "default": "nn.ReLU",
                                                                  "choices": ["nn.ReLU", "nn.LeakyReLU"],
