@@ -35,7 +35,7 @@ def preprocess_metagenomic_data(
         logging.info("%s already exists" % path_save)
         return
     logging.info("Begin preprocessing of %s" % path_data)
-    df = spark_manager.read_raw_fastq_file_to_df(
+    df, L_list_tmp_file = spark_manager.read_raw_fastq_file_to_df(
         spark,
         path_data,
         n_sample_load=n_sample_load,
@@ -43,6 +43,9 @@ def preprocess_metagenomic_data(
         in_memory=in_memory,
     )
     df.write.save(path_save, mode=saving_mode, format="parquet")
+    if L_list_tmp_file:
+        for tmp_file_name in L_list_tmp_file:
+            os.remove(tmp_file_name)
     logging.info("End preprocessing")
 
 

@@ -6,6 +6,7 @@ from pyspark import SparkConf
 from pyspark.sql import SparkSession
 import subprocess
 
+from metagenome2vec.utils.file_manager import remove_dir
 from metagenome2vec.utils.string_names import *
 from metagenome2vec.utils import transformation_ADN
 
@@ -175,6 +176,7 @@ def read_raw_fastq_file_to_df(
     :param n_sample_load: float, percentage of the rdd taken
     :return: pyspark RDD, element = String = sequence of nucleotides
     """
+    L_list_tmp_file = None  # Is None if in_memory is True
     if in_memory:
         schema_fasta = T.StructType(
             [T.StructField(read_id_name, T.StringType(), False)]
@@ -214,41 +216,43 @@ def read_raw_fastq_file_to_df(
         df = df.persist()
         df.count()
     else:
-        schema_fasta = T.StructType(
-            [
-                T.StructField(read_id_name, T.StringType(), False),
-                T.StructField(read_name, T.StringType(), False),
-            ]
-        )
-        L_list_tmp_file = []
-        str_tmp = "tmp_cleaning_raw_data_"
-        for filename in os.listdir(path_data):
-            if filename.startswith(str_tmp):
-                os.remove(os.path.join(path_data, filename))
-        for filename in os.listdir(path_data):
-            tmp_file_name = os.path.join(path_data, str_tmp + filename).replace(
-                ".gz", ""
+        try:
+            schema_fasta = T.StructType(
+                [
+                    T.StructField(read_id_name, T.StringType(), False),
+                    T.StructField(read_name, T.StringType(), False),
+                ]
             )
-            L_list_tmp_file.append(tmp_file_name)
-            cmd = r"""zcat {} | awk 'NR%4==1 || NR%4==2' | awk 'NR%2{{printf "%s,",$0;next;}}1' > {}""".format(
-                os.path.join(path_data, filename), tmp_file_name
+            L_list_tmp_file = []
+            str_tmp = "tmp_cleaning_raw_data_"
+            for filename in os.listdir(path_data):
+                if filename.startswith(str_tmp):
+                    os.remove(os.path.join(path_data, filename))
+            for filename in os.listdir(path_data):
+                tmp_file_name = os.path.join(path_data, str_tmp + filename).replace(
+                    ".gz", ""
+                )
+                L_list_tmp_file.append(tmp_file_name)
+                cmd = r"""zcat {} | awk 'NR%4==1 || NR%4==2' | awk 'NR%2{{printf "%s,",$0;next;}}1' > {}""".format(
+                    os.path.join(path_data, filename), tmp_file_name
+                )
+                subprocess.call(
+                    cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
+                )
+            df = spark.read.csv(L_list_tmp_file, header=False, schema=schema_fasta)
+            if num_partitions is not None:
+                df = df.repartition(num_partitions)
+            if n_sample_load > 0:
+                df = df.limit(n_sample_load)
+            df = df.withColumn(
+                pair_name, F.udf(lambda x: x.split("/")[-1], T.StringType())(read_id_name)
             )
-            subprocess.call(
-                cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT
-            )
-        df = spark.read.csv(L_list_tmp_file, header=False, schema=schema_fasta)
-        if num_partitions is not None:
-            df = df.repartition(num_partitions)
-        if n_sample_load > 0:
-            df = df.limit(n_sample_load)
-        df = df.withColumn(
-            pair_name, F.udf(lambda x: x.split("/")[-1], T.StringType())(read_id_name)
-        )
-        df = df.persist()
-        df.count()
-        for filename in L_list_tmp_file:
-            subprocess.call(["rm", filename])
-    return df
+        except Exception as e:
+            for tmp_file_name in L_list_tmp_file:
+                os.remove(tmp_file_name)
+            print(e)
+            raise e
+    return df, L_list_tmp_file
 
 
 def df_to_df_word_count(df, k, s, num_partitions=None):

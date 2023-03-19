@@ -1,6 +1,7 @@
 import os
 import argparse
 import json
+import yaml
 import logging
 import copy
 from metagenome2vec.utils import data_manager, spark_manager, string_names
@@ -477,6 +478,10 @@ class ParserCreator(object):
                                                                  "default": "nn.ReLU",
                                                                  "choices": ["nn.ReLU", "nn.LeakyReLU"],
                                                                  "help": "The activation function used during training."}}
+        self.D_parser["-sp"] = {"name": "--spark-conf", "arg": {"metavar": "spark_conf",
+                                                                 "type": str,
+                                                                 "default": None,
+                                                                 "help": "Path to the spark configuration file in yaml format."}}
 
         self.parser_donwload_metagenomic_data()
         self.parser_bok_split()
@@ -518,19 +523,19 @@ class ParserCreator(object):
     def parser_bok_split(self):
         parser = self.subparsers.add_parser('bok_split')
         for k in ['-k', '-s', '-lf', '-pg', '-ps', '-np',
-                  '-if', '-o', '-mo', '-pd', '-ng']:
+                  '-if', '-o', '-mo', '-pd', '-ng', '-sp']:
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
 
     @add_subparser
     def parser_bok_merge(self):
         parser = self.subparsers.add_parser('bok_merge')
-        for k in ['-lf', '-pg', '-pd', '-np', '-mo', '-o', '-ng']:
+        for k in ['-lf', '-pg', '-pd', '-np', '-mo', '-o', '-ng', '-sp']:
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
 
     @add_subparser
     def parser_clean_raw_metagenomic_data(self):
         parser = self.subparsers.add_parser('clean_raw_metagenomic_data')
-        for k in ['-pd', '-nsl', '-ps', '-if', '-mo', '-np', '-o', '-pg', '-lf', '-ftd', '-im']:
+        for k in ['-pd', '-nsl', '-ps', '-if', '-mo', '-np', '-o', '-pg', '-lf', '-ftd', '-im', '-sp']:
             if k == '-nsl':
                 self.D_parser[k]["arg"]["default"] = -1
                 self.D_parser[k]["arg"]["help"] = "Maximum number of reads loaded for one sample "
@@ -636,7 +641,7 @@ class ParserCreator(object):
     @add_subparser
     def parser_bok(self):
         parser = self.subparsers.add_parser('bok')
-        for k in ['-pd', '-k', '-o', '-pmd']:
+        for k in ['-pd', '-k', '-o', '-pmd', '-sp']:
             if k == '-k':
                 self.D_parser[k]["arg"]["required"] = True
             if k == '-pmd':
@@ -651,7 +656,7 @@ class ParserCreator(object):
     @add_subparser
     def parser_metagenome2vec(self):
         parser = self.subparsers.add_parser('metagenome2vec')
-        for k in ['-pd', '-ps', '-pmd', '-prv', '-pt', '-prg', '-nsl', '-T', '-pp', '-o', '-il', '-k']:
+        for k in ['-pd', '-ps', '-pmd', '-prv', '-pt', '-prg', '-nsl', '-T', '-pp', '-o', '-il', '-k', '-sp']:
             if k == '-prg':
                 self.D_parser[k]["arg"]["required"] = False
             if k == '-nsl':
@@ -867,29 +872,34 @@ if __name__ == "__main__":
 
     parserCreator = ParserCreator()
     args = parserCreator.parser.parse_args()
-    # TODO replace with os.path + increment log file if already exists add path log
-    dict_commands_metadata = {"download_metagenomic_data": {"path_log": "download", "log_file": "download_metagenomic_data.log", "need_spark": False},
-                            "clean_raw_metagenomic_data": {"path_log": "metagenome_preprocessing", "log_file": "clean_raw_metagenomic_data.log", "need_spark": True},
-                            "bok_split": {"path_log": "metagenome_preprocessing", "log_file": "bok_split.log", "need_spark": True},
-                            "bok_merge": {"path_log": "metagenome_preprocessing", "log_file": "bok_merge.log", "need_spark": True},
-                            "create_camisim_config_file": {"path_log": "simulation", "log_file": "create_camisim_config_file.log", "need_spark": False},
-                            "run_camisim": {"path_log": "simulation", "log_file": "run_camisim.log", "need_spark": False},
-                            "create_df_fasta_metadata": {"path_log": "simulation", "log_file": "create_df_fasta_metadata.log", "need_spark": False},
-                            "create_simulated_read2genome_dataset": {"path_log": "simulation", "log_file": "create_simulated_read2genome_dataset.log", "need_spark": False},
-                            "create_simulated_metagenome2vec_dataset": {"path_log": "simulation", "log_file": "create_simulated_metagenome2vec_dataset.log", "need_spark": False},
-                            "fastdna": {"path_log": "read2genome", "log_file": "fastdna.log", "need_spark": False},
-                            "bok": {"path_log": "metagenome2vec", "log_file": "bok.log", "need_spark": True},
-                            "metagenome2vec": {"path_log": "metagenome2vec", "log_file": "metagenome2vec.log", "need_spark": True},
-                            "deepsets": {"path_log": "model", "log_file": "deepsets.log", "need_spark": False},
-                            "snn": {"path_log": "model", "log_file": "snn.log", "need_spark": False},
-                            "vae": {"path_log": "model", "log_file": "vae.log", "need_spark": False},}
+    dict_commands_metadata = {"download_metagenomic_data": {"path_log": "download", "log_file": "download_metagenomic_data.log"},
+                            "clean_raw_metagenomic_data": {"path_log": "metagenome_preprocessing", "log_file": "clean_raw_metagenomic_data.log"},
+                            "bok_split": {"path_log": "metagenome_preprocessing", "log_file": "bok_split.log"},
+                            "bok_merge": {"path_log": "metagenome_preprocessing", "log_file": "bok_merge.log"},
+                            "create_camisim_config_file": {"path_log": "simulation", "log_file": "create_camisim_config_file.log"},
+                            "run_camisim": {"path_log": "simulation", "log_file": "run_camisim.log"},
+                            "create_df_fasta_metadata": {"path_log": "simulation", "log_file": "create_df_fasta_metadata.log"},
+                            "create_simulated_read2genome_dataset": {"path_log": "simulation", "log_file": "create_simulated_read2genome_dataset.log"},
+                            "create_simulated_metagenome2vec_dataset": {"path_log": "simulation", "log_file": "create_simulated_metagenome2vec_dataset.log"},
+                            "fastdna": {"path_log": "read2genome", "log_file": "fastdna.log"},
+                            "bok": {"path_log": "metagenome2vec", "log_file": "bok.log"},
+                            "metagenome2vec": {"path_log": "metagenome2vec", "log_file": "metagenome2vec.log"},
+                            "deepsets": {"path_log": "model", "log_file": "deepsets.log"},
+                            "snn": {"path_log": "model", "log_file": "snn.log"},
+                            "vae": {"path_log": "model", "log_file": "vae.log"},}
     
     command_metadata = dict_commands_metadata[args.command]
-    path_log, log_file, need_spark = os.path.join(SCRIPT_DIR, "logs", command_metadata["path_log"]), command_metadata["log_file"], command_metadata["need_spark"]
+    path_log, log_file = os.path.join(SCRIPT_DIR, "logs", command_metadata["path_log"]), command_metadata["log_file"]
     os.makedirs(path_log, exist_ok=True)
     logging.basicConfig(filename=os.path.join(path_log, log_file), level=logging.INFO)
-
-    spark = spark_manager.createSparkSession(args.command) if need_spark else None
+    
+    # read the spark conf in yaml file
+    spark_conf = {}
+    if "spark_conf" in args:
+        with open(args.spark_conf) as f_spark_conf:
+            spark_conf = yaml.safe_load(f_spark_conf)
+    
+    spark = spark_manager.createSparkSession(args.command, **spark_conf)
     logging.info("Starting {}".format(args.command))
 
     if args.command == "download_metagenomic_data":
@@ -901,6 +911,7 @@ if __name__ == "__main__":
             for folder in os.listdir(args.path_data):
                 logging.info("cleaning metagenome {}".format(os.path.join(args.path_data, folder)))
                 preprocess_metagenomic_data(spark, os.path.join(args.path_data, folder), args.path_save, args.n_sample_load, args.num_partitions, args.mode, args.in_memory, args.overwrite)
+                spark.catalog.clearCache()
         else:
             preprocess_metagenomic_data(spark, args.path_data, args.path_save, args.n_sample_load, args.num_partitions, args.mode, args.in_memory, args.overwrite)
 

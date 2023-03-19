@@ -357,53 +357,8 @@ def load_df_taxonomy_ref(path_tax_report):
     """
     df_taxonomy_ref = pd.read_csv(path_tax_report)
     df_taxonomy_ref[ncbi_id_name] = df_taxonomy_ref[ncbi_id_name].apply(int)
-    # df_taxonomy_ref = df_taxonomy_ref.sort_values(ncbi_id_name).reset_index(drop=True)
-    # df_taxonomy_ref[genome_id_name] = ["genome_%s" % i for i in range(len(df_taxonomy_ref))]
     df_taxonomy_ref = df_taxonomy_ref.applymap(str)
     return df_taxonomy_ref
-
-
-# Creation of read embedding algorithm
-# def load_read2vec(read2vec_name, path_read2vec, spark=None, path_metagenome_word_count=None,
-#                   k=None, id_gpu=[-1], path_tmp_folder=None):
-#     if path_metagenome_word_count is not None and path_metagenome_word_count != "None":
-#         assert spark is not None, "You have to define a SQL spark context to load kmer count"
-#         kmer_count = spark.read.parquet(path_metagenome_word_count).select("kmer", "count").rdd.collectAsMap()
-#     else:
-#         kmer_count = None
-#     if read2vec_name == "basic":
-#         embeddings, dico_index, reverse_index = load_embeddings(path_read2vec)
-#         read2vec = BasicReadEmbeddings(embeddings, dico_index, reverse_index, k, kmer_count)
-#     elif read2vec_name == "fastText":
-#         # Creation of read embedding algorithm
-#         path_model, dico_index, reverse_index = load_fasttext(path_read2vec)
-#         read2vec = FastTextReadEmbeddings(path_model, dico_index, reverse_index, k)
-#     elif read2vec_name == "fastDNA":
-#         read2vec = FastDnaEmbed(path_read2vec, spark, path_tmp_folder)
-#     # TODO
-#     elif read2vec_name == "transformer":
-#         read2vec = Seq2Seq(k, id_gpu=id_gpu)
-#         read2vec.loadModel(path_read2vec)
-#         read2vec.model.eval()
-#     else:
-#         raise Exception("The read2vec algorithm is unknown")
-#     return read2vec
-
-
-# def load_read2genome(read2genome, path_read2genome, hc=None, path_tmp_folder=None, device=None):
-#     if read2genome == "fastDNA":
-#         r2g = FastDnaPred(path_read2genome, path_tmp_folder)
-#     elif read2genome == "h2oModel":
-#         # Test if the name of the model ends by model.h2o
-#         if "model.h2o" != path_read2genome.split("/")[-1]:
-#             path_read2genome = os.path.join(path_read2genome, "model.h2o")
-#         r2g = H2oModel(path_read2genome, hc)
-#     elif read2genome == "transformer":
-#         r2g = TransformerClassifier(-1)
-#         r2g.loadModel(path_read2genome, device=device)
-#     else:
-#         raise Exception("Read genome algorithm not correctly given !")
-#     return r2g
 
 
 def filter_fastdna_fasta_file(data, labels, path_tmp_folder, tax_taken):
