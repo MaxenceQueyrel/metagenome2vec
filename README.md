@@ -93,7 +93,7 @@ At this point you should have a folder called 'camisim' containing these files:
 - A tsv file with abundance: no header, two columns as "genome_ID \t abundance". Note that the abundance column must sum to 1 and that this file can also be a folder containing multiple abundance files.
 
 ```bash
-docker exec -i camisim python /opt/camisim/metagenomesimulation.py --debug /path/to/save_folder/camisim/config_files/config_file.ini
+docker exec -i camisim python3 /opt/CAMISIM/metagenomesimulation.py --debug /path/to/save_folder/camisim/config_files/config_file.ini
 ```
 The first line initiates the docker container and the second runs the simulation that simulates the metagenomic samples in the camisim/dataset/my_folder_in_init_file folder.
 
