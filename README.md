@@ -29,11 +29,11 @@ Before running the command lines, the containers can be run from the previous cr
 Below an example to the the containers:
 ##### metagenome2vec container
 ```bash
-docker run -i -d --rm --name=metagenome2vec -v /local/data/path/:/container/data/path/ maxence27/metagenome2vec:2.0
+docker run -i -d --name=metagenome2vec -v /local/data/path/:/container/data/path/ maxence27/metagenome2vec:2.0
 ```
 ##### CAMISIM container
 ```bash
-docker run --rm --name camisim -dt --memory="4g" --memory-swap="4g" --cpus="4.0" -v /local/data/path/:/container/data/path/ maxence27/camisim:1.0
+docker run -i -d --name camisim --memory="4g" --memory-swap="4g" --cpus="4.0" -v /local/data/path/:/container/data/path/ maxence27/camisim:2.0
 ```
 
 ##### Downloading Metagenomic Data
