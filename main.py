@@ -896,8 +896,9 @@ if __name__ == "__main__":
     # read the spark conf in yaml file
     spark_conf = {}
     if "spark_conf" in args:
-        with open(args.spark_conf) as f_spark_conf:
-            spark_conf = yaml.safe_load(f_spark_conf)
+        if args.spark_conf is not None:
+            with open(args.spark_conf) as f_spark_conf:
+                spark_conf = yaml.safe_load(f_spark_conf)
     
     spark = spark_manager.createSparkSession(args.command, **spark_conf)
     logging.info("Starting {}".format(args.command))
