@@ -73,7 +73,7 @@ Given a folder of genomes fasta files, it downloads the metadata information of 
 
 ###### Step 2: Create config files for camisim
 ```bash
-docker exec -i metagenome2vec python main.py create_camisim_config_file --path-save /path/to/simulation_folder --n-cpus 3 --n-sample-by-class 2 --computation-type both --path-tmp /tmp --giga_octet 1.0 --path-abundance-profile /path/to/abundance_file.tsv
+docker exec -i metagenome2vec python main.py create_camisim_config_file --path-save /path/to/simulation_folder --n-cpus 3 --n-sample-by-class 2 --computation-type both --path-tmp /tmp --giga-octet 1.0 --path-abundance-profile /path/to/abundance_file.tsv
 ```
 - path-save: The same path as in the previous step, corresponding to the path where the configuration files and dataset folders are stored. 
 - path-tmp: Path to the tmp folder used by CAMISIM to simulate data.
