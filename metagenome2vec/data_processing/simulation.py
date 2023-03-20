@@ -607,7 +607,7 @@ def create_genome_metadata(
     elif os.path.exists(name_fasta_metadata):  # Do not compute it if already exists
         df_fasta_metadata = pd.read_csv(name_fasta_metadata, sep=",")
     else:
-        df_fasta_metadata = genome.create_df_fasta_metadata(path_fasta_folder)
+        df_fasta_metadata = genome.create_genome_metadata(path_fasta_folder)
         df_fasta_metadata.to_csv(name_fasta_metadata, sep=",", index=False)
 
     # Complete metadata with abundance and save fasta metadata with abundance
