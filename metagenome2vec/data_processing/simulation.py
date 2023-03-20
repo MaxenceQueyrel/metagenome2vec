@@ -451,7 +451,7 @@ def complete_fasta_metadata_with_abundance(df, D_modif_abundance=None):
         gb[bp_length_name_by_taxa] /= gb[bp_length_name_by_taxa].sum()
         df = df.merge(gb, on=tax_level)
         df[abundance_tax_balanced_name] = 1 / df[bp_length_name]
-        df[abundance_tax_balanced_name] = df.groupby(tax_level)[
+        df[abundance_tax_balanced_name] = df.groupby(tax_level, group_keys=False)[
             abundance_tax_balanced_name
         ].apply(lambda x: x / x.sum())
         df[abundance_tax_balanced_name] *= df[bp_length_name_by_taxa]
