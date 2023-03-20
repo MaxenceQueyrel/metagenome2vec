@@ -506,7 +506,7 @@ def create_files_camisim(
     df_fasta_metadata, path_folder_save, path_fasta_folder, D_modif_abundance=None
 ):
     """
-    From the fasta metadata dataset created by the function 'create_df_fasta_metadata', it writes the files to use with camisim.
+    From the fasta metadata dataset created by the function 'create_genome_metadata', it writes the files to use with camisim.
     :param df_fasta_metadata: DataFrame Pandas, the complete metadata fatadrame with abundance
     :param path_folder_save: Str, Path to the folder where are saved the data
     :param path_fasta_folder: Str, Path to the folder containing fasta file
@@ -580,7 +580,7 @@ def create_files_camisim(
             )
 
 
-def create_df_fasta_metadata(
+def create_genome_metadata(
     path_fasta_folder: str,
     path_folder_save: str,
     path_json_modif_abundance: str = None,

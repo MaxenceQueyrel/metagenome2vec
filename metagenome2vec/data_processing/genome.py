@@ -142,7 +142,7 @@ def complete_df_with_all_phylo_id(df, taxa_id="NCBI_ID"):
         strain_name,
     ]
     ncbi = NCBITaxa()
-    for i, tax in tqdm(df[taxa_id].iteritems()):
+    for i, tax in tqdm(df[taxa_id].items()):
         D_res = get_ranks(int(tax), L_rank, ncbi)
         for rank in L_rank:
             df.loc[i, rank] = (
@@ -166,7 +166,7 @@ def complete_df_with_all_phylo_id(df, taxa_id="NCBI_ID"):
             df.loc[index, L_rank[j] + "_name"] = df.loc[index, L_rank[j + 1] + "_name"]
 
 
-def create_df_fasta_metadata(path_fasta_folder):
+def create_genome_metadata(path_fasta_folder):
     """
     Construct the metadata dataframe of a collection of fasta file located in path_data
     :param path_fasta_folder: String, complete path to the folder containing fasta file

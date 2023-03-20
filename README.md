@@ -64,7 +64,7 @@ docker exec -i metagenome2vec python main.py clean_raw_metagenomic_data --path-d
 
 ###### Step 1: Create Metadata
 ```bash
-docker exec -i metagenome2vec python main.py create_df_fasta_metadata --path-data /path/to/genomic/data_folder --path-save /path/to/saving_folder
+docker exec -i metagenome2vec python main.py create_genome_metadata --path-data /path/to/genomic/data_folder --path-save /path/to/saving_folder
 ```
 - path-data: Path to the folder containing the genomic data files.
 - path-save: Path to the folder where the metadata files will be saved.

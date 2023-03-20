@@ -489,7 +489,7 @@ class ParserCreator(object):
         self.parser_clean_raw_metagenomic_data()
         self.parser_metagenome_kmerization()
         self.parser_genome_kmerization()
-        self.parser_create_df_fasta_metadata()
+        self.parser_create_genome_metadata()
         self.parser_create_simulated_read2genome_dataset()
         self.parser_create_simulated_metagenome2vec_dataset()
         self.parser_create_camisim_config_file()
@@ -568,8 +568,8 @@ class ParserCreator(object):
     ##############################
     
     @add_subparser
-    def parser_create_df_fasta_metadata(self):
-        parser = self.subparsers.add_parser('create_df_fasta_metadata')
+    def parser_create_genome_metadata(self):
+        parser = self.subparsers.add_parser('create_genome_metadata')
         for k in ['-pd', '-ps', '-pjma', '-pmd', '-sa']:
             if k == '-ps':
                 self.D_parser[k]["arg"]["required"] = True
@@ -611,7 +611,7 @@ class ParserCreator(object):
                 self.D_parser[k]["arg"]["default"] = "illumina"
                 self.D_parser[k]["arg"]["help"] = "'illumina', 'nanosim' or 'both' simulator"
             if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "Path of the create_df_fasta_metadata output"
+                self.D_parser[k]["arg"]["help"] = "Path of the create_genome_metadata output"
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
 
     ##############################
@@ -878,7 +878,7 @@ if __name__ == "__main__":
                             "bok_merge": {"path_log": "metagenome_preprocessing", "log_file": "bok_merge.log"},
                             "create_camisim_config_file": {"path_log": "simulation", "log_file": "create_camisim_config_file.log"},
                             "run_camisim": {"path_log": "simulation", "log_file": "run_camisim.log"},
-                            "create_df_fasta_metadata": {"path_log": "simulation", "log_file": "create_df_fasta_metadata.log"},
+                            "create_genome_metadata": {"path_log": "simulation", "log_file": "create_genome_metadata.log"},
                             "create_simulated_read2genome_dataset": {"path_log": "simulation", "log_file": "create_simulated_read2genome_dataset.log"},
                             "create_simulated_metagenome2vec_dataset": {"path_log": "simulation", "log_file": "create_simulated_metagenome2vec_dataset.log"},
                             "fastdna": {"path_log": "read2genome", "log_file": "fastdna.log"},
@@ -932,8 +932,8 @@ if __name__ == "__main__":
         create_simulated_config_file(args.n_cpus, args.n_sample_by_class, args.computation_type, args.giga_octet,
                                 args.path_tmp_folder, args.path_save, args.path_abundance_profile)
 
-    if args.command == "create_df_fasta_metadata":
-        create_df_fasta_metadata(args.path_data, args.path_save, args.path_json_modif_abundance, args.path_metadata, args.simulate_abundance)
+    if args.command == "create_genome_metadata":
+        create_genome_metadata(args.path_data, args.path_save, args.path_json_modif_abundance, args.path_metadata, args.simulate_abundance)
     
     if args.command == "create_simulated_read2genome_dataset":
         create_simulated_read2genome_dataset(args.path_fastq_file, args.path_mapping_file, args.path_metadata, args.path_save,
