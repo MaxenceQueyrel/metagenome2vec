@@ -96,6 +96,7 @@ At this point you should have a folder called 'camisim' containing these files:
 docker exec -i camisim python3 /opt/CAMISIM/metagenomesimulation.py --debug /path/to/save_folder/camisim/config_files/config_file.ini
 ```
 The first line initiates the docker container and the second runs the simulation that simulates the metagenomic samples in the camisim/dataset/my_folder_in_init_file folder.
+ps: If you get an error like "genome_0 is not unique", think about deleting all item in the output_directory mentioned in the init file.
 
 ###### Step4: Create a read2genome / fastdna dataset from the CAMISIM output
 Create a dataframe from the simulated data to train and test the read2genome step.
