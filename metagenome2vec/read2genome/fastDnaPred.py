@@ -115,8 +115,8 @@ class FastDnaPred(Read2Genome):
         )
         if tax_taken is not None:
             f_name += "_n_tax_%s" % len(tax_taken)
-        path_save = os.path.join(path_kmer2vec, f_name)
-        output = os.path.join(path_read2genome, f_name)
+        path_embedding = os.path.join(path_kmer2vec, f_name)
+        path_model = os.path.join(path_read2genome, f_name)
 
         path_fastDNA = os.getenv("FASTDNA")
         assert (
@@ -128,7 +128,7 @@ class FastDnaPred(Read2Genome):
         ###################################
 
         # Create the folder where the model will be saved
-        file_manager.create_dir(path_save, "local")
+        file_manager.create_dir(path_kmer2vec, "local")
         file_manager.create_dir(path_read2genome, "local")
 
         ###################################
@@ -151,7 +151,7 @@ class FastDnaPred(Read2Genome):
                 "-labels",
                 labels,
                 "-output",
-                output,
+                path_model,
                 "-minn",
                 str(k_mer_size),
                 "-maxn",
@@ -179,7 +179,7 @@ class FastDnaPred(Read2Genome):
         # ---------- Saving files ---------#
         ###################################
 
-        df = pd.read_csv(output + ".vec", sep=" ", header=None, skiprows=1)
+        df = pd.read_csv(path_model + ".vec", sep=" ", header=None, skiprows=1)
         reverse_index = df[0].to_dict()
         dico_index = {}
         for _, v in reverse_index.items():
@@ -187,5 +187,5 @@ class FastDnaPred(Read2Genome):
 
         final_embeddings = np.array(df[np.arange(1, df.shape[1])])
         data_manager.save_embeddings(
-            path_save, final_embeddings, dico_index, reverse_index, path_tmp_folder
+            path_embedding, final_embeddings, dico_index, reverse_index, path_tmp_folder
         )
