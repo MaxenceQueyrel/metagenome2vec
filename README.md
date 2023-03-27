@@ -138,9 +138,13 @@ docker exec -i metagenome2vec python main.py fastdna --k-mer-size 6 --path-data 
 ##### Run metagenome2vec
 From a preprocessed folder of metagenomic data, it will embed the metagenomes with the read2genome and read2vec models.
 ```bash
-docker exec -i metagenome2vec python main.py metagenome2vec -k 6 -pd /path/to/folder/with/metagenomes/preprocessed/ -ps /path/to/save/ -pmd /path/to/metadata.csv -prv /path/to/read2vec -prg /path/to/read2genome
+docker exec -i metagenome2vec python main.py metagenome2vec --k-mer-size 6 --path-data /path/to/folder/with/metagenomes/preprocessed/ --path-save /path/to/save/ --path-metadata /path/to/metadata.csv --path-read2vec /path/to/read2vec --path-read2genome /path/to/read2genome
 ```
-
+- k-mer-size: The size of the k-mer used to train the model.
+- path-save: The folder where will be saved the embeddings of the metagenomes.
+- path-metadata: The path to the csv fle wich contains three columns: "id.fasta", "group" and "id.subject". id.fasta is the name of the fasta file containing the metagenome, group is the class of the metagenome and id.subject is the id of the subject. Several metagenome samples can be associated with the same id.subject.
+- path-read2vec: The path to the read2vec model.
+- path-read2genome: The path to the read2genome model.
 
 ##### Train a neural network classifier model
 ###### Deepsets
