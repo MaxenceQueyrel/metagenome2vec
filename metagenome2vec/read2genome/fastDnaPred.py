@@ -128,7 +128,7 @@ class FastDnaPred(Read2Genome):
         ###################################
 
         # Create the folder where the model will be saved
-        file_manager.create_dir(path_kmer2vec, "local")
+        file_manager.create_dir(path_embedding, "local")
         file_manager.create_dir(path_read2genome, "local")
 
         ###################################
