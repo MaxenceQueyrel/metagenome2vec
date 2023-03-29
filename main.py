@@ -922,6 +922,7 @@ if __name__ == "__main__":
             for folder in os.listdir(args.path_data):
                 logging.info("Computing bok for metagenome metagenome {}".format(os.path.join(args.path_data, folder)))
                 bok_split(spark, os.path.join(args.path_data, folder), args.path_save, args.k_mer_size, args.step, args.mode, args.num_partitions, args.overwrite)
+                spark.catalog.clearCache()
         else:
              bok_split(spark, args.path_data, args.path_save, args.k_mer_size, args.step, args.mode, args.num_partitions, args.overwrite)
    
