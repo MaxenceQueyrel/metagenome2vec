@@ -965,6 +965,7 @@ if __name__ == "__main__":
                 df_metagenome = spark.read.parquet(os.path.join(args.path_data, metagenome_name))
                 embedding.transform(spark, args.path_save, df_metagenome, args.k_mer_size, target, metagenome_name, read2vec, args.n_sample_load,
                         read2genome, threshold=args.threshold, paired_prediction=args.paired_prediction, overwrite=args.overwrite, hc=None, save_read2genome=True)
+                spark.catalog.clearCache()
         else:
             metagenome_name, target = args.id_label.split(',')
             df_metagenome = spark.read.parquet(os.path.join(args.path_data, metagenome_name))
