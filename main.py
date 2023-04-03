@@ -316,10 +316,6 @@ class ParserCreator(object):
                                                                 "type": int,
                                                                 "default": 20,
                                                                 "help": "Maximum size of read proceeded by the algorithm"}}
-        self.D_parser["-sc"] = {"name": "--spark-conf", "arg": {"metavar": "spark_conf",
-                                                                "type": json.loads,
-                                                                "default": {},
-                                                                "help": "Dict to set the spark conf (avoid to use spark-submit)"}}
         self.D_parser["-tl"] = {"name": "--tax-level", "arg": {"metavar": "tax_level",
                                                                "type": str,
                                                                "choices": ["tax_id", "species", "genus", "family"],
@@ -478,7 +474,7 @@ class ParserCreator(object):
                                                                  "default": "nn.ReLU",
                                                                  "choices": ["nn.ReLU", "nn.LeakyReLU"],
                                                                  "help": "The activation function used during training."}}
-        self.D_parser["-sp"] = {"name": "--spark-conf", "arg": {"metavar": "spark_conf",
+        self.D_parser["-sc"] = {"name": "--spark-conf", "arg": {"metavar": "spark_conf",
                                                                  "type": str,
                                                                  "default": None,
                                                                  "help": "Path to the spark configuration file in yaml format."}}
@@ -523,19 +519,19 @@ class ParserCreator(object):
     def parser_bok_split(self):
         parser = self.subparsers.add_parser('bok_split')
         for k in ['-k', '-s', '-lf', '-pg', '-ps', '-np',
-                  '-if', '-o', '-mo', '-pd', '-ng', '-sp']:
+                  '-if', '-o', '-mo', '-pd', '-ng', '-sc']:
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
 
     @add_subparser
     def parser_bok_merge(self):
         parser = self.subparsers.add_parser('bok_merge')
-        for k in ['-lf', '-pg', '-pd', '-np', '-mo', '-o', '-ng', '-sp']:
+        for k in ['-lf', '-pg', '-pd', '-np', '-mo', '-o', '-ng', '-sc']:
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
 
     @add_subparser
     def parser_clean_raw_metagenomic_data(self):
         parser = self.subparsers.add_parser('clean_raw_metagenomic_data')
-        for k in ['-pd', '-nsl', '-ps', '-if', '-mo', '-np', '-o', '-pg', '-lf', '-ftd', '-im', '-sp']:
+        for k in ['-pd', '-nsl', '-ps', '-if', '-mo', '-np', '-o', '-pg', '-lf', '-ftd', '-im', '-sc']:
             if k == '-nsl':
                 self.D_parser[k]["arg"]["default"] = -1
                 self.D_parser[k]["arg"]["help"] = "Maximum number of reads loaded for one sample "
@@ -641,7 +637,7 @@ class ParserCreator(object):
     @add_subparser
     def parser_bok(self):
         parser = self.subparsers.add_parser('bok')
-        for k in ['-pd', '-k', '-o', '-pmd', '-sp']:
+        for k in ['-pd', '-k', '-o', '-pmd', '-sc']:
             if k == '-k':
                 self.D_parser[k]["arg"]["required"] = True
             if k == '-pmd':
@@ -656,7 +652,7 @@ class ParserCreator(object):
     @add_subparser
     def parser_metagenome2vec(self):
         parser = self.subparsers.add_parser('metagenome2vec')
-        for k in ['-pd', '-ps', '-pmd', '-prv', '-pt', '-prg', '-nsl', '-T', '-pp', '-o', '-il', '-k', '-sp']:
+        for k in ['-pd', '-ps', '-pmd', '-prv', '-pt', '-prg', '-nsl', '-T', '-pp', '-o', '-il', '-k', '-sc']:
             if k == '-prg':
                 self.D_parser[k]["arg"]["required"] = False
             if k == '-nsl':
