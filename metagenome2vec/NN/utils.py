@@ -76,7 +76,7 @@ def train_evaluate_factory(
 ):
     def train_evaluate_decorator(function):
         def wrapper(parameterization):
-            mean_accuracy, std_accuracy = function(
+            mean_score, std_score = function(
                 X,
                 y_,
                 model_type,
@@ -88,8 +88,10 @@ def train_evaluate_factory(
                 device=device,
                 is_optimization=True,
             )
-            tune.report(mean_accuracy=mean_accuracy, std_accuracy=std_accuracy)
-
+            if model_type == "deepsets":
+                tune.report(mean_accuracy=mean_score, std_accuracy=std_score)
+            else:
+                tune.report(mean_score=mean_score, std_score=std_score)
         return wrapper
 
     return train_evaluate_decorator
