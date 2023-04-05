@@ -147,15 +147,27 @@ docker exec -i metagenome2vec python main.py metagenome2vec --k-mer-size 6 --pat
 - path-read2genome: The path to the read2genome model.
 
 ##### Train a neural network classifier model
+
 ###### Deepsets
 ```bash
-docker exec -i metagenome2vec python main.py deepsets -pd /path/to/the/data -pmd /path/to/the/metadata -dn name_of_the_dataset -B 1 -S 3 -R 0.001 -d target -TU -cv 3 -TS 0.3 -ps /path/to/the/saved/model
+docker exec -i metagenome2vec python main.py deepsets --path-data /path/to/mil.csv --path-metadata /path/to/metadata.csv --dataset-name dataset_name --batch-size 4 --n-steps 3 --learning-rate 0.001 --group group --tuning --cross-validation 2 --test-size 0.3 --path-save /path/to/model/folder
 ```
-###### VAE
+###### Variational Auto Encoder
 ```bash
-docker exec -i metagenome2vec python main.py vae -pd /path/to/the/data -pmd /path/to/the/metadata -dn name_of_the_dataset -B 1 -S 3 -R 0.001 -d target -TU -cv 3 -TS 0.3 -ps /path/to/the/saved/model
+docker exec -i metagenome2vec python main.py vae --path-data /path/to/mil.csv --path-metadata /path/to/metadata.csv --batch-size 1 --n-steps 2 --learning-rate 0.001 --group group --tuning --cross-validation 2 --test-size 0.3 --path-save /path/to/model/folder
 ```
 ###### Siamese Network
 ```bash
-docker exec -i metagenome2vec python main.py snn -pd /path/to/the/data -pmd /path/to/the/metadata -dn name_of_the_dataset -B 1 -S 3 -R 0.001 -d target -TU -cv 3 -TS 0.3 -ps /path/to/the/saved/model
+docker exec -i metagenome2vec python main.py snn --path-data /path/to/mil.csv --path-metadata /path/to/metadata.csv --batch-size 1 --n-steps 2 --learning-rate 0.001 --group group --tuning --cross-validation 2 --test-size 0.3 --path-save /path/to/model/folder
 ```
+- path-data: path to the multiple instance learning file created in the previous step.
+- path-metadata: The path to the csv file containing three columns: "id.fasta", "group" and "id.subject". id.fasta is the name of the fasta file containing the metagenome, group is the class of the metagenome and id.subject is the id of the subject. Multiple metagenome samples can be associated with the same id.subject.
+- dataset-name: Name of the dataset to be included in the classification score table (for deepsets).
+- batch-size: Batch size of the training.
+- n-steps: The number of training epochs.
+- learning-rate: The learning rate of the training.
+- cross-validation: The number of cross-validations to apply.
+- test-size: The size of the validation data set.
+- path-save: The path where the model will be saved.
+- tuning: Whether or not to compute a parameter search. If given, the training parameters are ignored.
+- group: The group of interest for score computation.
