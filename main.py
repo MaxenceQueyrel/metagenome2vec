@@ -461,10 +461,10 @@ class ParserCreator(object):
                                                               "help": "Number of cross validation"}}
         self.D_parser["-tm"] = {"name": "--to-merge", "arg": {"action": "store_true",
                                                               "help": "Merge output files from CAMISIM because anonymized was set to false."}}
-        self.D_parser["-d"] = {"name": "--disease", "arg": {"metavar": "disease",
-                                                            "type": str,
-                                                            "required": True,
-                                                            "help": "Comma separated list of the string corresponding to the disease class for each dataset"}}
+        self.D_parser["-g"] = {"name": "--group", "arg": {"metavar": "group",
+                                                          "type": str,
+                                                          "required": True,
+                                                          "help": "Comma separated list of the string corresponding to the group class for each dataset"}}
         self.D_parser["-aa"] = {"name": "--add-abundance", "arg": {"metavar": "add_abundance",
                                                                    "type": str,
                                                                    "default": "no",
@@ -676,7 +676,7 @@ class ParserCreator(object):
     def parser_deepsets(self):
         parser = self.subparsers.add_parser('deepsets')
         for k in ['-pd', '-pmd', '-ps', '-dn', '-B', '-S', '-R', '-D', '-TS',
-                  '-DO', '-DS', '-ig', '-nm', '-TU', '-I', '-r', '-CL', '-pt', '-d', '-cv']:
+                  '-DO', '-DS', '-ig', '-nm', '-TU', '-I', '-r', '-CL', '-pt', '-g', '-cv']:
             if k == '-dn':
                 self.D_parser[k]["arg"]["help"] = "The name of the model to save"
                 self.D_parser[k]["arg"]["default"] = "deepsets"
@@ -694,7 +694,7 @@ class ParserCreator(object):
     @add_subparser
     def parser_vae(self):
         parser = self.subparsers.add_parser('vae')
-        for k in ['-pd', '-pmd', '-ps', '-dn', '-B', '-S', '-R', '-D', '-d', '-ct',
+        for k in ['-pd', '-pmd', '-ps', '-dn', '-B', '-S', '-R', '-D', '-g', '-ct',
                   '-DO', '-DV', '-ig', '-nm', '-TU', '-I', '-r', '-CL', '-cv', '-TS', '-AF']:
             if k == '-dn':
                 self.D_parser[k]["arg"]["help"] = "The name of the model to save"
@@ -718,7 +718,7 @@ class ParserCreator(object):
     @add_subparser
     def parser_snn(self):
         parser = self.subparsers.add_parser('snn')
-        for k in ['-pd', '-pmd', '-ps', '-dn', '-B', '-S', '-R', '-D', '-d',
+        for k in ['-pd', '-pmd', '-ps', '-dn', '-B', '-S', '-R', '-D', '-g',
                   '-DO', '-DV', '-ig', '-nm', '-TU', '-I', '-r', '-CL', '-cv', '-TS', '-AF']:
             if k == '-dn':
                 self.D_parser[k]["arg"]["help"] = "The name of the model to save"
@@ -771,7 +771,7 @@ class ParserCreator(object):
     def parser_benchmark(self):
         parser = argparse.ArgumentParser(description='Arguments for benchmark script')
         for k in ['-pd', '-pmd', '-ps', '-dn', '-nc', '-I', '-ct', '-ib', '-pm', '-ig',
-                  '-TS', '-cv', '-d', '-TU', '-FT', '-aa']:
+                  '-TS', '-cv', '-g', '-TU', '-FT', '-aa']:
             if k == '-pd':
                 self.D_parser[k]["arg"]["help"] = "Complete path to the matrix to feed into the benchmark"
                 self.D_parser[k]["arg"]["required"] = True
@@ -996,7 +996,7 @@ if __name__ == "__main__":
         test_size = args.test_size
         file_name_parameters = 'best_parameters.json'
         # Load data
-        X, y_ = load_several_matrix_for_learning(args.path_data, args.path_metadata, args.disease, model_type=args.command)
+        X, y_ = load_several_matrix_for_learning(args.path_data, args.path_metadata, args.group, model_type=args.command)
         
 
     if args.command == "deepsets":
