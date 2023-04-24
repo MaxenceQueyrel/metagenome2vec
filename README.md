@@ -130,8 +130,8 @@ docker exec -i metagenome2vec python main.py fastdna --k-mer-size 6 --path-data 
 - n-steps: The number of steps used to train the model.
 - embedding-size: The size of the trained embeddings.
 - path-data: Two paths separated by commas, the first path corresponds to the reads and the second to the classes. These files were created in step 4.
-- path-read2genome: The path where the fastdna model is stored.
-- path-kmer2vec: The path where the embeddings of the kmers are stored. 
+- path-read2genome: The path where the fastdna model will be stored.
+- path-kmer2vec: The path where the embeddings of the kmers will be stored. 
 - path-tmp: The path where the temporary data will be stored.
 
 
