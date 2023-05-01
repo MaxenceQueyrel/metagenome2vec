@@ -1,5 +1,4 @@
 import numpy as np
-import sys
 import os
 from multiprocessing import Pool
 from sklearn.manifold import TSNE
@@ -9,21 +8,14 @@ import matplotlib
 from collections import Counter
 
 matplotlib.use("agg")
-root_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-sys.path.insert(0, os.path.join(root_folder, "utils"))
-import parser_creator
-import data_manager
 
-if sys.version_info[0] == 3 and sys.version_info[1] == 7:
-    import transformation_ADN
-else:
-    import transformation_ADN2 as transformation_ADN
 import matplotlib.pyplot as plt
-import matplotlib.cm as cm
 import seaborn
 
 seaborn.set_style("whitegrid")
 import matplotlib.pylab as pylab
+
+from metagenome2vec.utils import transformation_ADN, data_manager
 
 params = {
     "legend.fontsize": "x-large",
@@ -119,9 +111,6 @@ def plot_with_labels(
         fig.savefig(path_save)
 
 
-#########################################################################################################
-
-
 def generator(similarities, reverse_index):
     for i in range(len(similarities)):
         for j in range(i + 1, len(similarities)):
@@ -132,26 +121,31 @@ def generator(similarities, reverse_index):
                 yield (i, j)
 
 
-def dist_ED(i, j):
-    return i, j, transformation_ADN.ED(reverse_index[i], reverse_index[j])
-
-
-def dist_NW(i, j):
-    return i, j, transformation_ADN.needle(reverse_index[i], reverse_index[j])
-
-
-def create_distance(similarities, dist, reverse_index):
+def create_distance(similarities, dist, reverse_index, n_cpus=4):
     """
     Compute the distance relation between edit or needleman wusch distance and cosine similarity
     :param similarities: numpy 2D array, matrix of the cosine similarity
-    :param algo: func, edit or needleman-wunch
+    :param dist: str, edit or needleman-wunch
     :param reverse_index: dict, reverse index for kmer : {index: kmer}
     :return: D_sistance, dict Key is the distance value, value is the list of all cosine similarity
     """
+
+    def dist_ED(i, j, reverse_index):
+        return i, j, transformation_ADN.ED(reverse_index[i], reverse_index[j])
+
+    def dist_NW(i, j, reverse_index):
+        return i, j, transformation_ADN.needle(reverse_index[i], reverse_index[j])
+
     gen = generator(similarities, reverse_index)
     D_distance = {}
     pool = Pool(n_cpus)
-    res = pool.starmap(dist, gen)
+    if dist == "edit":
+        dist_func = dist_ED
+    elif dist == "needleman-wunch":
+        dist_func = dist_NW
+    else:
+        raise Exception(f"Distance {dist} is not defined.")
+    res = pool.starmap(dist_func, gen)
     pool.close()
     pool.join()
     for tup in res:
@@ -163,10 +157,31 @@ def create_distance(similarities, dist, reverse_index):
     return D_distance
 
 
-#########################################################################################################
+def plot(
+    path_embeddings,
+    path_data,
+    n_instance=None,
+    tsne=False,
+    edit=False,
+    needlman_wunch=False,
+    overwrite=False,
+):
 
+    assert tsne or edit or needlman_wunch, "You must choose at least one distance"
 
-def compute(path_embeddings, embeddings, index, reverse_index):
+    with open(path_data, "r") as f:
+        counter = Counter()
+        for line in f:
+            counter.update(line.replace("\n", "").split())
+        most_common = counter.most_common()
+        most_common = list(filter(lambda x: x[1] not in ["<unk>", "</s>"], most_common))
+        kmer_count = {x[0]: x[1] for x in most_common}
+        kmer_index = {i: x[0] for i, x in enumerate(most_common)}
+
+    embeddings, index, reverse_index = data_manager.load_embeddings(
+        path_embeddings, skip_kmer_name=True, L_kmer_to_del=["<unk>", "</s>"]
+    )
+
     if n_instance is not None:
         index_to_keep = []
         kmer_count2 = {}
@@ -183,8 +198,8 @@ def compute(path_embeddings, embeddings, index, reverse_index):
     else:
         del index
         kmer_count2 = kmer_count.copy()
-    # t-SNE
-    if any([x in computation_type for x in [0, 3]]):
+
+    if tsne:
         quantiles = np.quantile(
             np.array(list(kmer_count2.values()), dtype=int), np.arange(0.1, 1.0, 0.1)
         )
@@ -209,7 +224,7 @@ def compute(path_embeddings, embeddings, index, reverse_index):
             )
             low_dim_embs = tsne.fit_transform(embeddings)
             title = (
-                "t-SNE projection with perplexity = %s, iterations = %s, learning rate = %s\n"
+                "UMAP projection with perplexity = %s, iterations = %s, learning rate = %s\n"
                 % (perplexity, n_iter, learning_rate)
             )
             plot_with_labels(
@@ -227,113 +242,74 @@ def compute(path_embeddings, embeddings, index, reverse_index):
                     % (perplexity, n_iter, learning_rate),
                 ),
             )
-    # Edit distance vs cosine similarity
-    try:
-        if any([x in computation_type for x in [1, 2, 3]]):
-            sparse_embeddings = sparse.csr_matrix(embeddings)
-            similarities = cosine_similarity(sparse_embeddings)
-    except:
-        pass
-    try:
-        if any([x in computation_type for x in [1, 3]]):
-            if (
-                overwrite
-                or os.path.exists(os.path.join(path_embeddings, "cosine_vs_edit"))
-                is False
-            ):
-                D_ld = create_distance(similarities, dist_ED, reverse_index)
-                fig, axe = plt.subplots(figsize=(8, 8))
-                scores = list(D_ld.keys())
-                pos = [i for i in range(min(scores), max(scores) + 1)]
-                axe.violinplot(
-                    [D_ld[i] for i in range(min(scores), max(scores) + 1)],
-                    pos,
-                    points=60,
-                    widths=0.7,
-                    showmeans=True,
-                    showextrema=True,
-                    showmedians=True,
-                    bw_method=0.5,
-                )
-                axe.set_title("Cosine similarity vs Edit Distance", fontsize=25)
-                axe.set_xlabel("Edit Distance", fontsize=18)
-                axe.set_ylabel("Cosine Similarity", fontsize=18)
-                axe.set_xticks(pos)
-                axis = np.concatenate([np.repeat(k, len(D_ld[k])) for k in D_ld.keys()])
-                ordinate = np.concatenate([D_ld[k] for k in D_ld.keys()])
-                seaborn.regplot(
-                    x=axis, y=ordinate, order=2, x_jitter=0.05, ax=axe, scatter=False
-                )
-                axe.figure.savefig(os.path.join(path_embeddings, "cosine_vs_edit"))
-    except:
-        pass
-    try:
-        if any([x in computation_type for x in [2, 3]]):
-            if (
-                overwrite
-                or os.path.exists(
-                    os.path.join(path_embeddings, "cosine_vs_needleman-wunsch")
-                )
-                is False
-            ):
-                D_needle = create_distance(similarities, dist_NW, reverse_index)
-                fig, axe = plt.subplots(figsize=(8, 8))
-                scores = list(D_needle.keys())
-                pos = [i for i in range(min(scores), max(scores) + 1)]
-                axe.violinplot(
-                    [D_needle[i] for i in range(min(scores), max(scores) + 1)],
-                    pos,
-                    points=60,
-                    widths=0.7,
-                    showmeans=True,
-                    showextrema=True,
-                    showmedians=True,
-                    bw_method=0.5,
-                )
-                axe.set_title(
-                    "Cosine similarity vs Needleman-Wunsch Score", fontsize=25
-                )
-                axe.set_xlabel("Needleman-Wunsch Score", fontsize=18)
-                axe.set_ylabel("Cosine Similarity", fontsize=18)
-                axe.set_xticks(pos)
-                axis = np.concatenate(
-                    [np.repeat(k, len(D_needle[k])) for k in D_needle.keys()]
-                )
-                ordinate = np.concatenate([D_needle[k] for k in D_needle.keys()])
-                seaborn.regplot(
-                    x=axis, y=ordinate, order=2, x_jitter=0.05, ax=axe, scatter=False
-                )
-                axe.figure.savefig(
-                    os.path.join(path_embeddings, "cosine_vs_needleman-wunsch")
-                )
-    except:
-        pass
 
+    if needlman_wunch or edit:
+        sparse_embeddings = sparse.csr_matrix(embeddings)
+        similarities = cosine_similarity(sparse_embeddings)
 
-if __name__ == "__main__":
-    parser = parser_creator.ParserCreator()
-    args = parser.parser_analyse_embeddings()
-    overwrite = args.overwrite
-    path_kmer2vec = args.path_kmer2vec
-    path_data = args.path_data
-
-    computation_type = [
-        int(x) for x in args.computation_type.split(",") if int(x) in [0, 1, 2, 3]
-    ]
-    n_cpus = args.n_cpus
-    n_instance = args.n_instance  # Number of k-mers to compute
-
-    if any([x in computation_type for x in [0, 3]]):
-        with open(path_data, "r") as f:
-            counter = Counter()
-            for line in f:
-                counter.update(line.replace("\n", "").split())
-        most_common = counter.most_common()
-        most_common = list(filter(lambda x: x[1] not in ["<unk>", "</s>"], most_common))
-        kmer_count = {x[0]: x[1] for x in most_common}
-        kmer_index = {i: x[0] for i, x in enumerate(most_common)}
-    embeddings, index, reverse_index = data_manager.load_embeddings(
-        path_kmer2vec, skip_kmer_name=True, L_kmer_to_del=["<unk>", "</s>"]
-    )
-
-    compute(path_kmer2vec, embeddings, index, reverse_index)
+    if edit:
+        if (
+            overwrite
+            or os.path.exists(os.path.join(path_embeddings, "cosine_vs_edit")) is False
+        ):
+            D_ld = create_distance(similarities, "edit", reverse_index)
+            _, axe = plt.subplots(figsize=(8, 8))
+            scores = list(D_ld.keys())
+            pos = [i for i in range(min(scores), max(scores) + 1)]
+            axe.violinplot(
+                [D_ld[i] for i in range(min(scores), max(scores) + 1)],
+                pos,
+                points=60,
+                widths=0.7,
+                showmeans=True,
+                showextrema=True,
+                showmedians=True,
+                bw_method=0.5,
+            )
+            axe.set_title("Cosine similarity vs Edit Distance", fontsize=25)
+            axe.set_xlabel("Edit Distance", fontsize=18)
+            axe.set_ylabel("Cosine Similarity", fontsize=18)
+            axe.set_xticks(pos)
+            axis = np.concatenate([np.repeat(k, len(D_ld[k])) for k in D_ld.keys()])
+            ordinate = np.concatenate([D_ld[k] for k in D_ld.keys()])
+            seaborn.regplot(
+                x=axis, y=ordinate, order=2, x_jitter=0.05, ax=axe, scatter=False
+            )
+            axe.figure.savefig(os.path.join(path_embeddings, "cosine_vs_edit"))
+            plt.close()
+    if needlman_wunch:
+        if (
+            overwrite
+            or os.path.exists(
+                os.path.join(path_embeddings, "cosine_vs_needleman-wunsch")
+            )
+            is False
+        ):
+            D_needle = create_distance(similarities, "needleman-wunch", reverse_index)
+            _, axe = plt.subplots(figsize=(8, 8))
+            scores = list(D_needle.keys())
+            pos = [i for i in range(min(scores), max(scores) + 1)]
+            axe.violinplot(
+                [D_needle[i] for i in range(min(scores), max(scores) + 1)],
+                pos,
+                points=60,
+                widths=0.7,
+                showmeans=True,
+                showextrema=True,
+                showmedians=True,
+                bw_method=0.5,
+            )
+            axe.set_title("Cosine similarity vs Needleman-Wunsch Score", fontsize=25)
+            axe.set_xlabel("Needleman-Wunsch Score", fontsize=18)
+            axe.set_ylabel("Cosine Similarity", fontsize=18)
+            axe.set_xticks(pos)
+            axis = np.concatenate(
+                [np.repeat(k, len(D_needle[k])) for k in D_needle.keys()]
+            )
+            ordinate = np.concatenate([D_needle[k] for k in D_needle.keys()])
+            seaborn.regplot(
+                x=axis, y=ordinate, order=2, x_jitter=0.05, ax=axe, scatter=False
+            )
+            axe.figure.savefig(
+                os.path.join(path_embeddings, "cosine_vs_needleman-wunsch")
+            )

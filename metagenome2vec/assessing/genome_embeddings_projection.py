@@ -1,13 +1,12 @@
 import pandas as pd
 import numpy as np
-import sys
 import os
 import re
-from sklearn.manifold import TSNE
 from umap import UMAP
 from pyspark.sql import types as T
 from pyspark.sql import functions as F
 import matplotlib
+import logging
 
 matplotlib.use("agg")
 import matplotlib.pyplot as plt
@@ -23,13 +22,8 @@ from matplotlib import rcParams
 
 rcParams.update({"figure.autolayout": True})
 
-root_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-sys.path.insert(0, os.path.join(root_folder, "utils"))
-import parser_creator
-import logger
-import data_manager
-import hdfs_functions as hdfs
-from string_names import *
+from metagenome2vec.utils.string_names import *
+from metagenome2vec.utils import file_manager
 
 
 params = {
@@ -99,13 +93,9 @@ def clean_and_split(x, max_length):
     return re.findall(".{%s}?" % max_length, x)
 
 
-# * k because the sequence is cut into kmer max_length times
-udfCleanAndSplit = F.udf(
-    lambda x: clean_and_split(x, max_length), T.ArrayType(T.StringType())
-)
-
-
-def compute(path_data, path_metadata, path_save):
+def project(spark, path_data, path_metadata, path_save, read2vec, max_length, overwrite, path_genome_dist, num_partitions):
+    file_manager.create_dir(path_save, mode="local")
+    
     col_name = "sequence"
     schema = T.StructType([T.StructField(col_name, T.StringType(), False)])
     # L_perplexity = [5, 20, 50, 100]
@@ -130,23 +120,26 @@ def compute(path_data, path_metadata, path_save):
             and metadata_row[fasta_name] in X[fasta_name].tolist()
         ):
             continue
-        log.writeExecutionTime()
         # read
         df_genome = spark.read.csv(os.path.join(path_data, fasta), schema=schema)
         # filter only sequence
         d = time.time()
         df_genome = df_genome.filter(~df_genome.sequence.rlike("^>"))
         # cleaning, splitting and exploding
+        # * k because the sequence is cut into kmer max_length times
+        udfCleanAndSplit = F.udf(
+            lambda x: clean_and_split(x, max_length), T.ArrayType(T.StringType())
+        )
         df_genome = df_genome.withColumn(col_name, udfCleanAndSplit(col_name))
         df_genome = df_genome.withColumn(col_name, F.explode(df_genome.sequence))
         # reapartition to use more cpu
         df_genome = df_genome.repartition(num_partitions).persist()
-        log.write("Nb row: %s " % df_genome.count())
-        log.write("cleaning done in: %s" % (time.time() - d))
+        logging.info("Nb row: %s " % df_genome.count())
+        logging.info("cleaning done in: %s" % (time.time() - d))
         # Run read2vec
         d = time.time()
-        df_genome = r2v.read2vec(df_genome, col_name=col_name)
-        log.write("read2vec done in: %s" % (time.time() - d))
+        df_genome = read2vec.read2vec(df_genome, col_name=col_name)
+        logging.info("read2vec done in: %s" % (time.time() - d))
         # Create new row for X (res)
         d = time.time()
         new_row = pd.Series(df_genome.groupBy().mean().toPandas().values[0])
@@ -154,19 +147,18 @@ def compute(path_data, path_metadata, path_save):
         new_row.columns = new_row.columns.astype(str)
         # concatenate with previous X
         X = pd.concat([X, new_row]) if X is not None else new_row
-        log.write("add res in X done in: %s" % (time.time() - d))
+        logging.info("add res in X done in: %s" % (time.time() - d))
         # saving in csv file
         X.to_csv(os.path.join(path_save, "genome_embeddings.csv"), index=False)
         spark.catalog.clearCache()
-        for (id, rdd) in spark.sparkContext._jsc.getPersistentRDDs().items():
+        for _, rdd in spark.sparkContext._jsc.getPersistentRDDs().items():
             rdd.unpersist()
-        log.writeExecutionTime("%s : %s" % (i, fasta))
     # Remove .fna because JolyTree fasta name are without .fna
     metadata[fasta_name] = metadata[fasta_name].apply(lambda x: x.replace(".fna", ""))
     y_ = X[[x for x in X.columns.values if not x.isnumeric()]]
     X = X.drop([x for x in X.columns.values if not x.isnumeric()], axis=1)
     for tax_level in [species_name, genus_name, family_name]:
-        log.write("t-SNE on %s level" % tax_level)
+        logging.info("t-SNE on %s level" % tax_level)
         for n_neighbors in L_n_neighbors:
             path_save_fig = os.path.join(
                 path_save,
@@ -174,7 +166,7 @@ def compute(path_data, path_metadata, path_save):
                 % (tax_level, n_neighbors, str(min_dist).replace(".", "_"), metric),
             )
             # path_save_fig = os.path.join(path_save, "t_SNE_tax_level_%s_perp_%s_iter_%s_l_rate_%s" % (tax_level, perplexity, n_iter, learning_rate))
-            log.write("Computing %s" % path_save_fig)
+            logging.info("Computing %s" % path_save_fig)
             if overwrite is False and os.path.exists(path_save_fig):
                 continue
             umap = UMAP(
@@ -201,7 +193,7 @@ def compute(path_data, path_metadata, path_save):
                 metadata=metadata,
             )
     # Compute similarity
-    log.write(path_genome_dist)
+    logging.info(path_genome_dist)
     if path_genome_dist is not None:
         try:
             genome_dist = pd.read_csv(
@@ -215,57 +207,10 @@ def compute(path_data, path_metadata, path_save):
             genome_dist = genome_dist[genome_dist[index_name].values]
             X_dist = squareform(pdist(X.iloc[:, 4:], metric="cosine"))
             score, p_value, _ = mantel(genome_dist, X_dist, method="spearman")
-            log.write("Mantel score={:.2f} ; p_value={:.5f}".format(score, p_value))
+            logging.info("Mantel score={:.2f} ; p_value={:.5f}".format(score, p_value))
             with open(os.path.join(path_save, "mantel_test.txt"), "w") as f_out:
                 f_out.write(
                     "Mantel score={:.2f} ; p_value={:.5f}".format(score, p_value)
                 )
         except:
             pass
-
-
-if __name__ == "__main__":
-    parser = parser_creator.ParserCreator()
-    args = parser.parser_genome_projection()
-    overwrite = args.overwrite
-    path_read2vec = args.path_read2vec
-    read2vec = args.read2vec
-    path_data = args.path_data
-    n_cpus = args.n_cpus
-    path_metagenome_word_count = args.path_metagenome_word_count
-    k = args.k_mer_size
-    id_gpu = [int(x) for x in args.id_gpu.split(",")]
-    path_tmp_folder = args.path_tmp_folder
-    path_save = args.path_save
-    hdfs.create_dir(path_save, mode="local")
-    path_metadata = args.path_metadata
-    path_genome_dist = (
-        None if args.path_genome_dist == "None" else args.path_genome_dist
-    )
-    max_length = args.max_length
-    log_file = args.log_file
-    path_log = args.path_log
-    num_partitions = args.num_partitions
-
-    log = logger.Logger(
-        path_log, log_file, log_file, variable_time={"read2vec": read2vec}, **vars(args)
-    )
-
-    # Init Spark
-    spark = hdfs.createSparkSession("genome_projection")
-
-    # Preparing read2vec
-    log.write("Loading read2vec")
-    r2v = data_manager.load_read2vec(
-        read2vec,
-        path_read2vec=path_read2vec,
-        spark=spark,
-        path_metagenome_word_count=path_metagenome_word_count,
-        k=k,
-        id_gpu=id_gpu,
-        path_tmp_folder=path_tmp_folder,
-    )
-
-    # Compute t-SNE projection
-    log.write("Computing")
-    compute(path_data, path_metadata, path_save)

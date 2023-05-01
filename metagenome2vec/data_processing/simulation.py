@@ -204,7 +204,7 @@ def create_simulated_metagenome2vec_dataset(
     csvfile.close()
 
 
-def create_simulated_config_file(
+def create_camisim_config_file(
     n_cpus,
     n_sample_by_class,
     computation_type,

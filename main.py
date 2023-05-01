@@ -1,18 +1,21 @@
 import os
 import argparse
-import json
 import yaml
 import logging
 import copy
+import pandas as pd
+import numpy as np
 from metagenome2vec.utils import data_manager, spark_manager, string_names
 from metagenome2vec.data_processing.metagenome import preprocess_metagenomic_data, bok_split, bok_merge
 from metagenome2vec.data_processing.download_metagenomic_data import download_from_tsv_file
-from metagenome2vec.data_processing.simulation import *
+from metagenome2vec.data_processing.simulation import create_camisim_config_file, create_genome_metadata, create_simulated_read2genome_dataset, create_simulated_metagenome2vec_dataset
 from metagenome2vec.read2genome.fastDnaPred import FastDnaPred
 from metagenome2vec.read2vec.fastDnaEmbed import FastDnaEmbed
 from metagenome2vec.metagenome2vec import bok, embedding
 from metagenome2vec.NN import utils as nn_utils
 from metagenome2vec.NN.data import load_several_matrix_for_learning
+from metagenome2vec.assessing import kmer_embeddings, benchmark_classif, genome_embeddings_projection
+from metagenome2vec.utils.string_names import *
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -102,6 +105,11 @@ class ParserCreator(object):
                                                                       "choices": [0, 1, 2],
                                                                       "default": 0,
                                                                       "help": "0 create both heat map and the structuration learning / 1 create only the structuration / 2 create only the heat map"}}
+        self.D_parser["-mt"] = {"name": "--model-type", "arg": {"metavar": "model_type",
+                                                                "type": str,
+                                                                "choices": ["vae", "ae", "snn"],
+                                                                "default": "vae",
+                                                                "help": "Specify the type of model to use. 'vae', 'ae' or 'snn'"}}
         self.D_parser["-o"] = {"name": "--overwrite", "arg": {"action": "store_true",
                                                               "help": "If true, replace the previous file if exists else do nothing"}}
         self.D_parser["-mo"] = {"name": "--mode", "arg": {"metavar": "mode",
@@ -303,11 +311,6 @@ class ParserCreator(object):
                                                                  "type": int,
                                                                  "default": -1,
                                                                  "help": "Number of cut off for the adaptive softmax"}}
-        self.D_parser["-pmwc"] = {"name": "--path-metagenome-word-count",
-                                  "arg": {"metavar": "path_metagenome_word_count",
-                                          "type": str,
-                                          "default": None,
-                                          "help": "Complet path to the metagenome word count"}}
         self.D_parser["-pgd"] = {"name": "--path-genome-dist", "arg": {"metavar": "path_genome_dist",
                                                                        "type": str,
                                                                        "default": None,
@@ -478,6 +481,18 @@ class ParserCreator(object):
                                                                  "type": str,
                                                                  "default": None,
                                                                  "help": "Path to the spark configuration file in yaml format."}}
+        # '-tsne', '-evc', '-nvc'
+        self.D_parser["-umap"] = {"name": "--umap", "arg": {"action": "store_true",
+                                                            "help": "Compute the UMAP plot."}}
+        
+        self.D_parser["-tsne"] = {"name": "--tsne", "arg": {"action": "store_true",
+                                                            "help": "Compute the TSNE plot."}}
+
+        self.D_parser["-evc"] = {"name": "--edit-vs-cosine", "arg": {"action": "store_true",
+                                                                     "help": "Compute the Edit distance vs the cosine similarity plot."}}
+        
+        self.D_parser["-nvc"] = {"name": "--needleman-vs-cosine", "arg": {"action": "store_true",
+                                                                          "help": "Compute the Needleman-Wunch vs the cosine similarity plot."}}
 
         self.parser_donwload_metagenomic_data()
         self.parser_bok_split()
@@ -495,6 +510,9 @@ class ParserCreator(object):
         self.parser_deepsets()
         self.parser_vae()
         self.parser_snn()
+        self.parser_genome_embeddings_projection()
+        self.parser_benchmark_classif()
+        self.parser_kmer_embeddings_analysis()
         
     ##############################
     # METAGENOME PROCESSING
@@ -723,11 +741,6 @@ class ParserCreator(object):
             if k == '-dn':
                 self.D_parser[k]["arg"]["help"] = "The name of the model to save"
                 self.D_parser[k]["arg"]["default"] = "vae"
-            if k == '-ct':
-                self.D_parser[k]["arg"]["help"] = "If vae uses variational auto encoder, else if ae uses auto encoder"
-                self.D_parser[k]["arg"]["choices"] = ["vae", "ae"]
-                self.D_parser[k]["arg"]["default"] = "vae"
-                self.D_parser[k]["arg"]["type"] = str
             if k == '-ps':
                 self.D_parser[k]["arg"]["help"] = "Complete path to the file where is saved the SNN models and scores"
                 self.D_parser[k]["arg"]["required"] = True
@@ -740,17 +753,13 @@ class ParserCreator(object):
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
 
     ##############################
-    ##############################
+    # Assessing
     ##############################
 
-    def parser_analyse_embeddings(self):
-        parser = argparse.ArgumentParser(description='Arguments for the embeddings analysis')
-        for k in ['-pd', '-pkv', '-ct', '-nc', '-ni', '-o']:
-            if k == '-ct':
-                self.D_parser[k]["arg"][
-                    "help"] = "Computation type : Comma separated string with each option wanted. 0 t-sne projection, 1 edit vs cosine similarity, 2 needlman-wunsch vs cosine similarity, 3 compute all analysis"
-                self.D_parser[k]["arg"]["type"] = str
-                del self.D_parser[k]["arg"]["choices"]
+    @add_subparser
+    def parser_kmer_embeddings_analysis(self):
+        parser = self.subparsers.add_parser('kmer_embeddings_analysis')
+        for k in ['-pd', '-pkv', '-tsne', '-evc', '-nvc', '-nc', '-ni', '-o']:
             if k == "-ni":
                 self.D_parser[k]["arg"]["help"] = "Number of k-mers to compute in the analysis."
                 self.D_parser[k]["arg"]["default"] = None
@@ -760,17 +769,11 @@ class ParserCreator(object):
                 self.D_parser[k]["arg"]["required"] = False
                 self.D_parser[k]["arg"]["help"] = "Path to the data used for the embeddings training"
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_analyse_matrix_distance(self):
-        parser = argparse.ArgumentParser(description='Arguments for the distance matrix analysis')
-        for k in ['-pl', '-dn', '-k', '-w', '-ps', '-mo']:
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_benchmark(self):
-        parser = argparse.ArgumentParser(description='Arguments for benchmark script')
-        for k in ['-pd', '-pmd', '-ps', '-dn', '-nc', '-I', '-ct', '-ib', '-pm', '-ig',
+    
+    @add_subparser
+    def parser_benchmark_classif(self):
+        parser = self.subparsers.add_parser('benchmark_classif')
+        for k in ['-pd', '-pmd', '-ps', '-dn', '-nc', '-I', '-ct', '-mt', '-ib', '-pm', '-ig',
                   '-TS', '-cv', '-g', '-TU', '-FT', '-aa']:
             if k == '-pd':
                 self.D_parser[k]["arg"]["help"] = "Complete path to the matrix to feed into the benchmark"
@@ -789,7 +792,7 @@ class ParserCreator(object):
                 self.D_parser[k]["arg"]["default"] = None
                 self.D_parser[k]["arg"]["required"] = False
                 self.D_parser[k]["arg"]["type"] = str
-                self.D_parser[k]["arg"]["choices"] = [None, "alr", "clr", "ilr", "vae", "ae", "snn"]
+                self.D_parser[k]["arg"]["choices"] = [None, "alr", "clr", "ilr"]
             if k == '-dn':
                 self.D_parser[k]["arg"]["help"] = "Name of the dataframe to use"
                 self.D_parser[k]["arg"]["required"] = True
@@ -798,23 +801,28 @@ class ParserCreator(object):
                 self.D_parser[k]["arg"]["required"] = False
                 self.D_parser[k]["arg"]["default"] = 100
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_cluster_map(self):
-        parser = argparse.ArgumentParser(description='Arguments for cluter map script')
-        for k in ['-pd', '-pmd']:
+    
+    @add_subparser
+    def parser_genome_embeddings_projection(self):
+        parser = self.subparsers.add_parser('genome_embeddings_projection')
+        for k in ['-k', '-pd', '-ps', '-o', '-prv', '-rv', '-nc', '-ig',
+                  '-pt', '-pmd','-Ml', '-pgd', '-np', '-sc']:
             if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "Complete path to the matrix for the cluster map"
+                self.D_parser[k]["arg"]["help"] = "Path to the genome data folder containing the fasta files"
                 self.D_parser[k]["arg"]["required"] = True
             if k == '-pmd':
                 self.D_parser[k]["arg"][
-                    "help"] = "Absolute path to a csv file containing 2 columns : 'id.fasta' (the metagenome's id) and 'group' that is the class of a metagenome"
+                    "help"] = "Absolute path to the metadata file composed by 4 columns tax_id, genus, family, fasta"
+                self.D_parser[k]["arg"]["required"] = True
+            if k == '-ps':
+                self.D_parser[k]["arg"]["help"] = "Path to the saved kmerized genome"
+                self.D_parser[k]["arg"]["required"] = True
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-
-    def parser_analyse_read2genome(self):
-        parser = argparse.ArgumentParser(description="Arguments for analyse read2genome")
-        for k in ['-pm', '-pd', '-pg', '-lf', '-mo', '-tl', '-nsl', '-nc', '-rg', '-pt', '-tt', '-ni', '-pmd', '-bi']:
+    
+    @add_subparser
+    def parser_read2genome_scores(self):
+        parser = self.subparsers.add_parser('read2genome_scores')
+        for k in ['-pm', '-pd', '-mo', '-tl', '-nsl', '-nc', '-rg', '-pt', '-tt', '-ni', '-pmd', '-bi']:
             if k == '-pd':
                 self.D_parser[k]["arg"]["required"] = False
                 self.D_parser[k]["arg"][
@@ -827,42 +835,8 @@ class ParserCreator(object):
                 self.D_parser[k]["arg"]["default"] = 10000
                 self.D_parser[k]["arg"]["help"] = "Number of reads computed for bowtie score"
             parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
 
-    def parser_genome_projection(self):
-        parser = argparse.ArgumentParser(description="Arguments for genomes projection")
-        for k in ['-k', '-pd', '-ps', '-o', '-prv', '-rv', '-nc', '-pmwc', '-ig',
-                  '-pt', '-pmd', '-lf', '-pg', '-Ml', '-pgd', '-np']:
-            if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "Path to the genome data folder containing the fasta files"
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-pmd':
-                self.D_parser[k]["arg"][
-                    "help"] = "Absolute path to the metadata file composed by 4 columns tax_id, genus, family, fasta"
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-ps':
-                self.D_parser[k]["arg"]["help"] = "Path to the saved kmerized genome"
-                self.D_parser[k]["arg"]["required"] = True
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
 
-    def parser_kmer_count(self):
-        parser = argparse.ArgumentParser(description="Arguments for kmer count")
-        for k in ['-pd', '-ps', '-mo']:
-            if k == '-pd':
-                self.D_parser[k]["arg"]["help"] = "Path to the kmerized genome file"
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-ps':
-                self.D_parser[k]["arg"]["help"] = "Path to the results"
-                self.D_parser[k]["arg"]["required"] = True
-            if k == '-mo':
-                self.D_parser[k]["arg"][
-                    "help"] = "'word_count_matrix' if the file given is the output from word_count_split and word_count_merge or 'kmerized_genome_dataset' if the file is the output of kmerization"
-                self.D_parser[k]["arg"]["default"] = "word_count_matrix"
-                self.D_parser[k]["arg"]["choices"] = ["word_count_matrix", "kmerized_genome_dataset"]
-            parser.add_argument(k, self.D_parser[k]['name'], **self.D_parser[k]['arg'])
-        return parser.parse_args()
-    
 
 if __name__ == "__main__":
 
@@ -882,7 +856,11 @@ if __name__ == "__main__":
                             "metagenome2vec": {"path_log": "metagenome2vec", "log_file": "metagenome2vec.log"},
                             "deepsets": {"path_log": "model", "log_file": "deepsets.log"},
                             "snn": {"path_log": "model", "log_file": "snn.log"},
-                            "vae": {"path_log": "model", "log_file": "vae.log"},}
+                            "vae": {"path_log": "model", "log_file": "vae.log"},
+                            "kmer_embeddings_analysis": {"path_log": "analysis", "log_file": "kmer_embeddings_analysis.log"},
+                            "genome_embeddings_projection": {"path_log": "analysis", "log_file": "genome_embeddings_projection.log"},
+                            "benchmark_classif": {"path_log": "analysis", "log_file": "benchmark_classif.log"},
+                            "read2genome_scores": {"path_log": "analysis", "log_file": "read2genome_scores.log"}}
     
     command_metadata = dict_commands_metadata[args.command]
     path_log, log_file = os.path.join(SCRIPT_DIR, "logs", command_metadata["path_log"]), command_metadata["log_file"]
@@ -926,7 +904,7 @@ if __name__ == "__main__":
         bok_merge(spark, args.path_data, args.nb_metagenome, args.num_partitions, args.mode, args.overwrite)
 
     if args.command == "create_camisim_config_file":
-        create_simulated_config_file(args.n_cpus, args.n_sample_by_class, args.computation_type, args.giga_octet,
+        create_camisim_config_file(args.n_cpus, args.n_sample_by_class, args.computation_type, args.giga_octet,
                                 args.path_tmp_folder, args.path_save, args.path_abundance_profile)
 
     if args.command == "create_genome_metadata":
@@ -1099,5 +1077,334 @@ if __name__ == "__main__":
                                           path_model=os.path.join(path_save, "snn.pt"), device=device)
         print(scores)
     
-    logging.info("End computing")
+    if args.command == "kmer_embeddings_analysis":
+        kmer_embeddings.plot(args.path_kmer2vec, 
+                             args.path_data, 
+                             n_instance=args.n_instance, 
+                             n_cpus=args.n_cpus,
+                             tsne=args.tsne, 
+                             edit=args.edit,
+                             needlman_wunch=args.needlman_wunch,
+                             overwrite=args.overwrite)
+        
+    if args.command == "benchmark_classif":
+        if args.path_model is None:  # without neural network
+            X, y_ = data_manager.load_matrix_for_learning(
+                args.path_data, args.path_metadata, args.disease, args.is_bok
+            )
+            del X[id_subject_name]
+            benchmark_classif.benchmark(args.path_save, X, y_, args.dataset_name, args.cross_validation, 
+                                        args.test_size, args.n_iterations, args.computation_type, n_cpus=args.n_cpus)
+        else:
+            X, y_ = data_manager.load_several_matrix_for_learning(
+                args.path_data, args.path_metadata, args.disease
+            )
+            benchmark_classif.benchmark_with_NN(args.path_model, args.path_save, X, y_, args.model_type, 
+                                                args.dataset_name, args.cross_validation, args.test_size, 
+                                                args.n_iterations, n_cpus=args.n_cpus, id_gpu=args.id_gpu,
+                                                tuning=args.tuning, fine_tuning=args.fine_tuning, add_abundance=args.add_abundance)
+            
+    if args.command == "genome_embeddings_projection":
+
+        # Preparing read2vec
+        r2v = data_manager.load_read2vec(
+            args.read2vec,
+            path_read2vec=args.path_read2vec,
+            spark=spark,
+            k=args.k_mer_size,
+            id_gpu=args.id_gpu,
+            path_tmp_folder=args.path_tmp_folder,
+        )
+
+        # Compute t-SNE projection
+        genome_embeddings_projection.project(spark, args.path_data, args.path_metadata, args.path_save, r2v, args.max_length, n_cpus=args.n_cpus, 
+                                             id_gpu=args.id_gpu, overwrite=args.overwrite, path_genome_dist=args.path_genome_dist, num_partitions=args.num_partitions)
+    
+    
+    if args.command == "read2genome_scores":
+        mode = args.mode
+        assert (
+            len(args.path_data.split(",")) == 2
+        ), "You have to give one path for training and another one for validation"
+        path_data_train, path_data_valid = args.path_data.split(",")
+        n_sample_load = args.n_sample_load
+        n_instance = args.n_instance
+        path_metadata = args.path_metadata
+        bowtie_index = args.bowtie_index
+
+        file_manager.create_dir(path_save, mode="local")
+        tax_level = args.tax_level
+        n_cpus = args.n_cpus
+        read2genome = args.read2genome
+        tax_taken = (
+            None
+            if (args.tax_taken is None or args.tax_taken == "None")
+            else [str(x) for x in args.tax_taken.split(".")]
+        )
+        path_tmp_folder = args.path_tmp_folder
+        logging.write("Loading read2genome model")
+        r2g = data_manager.load_read2genome(
+            read2genome, path_model, hc, path_tmp_folder, device="cpu"
+        )
+        logging.write("Loading data")
+
+        df_train = spark.createDataFrame(pd.read_csv(path_data_train, sep="\t"))
+        df_valid = spark.createDataFrame(pd.read_csv(path_data_valid, sep="\t"))
+
+        if n_sample_load > 0:
+            df_train = df_train.limit(n_sample_load)
+            df_valid = df_valid.limit(n_sample_load)
+
+        df_taxonomy_ref = pd.read_csv(path_metadata).astype(str)
+
+        col_name = "%s_name" % tax_level
+        D_id = {
+            key: value
+            for key, value in df_taxonomy_ref[[tax_level, col_name]]
+            .set_index(tax_level)
+            .to_dict()[col_name]
+            .items()
+        }
+        if tax_taken is not None:
+            D_id = {
+                key: value
+                for key, value in df_taxonomy_ref[[tax_level, col_name]]
+                .set_index(tax_level)
+                .to_dict()[col_name]
+                .items()
+                if key in tax_taken
+            }
+            # take the tax_id rather than the tax level in order to make a filter
+            tax_taken = df_taxonomy_ref[df_taxonomy_ref[tax_level].isin(tax_taken)][
+                ncbi_id_name
+            ].tolist()
+            df_train = df_train.filter(
+                df_train.tax_id.isin([int(x) for x in tax_taken])
+            ).persist()
+            df_train.count()
+            df_valid = df_valid.filter(
+                df_valid.tax_id.isin([int(x) for x in tax_taken])
+            ).persist()
+            df_valid.count()
+
+        logging.write("Prediction on train")
+        df_train_pd = r2g.read2genome(df_train)
+        logging.write("Prediction on validation")
+        df_valid_pd = r2g.read2genome(df_valid)
+        # If tax_level different than species, we have to change the y true
+        range_threshold = np.arange(0, 1, 0.01)[::-1]
+
+        if (
+            read2genome == "transformer" or read2genome == "fastDNA"
+        ) and tax_level != tax_id_name:
+            D_convert = dict(zip(df_taxonomy_ref[ncbi_id_name], df_taxonomy_ref[tax_level]))
+            df_train_pd[tax_level] = df_train_pd[tax_id_name].apply(
+                lambda x: int(D_convert[str(x)])
+            )
+            df_valid_pd[tax_level] = df_valid_pd[tax_id_name].apply(
+                lambda x: int(D_convert[str(x)])
+            )
+
+        # Computing scores
+        df_count_label_train = pd.DataFrame(df_train_pd[tax_level].value_counts())
+        logging.write("Computing metric scores on train")
+        save_score(
+            path_save,
+            df_train_pd,
+            df_count_label_train,
+            threshold=0.0,
+            dataset="train",
+            file_mode="w",
+        )
+        logging.write("Computing metric scores by threshold on train")
+        (
+            A_reject_rate,
+            A_accuracy,
+            A_precision,
+            A_recall,
+            A_f1_score,
+            A_count_reject,
+        ) = compute_metrics_by_threshold(df_train_pd, df_count_label_train, range_threshold)
+        
+        logging.write("Plot scores train")
+        plot_score(
+            os.path.join(path_save, "metrics_by_threshold_train.png"),
+            range_threshold,
+            A_reject_rate,
+            A_accuracy,
+            A_precision,
+            A_recall,
+            A_f1_score,
+            "Metrics on train dataset by reject threshold",
+        )
+        plot_score2(
+            os.path.join(path_save, "metrics_by_reject_rate_train.png"),
+            A_reject_rate,
+            A_accuracy,
+            A_precision,
+            A_recall,
+            A_f1_score,
+            "Metrics on train dataset by reject rate",
+        )
+        logging.write("Plot reject train")
+        plot_reject_by_abundance(
+            os.path.join(path_save, "reject_rate_train.png"),
+            df_count_label_train,
+            A_count_reject,
+            D_id,
+            "Rejected rate on train dataset",
+        )
+        logging.write("Plot heatmap train")
+        heatmap(
+            df_train_pd[tax_level],
+            df_train_pd[pred_name],
+            D_id,
+            path_save,
+            "train",
+            "Heatmap classification rate on train dataset",
+        )
+        logging.write("Computing Bowtie score and scores with best threshold on train")
+        best_threashold = range_threshold[
+            np.argmax(A_precision / (A_reject_rate + 1) ** 3)
+        ]  # precision / (reject_rate + 1)^3
+        if bowtie_index is not None or bowtie_index == "None":
+            save_bowtie_score(
+                os.path.join(path_save, "bowtie_score.csv"),
+                df_train_pd,
+                best_threashold,
+                path_tmp_folder,
+                n_instance,
+                "train",
+                file_mode="w",
+            )
+        logging.write("Computing with best threshold on train")
+        save_score(
+            path_save,
+            df_train_pd,
+            df_count_label_train,
+            threshold=best_threashold,
+            dataset="train",
+            file_mode="a",
+        )
+        del df_train_pd
+
+        df_count_label_valid = pd.DataFrame(df_valid_pd[tax_level].value_counts())
+        logging.write("Computing metric scores on valid")
+        save_score(
+            path_save, df_valid_pd, df_count_label_valid, dataset="valid", file_mode="a"
+        )
+        logging.write("Computing metric scores by threshold on valid")
+        df_count_label = pd.DataFrame(df_valid_pd[tax_level].value_counts())
+        (
+            A_reject_rate,
+            A_accuracy,
+            A_precision,
+            A_recall,
+            A_f1_score,
+            A_count_reject,
+        ) = compute_metrics_by_threshold(df_valid_pd, df_count_label, range_threshold)
+        logging.write("Plot scores valid")
+        plot_score(
+            os.path.join(path_save, "metrics_by_threshold_valid.png"),
+            range_threshold,
+            A_reject_rate,
+            A_accuracy,
+            A_precision,
+            A_recall,
+            A_f1_score,
+            "Metrics on valid dataset by reject threshold",
+        )
+        plot_score2(
+            os.path.join(path_save, "metrics_by_reject_rate_valid.png"),
+            A_reject_rate,
+            A_accuracy,
+            A_precision,
+            A_recall,
+            A_f1_score,
+            "Metrics on valid dataset by reject rate",
+        )
+        logging.write("Plot reject valid")
+        plot_reject_by_abundance(
+            os.path.join(path_save, "reject_rate_valid.png"),
+            df_count_label,
+            A_count_reject,
+            D_id,
+            "Rejected rate on valid dataset",
+        )
+        logging.write("Plot heatmap valid")
+        heatmap(
+            df_valid_pd[tax_level],
+            df_valid_pd[pred_name],
+            D_id,
+            path_save,
+            "valid",
+            "Heatmap classification rate on valid dataset",
+        )
+        logging.write("Computing Bowtie score with best threshold on valid")
+
+        best_threashold = range_threshold[
+            np.argmax(A_precision / (A_reject_rate + 1) ** 3)
+        ]  # precision / (reject_rate + 1)^3
+        if os.getenv("BOWTIE") is not None:
+            save_bowtie_score(
+                os.path.join(path_save, "bowtie_score.csv"),
+                df_valid_pd,
+                best_threashold,
+                path_tmp_folder,
+                n_instance,
+                "valid",
+                file_mode="a",
+            )
+        logging.write("Computing with best threshold on valid")
+        save_score(
+            path_save,
+            df_valid_pd,
+            df_count_label_valid,
+            threshold=best_threashold,
+            dataset="valid",
+            file_mode="a",
+        )
+
+        logging.write("Computing plot true proportion vs pred proportion")
+        df_valid = spark.createDataFrame(df_valid_pd)
+        del df_valid_pd
+        win_sim = Window.partitionBy(df_valid[sim_id_name])
+        df_proportion_pred = df_valid.groupBy(sim_id_name, pred_name).count()
+        df_proportion_pred = (
+            df_proportion_pred.withColumn(
+                prop_pred_name, F.col("count") / F.sum("count").over(win_sim)
+            )
+            .select(sim_id_name, pred_name, prop_pred_name)
+            .withColumnRenamed(pred_name, tax_level)
+        )
+        df_proportion = df_valid.groupBy(sim_id_name, tax_level).count()
+        df_proportion = df_proportion.withColumn(
+            prop_true_name, F.col("count") / F.sum("count").over(win_sim)
+        ).select(sim_id_name, tax_level, prop_true_name)
+        df_proportion = df_proportion.join(
+            df_proportion_pred, on=[sim_id_name, tax_level], how="fullouter"
+        )
+        df_proportion = df_proportion.toPandas()
+        df_proportion = df_proportion.fillna(0)
+        sim_ids = df_proportion[sim_id_name].values
+
+        path_proportion = os.path.join(path_save, "plot_proportion_valid")
+        file_manager.create_dir(path_proportion, mode="local")
+        for sim_id in sim_ids:
+            path_save_ = os.path.join(path_proportion, sim_id + ".png")
+            plot_proportion_true_pred(
+                path_save_,
+                df_proportion,
+                sim_id,
+                "Plot between true and predicted abundance proportion for simulation %s"
+                % sim_id,
+            )
+
+        logging.write("Saving the correlation matrix")
+        create_correlation_table(
+            os.path.join(path_save, "proportion_correlation_table_valid.csv"), df_proportion
+        )
+        logging.write("Analyse finished")
+        
+        logging.info("End computing")
 

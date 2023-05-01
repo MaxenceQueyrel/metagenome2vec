@@ -1,10 +1,13 @@
 import torch
+from torch import optim
+from torch.utils.data import DataLoader
+
 import numpy as np
 
 SEED = 52
 np.random.seed(SEED)
 import os
-import sys
+
 from sklearn.ensemble import (
     RandomForestClassifier,
     GradientBoostingClassifier,
@@ -29,18 +32,28 @@ from sklearn.metrics import (
 )
 from tqdm import tqdm
 import time
+from metagenome2vec.utils import data_manager
+from metagenome2vec.utils.string_names import *
+from metagenome2vec.NN import vae, snn
+from metagenome2vec.NN.utils import load_model, set_device
+from metagenome2vec.NN.data import (
+    mil_data_processing,
+    get_features,
+    train_test_split_mil,
+)
 
 
-root_folder = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
-sys.path.insert(0, os.path.join(root_folder, "utils"))
-sys.path.insert(0, os.path.join(root_folder, "NN"))
-
-import parser_creator
-import data_manager
-from string_names import *
-
-
-def benchmark(X, y_, dataset_name, n_splits, test_size, n_iter, computation_type=None):
+def benchmark(
+    path_save,
+    X,
+    y_,
+    dataset_name,
+    n_splits,
+    test_size,
+    n_iter,
+    computation_type=None,
+    n_cpus=1,
+):
     if computation_type is not None:
         X = X / X.sum(axis=0)
         transfo = (
@@ -131,8 +144,8 @@ def benchmark(X, y_, dataset_name, n_splits, test_size, n_iter, computation_type
 
 
 class ResMetricCV:
-    def __init__(self, n_split, model_name):
-        self.n_split = n_split
+    def __init__(self, n_splits, model_name):
+        self.n_split = n_splits
         self.A_acc_train = np.zeros(n_splits)
         self.A_pre_train = np.zeros(n_splits)
         self.A_rec_train = np.zeros(n_splits)
@@ -183,7 +196,43 @@ class ResMetricCV:
         return scores
 
 
-def benchmark_with_NN(X, y_, dataset_name, n_splits, test_size, n_iter):
+def benchmark_with_NN(
+    path_model,
+    path_save,
+    X,
+    y_,
+    model_type,
+    dataset_name,
+    col_features,
+    n_splits,
+    test_size,
+    n_iter,
+    n_cpus=1,
+    id_gpu=-1,
+    tuning=False,
+    fine_tuning=False,
+    add_abundance="No",
+):
+    nn_parameters, genomes = load_model(path_model)
+    X, y_, genomes = mil_data_processing(X, y_, genomes)
+
+    n_output = len(set(y_.tolist()))
+    n_output = 1 if n_output == 2 else n_output
+
+    if model_type == "snn":
+        NN = snn.SiameseNetwork
+        metagenomeDataset = snn.metagenomeDataset
+        fit = snn.fit
+    else:
+        metagenomeDataset = vae.metagenomeDataset
+        fit = vae.fit
+        if model_type == "ae":
+            NN = vae.AE
+        elif model_type == "vae":
+            NN = vae.VAE
+        else:
+            raise ("Not allowed computation_type: %s" % model_type)
+
     rf = Pipeline([("estimator", RandomForestClassifier())])
     gb = Pipeline([("estimator", GradientBoostingClassifier())])
     ab = Pipeline([("estimator", AdaBoostClassifier())])
@@ -225,9 +274,12 @@ def benchmark_with_NN(X, y_, dataset_name, n_splits, test_size, n_iter):
     res_gb = ResMetricCV(n_splits, "GradientBoostingClassifier")
     res_ada = ResMetricCV(n_splits, "AdaBoostClassifier")
 
+    col_features = get_features(X)
+    device = set_device(id_gpu)
+
     for i, (X_train, X_valid, y_train, y_valid) in enumerate(
         tqdm(
-            vae.train_test_split(
+            train_test_split_mil(
                 X, y_, col_features, n_splits=n_splits, test_size=test_size
             ),
             total=n_splits,
@@ -238,8 +290,8 @@ def benchmark_with_NN(X, y_, dataset_name, n_splits, test_size, n_iter):
         dataset_train = metagenomeDataset(X_train, y_train)
         dataset_valid = metagenomeDataset(X_valid, y_valid)
         params_loader = {"batch_size": nn_parameters[vae.batch_size], "shuffle": True}
-        loader_train = vae.DataLoader(dataset_train, **params_loader)
-        loader_valid = vae.DataLoader(dataset_valid, **params_loader)
+        loader_train = DataLoader(dataset_train, **params_loader)
+        loader_valid = DataLoader(dataset_valid, **params_loader)
 
         auto_encoder = NN(
             nn_parameters[vae.input_dim],
@@ -250,7 +302,7 @@ def benchmark_with_NN(X, y_, dataset_name, n_splits, test_size, n_iter):
         ).to(device)
 
         if tuning:
-            optimizer = vae.optim.Adam(
+            optimizer = optim.Adam(
                 auto_encoder.parameters(),
                 lr=nn_parameters[vae.learning_rate],
                 weight_decay=nn_parameters[vae.weight_decay],
@@ -276,7 +328,7 @@ def benchmark_with_NN(X, y_, dataset_name, n_splits, test_size, n_iter):
         if fine_tuning:
             n_epoch = 30
             fine_tune_auto_encoder = vae.FineTuner(auto_encoder, n_output).to(device)
-            optimizer = vae.optim.Adam(
+            optimizer = optim.Adam(
                 fine_tune_auto_encoder.parameters(),
                 lr=nn_parameters[vae.learning_rate],
                 weight_decay=nn_parameters[vae.weight_decay],
@@ -381,62 +433,3 @@ def benchmark_with_NN(X, y_, dataset_name, n_splits, test_size, n_iter):
         data_manager.write_file_res_benchmarck_classif(
             path_save, dataset_name, classifier, scores
         )
-
-
-if __name__ == "__main__":
-    parser = parser_creator.ParserCreator()
-    args = parser.parser_benchmark()
-
-    path_data = args.path_data
-    path_metadata = args.path_metadata
-    path_save = args.path_save
-    n_cpus = args.n_cpus
-    n_iter = args.n_iterations
-    dataset_name = args.dataset_name
-    computation_type = args.computation_type
-    path_model = args.path_model
-    is_bok = args.is_bok
-    test_size = args.test_size
-    n_splits = args.cross_validation
-    disease = args.disease
-    tuning = args.tuning
-    fine_tuning = args.fine_tuning
-    add_abundance = args.add_abundance
-
-    #############################
-    ####### loading data ########
-    #############################
-
-    if path_model is None:
-        X, y_ = data_manager.load_matrix_for_learning(
-            path_data, path_metadata, disease, is_bok
-        )
-        del X[id_subject_name]
-        benchmark(X, y_, dataset_name, n_splits, test_size, n_iter, computation_type)
-    else:
-        import vae
-        import snn2 as snn
-
-        if computation_type == "snn":
-            NN = snn.SiameseNetwork
-            metagenomeDataset = snn.metagenomeDataset
-            fit = snn.fit
-        else:
-            metagenomeDataset = vae.metagenomeDataset
-            fit = vae.fit
-            if computation_type == "ae":
-                NN = vae.AE
-            elif computation_type == "vae":
-                NN = vae.VAE
-            else:
-                raise ("Not allowed computation_type: %s" % computation_type)
-        device = vae.set_device(args.id_gpu)
-        X, y_ = data_manager.load_several_matrix_for_learning(
-            path_data, path_metadata, disease
-        )
-        col_features = vae.get_features(X)
-        nn_parameters, genomes = vae.load_model(path_model)
-        X, y_, genomes = vae.mil_data_preprocessing(X, y_, genomes)
-        n_output = len(set(y_.tolist()))
-        n_output = 1 if n_output == 2 else n_output
-        benchmark_with_NN(X, y_, dataset_name, n_splits, test_size, n_iter)

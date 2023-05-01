@@ -80,7 +80,6 @@ def get_features(X):
     return [count_name] + [col for col in X.columns.values if str(col).isdigit()]
 
 
-# TODO check  both function train_test_split
 def train_test_split_mil(X, y_, n_splits=1, test_size=0.2):
     """
     Initialise a train and a valid fold

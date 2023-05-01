@@ -307,7 +307,7 @@ class FineTuner(nn.Module):
 
     def create_prediction(self, dataloader, threshold=0.5):
         y_pred = y_true = y_prob = None
-        for batch_id, (data, y_) in enumerate(dataloader):
+        for _, (data, y_) in enumerate(dataloader):
             data = self.auto_encoder.processing(data)
             y = self(data)
             y_p = y.cpu().detach().numpy()
