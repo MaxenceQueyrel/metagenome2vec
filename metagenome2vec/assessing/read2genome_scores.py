@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import matplotlib
+import logging
 
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -19,7 +20,7 @@ rcParams.update({"figure.autolayout": True})
 import os
 
 from metagenome2vec.utils.string_names import *
-
+from metagenome2vec.utils import file_manager, data_manager
 
 def get_accuracy(y_true, y_pred):
     try:
@@ -135,7 +136,7 @@ def compute_metrics_mp(args):
     return compute_metrics(*args)
 
 
-def compute_metrics_by_threshold(df, df_count_label, range_threshold, n_cpus):
+def compute_metrics_by_threshold(df, df_count_label, range_threshold, n_cpus=4):
     L_reject_rate = []
     L_accuracy = []
     L_precision = []
@@ -320,3 +321,260 @@ def plot_score2(
     ax.set_title(title)
     fig.savefig(path_save)
 
+
+def compute_scores(spark, df_train, df_valid, path_save, read2genome, df_taxonomy_ref,
+                   tax_level, tax_taken=None, n_sample_load=-1, path_tmp_folder="./tmp_bowtie",
+                   n_instance_bowtie=5, n_cpus=4):
+    file_manager.create_dir(path_save, mode="local")
+    
+    if n_sample_load > 0:
+        df_train = df_train.limit(n_sample_load)
+        df_valid = df_valid.limit(n_sample_load)
+        
+    col_name = "%s_name" % tax_level
+    if tax_taken is not None:
+        D_id = {
+            key: value
+            for key, value in df_taxonomy_ref[[tax_level, col_name]]
+            .set_index(tax_level)
+            .to_dict()[col_name]
+            .items()
+        }
+        # take the tax_id rather than the tax level in order to make a filter
+        tax_taken = df_taxonomy_ref[df_taxonomy_ref[tax_level].isin(tax_taken)][
+            ncbi_id_name
+        ].tolist()
+        df_train = df_train.filter(
+            df_train.tax_id.isin([int(x) for x in tax_taken])
+        ).persist()
+        df_train.count()
+        df_valid = df_valid.filter(
+            df_valid.tax_id.isin([int(x) for x in tax_taken])
+        ).persist()
+        df_valid.count()
+        
+    logging.write("Prediction on train")
+    df_train_pd = read2genome.read2genome(df_train)
+    logging.write("Prediction on validation")
+    df_valid_pd = read2genome.read2genome(df_valid)
+    # If tax_level different than species, we have to change the y true
+    range_threshold = np.arange(0, 1, 0.01)[::-1]
+    
+    if tax_level != tax_id_name:
+        D_convert = dict(zip(df_taxonomy_ref[ncbi_id_name], df_taxonomy_ref[tax_level]))
+        df_train_pd[tax_level] = df_train_pd[tax_id_name].apply(
+            lambda x: int(D_convert[str(x)])
+        )
+        df_valid_pd[tax_level] = df_valid_pd[tax_id_name].apply(
+            lambda x: int(D_convert[str(x)])
+        )
+            
+    # Computing scores
+    df_count_label_train = pd.DataFrame(df_train_pd[tax_level].value_counts())
+    logging.write("Computing metric scores on train")
+    save_score(
+        path_save,
+        df_train_pd,
+        df_count_label_train,
+        threshold=0.0,
+        dataset="train",
+        file_mode="w",
+    )
+    
+    logging.write("Computing metric scores by threshold on train")
+    (
+        A_reject_rate,
+        A_accuracy,
+        A_precision,
+        A_recall,
+        A_f1_score,
+        A_count_reject,
+    ) = compute_metrics_by_threshold(df_train_pd, df_count_label_train, range_threshold, n_cpus)
+    
+    logging.write("Plot scores train")
+    plot_score(
+        os.path.join(path_save, "metrics_by_threshold_train.png"),
+        range_threshold,
+        A_reject_rate,
+        A_accuracy,
+        A_precision,
+        A_recall,
+        A_f1_score,
+        "Metrics on train dataset by reject threshold",
+    )
+    
+    plot_score2(
+        os.path.join(path_save, "metrics_by_reject_rate_train.png"),
+        A_reject_rate,
+        A_accuracy,
+        A_precision,
+        A_recall,
+        A_f1_score,
+        "Metrics on train dataset by reject rate",
+    )
+    
+    logging.write("Plot reject train")
+    plot_reject_by_abundance(
+        os.path.join(path_save, "reject_rate_train.png"),
+        df_count_label_train,
+        A_count_reject,
+        D_id,
+        "Rejected rate on train dataset",
+    )
+    
+    logging.write("Plot heatmap train")
+    heatmap(
+        df_train_pd[tax_level],
+        df_train_pd[pred_name],
+        D_id,
+        path_save,
+        "train",
+        "Heatmap classification rate on train dataset",
+    )
+    
+    logging.write("Computing Bowtie score and scores with best threshold on train")
+    best_threshold = range_threshold[
+        np.argmax(A_precision / (A_reject_rate + 1) ** 3)
+    ]  # precision / (reject_rate + 1)^3
+    if os.getenv("BOWTIE") is not None:
+        save_bowtie_score(
+            os.path.join(path_save, "bowtie_score.csv"),
+            df_train_pd,
+            best_threshold,
+            path_tmp_folder,
+            n_instance_bowtie,
+            "train",
+            file_mode="w",
+            n_cpus=n_cpus
+        )
+        
+    logging.write("Computing with best threshold on train")
+    save_score(
+        path_save,
+        df_train_pd,
+        df_count_label_train,
+        threshold=best_threshold,
+        dataset="train",
+        file_mode="a",
+    )
+    del df_train_pd
+    
+    df_count_label_valid = pd.DataFrame(df_valid_pd[tax_level].value_counts())
+    logging.write("Computing metric scores on valid")
+    save_score(
+        path_save, df_valid_pd, df_count_label_valid, dataset="valid", file_mode="a"
+    )
+    logging.write("Computing metric scores by threshold on valid")
+    df_count_label = pd.DataFrame(df_valid_pd[tax_level].value_counts())
+    (
+        A_reject_rate,
+        A_accuracy,
+        A_precision,
+        A_recall,
+        A_f1_score,
+        A_count_reject,
+    ) = compute_metrics_by_threshold(df_valid_pd, df_count_label, range_threshold, n_cpus)
+    logging.write("Plot scores valid")
+    plot_score(
+        os.path.join(path_save, "metrics_by_threshold_valid.png"),
+        range_threshold,
+        A_reject_rate,
+        A_accuracy,
+        A_precision,
+        A_recall,
+        A_f1_score,
+        "Metrics on valid dataset by reject threshold",
+    )
+    plot_score2(
+        os.path.join(path_save, "metrics_by_reject_rate_valid.png"),
+        A_reject_rate,
+        A_accuracy,
+        A_precision,
+        A_recall,
+        A_f1_score,
+        "Metrics on valid dataset by reject rate",
+    )
+    logging.write("Plot reject valid")
+    plot_reject_by_abundance(
+        os.path.join(path_save, "reject_rate_valid.png"),
+        df_count_label,
+        A_count_reject,
+        D_id,
+        "Rejected rate on valid dataset",
+    )
+    logging.write("Plot heatmap valid")
+    heatmap(
+        df_valid_pd[tax_level],
+        df_valid_pd[pred_name],
+        D_id,
+        path_save,
+        "valid",
+        "Heatmap classification rate on valid dataset",
+    )
+    logging.write("Computing Bowtie score with best threshold on valid")
+
+    best_threashold = range_threshold[
+        np.argmax(A_precision / (A_reject_rate + 1) ** 3)
+    ]  # precision / (reject_rate + 1)^3
+    if os.getenv("BOWTIE") is not None:
+        save_bowtie_score(
+            os.path.join(path_save, "bowtie_score.csv"),
+            df_valid_pd,
+            best_threashold,
+            path_tmp_folder,
+            n_instance_bowtie,
+            "valid",
+            file_mode="a",
+            n_cpus=n_cpus
+        )
+    logging.write("Computing with best threshold on valid")
+    save_score(
+        path_save,
+        df_valid_pd,
+        df_count_label_valid,
+        threshold=best_threashold,
+        dataset="valid",
+        file_mode="a",
+    )
+    
+    logging.write("Computing plot true proportion vs pred proportion")
+    df_valid = spark.createDataFrame(df_valid_pd)
+    del df_valid_pd
+    win_sim = Window.partitionBy(df_valid[sim_id_name])
+    df_proportion_pred = df_valid.groupBy(sim_id_name, pred_name).count()
+    df_proportion_pred = (
+        df_proportion_pred.withColumn(
+            prop_pred_name, F.col("count") / F.sum("count").over(win_sim)
+        )
+        .select(sim_id_name, pred_name, prop_pred_name)
+        .withColumnRenamed(pred_name, tax_level)
+    )
+    df_proportion = df_valid.groupBy(sim_id_name, tax_level).count()
+    df_proportion = df_proportion.withColumn(
+        prop_true_name, F.col("count") / F.sum("count").over(win_sim)
+    ).select(sim_id_name, tax_level, prop_true_name)
+    df_proportion = df_proportion.join(
+        df_proportion_pred, on=[sim_id_name, tax_level], how="fullouter"
+    )
+    df_proportion = df_proportion.toPandas()
+    df_proportion = df_proportion.fillna(0)
+    sim_ids = df_proportion[sim_id_name].values
+
+    path_proportion = os.path.join(path_save, "plot_proportion_valid")
+    file_manager.create_dir(path_proportion, mode="local")
+    for sim_id in sim_ids:
+        path_save_ = os.path.join(path_proportion, sim_id + ".png")
+        plot_proportion_true_pred(
+            path_save_,
+            df_proportion,
+            sim_id,
+            "Plot between true and predicted abundance proportion for simulation %s"
+            % sim_id,
+        )
+
+    logging.write("Saving the correlation matrix")
+    create_correlation_table(
+        os.path.join(path_save, "proportion_correlation_table_valid.csv"), df_proportion
+    )
+    logging.write("Analyse finished")
+    

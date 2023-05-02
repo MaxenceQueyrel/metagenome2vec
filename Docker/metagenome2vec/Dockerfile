@@ -21,13 +21,13 @@ RUN pip install pyspark==3.3.2 && \
   pip install h2o==3.38.0.4 && \
   pip install logger==1.4 && \
   pip install pandas==1.5.0 && \
-  pip install numpy==1.21.5 && \
+  pip install numpy==1.24.3 && \
   pip install scikit_bio==0.5.8 && \
   pip install scikit_learn==1.2.1 && \
   pip install scipy==1.9.0 && \
   pip install seaborn==0.12.2 && \
   pip install tqdm==4.62.3 && \
-  pip install umap==0.1.1
+  pip install umap-learn==0.5.3
 
 
 RUN git clone https://github.com/rmenegaux/fastDNA.git && \
